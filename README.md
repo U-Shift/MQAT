@@ -1,5 +1,5 @@
-# MQAT
- Materials to be used at the MQAT class
+# Quantitative Methods of Analysis in Transportation 
+ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/cursos/mst/disciplina-curricular/845953938490333)
 
 ## includes
 
