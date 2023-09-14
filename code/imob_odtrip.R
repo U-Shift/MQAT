@@ -15,13 +15,6 @@ TRIPSmode_freguesias = TRIPSmode_freguesias %>%
 saveRDS(TRIPSmode_freguesias, "original/TRIPSmode_freguesias.Rds")
 
 
-TRIPSmode_municipio = readRDS(url("https://github.com/U-Shift/biclar/releases/download/0.0.1/TRIPSmode_municipal.Rds"))
-TRIPSmode_municipio = readRDS("original/TRIPSmode_municipal.Rds")
-TRIPSmode_municipal = TRIPSmode_municipio
-dput(names(TRIPSmode_municipal))
-names(TRIPSmode_municipal) = c("Origin", "Destination", "mode", "trips")
-saveRDS(TRIPSmode_municipal, "data/TRIPSmode_municipal.Rds")
-
 
 ## summarize trips AML
 
@@ -145,6 +138,22 @@ DICOFRE_aml_names = FREGUESIASgeo %>% st_drop_geometry() %>% select(Dicofre, Con
 saveRDS(DICOFRE_aml_names, "data/Dicofre_names.Rds")
 
 
+## Municipal
+# TRIPSmode_municipal = readRDS(url("https://github.com/U-Shift/biclar/releases/download/0.0.1/TRIPSmode_municipal.Rds"))
+# TRIPSmode_municipal = readRDS("original/TRIPSmode_municipal.Rds")
+
+TRIPSmode_mun = TRIPSmode_freg %>% 
+  left_join(DICOFRE_aml_names %>% select(Dicofre, Concelho),
+            by = c("Origin_dicofre16" = "Dicofre")) %>% 
+              rename(Origin_mun = Concelho) %>% 
+  left_join(DICOFRE_aml_names %>% select(Dicofre, Concelho),
+            by = c("Destination_dicofre16" = "Dicofre")) %>% 
+              rename(Destination_mun = Concelho) %>% 
+  group_by(Origin_mun, Destination_mun) %>% 
+  summarise_if(is.numeric, sum)
+
+TRIPSmode_mun[TRIPSmode_mun == "Setubal"] = "Setúbal"
+saveRDS(TRIPSmode_mun, "data/TRIPSmode_mun.Rds")
 
 
 ## other
