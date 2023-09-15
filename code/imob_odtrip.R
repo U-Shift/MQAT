@@ -133,7 +133,9 @@ saveRDS(TRIPSmode_freg, "data/TRIPSmode_freg.Rds")
 #dar nomes aos códigos
 POPFreguesias <- readRDS("D:/GIS/MQAT/original/POPFreguesias.Rds")
 DICOFRE_aml_names = FREGUESIASgeo %>% st_drop_geometry() %>% select(Dicofre, Concelho) %>%
-  left_join(POPFreguesias %>% select(Dicofre, Freguesia))
+  left_join(POPFreguesias %>% select(Dicofre, Freguesia)) %>% 
+  left_join(DICOFRE_aml %>% select(DTCC, DICOFRE) %>% mutate(Dicofre = as.character(DICOFRE))) %>% 
+  select(DTCC, Dicofre, Concelho, Freguesia)
 
 saveRDS(DICOFRE_aml_names, "data/Dicofre_names.Rds")
 
