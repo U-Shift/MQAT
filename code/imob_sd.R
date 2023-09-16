@@ -1,24 +1,24 @@
 # reduzir ao individuo, ponderar por pesofin
-IMOBsd_freg = IMOBmore %>% 
-  left_join(IMOBaml_TUDOJUNTO %>% select(Id_aloj_1, PESOFIN) %>% distinct()) %>% # get weight of household
-  filter(!is.na(Id_aloj_2), !is.na(PESOFIN), !is.na(DTCC_de11)) %>% 
-  filter(D0500_Cod == 96) %>%  # keep only the "Regressar a casa" trip purpose to get the destination dicofre
+IMOBsd_freg = IMOBmore |> 
+  left_join(IMOBaml_TUDOJUNTO |> select(Id_aloj_1, PESOFIN) |> distinct()) |> # get weight of household
+  filter(!is.na(Id_aloj_2), !is.na(PESOFIN), !is.na(DTCC_de11)) |> 
+  filter(D0500_Cod == 96) |>  # keep only the "Regressar a casa" trip purpose to get the destination dicofre
   select(Id_aloj_2, N_Individuo, DTCC_de11, FR_de11, Sec_de11, SS_de11, Cond_Trab_Cod_Dsg,
-         Carta_C1, Exist_Passe, Ltrab_Tipo_Dsg, Estaci_Trab1, Estaci_Trab2, Nveiculos, Rendimento_Dsg, PESOFIN) %>% 
+         Carta_C1, Exist_Passe, Ltrab_Tipo_Dsg, Estaci_Trab1, Estaci_Trab2, Nveiculos, Rendimento_Dsg, PESOFIN) |> 
   distinct(Id_aloj_2, N_Individuo, .keep_all = TRUE)  #remove duplicate "return home" trips
   
 #  dicofre 21, using bgri, and remove household vars
-IMOBsd_freg = IMOBsd_freg %>% 
-  mutate(BGRI11 = paste0(DTCC_de11, FR_de11, Sec_de11, SS_de11)) %>% 
-  left_join(BGRI %>% select(BGRI11, Dicofre)) %>% 
-  select(-c(BGRI11, DTCC_de11, FR_de11, Sec_de11, SS_de11, Id_aloj_2, N_Individuo)) %>% 
+IMOBsd_freg = IMOBsd_freg |> 
+  mutate(BGRI11 = paste0(DTCC_de11, FR_de11, Sec_de11, SS_de11)) |> 
+  left_join(BGRI |> select(BGRI11, Dicofre)) |> 
+  select(-c(BGRI11, DTCC_de11, FR_de11, Sec_de11, SS_de11, Id_aloj_2, N_Individuo)) |> 
   filter(!is.na(Dicofre)) #remove households outside AML
 
 sum(IMOBsd_freg$PESOFIN) #1933746 moving residents
 
 # rendimento médio freguesia alojamento
 # table(IMOBsd_freg$Rendimento_Dsg)
-IMOBsd_freg = IMOBsd_freg %>% 
+IMOBsd_freg = IMOBsd_freg |> 
   mutate(IncomeHH =  case_match(Rendimento_Dsg,
                                 "Menos de 430 euros" ~ 400,
                                 "De 430 até menos de 600 euros" ~ 515,
@@ -29,55 +29,55 @@ IMOBsd_freg = IMOBsd_freg %>%
                                 "De 3600 até menos de 5700 euros" ~ 4650,
                                 "De 5700 até menos de 7000 euros" ~ 6350,
                                 "7000 ou mais euros" ~ 7500,
-                                "Ns/Nr" ~ NA)) %>% 
+                                "Ns/Nr" ~ NA)) |> 
   select(-Rendimento_Dsg)
 weighted.mean(IMOBsd_freg$IncomeHH, IMOBsd_freg$PESOFIN, na.rm = TRUE) # 1750 €
   
 # ter carta de condução 1 = Yes, 2 = No, 0 = Not aplicable
-IMOBsd_freg = IMOBsd_freg %>% 
+IMOBsd_freg = IMOBsd_freg |> 
   mutate(DrivingLic = case_match(Carta_C1,
                               0 ~ NA, #nao existe 
                               1 ~ 1,
-                              2 ~ 0)) %>% 
+                              2 ~ 0)) |> 
   select(-Carta_C1)
 
 # ter passe social 1 = Yes, 2 = No
-IMOBsd_freg = IMOBsd_freg %>% 
+IMOBsd_freg = IMOBsd_freg |> 
   mutate(PTpass = case_match(Exist_Passe,
                                  0 ~ NA,
                                  1 ~ 1,
-                                 2 ~ 0)) %>% 
+                                 2 ~ 0)) |> 
   select(-Exist_Passe)
 
 # ocupação: trabalhador fora de casa, estudante, reformado e outros
 # unique(IMOBsd_freg$Cond_Trab_Cod_Dsg)
 # unique(IMOBsd_freg$Ltrab_Tipo_Dsg)
 # não dá para separar estudante de trabalhador. Remover variaveis
-IMOBsd_freg = IMOBsd_freg %>% select(-Cond_Trab_Cod_Dsg, -Ltrab_Tipo_Dsg)
+IMOBsd_freg = IMOBsd_freg |> select(-Cond_Trab_Cod_Dsg, -Ltrab_Tipo_Dsg)
 
 
 # ter estacionamento no local de trabalho
-IMOBsd_freg = IMOBsd_freg %>% 
+IMOBsd_freg = IMOBsd_freg |> 
   mutate(CarParkFree_Work = ifelse(Estaci_Trab1 == 1 | Estaci_Trab2 == 1 , 1, 
-       ifelse(Estaci_Trab1 == 0 | Estaci_Trab2 == 0, NA, 0))) %>% 
+       ifelse(Estaci_Trab1 == 0 | Estaci_Trab2 == 0, NA, 0))) |> 
   select(-Estaci_Trab1, -Estaci_Trab2)
 
 # nº veiculos origem alojamento - dont touch
 names(IMOBsd_freg)
-IMOBsd_freg = IMOBsd_freg %>% 
-  group_by(Dicofre) %>% 
+IMOBsd_freg = IMOBsd_freg |> 
+  group_by(Dicofre) |> 
   summarise(nrespondants = n(),
             weigth = sum(PESOFIN),
             IncomeHH = weighted.mean(IncomeHH, PESOFIN, na.rm = TRUE),
             Nvehicles = weighted.mean(Nveiculos, PESOFIN, na.rm = TRUE),
             DrivingLic = weighted.mean(DrivingLic, PESOFIN, na.rm = TRUE), # will this return a % (between 0 and 1)?
             CarParkFree_Work = weighted.mean(CarParkFree_Work, PESOFIN, na.rm = TRUE),
-            PTpass = weighted.mean(PTpass, PESOFIN, na.rm = TRUE)) %>% 
-  mutate(weigth = round(weigth, 2)) %>% 
-  mutate(IncomeHH = round(IncomeHH, 2)) %>% 
-  mutate(Nvehicles = round(Nvehicles, 2)) %>% 
-  mutate(DrivingLic = round(100 * DrivingLic, 2)) %>% 
-  mutate(CarParkFree_Work = round(100 * CarParkFree_Work, 2)) %>% 
+            PTpass = weighted.mean(PTpass, PESOFIN, na.rm = TRUE)) |> 
+  mutate(weigth = round(weigth, 2)) |> 
+  mutate(IncomeHH = round(IncomeHH, 2)) |> 
+  mutate(Nvehicles = round(Nvehicles, 2)) |> 
+  mutate(DrivingLic = round(100 * DrivingLic, 2)) |> 
+  mutate(CarParkFree_Work = round(100 * CarParkFree_Work, 2)) |> 
   mutate(PTpass = round(100 * PTpass, 2))
 
 summary(IMOBsd_freg$IncomeHH)
@@ -88,13 +88,13 @@ summary(IMOBsd_freg$PTpass)
 sum(IMOBsd_freg$weigth) # 1.933 k moving residents
 
 # % genero em e total, pelos censos (ver censos_aml.R)
-CENSOS21_freg_gender = CENSOS21_freg %>% 
-  ungroup() %>% 
-  select(DTMNFR21, N_INDIVIDUOS, N_INDIVIDUOS_H) %>% 
+CENSOS21_freg_gender = CENSOS21_freg |> 
+  ungroup() |> 
+  select(DTMNFR21, N_INDIVIDUOS, N_INDIVIDUOS_H) |> 
   mutate(Male_perc = round(100*N_INDIVIDUOS_H/N_INDIVIDUOS, 2))
 
-IMOBsd_freg = IMOBsd_freg %>% 
-  left_join(CENSOS21_freg_gender %>% select(-N_INDIVIDUOS_H),
+IMOBsd_freg = IMOBsd_freg |> 
+  left_join(CENSOS21_freg_gender |> select(-N_INDIVIDUOS_H),
             by = c("Dicofre" = "DTMNFR21"))
 
 IMOBsd_freg = IMOBsd_freg[c(1, 9, 2, 3, 10, 4:8)] #reorder
@@ -105,13 +105,13 @@ saveRDS(IMOBsd_freg, "data/IMOBsd_freg.Rds")
 ## distancia viagem média - ir à tabela original!
 # duração viagem média
 # relativamente à freguesia de origem da viagem!
-TRIPSdur_freg = IMOBmore %>%
-  mutate(Duration = as.POSIXlt(Duracao, "%Y-%m-%d %H:%M:%S")) %>%
-  mutate(Duration = lubridate::hour(Duration)*60 + lubridate::minute(Duration) + lubridate::second(Duration)/60) %>% 
-  mutate(BGRI11 = paste0(DTCC_or11, FR_or11, Sec_or11, SS_or11)) %>% 
-  left_join(BGRI %>% select(BGRI11, Dicofre)) %>% 
-  filter(!is.na(Dicofre)) %>%  #remove trips outside AML
-  group_by(Dicofre) %>% 
+TRIPSdur_freg = IMOBmore |>
+  mutate(Duration = as.POSIXlt(Duracao, "%Y-%m-%d %H:%M:%S")) |>
+  mutate(Duration = lubridate::hour(Duration)*60 + lubridate::minute(Duration) + lubridate::second(Duration)/60) |> 
+  mutate(BGRI11 = paste0(DTCC_or11, FR_or11, Sec_or11, SS_or11)) |> 
+  left_join(BGRI |> select(BGRI11, Dicofre)) |> 
+  filter(!is.na(Dicofre)) |>  #remove trips outside AML
+  group_by(Dicofre) |> 
   summarise(Distance = round(mean(Distancia, na.rm = TRUE)/1000, 3), #in km
             Duration = round(mean(Duration, na.rm = TRUE), 2)) #in minutes
 
@@ -122,95 +122,3 @@ saveRDS(TRIPSdur_freg, "data/TRIPSdur_freg.Rds")
 
 
 
-## viagens totais com ORIGEM numa freg
-TRIPSmode_freg_OR = TRIPSmode_freg %>% 
-  # filter(Origin_dicofre16 != Destination_dicofre16) %>% # sem viagens DENTRO da freguesia
-  mutate(internal = ifelse(Origin_dicofre16 != Destination_dicofre16, 1, 0)) %>% 
-  mutate(internal = factor(internal, labels = c("Yes", "No"))) %>% 
-  group_by(Origin_dicofre16, internal) %>% 
-  summarise_if(is.numeric, sum) %>% 
-  ungroup() %>% 
-  mutate(Lisboa = as.numeric(Origin_dicofre16)) %>% 
-  mutate(Lisboa = ifelse(Lisboa < 110600 | Lisboa >= 110700, 0, 1)) %>% 
-  mutate(Lisboa = factor(Lisboa, labels = c("No", "Yes"))) %>% 
-  left_join(CENSOS21_freg_gender %>% select(-N_INDIVIDUOS_H, -Male_perc),
-            by = c("Origin_dicofre16" = "DTMNFR21"))
-
-MODEL1 = TRIPSmode_freg_OR %>% 
-  mutate(Car_perc = 100*Car/Total) %>% 
-  left_join(IMOBsd_freg %>% select(-N_INDIVIDUOS), by = c("Origin_dicofre16" = "Dicofre")) %>% 
-  left_join(TRIPSdur_freg, by = c("Origin_dicofre16" = "Dicofre"))
-
-MODEL2 = MODEL1 %>% 
-  filter(Lisboa == "No",
-         internal == "No")
-
-
-# ver matriz correlacao
-library(Hmisc)
-library(corrplot)
-library(ggcorrplot)
-
-res<-cor(MODEL1[c(9,13:20)], method = "pearson", use = "complete.obs")
-#round(res,2)
-res_pval <- rcorr(as.matrix(MODEL1[c(9,13:20)],method = "pearson", use = "complete.obs")) #agora com p-values
-
-corrplot(res, p.mat = res_pval$P, type = "upper", order = "FPC", method = "color",
-         insig = "pch", pch.cex = .9,tl.col = "black")
-
-
-# todas
-ml = lm(Car_perc ~ Male_perc + IncomeHH + Nvehicles + DrivingLic + CarParkFree_Work + PTpass + Distance + Duration + Lisboa + internal,
-        data = MODEL1)
-summary(ml)
-
-
-ml2 = lm(Car_perc ~ 
-           # Male_perc +
-           # IncomeHH +
-           Nvehicles +
-           DrivingLic +
-           CarParkFree_Work +
-           PTpass +
-           Distance +
-           # Duration +
-           Lisboa +
-           internal,
-        data = MODEL1)
-summary(ml2) # este tem Lisboa e intra viagens como categóricas
-
-ml3 = lm(Car_perc ~ 
-           # Male_perc +
-           # IncomeHH +
-           Nvehicles +
-           DrivingLic +
-           CarParkFree_Work +
-           PTpass +
-           Distance, 
-           # Duration
-         data = MODEL2)
-summary(ml3) # este tem menos obs e não tem Lisboa e intra freg
-
-shapiro.test(MODEL1$Car_perc) # humm
-shapiro.test(MODEL2$Car_perc) #
-
-ks.test(MODEL1$Car_perc, "pnorm", mean=mean(MODEL1$Car_perc), sd = sd(MODEL1$Car_perc))
-ks.test(MODEL2$Car_perc, "pnorm", mean=mean(MODEL2$Car_perc), sd = sd(MODEL2$Car_perc))
-
-nortest::ad.test(MODEL1$Car_perc)
-nortest::ad.test(MODEL2$Car_perc)
-
-car::durbinWatsonTest(ml2)
-car::durbinWatsonTest(ml3)
-summary(MODEL1$Car_perc)
-hist(MODEL1$Car_perc)
-plot(ml2)
-
-olsrr::ols_vif_tol(ml2)
-olsrr::ols_vif_tol(ml3)
-
-olsrr::ols_eigen_cindex(ml2)
-olsrr::ols_eigen_cindex(ml3)
-
-
-saveRDS(MODEL1, "data/IMOBmodel.Rda")

@@ -9,7 +9,7 @@ MUNICIPIOSgeo = readRDS(url("https://github.com/U-Shift/biclar/releases/download
 st_write(MUNICIPIOSgeo, "geo/MUNICIPIOSgeo.gpkg")
 
 # centroids
-MUNICIPIOScentroid = st_centroid(MUNICIPIOSgeo) %>% st_transform(3857)
+MUNICIPIOScentroid = st_centroid(MUNICIPIOSgeo) |> st_transform(3857)
 mapview::mapview(MUNICIPIOScentroid)
 st_write(MUNICIPIOScentroid, "geo/MUNICIPIOScentroid.gpkg")
 
