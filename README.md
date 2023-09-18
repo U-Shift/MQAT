@@ -14,8 +14,8 @@
 
 ### Introduction to R
 
-* Script of R basics: https://github.com/U-Shift/MQAT/blob/main/code/classroom/R_Basics.R
-* Database of IMOB trips at municipal level: https://github.com/U-Shift/MQAT/raw/main/data/TRIPSmode_mun.Rds
+* Script of R basics - [R_Basics.R](https://github.com/U-Shift/MQAT/blob/main/code/classroom/R_Basics.R)
+* Database of IMOB trips at municipal level: [TRIPSmode_mun.Rds](https://github.com/U-Shift/MQAT/raw/main/data/TRIPSmode_mun.Rds)
 
 
 ### Linear Regression
