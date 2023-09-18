@@ -12,9 +12,15 @@
     
 ## For classes and home assignments
 
-### MODEL data
+### Introduction to R
 
-Variables included:
+* Script of R basics: https://github.com/U-Shift/MQAT/blob/main/code/classroom/R_Basics.R
+* Database of IMOB trips at municipal level: https://github.com/U-Shift/MQAT/raw/main/data/TRIPSmode_mun.Rds
+
+
+### Linear Regression
+
+Variables included in [MODEL database](https://github.com/U-Shift/MQAT/blob/main/data/IMOBmodel.Rda):
 
 * `Origin_dicofre16` - Code of _Freguesias_ as set by INE after 2016 (_Distrito_ + _Concelho_ + _Freguesia_)
 * `Total` - number of trips with origin in `Origin_dicofre16`
