@@ -46,7 +46,7 @@
 
     # Import Libraries
 
-      library(tidyverse) # Pack of most used libraries
+      library(tidyverse) # Pack of most used libraries for data science
       library(skimr) # Library used for providing a summary of the data
       library(DataExplorer) # Library used in data science to perform exploratory data analysis
       library(corrplot) # Library used for correlation plots
@@ -163,7 +163,8 @@
       plot_boxplot(df, by = "Car_perc", ncol = 3)
 
 #' *Note*: If you increase the "Car_perc", it will decrease PTpass. Take a look at the relation with the other variables. 
- 
+#' 
+
 # 8. Correlations
     
     # Plot correlation heatmaps

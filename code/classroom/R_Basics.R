@@ -66,6 +66,8 @@
     # a) Create a column of number of trips for active modes
 
       Data$Active = Data$Walk + Data$Bike
+      
+      #
 
   
     # b) Filter by condition
@@ -77,8 +79,7 @@
 
       Data_in_Out_Lisbon = filter(Data, Origin_mun == "Lisboa" & Destination_mun == "Lisboa")
   
-  
-  
+      
     # c) Take out a first column that is not needed (different ways to do the same operation)
   
       Data_Lisbon = Data_Lisbon[,-1] #The first row and column have the id of "1"
@@ -102,7 +103,8 @@
       # Create a table with only columns with "Walk","Bike" and "Car"
         Data_Modes = Data_Lisbon[,c(3:5)]
   
-  
+        
+        
 # 5. Export "Data_Lisbon" in different formats
   
     # a) Excel
@@ -115,9 +117,9 @@
       # Export file 
         write.xlsx(Data_Lisbon, 'Data_Lisbon.xlsx')
   
-    #b) Csv
+    # b) Csv
         write.csv(Data_Lisbon, 'Data_Lisbon.csv', row.names = FALSE) # "row.names" when FALSE excludes line numbers
   
-    #c) Rds - native format of R
+    # c) Rds - native format of R
         saveRDS(Data_Lisbon, 'Data_Lisbon.Rds')
   
