@@ -1,4 +1,4 @@
-
+# data prep
 ## viagens totais com ORIGEM numa freg
 TRIPSmode_freg_OR = TRIPSmode_freg |> 
   # filter(Origin_dicofre16 != Destination_dicofre16) |> # sem viagens DENTRO da freguesia
@@ -35,6 +35,8 @@ res_pval <- rcorr(as.matrix(MODEL1[c(9,13:20)],method = "pearson", use = "comple
 corrplot(res, p.mat = res_pval$P, type = "upper", order = "FPC", method = "color",
          insig = "pch", pch.cex = .9,tl.col = "black")
 
+
+## Modelos
 
 # todas as variáveis
 ml = lm(Car_perc ~ Male_perc + IncomeHH + Nvehicles + DrivingLic + CarParkFree_Work + PTpass + Distance + Duration + Lisboa + internal,
