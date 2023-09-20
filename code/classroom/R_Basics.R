@@ -67,9 +67,7 @@
 
       Data$Active = Data$Walk + Data$Bike
       
-      #
-
-  
+      
     # b) Filter by condition
     # Let's say we only want to analyze trips from Lisbon. We can then filter and create a new database
   
@@ -122,4 +120,12 @@
   
     # c) Rds - native format of R
         saveRDS(Data_Lisbon, 'Data_Lisbon.Rds')
+        
+# 6. Import saved file
+        
+        library(readxl)
+        
+        Excelsheet = read_excel("Data_Lisbon.xlsx")
+        
+        csv_file = read.csv("Data_Lisbon.csv")
   
