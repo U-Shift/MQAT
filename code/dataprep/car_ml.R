@@ -95,4 +95,12 @@ olsrr::ols_eigen_cindex(ml2)
 olsrr::ols_eigen_cindex(ml3)
 
 
-saveRDS(MODEL1, "data/IMOBmodel.Rda")
+
+# export
+MODEL = MODEL1 |> select(c(1,3:8,20,21,11,10,14:19,2,9)) |>
+  left_join(CENSOS21_freg |> ungroup() |> select(DTMNFR21, SHAPE_Area),
+            by = c("Origin_dicofre16" = "DTMNFR21")) |> 
+  mutate(Area_km2 = SHAPE_Area/1000000) |> 
+  select(-SHAPE_Area)
+
+saveRDS(MODEL, "data/IMOBmodel.Rda")

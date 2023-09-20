@@ -152,7 +152,8 @@ TRIPSmode_mun = TRIPSmode_freg |>
             by = c("Destination_dicofre16" = "Dicofre")) |> 
               rename(Destination_mun = Concelho) |> 
   group_by(Origin_mun, Destination_mun) |> 
-  summarise_if(is.numeric, sum)
+  summarise_if(is.numeric, sum) |> 
+  ungroup()
 
 TRIPSmode_mun[TRIPSmode_mun == "Setubal"] = "Setúbal"
 saveRDS(TRIPSmode_mun, "data/TRIPSmode_mun.Rds")
@@ -161,5 +162,5 @@ saveRDS(TRIPSmode_mun, "data/TRIPSmode_mun.Rds")
 ## other
 
 IMOBrespondents = readRDS((url("https://github.com/U-Shift/biclar/releases/download/0.0.1/IMOBrespondents.Rds")))
-IMOBmore <- readRDS("D:/GIS/MQAT/original/IMOBaml_TUDOJUNTOmais.Rds")
+IMOBmore <- readRDS("original/IMOBaml_TUDOJUNTOmais.Rds")
 
