@@ -73,9 +73,9 @@
   
       Data_Lisbon = filter(Data, Origin_mun == "Lisboa")  #Only for rows
   
-      Data_Out_Lisbon = filter(Data, Origin_mun != "Lisboa")
+      Data_Out_Lisbon = filter(Data, Origin_mun != "Lisboa") #different from Lisbon
 
-      Data_in_Out_Lisbon = filter(Data, Origin_mun == "Lisboa" & Destination_mun == "Lisboa")
+      Data_in_Out_Lisbon = filter(Data, Origin_mun == "Lisboa" & Destination_mun == "Lisboa") #OD in Lisbon
   
       
     # c) Take out a first column that is not needed (different ways to do the same operation)
