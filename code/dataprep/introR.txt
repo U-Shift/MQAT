@@ -1,0 +1,132 @@
+
+# aim: tutorial R and RStudio -----------------------------------------------------------------
+
+# 0. Introduce myself
+
+Who am I, and which areas I work most
+Why I started using R
+
+r notebook
+2 pakages created (slopes, odjittering)
+Free and Open Source Software <3
+drop my contacts
+
+
+
+# 1. Open RStudio
+
+explain the 4 panels
+
+examples in the console:
+  3+3
+3*3
+round(3.14)
+round(3.14, 1) #1 digit
+
+## 1.1 Working directory
+getwd()
+setwd()
+Create new project in a existing directory or new directory 
+
+
+## 1.2 Script
+
+you can have different scrip files! not only with R. See notepad (for instance to take notes for this class), python, RMaekDown.
+Depending on what you select, the code will highligth differently with flavors (show import pandas with r and python)
+
+you can also set the colors in global options
+
+comment allways!
+ctrl + shift + c # comment
+ctrl + shift + r # new section
+ctrl + shift + a # arranje 
+
+example
+b=1+2*(2-3)
+
+
+ctrl + enter # run this line
+select + ctrl + enter # run selection
+# run button will run everythin in the script!
+
+what you write and run is exaclty what you are expected to have. computer will not guess your brain!
+
+
+# 2. Data structure
+
+TABELA[row, column] or TABELA[case, variable]
+c(,, , :)
+a = c("Car", "Ped", "Bus") # difference with and without the ""
+
+## 2.1 open Rds
+teach the TAB thing # it helps a lot not to typo or to be lost in folder structures!
+tab when writing code (vars in table)
+() # sometimes if you miss the final bracket, it asks you + ?
+""
+
+see what's on the data (environment)
+
+
+## 2.2 open csv
+
+i prefer txt with tab separator
+
+
+## 2.3 Type of data
+int
+num
+chr
+
+replace chr to num
+make as factor for categorical variables
+
+
+
+
+# 3. Some operations
+filter, select
+== != < > <= >=
+&, |
+is.na  !is.na
+%in% !%in%
+
+sort, arrange
+
+
+3.3 simple viz
+mean
+median
+(na.rm = TRUE) # if needed
+hist(MODEL$Car_perc)
+hist(MODEL$Car_perc, labels = TRUE)
+abline(v = median(MODEL$Car_perc))
+abline(v = median(MODEL$Car_perc), col = "red")
+  
+
+
+## Pipes !
+This_data |> do_this |> do_this ...
+change from %>% to |> 
+
+ctrl + shift + m
+global options |> code
+
+
+
+# 4. left_join
+
+MODEL |> left_join(other_table)
+
+explain that both tables dont need to be the same lenght
+(can you explain what can happen when shorter / longer, and opposite?)
+when the common name (or names!) are the same 
+by
+
+
+# 5. group_by, summarize, (ungroup())
+
+dar exemplo do left_join com uma tabela que não se fez ungroup
+
+summarize sem group_by
+
+TRIPSmode_mun |> group_by(Origin_mun) |> summarise(sum())
