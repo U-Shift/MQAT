@@ -80,17 +80,7 @@ chr
 replace chr to num
 make as factor for categorical variables
 
-
-
-
-# 3. Some operations
-filter, select
-== != < > <= >=
-&, |
-is.na  !is.na
-%in% !%in%
-
-sort, arrange
+names(TABLE)
 
 
 3.3 simple viz
@@ -113,6 +103,22 @@ global options |> code
 
 
 
+# 3. Some operations
+filter, select
+== != < > <= >=
+&, |
+is.na  !is.na
+%in% !%in%
+
+sort, arrange
+
+filter old fashion: TABELA[TABELA$Idade>=18,]
+TABELA[TABELA$Idade>18 & TABELA$Genero=="Feminino", c(1:3)]
+
+
+3.1 Create variables
+mutate()
+
 # 4. left_join
 
 MODEL |> left_join(other_table)
@@ -130,3 +136,6 @@ dar exemplo do left_join com uma tabela que não se fez ungroup
 summarize sem group_by
 
 TRIPSmode_mun |> group_by(Origin_mun) |> summarise(sum())
+
+
+## Rmd
