@@ -9,7 +9,7 @@ TRIPSmode_freg_OR = TRIPSmode_freg |>
   ungroup() |> 
   mutate(Lisboa = as.numeric(Origin_dicofre16)) |> 
   mutate(Lisboa = ifelse(Lisboa < 110600 | Lisboa >= 110700, 0, 1)) |> 
-  mutate(Lisboa = factor(Lisboa, labels = c("No", "Yes"))) |> 
+  # mutate(Lisboa = factor(Lisboa, labels = c("No", "Yes"))) |> 
   left_join(CENSOS21_freg_gender |> select(-N_INDIVIDUOS_H, -Male_perc),
             by = c("Origin_dicofre16" = "DTMNFR21"))
 
@@ -103,4 +103,26 @@ MODEL = MODEL1 |> select(c(1,3:8,20,21,11,10,14:19,2,9)) |>
   mutate(Area_km2 = SHAPE_Area/1000000) |> 
   select(-SHAPE_Area)
 
-saveRDS(MODEL, "data/IMOBmodel.Rda")
+saveRDS(MODEL, "data/IMOBmodel.Rds")
+
+
+
+
+
+
+# aulas intro -------------------------------------------------------------
+
+MODEL0 = TRIPSmode_freg |> 
+  # filter(Origin_dicofre16 != Destination_dicofre16) |> # sem viagens DENTRO da freguesia
+  mutate(internal = ifelse(Origin_dicofre16 != Destination_dicofre16, 1, 0)) |>
+  # mutate(internal = factor(internal, labels = c("Yes", "No"))) |> 
+  group_by(Origin_dicofre16, internal) |> 
+  summarise_if(is.numeric, sum) |> 
+  ungroup() |> 
+  # mutate(Lisboa = as.numeric(Origin_dicofre16)) |> 
+  mutate(Lisboa = ifelse(Origin_dicofre16 < "110600" | Origin_dicofre16 >= "110700", 0, 1))
+  # mutate(Lisboa = factor(Lisboa, labels = c("No", "Yes"))) |> 
+  # left_join(CENSOS21_freg_gender |> select(-N_INDIVIDUOS_H, -Male_perc),
+  #           by = c("Origin_dicofre16" = "DTMNFR21"))
+
+saveRDS(MODEL0, "data/IMOBmodel0.Rds")

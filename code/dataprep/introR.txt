@@ -11,6 +11,11 @@ r notebook
 Free and Open Source Software <3
 drop my contacts
 
+R learning curve
+You don't need to know everything!
+The best way to learn R is to use it with a specific assingment, work, etc
+It is a lot copy - paste - adapting
+It is great to test differenr scenarios, apply to other case study, and so on
 
 
 # 1. Open RStudio
@@ -22,6 +27,13 @@ examples in the console:
 3*3
 round(3.14)
 round(3.14, 1) #1 digit
+
+, 1 is an argument! explain that it usualy in a function you have several arguments. 
+mosr of them have default values, so you dont need to type everything.
+using TAB helps you to see which other arguments exist in that function
+also, you can see help ?round
+
+
 
 ## 1.1 Working directory
 getwd()
@@ -66,33 +78,47 @@ tab when writing code (vars in table)
 
 see what's on the data (environment)
 
+TABLE = readRDS("data/IMOBmodel.Rds") # you can give other name
 
 ## 2.2 open csv
 
-i prefer txt with tab separator
+(i prefer txt with tab separator)
 
 
 ## 2.3 Type of data
 int
 num
 chr
+logical (TRUE / FALSE)
 
 replace chr to num
 make as factor for categorical variables
 
 names(TABLE)
+explain who the index is read (number of column)
 
+table(TABLE$var)
+table(MODEL$Lisboa)
 
-3.3 simple viz
+## 2.4 Change a var name
+Several ways
+mutate(New = Old) |> select(-Old)
+names(TABLE)[4] = "New_name"
+
+## 3.3 simple viz
 mean
 median
 (na.rm = TRUE) # if needed
+
+plot(1:100)
+plot(cumsum(1:100))
+
 hist(MODEL$Car_perc)
 hist(MODEL$Car_perc, labels = TRUE)
 abline(v = median(MODEL$Car_perc))
 abline(v = median(MODEL$Car_perc), col = "red")
   
-
+plot(MODEL$Distance, MODEL$Duration)
 
 ## Pipes !
 This_data |> do_this |> do_this ...
