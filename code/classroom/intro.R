@@ -143,20 +143,32 @@ TABLE_join4 = TABLE |> left_join(NAMES) |> arrange(Concelho, Freguesia) #sort by
 
 TABLEsumm = TABLE_join |> select(Dicofre, Total, Car, Walk, Bike, Concelho) # keep just some relevant variables
 
-TABLEsumm = TABLEsumm |> group_by(Concelho) |> summarise(Total = sum(Total),
+TABLEsumm = TABLEsumm |> group_by(Concelho) |> summarise(Total = sum(Total), # create new variables that are the sum of previous
                                                          CatT = sum(Car),
                                                          WalkT = sum(Walk),
                                                          BikeT = sum(Bike))
 
 TABLEsumm2 = TABLE_join |>
   # select(Dicofre, Total, Car, Walk, Bike, Concelho) |> #ctrl + shift + c
-  group_by(Concelho, DTCC) |>
+  group_by(Concelho, DTCC) |> #you can group by more than one variable
   summarise(Total = sum(Total),
             CatT = sum(Car),
             WalkT = sum(Walk),
             BikeT = sum(Bike)) |> 
-  ungroup() |>  #detail
+  ungroup() |>  #detail after grouping variables, good practice to ungroup them
   arrange(-Total)
+# 18 municipalities in the LMA
+
+
+TABLEsumm3 = TABLE_join |>
+  group_by(Concelho, Freguesia) |> #you can group by more than one variable
+  summarise(Total = sum(Total),
+            CatT = sum(Car),
+            WalkT = sum(Walk),
+            BikeT = sum(Bike)) |> 
+  ungroup() |>  #detail after grouping variables, good practice to ungroup them
+  arrange(Concelho, Freguesia)
+# 118 Freguesias in the LMA
 
 
 # plots -------------------------------------------------------------------
