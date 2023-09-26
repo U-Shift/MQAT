@@ -12,7 +12,9 @@ Free and Open Source Software <3
 drop my contacts
 
 R learning curve
-You don't need to know everything!
+You don't need to know everything! And you dont need to know by heart
+I'm teaching the functions will prob use most
+
 The best way to learn R is to use it with a specific assingment, work, etc
 It is a lot copy - paste - adapting [you don't learn to PROGRAM]
 there are severall ways to reach the same results, and to write the same funcrions
@@ -38,8 +40,9 @@ examples in the console:
 round(3.14)
 round(3.14, 1) #1 digit
 
-, 1 is an argument! explain that it usualy in a function you have several arguments. 
-mosr of them have default values, so you dont need to type everything.
+, 1 is an argument!
+explain that it usualy in a function you have several arguments. 
+most of them have default values, so you dont need to type everything.
 using TAB helps you to see which other arguments exist in that function
 also, you can see help ?round
 
@@ -296,6 +299,10 @@ resize
 
   
 plot(MODEL$Distance, MODEL$Duration)
+
+
+talk about using GGPLOT2
+
 
 
 
