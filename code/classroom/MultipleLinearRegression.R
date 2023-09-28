@@ -29,17 +29,17 @@
  
   # Let's begin!
  
-    # 1. Import Libraries
+    # Import Libraries
       library(tidyverse) # Pack of most used libraries
       library(skimr) # Library used for providing a summary of the data
       library(DataExplorer) # Library used in data science to perform exploratory data analysis
       library(corrplot) # Library used for correlation plots
       library(car) # Library used for testing autocorrelation (Durbin Watson)
       library(olsrr) # Library used for testing multicollinearity (VIF, TOL, etc.)
-      library(nortest)
+      library(corrplot) # For correlation plots
 
-    # 2.Import dataset and transform into dataframe
-        dataset = readRDS("data/IMOBmodel.Rda")
+    # Import dataset and transform into dataframe
+        dataset = readRDS("data/IMOBmodel.Rds")
         
         # Check the class
           class(dataset)
@@ -48,11 +48,18 @@
         # Transform the dataset into a dataframe
           df = data.frame(dataset)
 
-
-    # 3. Show summary statistics
+#'*Assumption 1:* Dependent variable is continuous. 
+    
+    # Show summary statistics
       skim(df)
       summary(df)
 
+ 
+      
+    # Show boxplot
+      boxplot(df$Distance)
+      
+      summary(df$Distance)
  
 # Multiple Linear Regression
 #' Equation with `Car_perc` as the dependent variable:  
@@ -60,142 +67,196 @@
 # Checking assumptions
   # Before running the model, you need to check if the assumptions are met.
  
-# Linear relation
-# For instance, let's take a look if the independent variables have linear relation with the dependent variable.
+    # Linear relation
+      
+#'*Assumption 2:* There is a linear relationship between dependent variable (DV) and independent variables (IV)
  
-par(mfrow=c(2,3)) #set plot area as 2 rows and 3 columns
-plot(x = df$Car_perc, y = df$Total, xlab = "Car_perc", ylab = "Total")  
-plot(x = df$Car_perc, y = df$Walk, xlab = "Car_perc", ylab = "Walk")  
-plot(x = df$Car_perc, y = df$Bike, xlab = "Car_perc", ylab = "Bike")  
-plot(x = df$Car_perc, y = df$Car, xlab = "Car_perc", ylab = "Car")  
-plot(x = df$Car_perc, y = df$PTransit, xlab = "Car_perc", ylab = "PTransit")
-plot(x = df$Car_perc, y = df$Other, xlab = "Car_perc", ylab = "Other")
-plot(x = df$Car_perc, y = df$Distance, xlab = "Car_perc", ylab = "Distance")
-plot(x = df$Car_perc, y = df$Duration, xlab = "Car_perc", ylab = "Duration")
-plot(x = df$Car_perc, y = df$N_INDIVIDUOS, xlab = "Car_perc", ylab = "N_INDIVIDUOS")
-plot(x = df$Car_perc, y = df$Male_perc, xlab = "Car_perc", ylab = "Male_perc")
-plot(x = df$Car_perc, y = df$IncomeHH, xlab = "Car_perc", ylab = "IncomeHH")
-plot(x = df$Car_perc, y = df$Nvehicles, xlab = "Car_perc", ylab = "Nvehicles")
-plot(x = df$Car_perc, y = df$DrivingLic, xlab = "Car_perc", ylab = "Driving License")
-plot(x = df$Car_perc, y = df$CarParkFree_Work, xlab = "Car_perc", ylab = "Free car parking at work")
-plot(x = df$Car_perc, y = df$PTpass, xlab = "Car_perc", ylab = "PTpass")
-plot(x = df$Car_perc, y = df$internal, xlab = "Car_perc", ylab = "internal trips")
-plot(x = df$Car_perc, y = df$Lisboa, xlab = "Car_perc", ylab = "Lisboa")
-plot(x = df$Car_perc, y = df$Area_km2, xlab = "Car_perc", ylab = "Area_km2")
+    par(mfrow=c(2,3)) #set plot area as 2 rows and 3 columns
+    plot(x = df$Car_perc, y = df$Total, xlab = "Car_perc", ylab = "Total")  
+    plot(x = df$Car_perc, y = df$Walk, xlab = "Car_perc", ylab = "Walk")  
+    plot(x = df$Car_perc, y = df$Bike, xlab = "Car_perc", ylab = "Bike")  
+    plot(x = df$Car_perc, y = df$Car, xlab = "Car_perc", ylab = "Car")  
+    plot(x = df$Car_perc, y = df$PTransit, xlab = "Car_perc", ylab = "PTransit")
+    plot(x = df$Car_perc, y = df$Other, xlab = "Car_perc", ylab = "Other")
+    plot(x = df$Car_perc, y = df$Distance, xlab = "Car_perc", ylab = "Distance")
+    plot(x = df$Car_perc, y = df$Duration, xlab = "Car_perc", ylab = "Duration")
+    plot(x = df$Car_perc, y = df$N_INDIVIDUOS, xlab = "Car_perc", ylab = "N_INDIVIDUOS")
+    plot(x = df$Car_perc, y = df$Male_perc, xlab = "Car_perc", ylab = "Male_perc")
+    plot(x = df$Car_perc, y = df$IncomeHH, xlab = "Car_perc", ylab = "IncomeHH")
+    plot(x = df$Car_perc, y = df$Nvehicles, xlab = "Car_perc", ylab = "Nvehicles")
+    plot(x = df$Car_perc, y = df$DrivingLic, xlab = "Car_perc", ylab = "Driving License")
+    plot(x = df$Car_perc, y = df$CarParkFree_Work, xlab = "Car_perc", ylab = "Free car parking at work")
+    plot(x = df$Car_perc, y = df$PTpass, xlab = "Car_perc", ylab = "PTpass")
+    plot(x = df$Car_perc, y = df$internal, xlab = "Car_perc", ylab = "internal trips")
+    plot(x = df$Car_perc, y = df$Lisboa, xlab = "Car_perc", ylab = "Lisboa")
+    plot(x = df$Car_perc, y = df$Area_km2, xlab = "Car_perc", ylab = "Area_km2")
 
 
+    #' Or you could execute a pairwise scatterplot matrix, that compares every variable with each other: 
+   
+    pairs(df[,c(2:17,20)], pch = 19, lower.panel = NULL) #cannot put categorical and character variables in this function
+
+    #This funciton is not visible with many variables. 
+    #Try reducing the size. 
+
+    pairs(df[,c(2:10)], pch = 19, lower.panel = NULL)
+
+#'*Assumption 3:* The Dependent Variable should be normally distributed.  
+
+  #' Check the histogram of `Car_perc`
+
+    par(mfrow=c(1,1))
+    hist(df$Car_perc)
+  
+  # If the sample is smaller than 50 observations, use Shapiro-Wilk test: 
+
+    shapiro.test(df$Car_perc)
+
+  # If not, use the Kolmogorov-Smirnov test
  
-#' Or you could execute a pairwise scatterplot matrix, that compares every variable with each other: 
-#' 
-pairs(df[,c(2:17,20)], pch = 19, lower.panel = NULL) #cannot put categorical and character variables in this function
-
-#This funciton is not visible with many variables. 
-#Try reducing the size. 
-
-pairs(df[,c(2:10)], pch = 19, lower.panel = NULL)
-
-# Normal distribution of the dependent variable
-# Check if the dependent variable is normally distributed. 
-# If the sample is smaller than 2000 observations, use Shapiro-Wilk test: 
-
-shapiro.test(df$Car_perc)
-
-
-ad.test(df$Car_perc)
-
-#' 
-#' If not, use the Kolmogorov-Smirnov test
-#' 
-ks.test(df$Car_perc, "pnorm", mean=mean(df$Car_perc), sd = sd(df$Car_perc))
+    ks.test(df$Car_perc, "pnorm", mean=mean(df$Car_perc), sd = sd(df$Car_perc))
 
 #' The null hypothesis of both tests is that the distribution is normal. 
 #' Therefore, for the distribution to be normal, the pvalue > 0.05 and you should not reject the null hypothesis.
 
-# Multiple linear regression model
+#'* Multiple linear regression model*
+    
+#' Check the correlation plot before choosing the variables. 
 
-model <- lm(Car_perc ~ Total +
-              Walk +
-              Bike +
-              Car +
-              PTransit +
-              Other +
-              Distance + 
-              Duration + 
-              N_INDIVIDUOS + 
-              Male_perc + 
-              IncomeHH + 
-              Nvehicles + 
-              DrivingLic + 
-              CarParkFree_Work + 
-              PTpass +
-              internal +
-              Lisboa +
-              Area_km2,
+
+  model <- lm(Car_perc ~ Total +
+               Walk +
+               Bike +
+               Car +
+               PTransit +
+               Other +
+               Distance +
+               Duration +
+               N_INDIVIDUOS +
+               Male_perc +
+               IncomeHH +
+               Nvehicles +
+               DrivingLic +
+               CarParkFree_Work +
+               PTpass +
+               internal +
+               Lisboa +
+               Area_km2,
               data = df)
 summary(model)
 
-#'*Tip:* Use the function names(df) in the console to obtain the names of the variables.  
+#'*Tip:* Use the function `names(df)` in the console to obtain the names of the variables.  
 #'*Tip:* Use ctrl+shift+c to comment a variable
  
 #' **Assessing the model**:
-#' 
+ 
 #' 1. First check the **pvalue** and the **F statistics** of the model to see if there is any statistical relation 
 #' between the dependent variable and the independent variables. 
 #' If pvalue < 0.05 and the F statistics > Fcritical = 2,39, then the model is statistically acceptable.  
-#' 
+
 #' 2. The **R-square** and **Adjusted R-square** evaluate the amount of variance that is explained by the model. 
 #' The difference between one and another is that the R-square does not consider the number of variables.
 #' If you increase the number of variables in the model, the R-square will tend to increase which can lead to overfitting. 
 #' On the other hand, the Adjusted R-square adjust to the number of independent variables. 
-#'  
-#' 3. Take a look a the **t-value** and the Pr(>|t|). 
+ 
+#' 3. Take a look at the **t-value** and the Pr(>|t|). 
 #' If the t-value > 1,96 or Pr(>|t|) < 0,05, then the IV is statistically significant to the model.
-#'    
+   
 #' 4. To analyze the **estimates** of the variables, you should first check the **signal** 
 #' and evaluate if the independent variable has a direct or inverse relationship with the dependent variable. 
 #' It is only possible to evaluate the **magnitude** of the estimate if all variables are continuous and standardized 
 #' or by calculating the elasticities. The elasticities are explained and demonstrated in chapter 4. 
-#' 
-#' 
-#' ##### Residuals
-#' Let's see how do the residuals behave by plotting them.  
-#' 
+
+#' Residuals
+#' Check the following assumptions
+
+#' *Assumption 4:* The error (E) is independent across observations and the error variance is constant across IV – Homoscedasticity
+#' *Assumption 5:* Disturbances are approximately normally distributed
+
 #' * **Residuals vs Fitted:** This plot is used to detect non-linearity, heteroscedasticity, and outliers. 
-#' * **Normal Q-Q:** The quantile-quantile (Q-Q) plot is used to check if the dependent variable follows a normal distribution.
+
+#' **Normal Q-Q:** The quantile-quantile (Q-Q) plot is used to check if the disturbances follow a normal distribution.
+
 #' * **Scale-Location:** This plot is used to verify if the residuals are spread equally (homoscedasticity) or not 
 #' (heteroscedasticity) through the sample. 
 #' * **Residuals vs Leverage:** This plot is used to detect the impact of the outliers in the model. 
 #' If the outliers are outside the Cook-distance, this may lead to serious problems in the model. 
-#' 
+ 
 #' Try analyzing the plots and check if the model meets the assumptions. 
-par(mfrow=c(2,2))
-plot(model)
+    par(mfrow=c(2,2))
+    plot(model)
 
-#' 
-#' 
-#' ##### Autocorrelation
+ 
+#' *Assumption 6:* Non-autocorrelation of disturbances
 #' Execute the Durbin-Watson test to evaluate autocorrelation of the residuals
-durbinWatsonTest(model)
+    durbinWatsonTest(model)
 
-#' 
 #' > **Note:** In the Durbin-Watson test, values of the D-W Statistic vary from 0 to 4. 
 #' If the values are from 1.8 to 2.2 this means that there is no autocorrelation in the model. 
-#' 
+
 #' ##### Multicollinearity
 #' Calculate the VIF and TOL to test for multicollinearity.
-#' 
-ols_vif_tol(model)
+ 
+    ols_vif_tol(model)
 
-#' 
-#' > **Note:** Values of VIF > 5, indicate multicollinearity problems.
-#' 
+  #' > **Note:** Values of VIF > 5, indicate multicollinearity problems.
+
 #' Calculate the Condition Index to test for multicollinearity
-ols_eigen_cindex(model)
+    ols_eigen_cindex(model)
 
-#' 
-#' > **Note:** Condition index values > 15 indicate multicollinearity problems, 
-#' and values > 30 indicate serious problems of multicollinearity.
-#' 
-#' To test both simultaneously, you can run the code below:
+    #' > **Note:** Condition index values > 15 indicate multicollinearity problems, 
+    #' and values > 30 indicate serious problems of multicollinearity.
+
+    #' To test both simultaneously, you can run the code below:
 ols_coll_diag(model)
 
+# Replace outliers
+
+  df_continuous = df[,-c(1,18,19)]  
+  
+  #Examine boxplots
+  
+  par(mfrow=c(1,1), mar=c(10,5,1,1))
+  boxplot(df_continuous, las = 2)
+  
+  #Outlier function
+  outlier <- function(x){
+    quant <- quantile(x, probs=c(0.25, 0.75))
+    caps <- quantile(x, probs=c(0.05, 0.95))
+    H <- 1.5* IQR(x, na.rm = TRUE)
+    x[x < (quant[1] - H)] <- caps[1]
+    x[x > (quant[2] + H)] <- caps[2]
+    return(x)
+  }
+  
+  #Replace outliers
+  df_no_outliers <- df_continuous
+  df_no_outliers$Total <- outlier(df_continuous$Total)
+  
+  boxplot(df_no_outliers, las = 2)
+
+  #Run a model with the data treated
+  model_2 <- lm(Car_perc ~ Total +
+                Walk +
+                Bike +
+                Car +
+                PTransit +
+                Other +
+                Distance +
+                Duration +
+                N_INDIVIDUOS +
+                Male_perc +
+                IncomeHH +
+                Nvehicles +
+                DrivingLic +
+                CarParkFree_Work +
+                PTpass +
+                # internal +     #these variables are not in the new database
+                # Lisboa +
+                Area_km2,
+              data = df_no_outliers)    #remember to change the dataset
+  summary(model_2)
+
+  par(mfrow=c(2,2))
+  plot(model_2)  
+  
