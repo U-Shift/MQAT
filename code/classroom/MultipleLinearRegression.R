@@ -54,8 +54,6 @@
       skim(df)
       summary(df)
 
- 
-      
     # Show boxplot
       boxplot(df$Distance)
       
@@ -72,7 +70,8 @@
 #'*Assumption 2:* There is a linear relationship between dependent variable (DV) and independent variables (IV)
  
     par(mfrow=c(2,3)) #set plot area as 2 rows and 3 columns
-    plot(x = df$Car_perc, y = df$Total, xlab = "Car_perc", ylab = "Total")  
+    
+    plot(x = df$Car_perc, y = df$Total, xlab = "Car_perc (%)", ylab = "Total (number of trips)")  
     plot(x = df$Car_perc, y = df$Walk, xlab = "Car_perc", ylab = "Walk")  
     plot(x = df$Car_perc, y = df$Bike, xlab = "Car_perc", ylab = "Bike")  
     plot(x = df$Car_perc, y = df$Car, xlab = "Car_perc", ylab = "Car")  
@@ -193,70 +192,3 @@ summary(model)
 
 #' > **Note:** In the Durbin-Watson test, values of the D-W Statistic vary from 0 to 4. 
 #' If the values are from 1.8 to 2.2 this means that there is no autocorrelation in the model. 
-
-#' ##### Multicollinearity
-#' Calculate the VIF and TOL to test for multicollinearity.
- 
-    ols_vif_tol(model)
-
-  #' > **Note:** Values of VIF > 5, indicate multicollinearity problems.
-
-#' Calculate the Condition Index to test for multicollinearity
-    ols_eigen_cindex(model)
-
-    #' > **Note:** Condition index values > 15 indicate multicollinearity problems, 
-    #' and values > 30 indicate serious problems of multicollinearity.
-
-    #' To test both simultaneously, you can run the code below:
-ols_coll_diag(model)
-
-# Replace outliers
-
-  df_continuous = df[,-c(1,18,19)]  
-  
-  #Examine boxplots
-  
-  par(mfrow=c(1,1), mar=c(10,5,1,1))
-  boxplot(df_continuous, las = 2)
-  
-  #Outlier function
-  outlier <- function(x){
-    quant <- quantile(x, probs=c(0.25, 0.75))
-    caps <- quantile(x, probs=c(0.05, 0.95))
-    H <- 1.5* IQR(x, na.rm = TRUE)
-    x[x < (quant[1] - H)] <- caps[1]
-    x[x > (quant[2] + H)] <- caps[2]
-    return(x)
-  }
-  
-  #Replace outliers
-  df_no_outliers <- df_continuous
-  df_no_outliers$Total <- outlier(df_continuous$Total)
-  
-  boxplot(df_no_outliers, las = 2)
-
-  #Run a model with the data treated
-  model_2 <- lm(Car_perc ~ Total +
-                Walk +
-                Bike +
-                Car +
-                PTransit +
-                Other +
-                Distance +
-                Duration +
-                N_INDIVIDUOS +
-                Male_perc +
-                IncomeHH +
-                Nvehicles +
-                DrivingLic +
-                CarParkFree_Work +
-                PTpass +
-                # internal +     #these variables are not in the new database
-                # Lisboa +
-                Area_km2,
-              data = df_no_outliers)    #remember to change the dataset
-  summary(model_2)
-
-  par(mfrow=c(2,2))
-  plot(model_2)  
-  
