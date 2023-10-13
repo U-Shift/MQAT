@@ -52,3 +52,8 @@ Variables included in [MODEL database](https://github.com/U-Shift/MQAT/blob/main
 * `internal` - binary variable (factor). "Yes": internal trips in that _freguesia_ (`Origin_dicofre16`), "No": external trips from that _freguesia_
 * `Lisboa` - binary variable (factor). "Yes": the _freguesia_ is part of Lisbon municipality, "No": otherwise
 * `Area_km2` - area of in `Origin_dicofre16`, in km2
+
+### Factor and Cluster Analysis
+
+* R script for [Exploratory Factor Analysis](https://github.com/U-Shift/Transport-Demand-Modelling/blob/master/3-FactorAnalysis.md)
+* R script for [Cluster Analysis](https://github.com/U-Shift/Transport-Demand-Modelling/blob/master/4-ClusterAnalysis.md)
