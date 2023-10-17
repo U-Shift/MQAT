@@ -3,7 +3,7 @@
 library(tidyverse)
 library(readxl)
 SURVEYist = read_excel("original/UbikeIST_data.xlsx")
-View(SURVEYist)
+# View(SURVEYist)
 
 SURVEYist = SURVEYist |> 
   mutate(SEX = recode(SEX, `1` = "Male", `2` = "Female"),
@@ -18,15 +18,17 @@ SURVEYist = SURVEYist |>
   select(ID, AFF, AGE, SEX, MODE, lat, lon)
 
 
-SURVEYist_geo = sf::st_as_sf(SURVEYist, coords = c("lon", "lat"), crs = 4326)
-mapview::mapview(SURVEYist_geo)
-
-notinlisbon = c(975, 48, 1778, 1287, 948, 1592, 1838, 743)
+notinlisbon = c(975, 48, 1778, 1287, 948, 1592, 1838, 743) 
 
 SURVEYist = SURVEYist |> 
   filter(!ID %in% notinlisbon) |> 
+  distinct(lat, lon) |> 
+  mutate(lat = round(lat, 5),
+         lon = round(lon, 6)) |> 
+  filter(lat != 38.73688 & lon != -9.137314) |>  # these are exactly at IST - remove
   slice_sample(n = 200)
 
-
+SURVEYist_geo = sf::st_as_sf(SURVEYist, coords = c("lon", "lat"), crs = 4326)
+mapview::mapview(SURVEYist_geo)
 
 write.table(SURVEYist, "geo/SURVEYist.txt", sep = "\t", row.names = FALSE)
