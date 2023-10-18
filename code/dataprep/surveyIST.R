@@ -18,11 +18,11 @@ SURVEYist = SURVEYist |>
   select(ID, AFF, AGE, SEX, MODE, lat, lon)
 
 
-notinlisbon = c(975, 48, 1778, 1287, 948, 1592, 1838, 743) 
+notinlisbon = c(975, 48, 1778, 1287, 948, 1592, 1838, 743, 1842) 
 
 SURVEYist = SURVEYist |> 
   filter(!ID %in% notinlisbon) |> 
-  distinct(lat, lon) |> 
+  distinct(lat, lon, .keep_all = TRUE) |> 
   mutate(lat = round(lat, 5),
          lon = round(lon, 6)) |> 
   filter(lat != 38.73688 & lon != -9.137314) |>  # these are exactly at IST - remove
