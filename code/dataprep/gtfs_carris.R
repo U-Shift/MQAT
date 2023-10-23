@@ -18,7 +18,7 @@ library(tidyverse)
 library(gtfstools)
 library(sf)
 
-Carris = read_gtfs("original/gtfs_CARRIS.zip")
+Carris = read_gtfs("original/gtfs_CARRIS.zip") # 2022.12.01: https://transitfeeds.com/l/671-lisbon-portugal 
 
 Carris_stops_tabela = Carris$stops |>
   left_join(Carris$stop_times, by = "stop_id") |>
@@ -32,7 +32,6 @@ excluir = c("stop_code", "stop_desc", "zone_id", "stop_url", "location_type", "p
             "route_desc","route_url", "route_color", "route_text_color")
 Carris_stops_tabela = Carris_stops_tabela |> select(!all_of(excluir))
 
-names(Carris_stops_tabela)
 
 Carris_stops_redux = Carris_stops_tabela |>
   group_by(stop_id, stop_name, stop_lat, stop_lon) |> 
@@ -42,3 +41,9 @@ Carris_stops_redux = Carris_stops_tabela |>
 Carris_stops = st_as_sf(Carris_stops_redux, coords = c("stop_lon", "stop_lat"), crs=4326)
 
 st_write(Carris_stops, "geo/Carris_stops.gpkg", delete_dsn = TRUE)
+
+
+# estranho estes dados de calendário só aparecerem a um Sábado!
+
+Carris_weekday = filter_by_weekday(Carris, weekday = "wednesday")
+#empty!
