@@ -18,7 +18,15 @@ library(tidyverse)
 library(gtfstools)
 library(sf)
 
-Carris = read_gtfs("original/gtfs_CARRIS.zip") # 2022.12.01: https://transitfeeds.com/l/671-lisbon-portugal 
+
+## filter only one particular calendar day
+# consultar padroes em https://carris.pt/media/ug4dv3a1/2022_2023_vertical_corrigido.pdf
+Carris_alldays = tidytransit::read_gtfs("original/GTFScarris2020.zip") # all
+Carris_wed16jan = tidytransit::filter_feed_by_date(Carris_alldays, "2020-01-16")
+tidytransit::write_gtfs(Carris_wed16jan, "original/GTFScarris2020_wed16jan.zip")
+
+# Carris = read_gtfs("original/GTFScarris2022.zip") # 2022.12 biclaR 
+Carris = read_gtfs("original/GTFScarris2020_wed16jan.zip") # use this with only 16 jan 2020
 
 Carris_stops_tabela = Carris$stops |>
   left_join(Carris$stop_times, by = "stop_id") |>
@@ -37,13 +45,10 @@ Carris_stops_redux = Carris_stops_tabela |>
   group_by(stop_id, stop_name, stop_lat, stop_lon) |> 
   summarise(frequency = n()) |> 
   ungroup()
+sum(Carris_stops_redux$frequency) #all: 376697, only 16jan: 135557
 
 Carris_stops = st_as_sf(Carris_stops_redux, coords = c("stop_lon", "stop_lat"), crs=4326)
 
 st_write(Carris_stops, "geo/Carris_stops.gpkg", delete_dsn = TRUE)
 
 
-# estranho estes dados de calendário só aparecerem a um Sábado!
-
-Carris_weekday = filter_by_weekday(Carris, weekday = "wednesday")
-#empty!
