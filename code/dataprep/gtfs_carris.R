@@ -1,20 +1,6 @@
 # aim: prepare GTFS data
 
 library(tidyverse)
-library(tidytransit)
-
-Carris = read_gtfs("original/GTFScarris2020.zip") #also tried with 2018, 2022
-Carris_stops = gtfs_as_sf(Carris)
-Carris_stops = Carris_stops$stops
-
-Carris_stops_freq = get_stop_frequency(Carris, start_time = "06:00:00", end_time = "23:00:00", by_route = TRUE)
-# not providing a good result!
-
-
-
-# Gabriel version ---------------------------------------------------------
-
-library(tidyverse)
 library(gtfstools)
 library(sf)
 
@@ -26,7 +12,7 @@ Carris_wed16jan = tidytransit::filter_feed_by_date(Carris_alldays, "2020-01-16")
 tidytransit::write_gtfs(Carris_wed16jan, "original/GTFScarris2020_wed16jan.zip")
 
 # Carris = read_gtfs("original/GTFScarris2022.zip") # 2022.12 biclaR 
-Carris = read_gtfs("original/GTFScarris2020_wed16jan.zip") # use this with only 16 jan 2020
+Carris = gtfstools::read_gtfs("original/GTFScarris2020_wed16jan.zip") # use this with only 16 jan 2020
 
 Carris_stops_tabela = Carris$stops |>
   left_join(Carris$stop_times, by = "stop_id") |>
