@@ -1,0 +1,229 @@
+---
+title: "Trips in AML with maps"
+author: "R Félix"
+date: "MQAT 2023"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: "hide"
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+```{r libraries, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(stplanr)
+library(tmap)
+tmap_mode("view")
+```
+
+
+## Get OD data from IMOB
+
+The [**biclaR**](https://biclar.tmlmobilidade.pt/) project hosts several [open datasets](https://github.com/U-Shift/biclar/releases/tag/0.0.1) useful for this spatial analysis relateg with transportation in the Lisbon Metro region.
+
+```{r readdata}
+TRIPSall = readRDS(url("https://github.com/U-Shift/biclar/releases/download/0.0.1/TRIPSmode_municipal.Rds"))
+
+TRIPSall[TRIPSall == "Setubal"] = "Setúbal" #rename
+
+knitr::kable(head(TRIPSall)) # have a look at data
+```
+
+Remove **intrazonal** trips and group by Private vs Public
+
+```{r tripsclean}
+# With all modes
+TRIPSinter = TRIPSall |>
+  filter(Origem != Destino) |> # remove internal trips
+  as.data.frame() |> 
+  group_by(Origem, Destino) |> 
+  summarise(viagens = sum(viagens)) |> 
+  ungroup() |> 
+  od_oneway() # sum the O with D - doesn't matter the start and end point for vizualization purpouses
+
+  
+# With variables of public or private modes
+TRIPSvs = TRIPSall |>
+  filter(Origem != Destino) |> # remove internal trips
+  as.data.frame() |> 
+  mutate(Tipo = recode(modo,  # recode in TI and TC
+         Bike = "TIndividual",
+         Car = "TIndividual",
+         Motorcycle = "TIndividual",
+         Other = "TIndividual",
+         Transit = "TColetivo",
+         Walk = "TIndividual")) |> 
+  group_by(Origem, Destino, Tipo) |> 
+  summarise(viagens = sum(viagens)) |> 
+  ungroup() |> 
+  pivot_wider(names_from = Tipo,
+              values_from = viagens)
+
+TRIPSvs[is.na(TRIPSvs)] = 0 # há casos em que não há viagens registadas entre municípios
+TRIPSvs = od_oneway(TRIPSvs) # magia para somar O-D com D-O
+
+
+knitr::kable(head(TRIPSvs)) # viagens separadas por TI e TC
+```
+
+A total of `r round(sum(TRIPSall$viagens)/1000000,1)` million trips are made daily in the AML, of which `r round(sum(TRIPSinter$viagens)/1000)` thousand are intercity.
+
+## Get AML maps
+
+```{r amlgeo}
+MUNICIPIOSgeo = readRDS(url("https://github.com/U-Shift/biclar/releases/download/0.0.1/MUNICIPIOSgeo.Rds"))
+MUNICIPIOSgeo$Concelho[MUNICIPIOSgeo$Concelho == "Setubal"] = "Setúbal"
+
+AML_dtcc = readRDS(url("https://github.com/U-Shift/biclar/releases/download/0.0.1/ZONAMENTO_imob.Rds"))
+AML_dtcc = AML_dtcc |> select(DTMN, DTMN_DSG) |> unique()
+
+CENTROIDS = readRDS(url("https://github.com/U-Shift/biclar/releases/download/0.0.1/CENTROIDS_municipios.Rds"))
+CENTROIDS = CENTROIDS |>
+  left_join(AML_dtcc, by = c("DTMN11" = "DTMN")) |>
+  select(DTMN_DSG, geometry) |>
+  filter(DTMN_DSG != "Montijo")
+
+MONTIJO = sf::st_read("geo/Montijo.geojson", quiet = TRUE) # Porque o centro das duas parts do Montijo não calha dentro do Montijo
+CENTROIDS = rbind(CENTROIDS, MONTIJO)
+```
+
+## Make maps
+
+Use `stplanr` to create the [desire lines](https://docs.ropensci.org/stplanr/reference/od2line.html).
+
+```{r od2line}
+LINHASod = od2line(flow = TRIPSinter,
+                   zones = CENTROIDS,
+                   zone_code = "DTMN_DSG") |> 
+  filter(viagens >= 1000)
+LINHASod_noLX = LINHASod |> filter(Origem != "Lisboa" & Destino != "Lisboa")
+
+LINHASod_TI = od2line(flow = TRIPSvs |> select(-TColetivo),
+                      zones = CENTROIDS,
+                      zone_code = "DTMN_DSG") |> 
+  filter(TIndividual > 1000)
+LINHASod_TI_noLX = LINHASod_TI |> filter(Origem != "Lisboa" & Destino != "Lisboa")
+
+LINHASod_TC = od2line(flow = TRIPSvs |> select(-TIndividual),
+                      zones = CENTROIDS,
+                      zone_code = "DTMN_DSG") |> 
+  filter(TColetivo > 1000)
+LINHASod_TC_noLX = LINHASod_TC |> filter(Origem != "Lisboa" & Destino != "Lisboa")
+```
+
+### All Trips
+
+#### Including Lisbon
+
+```{r intermunicipaisALL, out.width = '100%'}
+m1 =  tm_shape(MUNICIPIOSgeo) +
+  tm_borders(col = "grey") +
+  tm_shape(LINHASod %>% filter(viagens >=5000)) +
+  tm_lines("viagens",
+           palette = viridis::magma(n = 4, direction = -1),
+           breaks = c(5000, 10000, 50000, 100000, 161000),
+           lwd = "viagens",
+           scale = 30,
+           title.col = "Viagens intermunicipais") +
+  tm_shape(CENTROIDS) +
+  tm_text("DTMN_DSG", size = 0.8, col = "gray25")
+m1
+```
+
+#### Excluding Lisbon
+
+```{r intermunicipaissemLX, out.width = '100%'}
+m2 = tm_shape(MUNICIPIOSgeo) +
+  tm_borders(col = "grey") +
+  tm_shape(LINHASod_noLX %>% filter(viagens >=3000)) +
+  tm_lines("viagens",
+           palette = viridis::magma(n = 4, direction = -1),
+           breaks = c(3000, 10000, 30000, 60000, 73000),
+           lwd = "viagens",
+           scale = 30,
+           title.col = "Viagens intermunicipais, fora de Lisboa") +
+  tm_shape(CENTROIDS) +
+  tm_text("DTMN_DSG", size = 0.8, col = "gray25")
+m2
+```
+
+### Only Public Transit trips
+
+#### Including Lisbon
+
+```{r intermunicipais_TC, out.width = '100%'}
+m3 = tm_shape(MUNICIPIOSgeo) +
+  tm_borders(col = "grey") +
+  tm_shape(LINHASod_TC %>% filter(TColetivo >=3000)) +
+  tm_lines("TColetivo",
+           palette = viridis::viridis(n = 4, direction = -1),
+           breaks = c(3000, 5000, 10000, 25000, 50000),
+           lwd = "TColetivo",
+           scale = 30,
+           title.col = "Viagens intermunicipais, em Transporte Coletivo") +
+  tm_shape(CENTROIDS) +
+  tm_text("DTMN_DSG", size = 0.8, col = "gray25")
+m3
+```
+
+#### Excluding Lisbon
+
+```{r intermunicipaissemLX_TC, out.width = '100%'}
+m4 = tm_shape(MUNICIPIOSgeo) +
+  tm_borders(col = "grey") +
+  tm_shape(LINHASod_TC_noLX %>% filter(TColetivo >=2000)) +
+  tm_lines("TColetivo",
+           palette = viridis::viridis(n = 4, direction = -1),
+           breaks = c(2000, 4000, 7000, 10000, 13000),
+           lwd = "TColetivo",
+           scale = 30,
+           title.col = "Viagens intermunicipais, em Transporte Coletivo (fora Lx)") +
+  tm_shape(CENTROIDS) +
+  tm_text("DTMN_DSG", size = 0.8, col = "gray25")
+m4
+```
+
+
+### Only Private trips
+
+#### Including Lisbon
+
+```{r intermunicipais_TI, out.width = '100%'}
+m5 = tm_shape(MUNICIPIOSgeo) +
+  tm_borders(col = "grey") +
+  tm_shape(LINHASod_TI %>% filter(TIndividual >=5000)) +
+  tm_lines("TIndividual",
+           palette = viridis::plasma(n = 4, direction = -1),
+           breaks = c(5000, 20000, 50000, 100000, 115000),
+           lwd = "TIndividual",
+           scale = 30,
+           title.col = "Viagens intermunicipais, em Transporte Individual") +
+  tm_shape(CENTROIDS) +
+  tm_text("DTMN_DSG", size = 0.8, col = "gray25")
+m5
+```
+
+#### Excluding Lisbon
+
+```{r intermunicipaissemLX_TI, out.width = '100%'}
+m6 = tm_shape(MUNICIPIOSgeo) +
+  tm_borders(col = "grey") +
+  tm_shape(LINHASod_TI_noLX %>% filter(TIndividual >=3000)) +
+  tm_lines("TIndividual",
+           palette = viridis::plasma(n = 4, direction = -1),
+           breaks = c(3000, 10000, 25000, 50000, 65000),
+           lwd = "TIndividual",
+           scale = 30,
+           title.col = "Viagens intermunicipais, em Transporte Individual (fora Lx)") +
+  tm_shape(CENTROIDS) +
+  tm_text("DTMN_DSG", size = 0.8, col = "gray25")
+m6
+```
