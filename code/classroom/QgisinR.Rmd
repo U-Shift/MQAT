@@ -1,0 +1,203 @@
+---
+title: "GIS in R - exercises"
+author: "R Félix"
+date: "MQAT 2023"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    number_sections: true
+    # code_folding: "hide"
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+```{r libraries}
+library(tidyverse)
+library(sf)
+library(mapview)
+```
+
+
+# Intro
+
+This Rmarkdown notebook aims to show some examples of how to solve the classroom proposed exercises in QGIS, but in R.
+
+There are several ways to reach the same solution. Here we present only one of them.
+
+# Represent Transport Zones
+
+Download and open `TRIPSgeo_mun.gpkg` and `TRIPSgeo_freg.gpkg` under [MQAT/geo/](https://github.com/U-Shift/MQAT/tree/main/geo) repository.
+
+```{r getdata1}
+TRIPSgeo_mun = st_read("geo/TRIPSgeo_mun.gpkg", quiet = TRUE) # we add quiet = TRUE so we don't get annoying messages on the info
+TRIPSgeo_freg = st_read("geo/TRIPSgeo_freg.gpkg", quiet = TRUE)
+
+# you can also open directly from url from github. example:
+# TRIPSgeo_mun = st_read("https://github.com/U-Shift/MQAT/raw/main/geo/TRIPSgeo_mun.gpkg")
+```
+
+Represent Transport Zones with Total, and with Car %.
+
+```{r}
+# create Car_per variable
+TRIPSgeo_mun = TRIPSgeo_mun |> mutate(Car_per = Car / Total * 100)
+TRIPSgeo_freg = TRIPSgeo_freg |> mutate(Car_per = Car / Total * 100)
+
+#Vizualize in map
+mapview(TRIPSgeo_mun, zcol = "Car_per")
+mapview(TRIPSgeo_freg, zcol = "Car_per", col.regions = rev(hcl.colors(9, "-Inferno"))) #palete inferno com 9 classes, reverse color ramp
+```
+
+# Centroids
+
+## Geometric centroids
+
+```{r}
+CENTROIDSgeo = st_centroid(TRIPSgeo_mun)
+# mapview(CENTROIDSgeo)
+```
+
+
+## Weigthed centroids
+
+Get BGRI Data^[Base Geográfica de Referenciação de Informação, Censos 2021] from INE website, at *Área Metropolitana de Lisboa* level: [https://mapas.ine.pt/download/index2021.phtml](mapas.ine.pt/download/index2021.phtml)
+
+```{r getcensus}
+BGRI = st_read("original/BGRI21_LISBOA.gpkg", quiet = TRUE)
+```
+
+It is not that easy to estimate weighted centroids with R. See [here](https://wzbsocialsciencecenter.github.io/spatially_weighted_avg/).  
+We will make a bridge connection to QGIS to use its native function of mean coordinates.  
+
+
+```{r}
+library(qgisprocess)
+# qgis_search_algorithms("mean") # search the exact function name
+# qgis_get_argument_specs("native:meancoordinates") |> select(name, description) # see the required inputs
+
+# with population
+CENTROIDSpop = qgis_run_algorithm(algorithm = "native:meancoordinates",
+                                  INPUT = BGRI,
+                                  WEIGHT = "N_INDIVIDUOS",
+                                  UID = "DTMN21")
+CENTROIDSpop = st_as_sf(CENTROIDSpop)
+
+# with buildings
+CENTROIDSbuild = qgis_run_algorithm(algorithm = "native:meancoordinates",
+                                  INPUT = BGRI,
+                                  WEIGHT = "N_EDIFICIOS_CLASSICOS",
+                                  UID = "DTMN21")
+CENTROIDSbuild = st_as_sf(CENTROIDSbuild)
+```
+
+
+## Compare in map
+
+```{r mapcentroid}
+mapview(CENTROIDSgeo) + mapview(CENTROIDSpop, col.region = "red") + mapview(CENTROIDSbuild, col.region = "black")
+```
+
+See how the building, poulation and geometric centroids of Montijo are appart, from closer to Tagus, to the rural area.
+
+
+# Desire Lines
+
+Download `TRIPSdl_mun.gpkg` 
+
+```{r getdl}
+TRIPSdl_mun = st_read("geo/TRIPSdl_mun.gpkg", quiet = TRUE) 
+```
+
+Filter intrazonal trips, and trips with origin or desination in Lisbon.
+
+```{r withlx}
+TRIPSdl_mun = TRIPSdl_mun |> 
+  filter(Origin_mun != Destination_mun) |> 
+  filter(Total > 5000) # remove noise
+
+mapview(TRIPSdl_mun, zcol = "Total", lwd = 5)
+```
+
+```{r filterlx}
+TRIPSdl_mun_noLX = TRIPSdl_mun |> 
+  filter(Origin_mun != "Lisboa", Destination_mun != "Lisboa")
+
+mapview(TRIPSdl_mun_noLX, zcol = "Total", lwd = 8)
+```
+
+You can replace the `Total` with other variable, such as `Car`, `PTransit`, and so on.
+
+> Note: The function [`od_oneway()`](https://docs.ropensci.org/stplanr/reference/od_oneway.html) aggregates oneway lines to produce bidirectional flows. By default, it returns the sum of each numeric column for each bidirectional origin-destination pair. This is better for viz purpouses.
+
+# Euclidean vs. Routing distance
+
+## Euclidean distance
+
+### Create new point at IST
+
+```{r createist}
+IST = st_sfc(st_point(c(-9.1397404, 38.7370168)), crs = 4326)
+```
+
+### Import survey and visualize
+
+```{r survey}
+SURVEY = read.csv("geo/SURVEYist.txt", sep = "\t") # tab delimiter
+SURVEY = st_as_sf(SURVEY, coords = c("lon", "lat"), crs = 4326) # transform as geo data
+
+mapview(SURVEY, zcol = "MODE") + mapview(IST, col.region = "red", cex = 12)
+```
+
+### Reproject layers
+
+In R we can process distances in meters on-fly.
+
+Buy here is the code to project layers from Geographic coordinates (WGS 84 - EPSG:[4364](https://epsg.io/4326)) to Projected coordinates (Pseudo-Mercator - EPSG:[3857](https://epsg.io/3857), or Portuguese Tranversor-Mercator 06 - EPSG:[3763](https://epsg.io/3763)).
+
+```{r projectlayers}
+ISTprojected = st_transform(IST, crs = 3857)
+SURVEYprojected = st_transform(SURVEY, crs = 3857)
+```
+
+### Straight lines and distance
+
+Nearest point between the two layers. As we only have 1 point at IST layer, we will have the same number of lines as number of surveys = `r nrow(SURVEY)`.
+
+```{r eucdistance}
+SURVEYeuclidean = st_nearest_points(SURVEY, IST, pairwise = TRUE) |> st_as_sf() # this creates lines
+
+mapview(SURVEYeuclidean)
+
+SURVEY$distance = st_length(SURVEYeuclidean) # compute distance and add directly in the first layer
+
+summary(SURVEY$distance) # in meters
+```
+
+The same function can be used to find the closest GIRA station to each survey home location. And also check where are the ones that are far away from GIRA.
+
+```{r}
+GIRA = st_read("geo/GIRA2023.geojson", quiet = TRUE) # we can also read geojson with this function!
+
+nearest = st_nearest_feature(SURVEY, GIRA) # creates an index of the closest GIRA station id
+
+SURVEY$distanceGIRA = st_distance(SURVEY, GIRA[nearest,], by_element = TRUE)
+
+mapview(SURVEY, zcol = "distanceGIRA") +
+  mapview(GIRA, col.regions = "grey20", cex = 4, legend = FALSE)
+```
+
+## Routing distance
+
+Using an API key from [OpenRouteService](https://openrouteservice.org/dev/#/signup), you should store it at your computer and **never show it directly on code**.  
+For that `usethis::edit_r_environ()` and paste your token as `ORS_API_KEY="xxxxxxxxxxxxxxxxxxxxxx"` (replace with your token). Save the .Renviron file, and press `Ctrl+Shift+F10` to restart R so it can take effect.
+
+<!-- Use [openrouteservice-r](https://giscience.github.io/openrouteservice-r/) package devtools::install_github("GIScience/openrouteservice-r") -->
+
+*Work In Progress*
