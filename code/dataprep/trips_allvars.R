@@ -123,3 +123,34 @@ piggyback::pb_upload("/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.xlsx"
                       repo = "U-Shift/MQAT")
 
 saveRDS(TRIPSmun_allvars, "/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.Rds")
+
+
+
+
+# separate in municipalities of residence ---------------------------------
+
+DTCCname = DICOFRE_aml |> select(DTCC, CONCELHO_DSG) |> 
+  distinct() |> 
+  rename(DTCC_aloj = DTCC) |> 
+  mutate(DTCC_aloj = as.integer(DTCC_aloj))
+
+TRIPSmun_allvars_aloj = TRIPSmun_allvars |> 
+  left_join(ALOJAMENTO |> select(Id_aloj_1, DTCC_aloj)) |> 
+  left_join(DTCCname)
+
+for (i in DTCCname$DTCC_aloj) {
+  TRIPSmun_allvars_aloj_i =  TRIPSmun_allvars_aloj|> filter(DTCC_aloj == i)
+  familias_i = TRIPSmun_allvars_aloj_i$Id_aloj_1 |> unique()
+  ALOJAMENTOopinioes_i = ALOJAMENTOopinioes |> filter(Id_aloj_1 %in% familias_i)
+  nome = DTCCname$CONCELHO_DSG[DTCCname$DTCC_aloj == i]
+  
+  IMOB_classes_i = createWorkbook()
+  addWorksheet(IMOB_classes_i, "Data", tabColour = "orange")
+  addWorksheet(IMOB_classes_i, "Opinions", tabColour = "purple")
+  writeDataTable(IMOB_classes_i, sheet = "Data", x = TRIPSmun_allvars_aloj_i)
+  writeDataTable(IMOB_classes_i, sheet = "Opinions", x = ALOJAMENTOopinioes_i)
+  saveWorkbook(IMOB_classes_i, paste0("/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_", nome,".xlsx"), overwrite = TRUE)
+  
+  piggyback::pb_upload(paste0("/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_", nome,".xlsx"),
+                       repo = "U-Shift/MQAT")
+}
