@@ -76,6 +76,18 @@ TRIPSmun = TRIPSmun |> ungroup() |>
 TRIPSmun = TRIPSmun |> ungroup() |> 
   left_join(ALOJAMENTOrendimentos |> select(Id_aloj_1, Rendimento_Dsg))
 
+TRIPSmun = TRIPSmun |> ungroup() |> 
+  left_join(ALOJAMENTOveiculosN |> rename(N_Automoveis = `V0100 1`,
+                                          N_VMercadorias = `V0100 2`,
+                                          N_Motociclos = `V0100 3`,
+                                          N_VOutros = `V0100 4`,
+                                          N_Bicicletas = `V0100 5`,
+                                          NaoDispoeVeiculos = `V0100 N`
+))
+
+TRIPSmun = TRIPSmun |> ungroup() |> 
+  left_join(ALOJAMENTOdespesa |> select(Id_aloj_1, Desp_Comb_Esc_Dsg, Desp_Tp_Esc_Dsg, Desp_Esta_Esc_Dsg, Desp_Port_Esc_Dsg))
+
 # remover e ordenar colunas que não interessam
 names(TRIPSmun)
 TRIPSmun_allvars = TRIPSmun |> select(Id_aloj_1, Id_aloj_2, PESOFIN, N_Individuo, N_Desloc, 
@@ -84,15 +96,30 @@ TRIPSmun_allvars = TRIPSmun |> select(Id_aloj_1, Id_aloj_2, PESOFIN, N_Individuo
                                       modo, ET1_Titulo_transp, ET_1_passageiros, Sexo_Dsg, Idade_Cod_Dsg, Parentesco_Dsg, 
                                       Nivel_Instr_Cod_Dsg, Rendimento_Dsg, Cond_Trab_Cod_Dsg, Mob_Reduz1_Dsg, Carta_C1,
                                       Carta_C2, Carta_C3, Carta_C4, Conduz_Dsg, Exist_Passe_Dsg, Ltrab_Tipo_Dsg,
-                                      Estaci_Trab1, Estaci_Escol1)
+                                      Estaci_Trab1, Estaci_Escol1, N_Automoveis, N_VMercadorias, 
+                                      N_Motociclos, N_VOutros, N_Bicicletas, NaoDispoeVeiculos, 
+                                      Desp_Comb_Esc_Dsg, Desp_Tp_Esc_Dsg, Desp_Esta_Esc_Dsg, 
+                                      Desp_Port_Esc_Dsg)
 
 names(TRIPSmun_allvars)
 TRIPSmun_allvars = data.frame(TRIPSmun_allvars)
 
 library(openxlsx)
-openxlsx::write.xlsx(TRIPSmun_allvars, "/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.xlsx", asTable = TRUE)
+IMOB_classes = createWorkbook()
+addWorksheet(IMOB_classes, "Data", tabColour = "orange")
+addWorksheet(IMOB_classes, "Opinions", tabColour = "purple")
+writeDataTable(IMOB_classes, sheet = "Data", x = TRIPSmun_allvars)
+writeDataTable(IMOB_classes, sheet = "Opinions", x = ALOJAMENTOopinioes)
+saveWorkbook(IMOB_classes, "/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.xlsx", overwrite = TRUE)
 
-saveRDS(TRIPSmun_allvars, "/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.Rds")
+# openxlsx::write.xlsx(TRIPSmun_allvars, "/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.xlsx", sheetName = "Data", asTable = TRUE, overwrite = TRUE)
+# openxlsx::write.xlsx(ALOJAMENTOopinioes, "/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.xlsx", sheetName = "Opinioes", asTable = TRUE)
+
+# write.xlsx(TRIPSmun_allvars, "/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.xlsx",
+#                  sheetName = "IMOB",
+#                  row.names = FALSE)
 
 piggyback::pb_upload("/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.xlsx",
-                     repo = "U-Shift/MQAT")
+                      repo = "U-Shift/MQAT")
+
+saveRDS(TRIPSmun_allvars, "/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.Rds")
