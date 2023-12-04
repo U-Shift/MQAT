@@ -398,20 +398,41 @@ SCHOOLShigh = SCHOOLS |> filter(Nivel == "Secundario") # filter the high schools
 And proceed with the time isochrones.
 
 ```{r isoch2, eval=FALSE, include=FALSE}
-coor = data.frame(lon = SCHOOLS$coordinates[,1], lat = SCHOOLS$coordinates[,2])
-coor = coor[1:5,] # error of api, get a loop to overpass this!
+coor = data.frame(lon = SCHOOLShigh$coordinates[,1], lat = SCHOOLShigh$coordinates[,2])
+coor_max5 = sample_n(coor, 5) # error of api, get a loop to overpass this!
+coor_max5_geo = st_as_sf(coor_max5, coords = c("lon", "lat"), crs = 4326)
+coor_geo = st_as_sf(coor, coords = c("lon", "lat"), crs = 4326)
 
 ISOCist = ors_isochrones(
-  coor,
+  coor_max5,
   profile = "foot-walking",
   range_type = "time", # or distance
-  range = c(5, 20),
+  range = c(5, 20)*60, #in seconds
   output = "sf"
 )
 
 ISOCist = arrange(ISOCist, -value) # to make the larger polygons on top of the table so the are displayed behind.
 
 mapview(ISOCist, zcol = "value", alpha.regions = 0.5)
+```
+```{r}
+for (i in 1:nrow(coor)) {
+  ISOCistTEST_i =
+  tryCatch(
+  ors_isochrones(
+    coor[i, ],
+    profile = "foot-walking",
+    range_type = "time",# or distance
+    range = c(5, 20) * 60,#in seconds
+    output = "sf"
+  ), error=function(e){cat("Error: Openrouteservice API request failed")}
+  )
+  ISOCistTEST = rbind(ISOCistTEST, ISOCistTEST_i)
+}
+
+ISOCistTEST = arrange(ISOCistTEST, -value) # to make the larger polygons on top of the table so the are displayed behind.
+
+mapview(ISOCistTEST, zcol = "value", alpha.regions = 0.5)
 ```
 
 *Work In Progress*
