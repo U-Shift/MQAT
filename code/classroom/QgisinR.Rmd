@@ -395,44 +395,50 @@ SCHOOLShigh = SCHOOLS |> filter(Nivel == "Secundario") # filter the high schools
 
 ```
 
-And proceed with the time isochrones.
+And proceed with the time isochrones, for a range of 20 min, with 5 min intervals.
 
-```{r isoch2, eval=FALSE, include=FALSE}
+```{r isoch2, eval=FALSE, include=TRUE}
 coor = data.frame(lon = SCHOOLShigh$coordinates[,1], lat = SCHOOLShigh$coordinates[,2])
 coor_max5 = sample_n(coor, 5) # error of api, get a loop to overpass this!
-coor_max5_geo = st_as_sf(coor_max5, coords = c("lon", "lat"), crs = 4326)
-coor_geo = st_as_sf(coor, coords = c("lon", "lat"), crs = 4326)
 
-ISOCist = ors_isochrones(
+ISOCist_5 = ors_isochrones(
   coor_max5,
   profile = "foot-walking",
   range_type = "time", # or distance
-  range = c(5, 20)*60, #in seconds
+  range = 20*60, # 20 minutes in seconds
+  interval = 5*60, # to have intervals of 5 minutes
   output = "sf"
 )
+```
+
+Because `openrouteservece` only allows a [max of 5 requests](https://openrouteservice.org/restrictions/) for isochrones at a time, we put it in a loop to run for all the 20 high schools.
+
+```{r isoch2loop}
+for (i in 1:nrow(coor)) {
+  ISOCist_i =
+  tryCatch(
+  ors_isochrones(
+    coor[i, ],
+    profile = "foot-walking",
+    range_type = "time", # or distance
+    range = 20*60, # 20 minutes in seconds
+    interval = 5*60, # to have intervals of 5 minutes
+    output = "sf"
+  ), 
+  error=function(e){cat("Error: Openrouteservice API request failed")} # trick to ignore the ones that return errors
+  )
+  ISOCist = rbind(ISOCist, ISOCist_i)
+}
+
+ISOCist = arrange(ISOCist, -value) # to make the larger polygons on top of the table so the are displayed behind.
 
 ISOCist = arrange(ISOCist, -value) # to make the larger polygons on top of the table so the are displayed behind.
 
 mapview(ISOCist, zcol = "value", alpha.regions = 0.5)
 ```
+
 ```{r}
-for (i in 1:nrow(coor)) {
-  ISOCistTEST_i =
-  tryCatch(
-  ors_isochrones(
-    coor[i, ],
-    profile = "foot-walking",
-    range_type = "time",# or distance
-    range = c(5, 20) * 60,#in seconds
-    output = "sf"
-  ), error=function(e){cat("Error: Openrouteservice API request failed")}
-  )
-  ISOCistTEST = rbind(ISOCistTEST, ISOCistTEST_i)
-}
 
-ISOCistTEST = arrange(ISOCistTEST, -value) # to make the larger polygons on top of the table so the are displayed behind.
-
-mapview(ISOCistTEST, zcol = "value", alpha.regions = 0.5)
 ```
 
 *Work In Progress*
