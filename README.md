@@ -22,12 +22,12 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 
 ### Exploratory Data Analysis
 
-* R script for [Exploratory Data Analysis](ExploratoryDataAnalysis.R)
+* R script for [Exploratory Data Analysis](code/classroom/ExploratoryDataAnalysis.R)
 * Database of IMOB trips at a district level (Freguesias): [IMOBmodel.Rds](data/IMOBmodel.Rds)
 
 ### Multiple Linear Regression
 
-* R script for [Multiple Linear Regression](code/MultipleLinearRegression.R)
+* R script for [Multiple Linear Regression](code/classroom/MultipleLinearRegression.R)
 * Database of IMOB trips at a district level: [IMOBmodel.Rds](data/IMOBmodel.Rds)
 
 Variables included in [IMOBmodel database](data/IMOBmodel.Rds):
