@@ -56,12 +56,12 @@ Variables included in [IMOBmodel database](data/IMOBmodel.Rds):
 ### Exploratory Factor Analysis
 
 * R script for [Exploratory Factor Analysis](code/classroom/FactorAnalysis.R)
-* [Database](data/example_fact.sav) of Residential location satisfaction in the Lisbon metropolitan area.
+* Database of Residential location satisfaction in the Lisbon metropolitan are: [example_fact.sav](data/example_fact.sav).
 
 ### Cluster Analysis
 
 * R script for [Cluster Analysis](code/classroom/ClusterAnalysis.R)
-* [Database](data/Data_Aeroports_Clustersv1.xlsx) of international airports.
+* Database of international airports: [Data_Aeroports_Clustersv1](data/Data_Aeroports_Clustersv1.xlsx)
 
 #### Other materials
 
