@@ -27,7 +27,7 @@
   #'*Lisboa* - binary variable (factor). "Yes": the freguesia is part of Lisbon municipality, "No": otherwise
   #'*Area_km2* - area of in Origin_dicofre16, in km2
 
-# 1. Initial Steps
+# Initial Steps
 
     # Install Libraries
     #   For the first time, you will need to install some of the packages. 
@@ -89,7 +89,7 @@
  
       skim(df)
     
-# 5. Identify missing data
+# Identify missing data
  
     # Is there missing data? How many?
       table(is.na(df))
@@ -166,7 +166,7 @@
 #' *Note*: If you increase the "Car_perc", it will decrease PTpass. Take a look at the relation with the other variables. 
 #' 
 
-# 8. Correlations
+# Correlations
     
     # Plot correlation heatmaps
   
