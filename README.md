@@ -12,7 +12,7 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 
 ## Download R and RStudio
 
-[Instructions for installing R and RStudio](Software_install.Rmd). Note that it is very important to install first R and then RStudio. 
+[Instructions for installing R and RStudio](Software_install.md). Note that it is very important to install first R and then RStudio. 
     
 ## For classes and home assignments
 
@@ -21,18 +21,9 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 * Script of R basics - [R_Basics.R](https://github.com/U-Shift/MQAT/blob/main/code/classroom/R_Basics.R)
 * Database of IMOB trips at municipal level: [TRIPSmode_mun.Rds](https://github.com/U-Shift/MQAT/raw/main/data/TRIPSmode_mun.Rds)
 
-#### Other materials
+### Multiple Linear Regression
 
-* [Getting Started with Data in R](https://moderndive.netlify.app/1-getting-started.html)
-* [A gentle introduction to tidy statistics in R (video)](https://posit.co/resources/videos/a-gentle-introduction-to-tidy-statistics-in-r/)
-* [Work with data, Tidy your data, Report reproducibility (tutorials)](https://posit.cloud/learn/primers)
-* [Intro to R basics (free online course)](https://www.datacamp.com/courses/free-introduction-to-r)
-* [Data Frames in R (free online course with video)](https://www.classcentral.com/classroom/youtube-free-r-training-data-frames-in-r-91879)
-
-* [CheatSheet of Data transformation with `dplyr`](https://rstudio.github.io/cheatsheets/data-transformation.pdf): pay attention to filter(), select(), distinct(), arrange(), mutate(), group_by() & summarize(), left_join()
-* [CheatSheet of Data transformation with `tidyr`](https://rstudio.github.io/cheatsheets/tidyr.pdf): pay attention to pivot_longer(), pivot_wider()
-
-### Linear Regression
+R script for [Multiple Linear Regression](code/MultipleLinearRegression.R)
 
 Variables included in [MODEL database](https://github.com/U-Shift/MQAT/blob/main/data/IMOBmodel.Rda):
 
@@ -61,3 +52,14 @@ Variables included in [MODEL database](https://github.com/U-Shift/MQAT/blob/main
 
 * R script for [Exploratory Factor Analysis](https://github.com/U-Shift/Transport-Demand-Modelling/blob/master/3-FactorAnalysis.md)
 * R script for [Cluster Analysis](https://github.com/U-Shift/Transport-Demand-Modelling/blob/master/4-ClusterAnalysis.md)
+
+#### Other materials
+
+* [Getting Started with Data in R](https://moderndive.netlify.app/1-getting-started.html)
+* [A gentle introduction to tidy statistics in R (video)](https://posit.co/resources/videos/a-gentle-introduction-to-tidy-statistics-in-r/)
+* [Work with data, Tidy your data, Report reproducibility (tutorials)](https://posit.cloud/learn/primers)
+* [Intro to R basics (free online course)](https://www.datacamp.com/courses/free-introduction-to-r)
+* [Data Frames in R (free online course with video)](https://www.classcentral.com/classroom/youtube-free-r-training-data-frames-in-r-91879)
+
+* [CheatSheet of Data transformation with `dplyr`](https://rstudio.github.io/cheatsheets/data-transformation.pdf): pay attention to filter(), select(), distinct(), arrange(), mutate(), group_by() & summarize(), left_join()
+* [CheatSheet of Data transformation with `tidyr`](https://rstudio.github.io/cheatsheets/tidyr.pdf): pay attention to pivot_longer(), pivot_wider()
