@@ -72,6 +72,7 @@
     # Let's say we only want to analyze trips from Lisbon. We can then filter and create a new database
   
       Data_Lisbon = filter(Data, Origin_mun == "Lisboa")  #Only for rows
+      
   
       Data_Out_Lisbon = filter(Data, Origin_mun != "Lisboa") #different from Lisbon
 

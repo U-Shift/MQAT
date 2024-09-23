@@ -1,5 +1,5 @@
 # Quantitative Methods of Analysis in Transportation 
-Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/cursos/mst/disciplina-curricular/845953938490333)
+Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT11/2024-2025/1-semestre)
 
 ## Includes
 
@@ -9,6 +9,10 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/curso
 * db of AML administrative boundaries and areas at _freguesia_ level (DICOFRE), from CAOP 2022 (see [DGTerritório/CAOP](https://www.dgterritorio.gov.pt/cartografia/cartografia-tematica/caop))
 * db of socio-demographic statistics from Census 2021 for the AML at BGRI level (see [INE Census 2021](https://mapas.ine.pt/download/index2021.phtml) for other downloads)
     * includes [this variables](https://mapas.ine.pt/download/C2021_FSINTESE_VARIAVEIS.csv)
+
+## Download R and RStudio
+
+[Instructions for installing R and RStudio](Software_install.md). Note that it is very important to install first R and then RStudio. 
     
 ## For classes and home assignments
 
