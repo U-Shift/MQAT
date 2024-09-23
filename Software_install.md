@@ -6,12 +6,7 @@ Download R and RStudio
 In this chapter we will guide you through the installation of R, RStudio
 and the packages you will need for this course.
 
-**R** and **RStudio** are separate downloads.
-
-> **Note:** We will use **RStudio**, although if you already use other
-> plaforms such as **VScode**, that’s also fine.
-
-**IT IS NECESSARY TO INSTALL FIRST R AND SEQUENTIALLY RSTUDIO**
+**IT IS NECESSARY TO FIRST INSTALL R AND SEQUENTIALLY RSTUDIO**
 
 ## R
 
@@ -133,16 +128,10 @@ Step by step:
 Or you could just run
 
 ``` r
-setwd("D:/TDM/Transport-Demand-Modelling") #for instance
+setwd("D:/MQAT/Methods-Quantitative-Analysis-Transportation") #for instance
 ```
 
-#### Run a script
-
-### Environment
-
-And .RData
-
-### Flavors
+### Themes
 
 `Tools > Global Options > Appearence > Editor Theme > ...`
 
