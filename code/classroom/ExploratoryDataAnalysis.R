@@ -52,12 +52,11 @@
       library(corrplot) # Library used for correlation plots
 
 
-    # Import dataset
+# Import dataset
  
-      dataset <- readRDS("data/IMOBmodel.Rds") 
-      
+      dataset <- readRDS("data/IMOBmodel.Rds")
 
-# 2. Take a look at the dataset
+# Take a look at the dataset
  
     # Check the summary statistics
       summary(dataset)
@@ -72,7 +71,7 @@
       typeof(dataset)
       class(dataset)
 
-# 3. Transform the dataset into a dataframe
+# Transform the dataset into a dataframe
       df <- data.frame(dataset)
 
       #' *Note:* Most libraries work with dataframes. It is good practice to always transform the dataset to dataframe format.       
@@ -86,7 +85,7 @@
         class(df)
 
         
-# 4. Show summary statistics of the dataframe
+# Show summary statistics of the dataframe
  
       skim(df)
     
@@ -97,16 +96,18 @@
 
     # Plot the percentage of missing data
       plot_missing(df)
-
-# 6. Detect outliers  
+      
+# Detect outliers  
  
     # In order to detect outliers and do correlations (further in the exercise),it is necessary to have only continuous variables.
     
     # a) Create a new database only with continuous variables. 
 
+      str(df)
+      
       df_continuous = df[,-c(1,18,19)]
    
-      boxplot(df_continuous)
+      boxplot(df_continuous, las = 2)
 
     # b) Take out the outliers from the variable Total
 
@@ -151,7 +152,7 @@
 #' *Note:* There are many methods to treat outliers. This is just one of them.
   # In the next lecture we will demonstrate other methods of detecting outliers such as the Cook distance and QQ plot.    
 
-# 7. Histograms
+# Histograms
     
       # a) Plot histograms of all the continuous variables
       plot_histogram(df, ncol = 3) #with 3 columns
@@ -173,14 +174,14 @@
   
       res <- cor.mtest(df_continuous, conf.level = .95) #store the results so you can call the p-value at the corrplot
 
-      corrplot(cor(df_continuous), p.mat = res$p, method = "number", type = "upper", order="hclust", sig.level = 0.05)
+      corrplot(cor(df_continuous), p.mat = res$p, method = "circle", type = "upper", order="hclust", sig.level = 0.05)
 
 #' *Note:* The pairwise correlations that are crossed are statistically insignificant. 
 #  The null hypothesis is that correlation is zero. 
 #  This means that the correlations are only significant when you reject the null hypothesis (pvalue < 0.05).
    
 #' See `?corrplot` for more options.  
-#  Try putting into method "color" or "circle", and see the diference.  
+#  Try putting into method "color" or "circle", and see the difference.  
 
     # Check the _pvalue_ of a crossed pair correlation: 
  
@@ -188,4 +189,4 @@
 
       cor.test(df_continuous$IncomeHH, df_continuous$Duration)
 
-    # The default for `cor.test` is Pearson, two-sided, with a 95% confident level. Check `?cor.test` for more options.  
+# The default for `cor.test` is Pearson, two-sided, with a 95% confident level. Check `?cor.test` for more options.  
