@@ -53,10 +53,15 @@ Variables included in [IMOBmodel database](data/IMOBmodel.Rds):
 * `Lisboa` - binary variable (factor). "Yes": the _freguesia_ is part of Lisbon municipality, "No": otherwise
 * `Area_km2` - area of in `Origin_dicofre16`, in km2
 
-### Factor and Cluster Analysis
+### Exploratory Factor Analysis
 
-* R script for [Exploratory Factor Analysis](https://github.com/U-Shift/Transport-Demand-Modelling/blob/master/3-FactorAnalysis.md)
-* R script for [Cluster Analysis](https://github.com/U-Shift/Transport-Demand-Modelling/blob/master/4-ClusterAnalysis.md)
+* R script for [Exploratory Factor Analysis](code/classroom/FactorAnalysis.R)
+* [Database](data/example_fact.sav) of Residential location satisfaction in the Lisbon metropolitan area.
+
+### Cluster Analysis
+
+* R script for [Cluster Analysis](code/classroom/ClusterAnalysis.R)
+* [Database](data/Data_Aeroports_Clustersv1.xlsx) of international airports.
 
 #### Other materials
 
