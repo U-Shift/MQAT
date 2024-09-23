@@ -18,12 +18,16 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 
 ### Introduction to R
 
-* Script of R basics - [R_Basics.R](https://github.com/U-Shift/MQAT/blob/main/code/classroom/R_Basics.R)
+* R script for [R_Basics.R](https://github.com/U-Shift/MQAT/blob/main/code/classroom/R_Basics.R)
 * Database of IMOB trips at municipal level: [TRIPSmode_mun.Rds](https://github.com/U-Shift/MQAT/raw/main/data/TRIPSmode_mun.Rds)
+
+### Exploratory Data Analysis
+
+* R script for [Exploratory Data Analysis](ExploratoryDataAnalysis.R)
 
 ### Multiple Linear Regression
 
-R script for [Multiple Linear Regression](code/MultipleLinearRegression.R)
+* R script for [Multiple Linear Regression](code/MultipleLinearRegression.R)
 
 Variables included in [MODEL database](https://github.com/U-Shift/MQAT/blob/main/data/IMOBmodel.Rda):
 
