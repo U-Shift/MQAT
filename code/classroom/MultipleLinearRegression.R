@@ -95,7 +95,7 @@
    
     pairs(df[,c(2:17,20)], pch = 19, lower.panel = NULL) #cannot put categorical and character variables in this function
 
-    #This funciton is not visible with many variables. 
+    #This function is not visible with many variables. 
     #Try reducing the size. 
 
     pairs(df[,c(2:10)], pch = 19, lower.panel = NULL)
