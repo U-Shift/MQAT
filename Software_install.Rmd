@@ -13,7 +13,7 @@ In this chapter we will guide you through the installation of R, RStudio and the
 
 **IT IS NECESSARY TO FIRST INSTALL R AND SEQUENTIALLY RSTUDIO** 
 
-## R
+## Install R
 
 You will need **R** installed on your computer.
 **R stats** (how it is also known) is a programming language and free software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing.
@@ -21,13 +21,13 @@ You will need **R** installed on your computer.
 The download links live at [The Comprehensive R Archive Network](https://cran.r-project.org/) (aka CRAN).
 The most recent version is `4.4.1`, but you can use `>= 4.1.x` if you already have it installed.
 
-### Windows
+#### Windows
 
 [Download R-4.4.1 for Windows](https://cran.r-project.org/bin/windows/base/R-4.4.1-win.exe) and run the executable file.
 
 You will also need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/rtools44/rtools.html), which is a collection of tools necessary to build R packages in Windows.
 
-### Mac
+#### Mac
 
 [Download R-4.4.1 for MacOX](https://cran.r-project.org/).
 You will have to choose between the arm64 or the x86-64 version.
@@ -37,18 +37,18 @@ Download the `.pkg` file and install it as usual.
 After this installation, you don't need to open R base.
 Please proceed to install RStudio.
 
-## RStudio
+## Install RStudio
 
 RStudio Desktop is an integrated development environment (IDE) for R.
 It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management.
 
 RStudio is available for free download from [Posit RStudio](https://posit.co/download/rstudio-desktop/).
 
-### Windows 10/11
+#### Windows 10/11
 
 [Download RStudio 2024.04](https://download1.rstudio.org/electron/windows/RStudio-2024.04.2-764.exe) and run the executable file.
 
-### MacOS
+#### MacOS
 
 [Download RStudio 2024.04](https://download1.rstudio.org/electron/macos/RStudio-2024.04.2-764.dmg) and install it as usual.
 

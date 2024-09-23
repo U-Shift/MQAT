@@ -8,7 +8,7 @@ and the packages you will need for this course.
 
 **IT IS NECESSARY TO FIRST INSTALL R AND SEQUENTIALLY RSTUDIO**
 
-## R
+## Install R
 
 You will need **R** installed on your computer. **R stats** (how it is
 also known) is a programming language and free software environment for
@@ -20,7 +20,7 @@ Network](https://cran.r-project.org/) (aka CRAN). The most recent
 version is `4.4.1`, but you can use `>= 4.1.x` if you already have it
 installed.
 
-### Windows
+#### Windows
 
 [Download R-4.4.1 for
 Windows](https://cran.r-project.org/bin/windows/base/R-4.4.1-win.exe)
@@ -30,7 +30,7 @@ You will also need to install
 [Rtools](https://cran.r-project.org/bin/windows/Rtools/rtools44/rtools.html),
 which is a collection of tools necessary to build R packages in Windows.
 
-### Mac
+#### Mac
 
 [Download R-4.4.1 for MacOX](https://cran.r-project.org/). You will have
 to choose between the arm64 or the x86-64 version.
@@ -40,7 +40,7 @@ Download the `.pkg` file and install it as usual.
 After this installation, you don’t need to open R base. Please proceed
 to install RStudio.
 
-## RStudio
+## Install RStudio
 
 RStudio Desktop is an integrated development environment (IDE) for R. It
 includes a console, syntax-highlighting editor that supports direct code
@@ -50,13 +50,13 @@ workspace management.
 RStudio is available for free download from [Posit
 RStudio](https://posit.co/download/rstudio-desktop/).
 
-### Windows 10/11
+#### Windows 10/11
 
 [Download RStudio
 2024.04](https://download1.rstudio.org/electron/windows/RStudio-2024.04.2-764.exe)
 and run the executable file.
 
-### MacOS
+#### MacOS
 
 [Download RStudio
 2024.04](https://download1.rstudio.org/electron/macos/RStudio-2024.04.2-764.dmg)
