@@ -12,7 +12,7 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 
 ## Download R and RStudio
 
-[Instructions for installing R and RStudio](Software_install.md). Note that it is very important to install first R and then RStudio. 
+[Instructions for installing R and RStudio](Software_install.Rmd). Note that it is very important to install first R and then RStudio. 
     
 ## For classes and home assignments
 
