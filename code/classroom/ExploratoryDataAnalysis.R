@@ -54,7 +54,7 @@
 
     # Import dataset
  
-      dataset <- readRDS("data/IMOBmodel.Rda") 
+      dataset <- readRDS("data/IMOBmodel.Rds") 
       
 
 # 2. Take a look at the dataset
