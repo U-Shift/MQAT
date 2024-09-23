@@ -1,14 +1,13 @@
 # Quantitative Methods of Analysis in Transportation 
 Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT11/2024-2025/1-semestre)
 
-## Includes
+## Content
 
-* R script to prepare the databases
-* R scripts for a "follow-me" classes
-* db on IMOB trips AML 2018 (see [INE 2018](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&&fbclid=IwAR2QzUZK0mUSEdKySZe1HqmObblKWR62vIyVhtVAAxrQhyNllna-DDfp2bk&xlang=pt))
-* db of AML administrative boundaries and areas at _freguesia_ level (DICOFRE), from CAOP 2022 (see [DGTerritório/CAOP](https://www.dgterritorio.gov.pt/cartografia/cartografia-tematica/caop))
-* db of socio-demographic statistics from Census 2021 for the AML at BGRI level (see [INE Census 2021](https://mapas.ine.pt/download/index2021.phtml) for other downloads)
-    * includes [these variables](https://mapas.ine.pt/download/C2021_FSINTESE_VARIAVEIS.csv)
+* R scripts to prepare the databases
+* R scripts for "hand-on" R programming classes
+* Database on IMOB trips AML 2018 (refer to [INE 2018](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&&fbclid=IwAR2QzUZK0mUSEdKySZe1HqmObblKWR62vIyVhtVAAxrQhyNllna-DDfp2bk&xlang=pt))
+* Database of AML administrative boundaries and areas at _freguesia_ level (DICOFRE), from CAOP 2022 (refer to [DGTerritório/CAOP](https://www.dgterritorio.gov.pt/cartografia/cartografia-tematica/caop))
+* Database of socio-demographic statistics from Census 2021 for the AML at BGRI level (refer to [INE Census 2021](https://mapas.ine.pt/download/index2021.phtml) for other downloads), including [these variables](https://mapas.ine.pt/download/C2021_FSINTESE_VARIAVEIS.csv)
 
 ## Download R and RStudio
 
@@ -24,12 +23,14 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 ### Exploratory Data Analysis
 
 * R script for [Exploratory Data Analysis](ExploratoryDataAnalysis.R)
+* Database of IMOB trips at a district level (Freguesias): [IMOBmodel.Rds](data/IMOBmodel.Rds)
 
 ### Multiple Linear Regression
 
 * R script for [Multiple Linear Regression](code/MultipleLinearRegression.R)
+* Database of IMOB trips at a district level: [IMOBmodel.Rds](data/IMOBmodel.Rds)
 
-Variables included in [MODEL database](https://github.com/U-Shift/MQAT/blob/main/data/IMOBmodel.Rda):
+Variables included in [IMOBmodel database](data/IMOBmodel.Rds):
 
 * `Origin_dicofre16` - Code of _Freguesias_ as set by INE after 2016 (_Distrito_ + _Concelho_ + _Freguesia_)
 * `Total` - number of trips with origin in `Origin_dicofre16`
