@@ -63,27 +63,30 @@
 
     # *Note:* It is good practice to not use the original dataset.
 
-    # Assign the original dataset to a new database
-      table = Data_original
+    # Assign the original dataset to a new database and transform in data.frame
+      table = data.frame(Data_original)
 
-# 2. Take a first look at the data
+# Take a first look at the data
 
-    # Summary statistics  
+      # Take a look at the dataset
+      View(table)
+          
+      # Summary statistics  
       summary(table)
   
-    # First 10 values of each variable
+      # First 10 values of each variable
       head(table)
+      
+      # Structure
+      str(table)
   
-    # Take a look at the dataset
-      View(table)
-  
-    # Check the number of rows (observations) and columns (variables)
+      # Check the number of rows (observations) and columns (variables)
   
       nrow(table)
   
       ncol(table)
     
-# 3. Basic operations
+# Basic operations
 
     # Check the total of trips
 
@@ -98,7 +101,7 @@
       (sum(table$Walk)+ sum(table$Bike)) / sum(table$Total) * 100
       
 
-# 4. Modify original dataset
+# Modify original dataset
 
     # a) Create a column of number of trips for active modes
 
@@ -115,44 +118,45 @@
       table_in_Out_Lisbon = filter(table, Origin_mun == "Lisboa" & Destination_mun == "Lisboa") #OD in Lisbon
   
       
-    # c) Take out a first column that is not needed (different ways to do the same operation)
+    # c) Take out a "Active" column that is not needed 
   
-      table_Lisbon = table_Lisbon[,-1] #The first row and column have the id of "1"
+      names(table)
+      
+      table_out_Active = table[,-9] #The first row and column have the id of "1"
   
-      # table_Lisbon = select(table_Lisbon,-1)  # Only for columns
+      table_out_Active2 = select(table,-9)  # Only for columns
   
-      # table_Lisbon = select(table_Lisbon,-Origin_mun)  # Only for columns
+      table_out_Active3 = select(table,-Active)  # Only for columns
   
   
 # The functions "filter" is for rows, and "select" for columns. 
     
-    
     # d) Exclude some columns of the database
     
       # Create a table with only columns with "Destination_mun" and "Total"
-        table_Total_Mun = select(table_Lisbon, c(Destination_mun, Total))
+        table_Total_Mun = select(table, c(Destination_mun, Total))
   
       # Create a table with only columns with "Destination_mun" and "PTransit"
-        table_PT = table_Lisbon[,c(1,6)]
+        table_PT = table[,c(2,7)]
   
       # Create a table with only columns with "Walk","Bike" and "Car"
-        table_Modes = table_Lisbon[,c(3:5)]
+        table_Modes = table[,c(4:6)]
   
         
-# 5. Export "table_Lisbon" in different formats
+# Export "table_Modes" in different formats
       
-      # Export file 
-        write.xlsx(table_Lisbon, 'Data_Lisbon.xlsx')
+    # a) Excel 
+        write.xlsx(table_Modes, 'Data_Modes.xlsx')
   
     # b) Csv
-        write.csv(table_Lisbon, 'Data_Lisbon.csv', row.names = FALSE) # "row.names" when FALSE excludes line numbers
+        write.csv(table_Modes, 'Data_Modes.csv', row.names = FALSE) # "row.names" when FALSE excludes line numbers
   
     # c) Rds - native format of R
-        saveRDS(table_Lisbon, 'Data_Lisbon.Rds')
+        saveRDS(table_Modes, 'Data_Modes.Rds')
         
 # 6. Import saved file
         
-        Excelsheet = read_excel("Data_Lisbon.xlsx")
+        Excelsheet = read_excel("Data_Modes.xlsx")
         
-        csv_file = read.csv("Data_Lisbon.csv")
+        csv_file = read.csv("Data_Modes.csv")
   
