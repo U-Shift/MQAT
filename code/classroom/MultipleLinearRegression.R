@@ -105,7 +105,7 @@
   #' Check the histogram of `Car_perc`
 
     par(mfrow=c(1,1))
-    hist(df$Car_perc)
+    hist(df$Duration)
   
   # If the sample is smaller than 50 observations, use Shapiro-Wilk test: 
 

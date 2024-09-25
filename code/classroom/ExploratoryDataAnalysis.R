@@ -56,34 +56,29 @@
  
       dataset <- readRDS("data/IMOBmodel.Rds")
 
-# Take a look at the dataset
- 
-    # Check the summary statistics
-      summary(dataset)
-      
-    # Check the structure of the dataset 
-      str(dataset)
-
-    # Take a first look at the dataset
-      head(dataset, 10)
-
-    # Check the type and class of the dataset
-      typeof(dataset)
-      class(dataset)
-
 # Transform the dataset into a dataframe
       df <- data.frame(dataset)
-
-      #' *Note:* Most libraries work with dataframes. It is good practice to always transform the dataset to dataframe format.       
-
-      # Compare the structure of the `dataset` with `df`
+      
+# Take a look at the dataset
+      View(df)
  
-        str(dataset)
-        str(df)
+    # Check the summary statistics
+      summary(df)
+      
+    # Check the structure of the dataset 
+      str(df)
 
-        class(dataset)
-        class(df)
+    # Take a first look at the dataset
+      head(df, 10)
 
+    # Check the type and class of the dataset
+      typeof(df)
+      class(df)
+
+
+#' *Note:* Most libraries work with dataframes. It is good practice to always transform the dataset to dataframe format.       
+
+# Compare the structure of the `dataset` with `df`
         
 # Show summary statistics of the dataframe
  
@@ -104,20 +99,23 @@
     # a) Create a new database only with continuous variables. 
 
       str(df)
+      names(df)
       
       df_continuous = df[,-c(1,18,19)]
    
       boxplot(df_continuous, las = 2)
+      
+      boxplot(df_continuous$Total, las = 1) #positively skewed
 
     # b) Take out the outliers from the variable Total
 
     # Create function "outlier"
       outlier <- function(x){
-        quant <- quantile(x, probs=c(0.25, 0.75))
-        caps <- quantile(x, probs=c(0.05, 0.95))
-        H <- 1.5* IQR(x, na.rm = TRUE)
-        x[x < (quant[1] - H)] <- caps[1]
-        x[x > (quant[2] + H)] <- caps[2]
+        quant <- quantile(x, probs=c(0.25, 0.75))  # calculates the Q1 and Q3
+        caps <- quantile(x, probs=c(0.05, 0.95)) # calculates the 5th and 95th percentile
+        H <- 1.5* IQR(x, na.rm = TRUE) # calculates interquartile range
+        x[x < (quant[1] - H)] <- caps[1]  # replace any values in x that are LESS than Q1 - 1.5 * IQR with the 5th percentile value
+        x[x > (quant[2] + H)] <- caps[2]  # # replace any values in x that are MORE than Q1 + 1.5 * IQR with the 95th percentile value
         return(x)
         }
 
@@ -125,14 +123,13 @@
   
       df_outliers = df_continuous
   
-    # Take out the outliers in the variable Total
+    # Replace the outliers in the variable Total
   
       df_outliers$Total = outlier(df_continuous$Total)
 
- 
     # c) Take a look again at the boxplots
  
-      boxplot(df_outliers)
+      boxplot(df_outliers, las = 2)
 
         # Compare results of the dataset with and without the outliers  
   
@@ -145,7 +142,7 @@
             median(df$Total)
             median(df_outliers$Total)
 
-          # Variance
+          # standard deviation
             var(df$Total)
             var(df_outliers$Total)
 
