@@ -1,7 +1,7 @@
 ---
 title: "GIS in R - exercises"
 author: "R Félix"
-date: "MQAT 2023"
+date: "MQAT 2024"
 output:
   html_document:
     toc: true
@@ -67,44 +67,44 @@ CENTROIDSgeo = st_centroid(TRIPSgeo_mun)
 
 ## Weigthed centroids
 
+We will weight centroids of transport zones by population and by number of buildings.
+
+For this, we will need the census data.
 Get BGRI Data^[Base Geográfica de Referenciação de Informação, Censos 2021] from INE website, at *Área Metropolitana de Lisboa* level: [https://mapas.ine.pt/download/index2021.phtml](mapas.ine.pt/download/index2021.phtml)
 
 ```{r getcensus}
 BGRI = st_read("original/BGRI21_LISBOA.gpkg", quiet = TRUE)
 ```
 
-It is not that easy to estimate weighted centroids with R. See [here](https://wzbsocialsciencecenter.github.io/spatially_weighted_avg/).  
-We will make a bridge connection to QGIS to use its native function of mean coordinates.  
+It was not that easy to estimate weighted centroids with R, as it is with GIS software.
+But there is this new package [`centr`](https://ryanzomorrodi.github.io/centr) that can help us.
 
+We need to specify the **group** we want to calculate the **mean centroids**, and the **weight variable** we want to use.
 
-```{r weighted}
-library(qgisprocess)
-# qgis_search_algorithms("mean") # search the exact function name
-# qgis_get_argument_specs("native:meancoordinates") |> select(name, description) # see the required inputs
-
-# with population
-CENTROIDSpop = qgis_run_algorithm(algorithm = "native:meancoordinates",
-                                  INPUT = BGRI,
-                                  WEIGHT = "N_INDIVIDUOS",
-                                  UID = "DTMN21")
-CENTROIDSpop = st_as_sf(CENTROIDSpop)
-
-# with buildings
-CENTROIDSbuild = qgis_run_algorithm(algorithm = "native:meancoordinates",
-                                  INPUT = BGRI,
-                                  WEIGHT = "N_EDIFICIOS_CLASSICOS",
-                                  UID = "DTMN21")
-CENTROIDSbuild = st_as_sf(CENTROIDSbuild)
+```{r}
+library(centr)
+CENTROIDSpop = BGRI |> 
+  mean_center(group = "DTMN21", # Municipalities
+              weight = "N_INDIVIDUOS") # Population
 ```
 
+We can do the same for buildings.
+
+```{r}
+CENTROIDSbuild = BGRI |> 
+  mean_center(group = "DTMN21", # Municipalities
+              weight = "N_EDIFICIOS_CLASSICOS") # Buildings
+```
 
 ## Compare in map
 
 ```{r mapcentroid}
-mapview(CENTROIDSgeo) + mapview(CENTROIDSpop, col.region = "red") + mapview(CENTROIDSbuild, col.region = "black")
+mapview(CENTROIDSgeo) +
+  mapview(CENTROIDSpop, col.region = "red") +
+  mapview(CENTROIDSbuild, col.region = "black")
 ```
 
-See how the building, poulation and geometric centroids of Montijo are appart, from closer to Tagus, to the rural area.
+See how the building, population and geometric centroids of Sintra are apart, from closer to Tagus, to the rural area.
 
 
 # Desire Lines
@@ -445,5 +445,54 @@ And now merge this information with the schools' names.
 summary(ISOCist$area[ISOCist$value==1200])/1000000 # in km²
 ```
 
+
+# Grids
+
+## Create a grid
+
+To make a grid we use the `st_make_grid()` function.
+
+```{r}
+# read data
+MUNICIPIOSgeo = st_read("geo/MUNICIPIOSgeo.gpkg", quiet = TRUE)
+LISBON = MUNICIPIOSgeo |> filter(Concelho == "Lisboa") # filter only Lisbon
+```
+
+```{r}
+GRID = LISBON |>
+  st_transform(crs = 3857) |> # to a projected crs
+  st_make_grid(cellsize = 500, # meters, we are using a projected crs
+               what = "polygons",
+               square = TRUE) |> # if FALSE, hexagons
+  st_sf() |> # from list to sf
+  st_transform(crs = 4326) # to WGS84
+
+GRID = GRID |>  
+  mutate(id = c(1:nrow(GRID)))  # just to give an ID to each cell 
+
+mapview(GRID, alpha = 0)
+```
+
+## Count points in polygons
+
+```{r}
+BUSstops = st_read("geo/Carris_stops.gpkg", quiet = TRUE)
+
+BUS_with_GRIDid = BUSstops |> 
+  st_join(GRID, 
+          join = st_intersects) |> 
+    st_drop_geometry() |> 
+    group_by(id) |> 
+    summarise(freq = sum(frequency)) |> 
+    ungroup()
+
+# back to grid
+GRIDdensity = GRID |> left_join(BUS_with_GRIDid)
+
+mapview(GRIDdensity,
+        zcol = "freq",
+        alpha.regions = 0.5, # area
+        alpha = 0) # limits
+```
 
 *Work In Progress*
