@@ -2,6 +2,7 @@
 
 library(tidyverse)
 library(sf)
+library(openxlsx)
 
 TRIPSmun <- IMOBaml_TUDOJUNTO
 colnames(TRIPSmun)
@@ -135,11 +136,11 @@ DTCCname = DICOFRE_aml |> select(DTCC, CONCELHO_DSG) |>
   mutate(DTCC_aloj = as.integer(DTCC_aloj))
 
 TRIPSmun_allvars_aloj = TRIPSmun_allvars |> 
-  left_join(ALOJAMENTO |> select(Id_aloj_1, DTCC_aloj)) |> 
+  left_join(ALOJAMENTO |> select(Id_aloj_1, DTCC_aloj, Zona_aloj)) |> 
   left_join(DTCCname)
 
 for (i in DTCCname$DTCC_aloj) {
-  TRIPSmun_allvars_aloj_i =  TRIPSmun_allvars_aloj|> filter(DTCC_aloj == i)
+  TRIPSmun_allvars_aloj_i =  TRIPSmun_allvars_aloj |> filter(DTCC_aloj == i)
   familias_i = TRIPSmun_allvars_aloj_i$Id_aloj_1 |> unique()
   ALOJAMENTOopinioes_i = ALOJAMENTOopinioes |> filter(Id_aloj_1 %in% familias_i)
   nome = DTCCname$CONCELHO_DSG[DTCCname$DTCC_aloj == i]
@@ -154,3 +155,38 @@ for (i in DTCCname$DTCC_aloj) {
   piggyback::pb_upload(paste0("/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_", nome,".xlsx"),
                        repo = "U-Shift/MQAT")
 }
+
+
+# separate Lisbon in 3 areas ---------------------------------
+## Freguesias - não existem na base de ALOJAMENTO
+# Lisbon_north = c("110608", "110610", "110639", "110654", "110611", "110618", "110664")
+# Lisbon_center = c("110658", "110601", "110602", "110660", "110659", "110661", "110666", "110656", "110667", "110657") # passar 57 para norte?
+# Lisbon_west = c("110663", "110607", "110655", "110621", "110633", "110662")
+
+## Zonas
+Lisbon_north = c(2)
+Lisbon_south = c(1, 5)
+Lisbon_west = c(3,4)
+
+Lisbon_3p = c("Lisbon_north", "Lisbon_south", "Lisbon_west") #center
+
+for (j in Lisbon_3p) {
+  TRIPSmun_allvars_aloj_j =  TRIPSmun_allvars_aloj|> filter(DTCC_aloj == 1106, Zona_aloj %in% get(j))
+  familias_j = TRIPSmun_allvars_aloj_j$Id_aloj_1 |> unique()
+  ALOJAMENTOopinioes_j = ALOJAMENTOopinioes |> filter(Id_aloj_1 %in% familias_j)
+  nome = j
+  
+  IMOB_classes_j = createWorkbook()
+  addWorksheet(IMOB_classes_j, "Data", tabColour = "orange")
+  addWorksheet(IMOB_classes_j, "Opinions", tabColour = "purple")
+  writeDataTable(IMOB_classes_j, sheet = "Data", x = TRIPSmun_allvars_aloj_j)
+  writeDataTable(IMOB_classes_j, sheet = "Opinions", x = ALOJAMENTOopinioes_j)
+  saveWorkbook(IMOB_classes_j, paste0("/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_", nome,".xlsx"), overwrite = TRUE)
+
+  print(length(unique(TRIPSmun_allvars_aloj_j$Id_aloj_1)))
+}
+
+
+# Aloj Lisbon_north = 1152
+# Aloj Lisbon_south = 1907
+# Aloj Lisbon_west = 1914
