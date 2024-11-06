@@ -190,3 +190,23 @@ for (j in Lisbon_3p) {
 # Aloj Lisbon_north = 1152
 # Aloj Lisbon_south = 1907
 # Aloj Lisbon_west = 1914
+
+# separate Lisbon in 5 zones ---------------------------------
+## Zonas
+Lisbon_zones = c(1:5) #center
+
+for (k in Lisbon_zones) {
+  TRIPSmun_allvars_aloj_k = TRIPSmun_allvars_aloj|> filter(DTCC_aloj == 1106, Zona_aloj == k)
+  familias_k = TRIPSmun_allvars_aloj_k$Id_aloj_1 |> unique()
+  ALOJAMENTOopinioes_k = ALOJAMENTOopinioes |> filter(Id_aloj_1 %in% familias_k)
+  nome = paste0("Lisbon_zona", k)
+  
+  IMOB_classes_k = createWorkbook()
+  addWorksheet(IMOB_classes_k, "Data", tabColour = "orange")
+  addWorksheet(IMOB_classes_k, "Opinions", tabColour = "purple")
+  writeDataTable(IMOB_classes_k, sheet = "Data", x = TRIPSmun_allvars_aloj_k)
+  writeDataTable(IMOB_classes_k, sheet = "Opinions", x = ALOJAMENTOopinioes_k)
+  saveWorkbook(IMOB_classes_k, paste0("/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_", nome,".xlsx"), overwrite = TRUE)
+  
+  print(length(unique(TRIPSmun_allvars_aloj_k$Id_aloj_1)))
+}
