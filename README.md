@@ -1,5 +1,5 @@
 # Quantitative Methods of Analysis in Transportation 
-Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT11/2024-2025/1-semestre)
+Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT11/2025-2026/1-semestre)
 
 ## Content
 
@@ -30,29 +30,6 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 * R script for [Multiple Linear Regression](code/classroom/MultipleLinearRegression.R)
 * Database of IMOB trips at a district level: [IMOBmodel.Rds](data/IMOBmodel.Rds)
 
-Variables included in [IMOBmodel database](data/IMOBmodel.Rds):
-
-* `Origin_dicofre16` - Code of _Freguesias_ as set by INE after 2016 (_Distrito_ + _Concelho_ + _Freguesia_)
-* `Total` - number of trips with origin in `Origin_dicofre16`
-* `Walk` - number of walking trips with origin in `Origin_dicofre16`
-* `Bike` - number of bike trips with origin in `Origin_dicofre16`
-* `Car` - number of car trips with origin in `Origin_dicofre16`. Includes taxi and motorcycle.
-* `PTransit` - number of Public Transit trips with origin in `Origin_dicofre16`
-* `Other` - number of other trips (truck, van, tractor, aviation) with origin in `Origin_dicofre16`
-* `Distance` - average trip distance (km) with origin in `Origin_dicofre16`
-* `Duration` - average trip duration (minutes) with origin in `Origin_dicofre16`
-* `Car_perc` - percentage of car trips with origin in `Origin_dicofre16`
-* `N_INDIVIDUOS` - number of residents in `Origin_dicofre16` (Censos 2021)
-* `Male_perc` - percentage of male residents in `Origin_dicofre16` (Censos 2021)
-* `IncomeHH` - average household income in `Origin_dicofre16`
-* `Nvehicles` - average number of car/motorcycle vehicles in the household in `Origin_dicofre16`
-* `DrivingLic` - percentage of car driving licence holders in `Origin_dicofre16`
-* `CarParkFree_Work` - percentage of respondents with free car parking at the work location, in `Origin_dicofre16`
-* `PTpass` - percentage of public transit monthly pass holders in `Origin_dicofre16`
-* `internal` - binary variable (factor). "Yes": internal trips in that _freguesia_ (`Origin_dicofre16`), "No": external trips from that _freguesia_
-* `Lisboa` - binary variable (factor). "Yes": the _freguesia_ is part of Lisbon municipality, "No": otherwise
-* `Area_km2` - area of in `Origin_dicofre16`, in km2
-
 ### Exploratory Factor Analysis
 
 * R script for [Exploratory Factor Analysis](code/classroom/FactorAnalysis.R)
@@ -62,6 +39,11 @@ Variables included in [IMOBmodel database](data/IMOBmodel.Rds):
 
 * R script for [Cluster Analysis](code/classroom/ClusterAnalysis.R)
 * Database of international airports: [Data_Aeroports_Clustersv1](data/Data_Aeroports_Clustersv1.xlsx)
+
+### GIS for Transportation
+
+* R scripts and results for the [QGIS exercises in R](http://rosafelix.bike/ushift/QgisinR.html)
+* Data used, under `geo` folder
 
 #### Other materials
 
