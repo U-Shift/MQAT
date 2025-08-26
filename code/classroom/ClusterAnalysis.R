@@ -38,7 +38,7 @@ library(factoextra) # Visualizing distances
 
 #' 
 #' ##### Import dataset as a dataframe
-dataset <- read_excel("Data/Data_Aeroports_Clustersv1.xlsX")
+dataset <- read_excel("data/Data_Aeroports_Clustersv1.xlsX")
 df <- data.frame(dataset)
 
 #' 
