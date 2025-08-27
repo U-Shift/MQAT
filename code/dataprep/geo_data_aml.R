@@ -1,6 +1,7 @@
 # aim: provide some geographic databases
 
-
+library(sf)
+library(tidyverse)
 
 # Polygons ----------------------------------------------------------------
 
@@ -10,9 +11,13 @@ FREGUESIASgeo = readRDS(url("https://github.com/U-Shift/biclar/releases/download
 st_write(FREGUESIASgeo, "geo/FREGUESIASgeo.gpkg")
 
 # municipios geo
-MUNICIPIOSgeo = readRDS(url("https://github.com/U-Shift/biclar/releases/download/0.0.1/MUNICIPIOSgeo.Rds"))
-MUNICIPIOSgeo$Concelho[MUNICIPIOSgeo$Concelho == "Setubal"] = "Setúbal"
+# MUNICIPIOSgeo = readRDS(url("https://github.com/U-Shift/biclar/releases/download/0.0.1/MUNICIPIOSgeo.Rds"))
+# MUNICIPIOSgeo$Concelho[MUNICIPIOSgeo$Concelho == "Setubal"] = "Setúbal"
+MUNICIPIOSgeo = st_read("original/CAOP24_AML.gpkg")
+MUNICIPIOSgeo = MUNICIPIOSgeo |> st_transform(4326)
+MUNICIPIOSgeo = MUNICIPIOSgeo |> rename(Concelho = municipio)
 st_write(MUNICIPIOSgeo, "geo/MUNICIPIOSgeo.gpkg", delete_dsn = TRUE)
+
 
 # centroids
 MUNICIPIOScentroid = st_centroid(MUNICIPIOSgeo) |> st_transform(3857)
@@ -24,14 +29,13 @@ st_write(MUNICIPIOScentroid, "geo/MUNICIPIOScentroid.gpkg", delete_dsn = TRUE)
 # tips: use bgri and population or households or buildings
 # what are the differences between the results and the geometric centroid?
 
-
+piggyback::pb_upload(file = "geo/MUNICIPIOSgeo.gpkg", repo = "U-Shift/MQAT")
+piggyback::pb_upload(file = "geo/FREGUESIASgeo.gpkg", repo = "U-Shift/MQAT")
 
 # Polygons with trips info ------------------------------------------------
 
-
+TRIPSmode_mun = readRDS("data/TRIPSmode_mun.Rds")
 # Join Trips with geometric attributes
-library(tidyverse)
-library(sf)
 TRIPSgeo_mun = TRIPSmode_mun |>
   group_by(Origin_mun) |> 
   summarise_if(is.numeric, sum) |> 
