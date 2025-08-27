@@ -1,0 +1,119 @@
+---
+format:
+  pdf:
+    prefer-html: true
+---
+
+# Open transportation data
+
+In this chapter we will guide you through sources of open data for transportation analysis: road networks and public transportation information.
+
+## Road Networks
+
+### OpenStreetMap
+
+The OpenStreetMap is a collaborative online mapping project that creates a free editable map of the world.
+
+This is the most used source of road network data for transportation analysis in academia, since it is available almost **everywhere in the world**, is open and free to use.
+
+::: {.callout-caution appearance="simple"}
+Although it can be not 100% accurate, OSM is a good source of data for most of the cases.
+:::
+
+You can access it's visualization tool at [www.openstreetmap.org](https://www.openstreetmap.org/).
+To edit the map, you can use the [Editor](https://www.openstreetmap.org/edit), once you register.
+
+If you want to **download** the data, you can use the following tools.
+
+-   [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API)
+-   [Geofabrik](https://download.geofabrik.de/)
+
+These websites include all the OSM data, with **much more information than you need**.
+
+### HOT Export Tool
+
+This interactive tool helps you to select the **region** you want to extract, the type of **information** to include, and the output data **format**.
+
+Access via [export.hotosm.org](https://export.hotosm.org/)[^open-data-1].
+
+[^open-data-1]: You need an OSM account to use it.
+
+![](images/clipboard-1441436716.png)
+
+After the export, you can read in R using the `sf` package:
+
+```{r}
+#| fig-format: png
+Gent = sf::st_read("data/Gent_center.gpkg", quiet = TRUE)
+
+mapview::mapview(Gent, zcol = "highway")
+```
+
+### OSM in R
+
+There are also some R packages that can help you to download and work with OpenStreetMap data, such as:
+
+-   [`osmdata`](https://cran.r-project.org/web/packages/osmdata/index.html)
+-   [`osmextract`](https://docs.ropensci.org/osmextract)
+
+This is an example of how to download OpenStreetMap road network data using the `osmextract` package:
+
+```{r}
+#| eval: false
+library(osmextract)
+OSM_Malta = oe_get_network(place = "Malta") # it will geocode the place
+
+Malta_main_roads = OSM_Malta |> 
+  filter(highway %in% c("primary", "secondary", "tertiary", "trunk"))
+
+plot(Malta_main_roads["highway"])
+```
+
+![](images/malta_roads.png){fig-align="center"}
+
+## Transportation Services' Data
+
+### GTFS
+
+General Transit Feed Specification (GTFS) is [standard format](https://developers.google.com/transit/gtfs/reference) for documenting public transportation information, including: routes, schedules, stop locations, calendar patterns, trips, and possible transfers.
+Transit agencies are responsible for maintaining the data up-to-date.
+
+This information is used in several applications, such as Google Maps, to provide public transportation directions.
+It can be offered for a city, a region, or even a whole country, depending on the PT agency.
+
+The recent version 2 of the GTFS standard includes more information, such as **real-time data**.
+
+The data is usually in a `.zip` file that includes several `.txt` files (one for each type of information) with tabular relations.
+
+![Source: [trilliumtransit.com](https://trilliumtransit.com/2016/07/05/gtfs-examples/)](images/clipboard-2676687965.png){fig-align="center" width="493"}
+
+#### Online sources
+
+You can find most GTFS data in the following websites:
+
+-   [TransitLand](https://www.transit.land)
+-   [TransitFeeds](https://transitfeeds.com/)
+
+Some PT agencies also provide their open-data in their websites.
+
+#### R packages
+
+There are some nice R packages to read and manipulate GTFS data, such as:
+
+-   [`tidytransit`](https://r-transit.github.io/tidytransit/)
+-   [`gtfstools`](https://ipeagit.github.io/gtfstools/)
+
+::: {.callout-note appearance="simple"}
+Be aware that they may share the same function names, so it is important to use of of them at the time.
+:::
+
+### National Access Points
+
+The European Union has a directive that requires the member states to provide access to transportation data.
+Data includes not only **Public Transportation** data, but also **road network**s, car **parking**, and other transportation-related information.
+
+[List of the European Union members states with National Access Points for Transportation data](https://transport.ec.europa.eu/transport-themes/smart-mobility/road/its-directive-and-action-plan/national-access-points_en)
+
+Example of Bus services data in Belgium:
+
+[![Source: Transport Data Belgium](images/clipboard-3645209787.png)](https://www.transportdata.be/en/dataset?tags=Bus)

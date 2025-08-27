@@ -1,0 +1,13 @@
+---
+title: "Exploratory Data Analysis"
+---
+
+
+## Do it yourself with R
+
+```r
+{{< include ../code/classroom/ExploratoryDataAnalysis.R >}}
+```
+
+
+Copy the R code above in your session.

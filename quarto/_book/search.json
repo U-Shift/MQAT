@@ -1,0 +1,46 @@
+[
+  {
+    "objectID": "r-basics.html",
+    "href": "r-basics.html",
+    "title": "4  R basics",
+    "section": "",
+    "text": "4.1 Math operations\nIn this chapter we will introduce to the R basics and some exercises to get familiar to how R works.",
+    "crumbs": [
+      "**Day 1**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>R basics</span>"
+    ]
+  },
+  {
+    "objectID": "r-basics.html#math-operations",
+    "href": "r-basics.html#math-operations",
+    "title": "4  R basics",
+    "section": "",
+    "text": "Sum\n\n1+1\n\n[1] 2\n\n\n\n\nSubtraction\n\n5-2\n\n[1] 3\n\n\n\n\nMultiplication\n\n2*2\n\n[1] 4\n\n\n\n\nDivision\n\n8/2\n\n[1] 4\n\n\n\n\nRound the number\n\nround(3.14)\n\n[1] 3\n\nround(3.14, 1) # The \"1\" indicates to round it up to 1 decimal digit.\n\n[1] 3.1\n\n\nYou can use help ?round in the console to see the description of the function, and the default arguments.",
+    "crumbs": [
+      "**Day 1**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>R basics</span>"
+    ]
+  },
+  {
+    "objectID": "r-basics.html#basic-shortpaths",
+    "href": "r-basics.html#basic-shortpaths",
+    "title": "4  R basics",
+    "section": "4.2 Basic shortpaths",
+    "text": "4.2 Basic shortpaths\n\nPerform Combinations\n\nc(1, 2, 3)\n\n[1] 1 2 3\n\nc(1:3) # The \":\" indicates a range between the first and second numbers. \n\n[1] 1 2 3\n\n\n\n\nCreate a comment with ctrl + shift + c\n\n# Comments help you organize your code. The software will not run the comment. \n\n\n\nCreate a table\nA simple table with the number of trips by car, PT, walking, and cycling in a hypothetical street segment at a certain period.\nDefine variables\n\nmodes &lt;- c(\"car\", \"PT\", \"walking\", \"cycling\") # you can use \"=\" or \"&lt;-\"\nTrips = c(200, 50, 300, 150) # uppercase letters modify\n\nJoin the variables to create a table\n\ntable_example = data.frame(modes, Trips)\n\nTake a look at the table\nVisualize the table by clicking on the “Data” in the “Environment” page or use :\n\nView(table_example)\n\nLook at the first row\n\ntable_example[1,] #rows and columns start from 1 in R, differently from Python which starts from 0.\n\n  modes Trips\n1   car   200\n\n\nLook at first row and column\n\ntable_example[1,1]\n\n[1] \"car\"",
+    "crumbs": [
+      "**Day 1**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>R basics</span>"
+    ]
+  },
+  {
+    "objectID": "r-basics.html#practical-exercise",
+    "href": "r-basics.html#practical-exercise",
+    "title": "4  R basics",
+    "section": "4.3 Practical exercise",
+    "text": "4.3 Practical exercise\nDataset: the number of trips between all municipalities in the Lisbon Metropolitan Area, Portugal (INE 2018).\n\nImport dataset\nYou can click directly in the file under the “Files” pan, or:\n\ndata = readRDS(\"data/TRIPSmode_mun.Rds\")\n\n\n\n\n\n\n\nAfter you type \" you can use tab to navigate between folders and files and enter to autocomplete.\n\n\n\n\n\nTake a first look at the data\nSummary statistics\n\nsummary(data)\n\n  Origin_mun        Destination_mun        Total             Walk       \n Length:315         Length:315         Min.   :     7   Min.   :     0  \n Class :character   Class :character   1st Qu.:   330   1st Qu.:     0  \n Mode  :character   Mode  :character   Median :  1090   Median :     0  \n                                       Mean   : 16825   Mean   :  4033  \n                                       3rd Qu.:  5374   3rd Qu.:     0  \n                                       Max.   :875144   Max.   :306289  \n      Bike              Car            PTransit            Other        \n Min.   :   0.00   Min.   :     0   Min.   :     0.0   Min.   :    0.0  \n 1st Qu.:   0.00   1st Qu.:   263   1st Qu.:     5.0   1st Qu.:    0.0  \n Median :   0.00   Median :   913   Median :   134.0   Median :    0.0  \n Mean   :  80.19   Mean   :  9956   Mean   :  2602.6   Mean   :  152.4  \n 3rd Qu.:   0.00   3rd Qu.:  4408   3rd Qu.:   975.5   3rd Qu.:   62.5  \n Max.   :5362.00   Max.   :349815   Max.   :202428.0   Max.   :11647.0  \n\n\nCheck the structure of the data\n\nstr(data)\n\nClasses 'tbl_df', 'tbl' and 'data.frame':   315 obs. of  8 variables:\n $ Origin_mun     : chr  \"Alcochete\" \"Alcochete\" \"Alcochete\" \"Alcochete\" ...\n $ Destination_mun: chr  \"Alcochete\" \"Almada\" \"Amadora\" \"Barreiro\" ...\n $ Total          : num  20478 567 188 867 114 ...\n $ Walk           : num  6833 0 0 0 0 ...\n $ Bike           : num  320 0 0 0 0 0 0 0 91 0 ...\n $ Car            : num  12484 353 107 861 114 ...\n $ PTransit       : num  833 0 81 5 0 ...\n $ Other          : num  7 214 0 0 0 0 0 0 0 0 ...\n\n\nCheck the first values of each variable\n\ndata\n\n\nhead(data, 3) # first 3 values\n\n  Origin_mun Destination_mun Total Walk Bike   Car PTransit Other\n1  Alcochete       Alcochete 20478 6833  320 12484      833     7\n2  Alcochete          Almada   567    0    0   353        0   214\n3  Alcochete         Amadora   188    0    0   107       81     0\n\n\nCheck the number of rows (observations) and columns (variables)\n\nnrow(data)\n\n[1] 315\n\nncol(data)\n\n[1] 8\n\n\nOpen the dataset\n\nView(data)\n\n\n\nExplore the data\nCheck the total number of trips\nUse $ to select a variable of the data\n\nsum(data$Total)\n\n[1] 5299853\n\n\nPercentage of car trips related to the total\n\nsum(data$Car)/sum(data$Total) * 100\n\n[1] 59.17638\n\n\nPercentage of active trips related to the total\n\n(sum(data$Walk) + sum(data$Bike)) / sum(data$Total) * 100\n\n[1] 24.44883\n\n\n\n\nModify original data\nCreate a column with the sum of the number of trips for active modes\n\ndata$Active = data$Walk + data$Bike\n\nFilter by condition (create new tables)\nFilter trips only with origin from Lisbon\n\ndata_Lisbon = data[data$Origin == \"Lisboa\",]\n\nFilter trips with origin different from Lisbon\n\ndata_out_Lisbon = data[data$Origin != \"Lisboa\",]\n\nFilter trips with origin and destination in Lisbon\n\ndata_in_Out_Lisbon = data[data$Origin == \"Lisboa\" & data$Destination == \"Lisboa\",]\n\nRemove the first column\n\ndata = data[ ,-1] #first column\n\nCreate a table only with origin, destination and walking trips\nThere are many ways to do the same operation.\n\nnames(data)\n\n[1] \"Destination_mun\" \"Total\"           \"Walk\"            \"Bike\"           \n[5] \"Car\"             \"PTransit\"        \"Other\"           \"Active\"         \n\n\n\ndata_walk2 = data[ ,c(1,2,4)]\n\n\ndata_walk3 = data[ ,-c(3,5:9)]\n\n\n\nExport data\nSave data in .csv and .Rds\n\nwrite.csv(data, 'data/dataset.csv', row.names = FALSE)\nsaveRDS(data, 'data/dataset.Rds') #Choose a different file. \n\n\n\nImport data\n\ncsv_file = read.csv(\"data/dataset.csv\")\nrds_file = readRDS(\"data/dataset.Rds\")\n\n\n\n\n\n\n\nINE. 2018. “Mobilidade e Funcionalidade Do Território Nas Áreas Metropolitanas do Porto e de Lisboa: 2017.” Lisboa: Instituto National de Estatística. https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&xlang=pt.",
+    "crumbs": [
+      "**Day 1**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>R basics</span>"
+    ]
+  }
+]
