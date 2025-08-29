@@ -23,7 +23,7 @@ st_write(TRIPSgeo, "data/TRIPSgeo.gpkg", delete_dsn = TRUE)
 ```{r}
 #| message: false
 library(sf)
-TRIPSgeo = st_read("data/TRIPSgeo.gpkg")
+TRIPSgeo = st_read("../data/TRIPSgeo.gpkg")
 
 plot(TRIPSgeo)
 ```

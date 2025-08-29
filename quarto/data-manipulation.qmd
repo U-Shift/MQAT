@@ -45,9 +45,13 @@ write.table(Municipalities, "data/Municipalities_names.txt", row.names = FALSE, 
 ```
 
 ```{r}
+#| eval: false
 TRIPS = readRDS("data/TRIPSorigin.Rds")
 ```
-
+```{r}
+#| include: false
+TRIPS = readRDS("../data/TRIPSorigin.Rds")
+```
 ::: callout-important
 Note that it is very important to understand the R basics, that's why we started from there, even if the following functions will provide the same results.
 :::
@@ -211,7 +215,12 @@ How `left_join` works:
 Let's **join the municipalities** to this table with a supporting table that includes all the **relation** between neighbourhoods and municipalities, and the respective names and codes.
 
 ```{r}
+#| eval: false
 Municipalities = readRDS("data/Municipalities_names.Rds")
+```
+```{r}
+#| include: false
+Municipalities = readRDS("../data/Municipalities_names.Rds")
 ```
 
 ```{r}
@@ -347,6 +356,7 @@ Take a particular attention to `pivot_wider` and `pivot_longer` ([`tidyr`](https
 ```{r}
 #| echo: false
 #| eval: true
+#| warning: false
 pivot = data.frame(Origins = c("A", "A", "B", "C", "C"),
                    Destinations = c("B", "C", "A", "C", "A"),
                    Trips = c(20, 45, 10, 5, 30))
@@ -356,6 +366,7 @@ knitr::kable(pivot, caption = "OD matrix in long format")
 ```{r}
 #| echo: false
 #| eval: true
+#| warning: false
 matrix = pivot |> 
   tidyr::pivot_wider(names_from = Destinations,
                                      values_from = Trips,

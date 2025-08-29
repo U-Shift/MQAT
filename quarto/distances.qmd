@@ -21,7 +21,7 @@ We will use a survey dataset with 200 observations, with the following variables
 #| message: false
 library(dplyr)
 
-SURVEY = read.csv("data/SURVEY.txt", sep = "\t") # tab delimiter
+SURVEY = read.csv("../data/SURVEY.txt", sep = "\t") # tab delimiter
 names(SURVEY)
 ```
 
@@ -149,10 +149,10 @@ To properly the setup r5r model for the area you are working on, you need to dow
 #| include: false
 options(java.parameters = "-Xmx4G") # allocate memory
 url = "https://github.com/U-Shift/EITcourse/releases/download/2024.09/network.dat"
-download.file(url, destfile = "data/network.dat", mode = "wb")
+download.file(url, destfile = "../data/network.dat", mode = "wb")
 
 library(r5r)
-r5r_network = setup_r5("data/", overwrite = FALSE) # load existing network
+r5r_network = setup_r5("../data/", overwrite = FALSE) # load existing network
 ```
 
 We will use only respondents with a distance to the university less than 2 km.

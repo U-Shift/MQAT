@@ -4,7 +4,7 @@ project:
 
 execute:
   freeze: auto
-  cache: true
+  # cache: true
   
   
 book:
@@ -36,6 +36,9 @@ book:
         - r-basics.qmd
         - data-manipulation.qmd
         - eda.qmd
+        - linear-regression.qmd
+        - factor-analysis.qmd
+        - clusters.qmd
     - part: "**GIS in R**"
       chapters:
         - spatial-data.qmd
@@ -60,7 +63,7 @@ book:
     #     text: "Download PDF"
     #     target: _blank
   page-footer:
-    left: "R Félix, G Valença"
+    left: "R Félix, G Valença, F Moura"
     center: "MQAT - Instituto Superior Técnico"
     right: "September 2025"
     

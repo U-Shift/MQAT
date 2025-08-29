@@ -16,8 +16,9 @@ st_write(FREGUESIASgeo, "geo/FREGUESIASgeo.gpkg")
 MUNICIPIOSgeo = st_read("original/CAOP24_AML.gpkg")
 MUNICIPIOSgeo = MUNICIPIOSgeo |> st_transform(4326)
 MUNICIPIOSgeo = MUNICIPIOSgeo |> rename(Concelho = municipio)
+Municipalities_geo = MUNICIPIOSgeo |> rename(Municipality = Concelho)
 st_write(MUNICIPIOSgeo, "geo/MUNICIPIOSgeo.gpkg", delete_dsn = TRUE)
-
+st_write(Municipalities_geo, "geo/Municipalities_geo.gpkg", delete_dsn = TRUE)
 
 # centroids
 MUNICIPIOScentroid = st_centroid(MUNICIPIOSgeo) |> st_transform(3857)

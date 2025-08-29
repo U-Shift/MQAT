@@ -1,0 +1,15 @@
+{
+  "hash": "ac040b1e84aa2148ccedd7ee960713d5",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\neval: false\n---\n\n\n\n\n\n\n# Grids\n\n## Make grid\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(sf)\nlibrary(dplyr)\nlibrary(mapview)\n\nMUNICIPIOSgeo = st_read(\"data/Municipalities_geo.gpkg\")\nLISBON = MUNICIPIOSgeo |> filter(Municipality == \"Lisboa\") |> st_transform(3857)\n```\n:::\n\n\n\n\n\n\nTo make a grid we is the `st_make_grid()` function.\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nGRID = LISBON |>\n  st_make_grid(cellsize = 800, what = \"polygons\", square = TRUE) |> # 800m, we are using a projected crs\n  st_sf() |> # from list to sf\n  st_transform(crs = 4326) # to WGS84\n\nGRID = GRID |>  \n  mutate(id = c(1:nrow(GRID)))  # just to give an ID to each cell \n\nmapview(GRID)\n```\n:::\n\n\n\n\n\n\n## Count points in polygons\n\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nSURVEY = read.csv(\"data/SURVEY.txt\", sep = \"\\t\")\nSURVEYgeo = SURVEY |> st_as_sf(coords = c(\"lon\", \"lat\"), crs = 4326)\n\nSURVEY_with_GRIDid = SURVEYgeo |> \n  st_join(GRID, \n          join = st_intersects) |> \n    st_drop_geometry() |> \n    group_by(id) |> \n    summarise(count = n()) |> \n    ungroup()\n\n# back to grid\nGRIDdensity = GRID |> left_join(SURVEY_with_GRIDid)\n\nmapview(GRIDdensity, zcol = \"count\")\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

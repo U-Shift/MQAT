@@ -42,7 +42,7 @@ The `TRIPSmode.Rds` dataset includes origins, destinations and number of trips b
 
 ```{r}
 #| message: false
-TRIPSmode = readRDS("data/TRIPSmode.Rds")
+TRIPSmode = readRDS("../data/TRIPSmode.Rds")
 ```
 
 The `Municipalities_geo.gpkg` dataset includes the geometry of the transport zones.
@@ -51,7 +51,7 @@ The `Municipalities_geo.gpkg` dataset includes the geometry of the transport zon
 #| message: false
 #| warning: false
 library(sf)
-Municipalities_geo = st_read("data/Municipalities_geo.gpkg", quiet = TRUE) # supress mesage
+Municipalities_geo = st_read("../data/Municipalities_geo.gpkg", quiet = TRUE) # supress mesage
 ```
 
 Then, we need to load the `od` package.
@@ -152,7 +152,7 @@ But if we replace those zones by the [weighted centroids](spatial-data.qmd#weigh
 ```{r}
 #| message: false
 #| include: false
-Centroid_pop = st_read("data/Centroid_pop.gpkg", quiet = TRUE)
+Centroid_pop = st_read("../data/Centroid_pop.gpkg", quiet = TRUE)
 ```
 
 ```{r}

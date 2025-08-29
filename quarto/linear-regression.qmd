@@ -1,0 +1,13 @@
+---
+title: "Multiple Linear Regression"
+---
+
+
+## Do it yourself with R
+
+```r
+{{< include ../code/classroom/MultipleLinearRegression.R >}}
+```
+
+
+Copy the R code above in your session.

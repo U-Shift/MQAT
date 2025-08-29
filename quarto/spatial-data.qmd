@@ -17,8 +17,8 @@ library(dplyr)
 ```{r}
 #| include: false
 #| eval: false
-# data preparation
-Municipalities_geo = st_read("data/TRIPSgeo.gpkg")
+# data preparation EITcourse
+Municipalities_geo = st_read("../data/TRIPSgeo.gpkg")
 Municipalities_geo = Municipalities_geo |> 
   select(Municipality, geom)
 st_write(Municipalities_geo, "data/Municipalities_geo.gpkg")
@@ -39,8 +39,13 @@ Download and open `Municipalities_geo.gpkg` under [EITcourse/data](https://githu
 Within the `sf` package, we use the `st_read()` to read spatial features.
 
 ```{r}
-#| message: false
+#| eval: false
 Municipalities_geo = st_read("data/Municipalities_geo.gpkg")
+```
+```{r}
+#| message: false
+#| include: false
+Municipalities_geo = st_read("../data/Municipalities_geo.gpkg")
 ```
 
 ::: {.callout-tip appearance="simple"}
@@ -79,10 +84,10 @@ Now see the differences when calling `Municipalities_geo` and `Municipalities_pr
 
 ## Join geometries to data frames
 
-Import `TRIPSmun.Rds` file and check data class-
+Import `TRIPSmun.Rds` file and check data class
 
 ```{r}
-TRIPSmun = readRDS("data/TRIPSmun.Rds")
+TRIPSmun = readRDS("../data/TRIPSmun.Rds")
 class(TRIPSmun)
 class(Municipalities_geo)
 ```
@@ -116,7 +121,7 @@ In that case, we need to specify the columns with the coordinates.
 We will use survey data (in `.txt`) with the participants' home latitude/longitude coordinates to create a spatial feature.
 
 ```{r}
-SURVEY = read.csv("data/SURVEY.txt", sep = "\t") # tab delimiter
+SURVEY = read.csv("../data/SURVEY.txt", sep = "\t") # tab delimiter
 class(SURVEY)
 
 SURVEYgeo = st_as_sf(SURVEY, coords = c("lon", "lat"), crs = 4326) # create spatial feature
