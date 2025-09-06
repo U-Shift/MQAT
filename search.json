@@ -553,256 +553,256 @@
     ]
   },
   {
-    "objectID": "centroids.html",
-    "href": "centroids.html",
-    "title": "10  Centroids of transport zones",
-    "section": "",
-    "text": "10.1 Geometric centroids\nTaking the Municipalities_geo data from the previous section, we will calculate the geometric centroids, using the st_centroid() function.\nCode\nlibrary(dplyr)\nlibrary(sf)\nlibrary(mapview)\n\nMunicipalities_geo = st_read(\"../data/Municipalities_geo.gpkg\", quiet = TRUE)\n\nCentroid_geo = st_centroid(Municipalities_geo)\nThis creates points at the geometric center of each polygon.\nCode\nmapview(Centroid_geo)\n\n\n\n\n\n\nCode\nmapview(Centroid_geo) + mapview(Municipalities_geo, alpha.regions = 0) # both maps, with full transparency in polygons\nBut… is this the best way to represent the center of a transport zone?\nThese results may be biased by the shape of the polygons, and not represent where activities are. Example: lakes, forests, etc.\nTo overcome this, we can use weighted centroids.",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Centroids of transport zones</span>"
-    ]
-  },
-  {
-    "objectID": "centroids.html#weighted-centroids",
-    "href": "centroids.html#weighted-centroids",
-    "title": "10  Centroids of transport zones",
-    "section": "10.2 Weighted centroids",
-    "text": "10.2 Weighted centroids\nWe will weight centroids of transport zones by population and by number of buildings.\nFor this, we will need the census data (INE 2022).\n\n\nCode\nCensus = st_read(\"../data/census.gpkg\", quiet = TRUE)\n\nmapview(Census |&gt; filter(Municipality == \"Lisboa\"), zcol = \"Population\")\n\n\n\n\n\n\nIt was not that easy to estimate weighted centroids with R, as it is with GIS software. But there is this new package centr that can help us (Zomorrodi 2024).\nWe need to specify the group we want to calculate the mean centroids, and the weight variable we want to use.\n\n\nCode\nlibrary(centr)\nCentroid_pop = Census |&gt; \n  mean_center(group = \"Municipality\", weight = \"Population\")\n\n\nWe can do the same for buildings.\n\n\nCode\nCentroid_build = Census |&gt; \n  mean_center(group = \"Municipality\", weight = \"Buildings\")",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Centroids of transport zones</span>"
-    ]
-  },
-  {
-    "objectID": "centroids.html#compare-centroids-in-a-map",
-    "href": "centroids.html#compare-centroids-in-a-map",
-    "title": "10  Centroids of transport zones",
-    "section": "10.3 Compare centroids in a map",
-    "text": "10.3 Compare centroids in a map\n\n10.3.1 Interactive map\n\n\nCode\nmapview(Centroid_geo, col.region = \"blue\") +\n  mapview(Centroid_pop, col.region = \"red\") +\n  mapview(Centroid_build, col.region = \"black\") +\n  mapview(Municipalities_geo, alpha.regions = 0) # polygon limits\n\n\n\n\n\n\nSee how the building, population and geometric centroids of Sintra are apart, from closer to Tagus, to the rural area.\n\n\n10.3.2 Static map\nTo produce the same map, using only plot() and st_geometry(), we need to make sure that the geometries have the same crs.\n\n\nCode\nst_crs(Centroid_geo) # 4326 WGS84\nst_crs(Centroid_pop) # 3763 Portugal TM06\n\n\nSo, we need to transform the geometries to the same crs.\n\n\nCode\nCentroid_pop = st_transform(Centroid_pop, crs = 4326)\nCentroid_build = st_transform(Centroid_build, crs = 4326)\n\n\nNow, to use plot() we incrementally add layers to the plot.\n\n\nCode\n# Plot the Municipalities_geo polygons first (with no fill)\nplot(st_geometry(Municipalities_geo), col = NA, border = \"black\")\n\n# Add the Centroids_geo points in blue\nplot(st_geometry(Centroid_geo), col = \"blue\", pch = 16, add = TRUE) # add!\n\n# Add the Centroid_pop points in red\nplot(st_geometry(Centroid_pop), col = \"red\", pch = 16, add = TRUE)\n\n# Add the Centroid_build points in black\nplot(st_geometry(Centroid_build), col = \"black\", pch = 16, add = TRUE)\n\n\n\n\n\nStatic map of different centroids of Municipalities\n\n\n\n\nIn the next section we will use these centroids to calculate the desire lines between them.\n\n\n\n\n\n\nINE. 2022. “Censos 2021- XVI Recenseamento Geral da População. VI Recenseamento Geral da Habitação.” Lisboa: Instituto National de Estatística. https://censos.ine.pt/xurl/pub/65586079.\n\n\nZomorrodi, Ryan. 2024. Centr: Weighted and Unweighted Spatial Centers. https://ryanzomorrodi.github.io/centr/.",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Centroids of transport zones</span>"
-    ]
-  },
-  {
-    "objectID": "desire-lines.html",
-    "href": "desire-lines.html",
-    "title": "11  OD pairs and desire lines",
-    "section": "",
-    "text": "11.1 Desire lines with od_to_sf\nTo create desire lines, we need a dataset with OD pairs and other dataset with the corresponding transport zones (spatial data).\nThe TRIPSmode.Rds dataset includes origins, destinations and number of trips between municipalities.\nCode\nTRIPSmode = readRDS(\"../data/TRIPSmode.Rds\")\nThe Municipalities_geo.gpkg dataset includes the geometry of the transport zones.\nCode\nlibrary(sf)\nMunicipalities_geo = st_read(\"../data/Municipalities_geo.gpkg\", quiet = TRUE) # supress mesage\nThen, we need to load the od package. We will use the od_to_sf() function to create desire lines from OD pairs.\nCode\n# install.packages(\"od\")\nlibrary(od)\n\nTRIPSdlines = od_to_sf(TRIPSmode, z = Municipalities_geo) # z for zones\nFor this magic to work smoothly, the first two columns of the TRIPSmode dataset must be the origin and destination zones, and these zones need to correspond to the first column of the Municipalities_geo dataset (with an associated geometry).\nNow we can visualize the desire lines using the mapview function.\nCode\nlibrary(mapview)\nmapview(TRIPSdlines, zcol = \"Total\")\nAs you can see, this is too much information to be able to understand the flows.",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
-    ]
-  },
-  {
-    "objectID": "desire-lines.html#desire-lines-with-od_to_sf",
-    "href": "desire-lines.html#desire-lines-with-od_to_sf",
-    "title": "11  OD pairs and desire lines",
-    "section": "",
-    "text": "See more options with the ?stplanr::od2line function.\n\n\n\n\n\n\n\n11.1.1 Filtering desire lines\nFilter intrazonal trips.\n\n\nCode\nlibrary(dplyr)\n\nTRIPSdlines_inter = TRIPSdlines |&gt; \n  filter(Origin != Destination) |&gt; # remove intrazonal trips\n  filter(Total &gt; 5000) # remove noise\n\nmapview(TRIPSdlines_inter, zcol = \"Total\", lwd = 5)\n\n\n\n\n\n\nFilter trips with origin or destination not in Lisbon.\n\n\nCode\nTRIPSdl_noLX = TRIPSdlines_inter |&gt; \n  filter(Origin != \"Lisboa\", Destination != \"Lisboa\")\n\nmapview(TRIPSdl_noLX, zcol = \"Total\", lwd = 8) # larger line width\n\n\n\n\n\n\nTry to replace the Total with other variables, such as Car, PTransit, and see the differences.",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
-    ]
-  },
-  {
-    "objectID": "desire-lines.html#oneway-desire-lines",
-    "href": "desire-lines.html#oneway-desire-lines",
-    "title": "11  OD pairs and desire lines",
-    "section": "11.2 Oneway desire lines",
-    "text": "11.2 Oneway desire lines\nNote that the od_to_sf() function creates bidirectional desire lines. This can be not the ideal for visualization / representation purposes, as you will have 2 lines overlaping.\nThe function od_oneway() aggregates oneway lines to produce bidirectional flows.\nBy default, it returns the sum of each numeric column for each bidirectional origin-destination pair.\n\n\nCode\nnrow(TRIPSdlines)\n\n\n[1] 315\n\n\nCode\nTRIPSdlines_oneway = od_oneway(TRIPSdlines) |&gt; \n  filter(o != d) # remove empty geometries\nnrow(TRIPSdlines_oneway)\n\n\n[1] 150\n\n\nNote that for the last municipalities you have less combinations now. Nevertheless, all the possible combinations are represented.\n\n\nCode\nhead(TRIPSdlines_oneway[,c(1,2)]) # just the first 2 columns\n\n\nSimple feature collection with 6 features and 2 fields\nAttribute-geometry relationships: identity (2)\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: -9.229502 ymin: 38.62842 xmax: -8.915878 ymax: 38.75981\nGeodetic CRS:  WGS 84\n          o        d                       geometry\n1 Alcochete   Almada LINESTRING (-8.915878 38.73...\n2 Alcochete  Amadora LINESTRING (-8.915878 38.73...\n3    Almada  Amadora LINESTRING (-9.193061 38.63...\n4 Alcochete Barreiro LINESTRING (-8.915878 38.73...\n5    Almada Barreiro LINESTRING (-9.193061 38.63...\n6   Amadora Barreiro LINESTRING (-9.229502 38.75...\n\n\nCode\ntail(TRIPSdlines_oneway[,c(1,2)])\n\n\nSimple feature collection with 6 features and 2 fields\nAttribute-geometry relationships: identity (2)\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: -9.357651 ymin: 38.49491 xmax: -8.80664 ymax: 38.92208\nGeodetic CRS:  WGS 84\n           o                   d                       geometry\n145   Oeiras Vila Franca de Xira LINESTRING (-9.276317 38.71...\n146  Palmela Vila Franca de Xira LINESTRING (-8.80664 38.617...\n147   Seixal Vila Franca de Xira LINESTRING (-9.108785 38.60...\n148 Sesimbra Vila Franca de Xira LINESTRING (-9.120129 38.49...\n149  Setúbal Vila Franca de Xira LINESTRING (-8.887489 38.51...\n150   Sintra Vila Franca de Xira LINESTRING (-9.357651 38.82...\n\n\nExample of visualization with Public Transit trips in both ways.\n\n\nCode\nTRIPSdlines_oneway_noLX = TRIPSdlines_oneway |&gt; \n  filter(PTransit &gt; 5000) # reduce noise\n\nmapview(TRIPSdlines_oneway_noLX, zcol = \"PTransit\", lwd = 8)",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
-    ]
-  },
-  {
-    "objectID": "desire-lines.html#using-population-centroids",
-    "href": "desire-lines.html#using-population-centroids",
-    "title": "11  OD pairs and desire lines",
-    "section": "11.3 Using population centroids",
-    "text": "11.3 Using population centroids\nThe od_to_sf() function uses the geometric center of the zones to create the desire lines. But if we replace those zones by the weighted centroids, we can have a more realistic representation of the flows.\n\n\nCode\n# Centroid_pop = st_read(\"data/Centroid_pop.gpkg\")\n\nTRIPSdlines_pop = od_to_sf(TRIPSmode, z = Centroid_pop) |&gt;  # works the same way\n  od_oneway() |&gt; # oneway\n  filter(o != d) # remove empty geometries\n\n\nCheck differences of lines with trips from/to Lisbon:\n\n\nCode\nTRIPSdlines_geo_LX = TRIPSdlines_oneway |&gt; \n  filter(o == \"Lisboa\" | d == \"Lisboa\") # or condition\nTRIPSdlines_pop_LX = TRIPSdlines_pop |&gt; \n  filter(o == \"Lisboa\" | d == \"Lisboa\")\n\nmapview(TRIPSdlines_geo_LX, color = \"blue\") + mapview(TRIPSdlines_pop_LX, color = \"red\")\n\n\n\n\n\n\nThe next step will be estimating the euclidean distances between these centroids, and compare them with the routing distances.\n\n\n\n\n\n\nLovelace, Robin, and Richard Ellison. 2018. “Stplanr: A Package for Transport Planning.” The R Journal 10 (2): 10. https://doi.org/10.32614/RJ-2018-053.\n\n\nLovelace, Robin, Rosa Félix, and Dustin Carlino. 2022. “Jittering: A Computationally Efficient Method for Generating Realistic Route Networks from Origin-Destination Data.” Findings, April. https://doi.org/10.32866/001c.33873.\n\n\nLovelace, Robin, and Malcolm Morgan. 2024. Od: Manipulate and Map Origin-Destination Data. https://github.com/itsleeds/od.",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
-    ]
-  },
-  {
-    "objectID": "desire-lines.html#footnotes",
-    "href": "desire-lines.html#footnotes",
-    "title": "11  OD pairs and desire lines",
-    "section": "",
-    "text": "See (Lovelace, Félix, and Carlino 2022).↩︎",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
-    ]
-  },
-  {
-    "objectID": "distances.html",
-    "href": "distances.html",
-    "title": "12  Euclidean and routing distances",
-    "section": "",
-    "text": "12.1 Euclidean distances\nTaking the survey respondents’ location, we will estimate the distance to the university (IST) using the sf package.",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
-    ]
-  },
-  {
-    "objectID": "distances.html#euclidean-distances",
-    "href": "distances.html#euclidean-distances",
-    "title": "12  Euclidean and routing distances",
-    "section": "",
-    "text": "Import survey data frame convert to sf\nWe will use a survey dataset with 200 observations, with the following variables: ID, Affiliation, Age, Sex, Transport Mode to IST, and latitude and longitude coordinates.\n\n\nCode\nlibrary(dplyr)\n\nSURVEY = read.csv(\"../data/SURVEY.txt\", sep = \"\\t\") # tab delimiter\nnames(SURVEY)\n\n\n[1] \"ID\"   \"AFF\"  \"AGE\"  \"SEX\"  \"MODE\" \"lat\"  \"lon\" \n\n\nAs we have the coordinates, we can convert this data frame to a spatial feature, as explained in the Introduction to spatial data section.\n\n\nCode\nlibrary(sf)\n\nSURVEYgeo = st_as_sf(SURVEY, coords = c(\"lon\", \"lat\"), crs = 4326) # convert to as sf data\n\n\n\n\nCreate new point at the university\nUsing coordinates from Instituto Superior Técnico, we can directly create a simple feature and assign its crs.\n\n\nCode\nUNIVERSITY = data.frame(place = \"IST\",\n                        lon = -9.1397404,\n                        lat = 38.7370168) |&gt;  # first a dataframe\n  st_as_sf(coords = c(\"lon\", \"lat\"), # then a spacial feature\n           crs = 4326)\n\n\nVisualize in a map:\n\n\nCode\nlibrary(mapview)\nmapview(SURVEYgeo, zcol = \"MODE\") + mapview(UNIVERSITY, col.region = \"red\", cex = 12)\n\n\n\n\n\n\n\n\nStraight lines\nFirst we will create lines connecting the survey locations to the university, using the st_nearest_points() function.\nThis function finds returns the nearest points between two geometries, and creates a line between them. This can be useful to find the nearest train station to each point, for instance.\nAs we only have 1 point at UNIVERSITY layer, we will have the same number of lines as number of surveys = 200.\n\n\nCode\nSURVEYeuclidean = st_nearest_points(SURVEYgeo, UNIVERSITY, pairwise = TRUE) |&gt;\n  st_as_sf() # this creates lines\n\nmapview(SURVEYeuclidean)\n\n\nWarning in cbind(`Feature ID` = fid, mat): number of rows of result is not a\nmultiple of vector length (arg 1)\n\n\n\n\n\n\nNote that if we have more than one point in the second layer, the pairwise = TRUE will create a line for each combination of points. Set to FALSE if, for instance, you have the same number of points in both layers and want to create a line between the corresponding points.\n\n\nDistance\nNow we can estimate the distance using the st_length() function.\n\n\nCode\n# compute the line length and add directly in the first survey layer\nSURVEYgeo = SURVEYgeo |&gt; \n  mutate(distance = st_length(SURVEYeuclidean))\n\n# remove the units - can be useful\nSURVEYgeo$distance = units::drop_units(SURVEYgeo$distance) \n\n\nWe could also estimate the distance using the st_distance() function directly, although we would not get and sf with lines.\n\n\nCode\nSURVEYgeo = SURVEYgeo |&gt; \n  mutate(distance = st_distance(SURVEYgeo, UNIVERSITY)[,1] |&gt;  # in meters\n           units::drop_units()) |&gt;  # remove units\n  mutate(distance = round(distance)) # round to integer\n\nsummary(SURVEYgeo$distance)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    298    1106    2186    2658    3683    8600 \n\n\nSURVEYgeo is still a points’ sf.",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
-    ]
-  },
-  {
-    "objectID": "distances.html#routing-engines",
-    "href": "distances.html#routing-engines",
-    "title": "12  Euclidean and routing distances",
-    "section": "12.2 Routing Engines",
-    "text": "12.2 Routing Engines\nThere are different types of routing engines, regarding the type of network they use, the type of transportation they consider, and the type of data they need. We can have:\n\nUni-modal vs. Multi-modal\n\nOne mode per trip vs. One trip with multiple legs that can be made with different modes\nMulti-modal routing may require GTFS data (realistic Public Transit)\n\nOutput level of the results\n\nRoutes (1 journey = 1 route)\nLegs\nSegments\n\nRouting profiles\n\nType of user\nfastest / shortest path\navoid barriers / tolls, etc\n\n\n\n\n\nRouting options in OpenRouteService\n\n\n\nLocal vs. Remote (service request - usually web API)\n\nSpeed vs. Quota limits / price\nHard vs. Easy set up\nHardware limitations in local routing\nGlobal coverage in remote routing, with frequent updates\n\n\nExamples: OSRM, Dodgr, r5r, Googleway, CycleStreets, HERE.\n\nRouting distances with r5r\nWe use the r5r package to estimate the distance using a road network (Pereira et al. 2021).\n\n\n\n\n\n\nTo properly the setup r5r model for the area you are working on, you need to download the road network data from OpenStreetMap and, if needed, add a GTFS and DEM file, as it will be explained in the next section.\n\n\n\nWe will use only respondents with a distance to the university less than 2 km.\n\n\nCode\nSURVEYsample = SURVEYgeo |&gt; filter(distance &lt;= 2000)\nnrow(SURVEYsample)\n\n\n[1] 95\n\n\nWe need an id (unique identifier) for each survey location, to be used in the routing functions of r5r.\n\n\nCode\n# create id columns for both datasets\nSURVEYsample = SURVEYsample |&gt; \n  mutate(id = c(1:nrow(SURVEYsample))) # from 1 to the number of rows\n\nUNIVERSITY = UNIVERSITY |&gt; \n  mutate(id = 1) # only one row\n\n\n\nDistances by car\nEstimate the routes with time and distance by car, from survey locations to University.\n\n\nCode\nSURVEYcar = detailed_itineraries(\n  r5r_core = r5r_network,\n  origins = SURVEYsample,\n  destinations = UNIVERSITY,\n  mode = \"CAR\",\n  all_to_all = TRUE # if false, only 1-1 would be calculated\n)\n\nnames(SURVEYcar)\n\n\n [1] \"from_id\"          \"from_lat\"         \"from_lon\"         \"to_id\"           \n [5] \"to_lat\"           \"to_lon\"           \"option\"           \"departure_time\"  \n [9] \"total_duration\"   \"total_distance\"   \"segment\"          \"mode\"            \n[13] \"segment_duration\" \"wait\"             \"distance\"         \"route\"           \n[17] \"geometry\"        \n\n\nThe detailed_itineraries() function is super detailed!\n\n\n\n\n\n\nIf we want to know only time and distance, and not the route itself, we can use the travel_time_matrix().\n\n\n\n\n\nDistances by foot\nRepeat the same for WALK1.\n\n\nCode\nSURVEYwalk = detailed_itineraries(\n  r5r_core = r5r_network,\n  origins = SURVEYsample,\n  destinations = UNIVERSITY,\n  mode = \"WALK\",\n  all_to_all = TRUE # if false, only 1-1 would be calculated\n)\n\n\n\n\nDistances by PT\nFor Public Transit (TRANSIT) you may specify the egress mode, the departure time, and the maximum number of transfers.\n\n\nCode\nSURVEYtransit = detailed_itineraries(\n  r5r_core = r5r_network,\n  origins = SURVEYsample,\n  destinations = UNIVERSITY,\n  mode = \"TRANSIT\",\n  mode_egress = \"WALK\",\n  max_rides = 1, # The maximum PT rides allowed in the same trip\n  departure_datetime =  as.POSIXct(\"20-09-2023 08:00:00\",\n                                 format = \"%d-%m-%Y %H:%M:%S\"),\n  all_to_all = TRUE # if false, only 1-1 would be calculated\n)",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
-    ]
-  },
-  {
-    "objectID": "distances.html#compare-distances",
-    "href": "distances.html#compare-distances",
-    "title": "12  Euclidean and routing distances",
-    "section": "12.3 Compare distances",
-    "text": "12.3 Compare distances\nWe can now compare the euclidean and routing distances that we estimated for the survey locations under 2 km.\n\n\nCode\nsummary(SURVEYsample$distance) # Euclidean\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    298     790    1046    1112    1470    1963 \n\n\nCode\nsummary(SURVEYwalk$distance) # Walk\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    569    1090    1465    1505    1925    2710 \n\n\nCode\nsummary(SURVEYcar$distance) # Car\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    228    1401    1823    1893    2431    3177 \n\n\n\nWhat can you understand from this results?\n\n\n\n\n\n\n\n\n\n\n\nCircuity\nCompare 1 single route.\n\n\nCode\nmapview(SURVEYeuclidean[165,], color = \"black\") + # 1556 meters\n  mapview(SURVEYwalk[78,], color = \"red\") + # 1989 meters\n  mapview(SURVEYcar[78,], color = \"blue\") # 2565 meters\n\n\n\n\n\n\nWith this we can see the circuity of the routes, a measure of route / transportation efficiency, which is the ratio between the routing distance and the euclidean distance.\nThe cicuity for car (1.65) is usually higher than for walking (1.28) or biking, for shorter distances.",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
-    ]
-  },
-  {
-    "objectID": "distances.html#visualize-routes",
-    "href": "distances.html#visualize-routes",
-    "title": "12  Euclidean and routing distances",
-    "section": "12.4 Visualize routes",
-    "text": "12.4 Visualize routes\nVisualize with transparency of 30%, to get a clue when they overlay.\n\n\nCode\nmapview(SURVEYwalk, alpha = 0.3)\n\n\n\n\n\n\nCode\nmapview(SURVEYcar, alpha = 0.3, color = \"red\")\n\n\n\n\n\n\nWe can also use the overline() function from stplanr package to break up the routes when they overline, and add them up.\n\n\nCode\n# we create a value that we can later sum\n# it can be the number of trips represented by this route\nSURVEYwalk$trips = 1 # in this case is only one respondent per route\n\nSURVEYwalk_overline = stplanr::overline(\n  SURVEYwalk,\n  attrib = \"trips\",\n  fun = sum\n)\n\nmapview(SURVEYwalk_overline, zcol = \"trips\", lwd = 3)\n\n\n\n\n\n\nWith this we can visually inform on how many people travel along a route, from the survey dataset2.\n\n\n\n\n\n\nPereira, Rafael H. M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue Vieira Braga, and Matthew Wigginton Conway. 2021. “R5r: Rapid Realistic Routing on Multimodal Transport Networks with r5 in r.” Findings, March. https://doi.org/10.32866/001c.21262.",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
-    ]
-  },
-  {
-    "objectID": "distances.html#footnotes",
-    "href": "distances.html#footnotes",
-    "title": "12  Euclidean and routing distances",
-    "section": "",
-    "text": "For bike you would use BICYCLE.↩︎\nAssuming all travel by the shortest path.↩︎",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
-    ]
-  },
-  {
-    "objectID": "open-data.html",
-    "href": "open-data.html",
-    "title": "13  Open transportation data",
-    "section": "",
-    "text": "13.1 Road Networks",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Open transportation data</span>"
-    ]
-  },
-  {
-    "objectID": "open-data.html#road-networks",
-    "href": "open-data.html#road-networks",
-    "title": "13  Open transportation data",
-    "section": "",
-    "text": "13.1.1 OpenStreetMap\nThe OpenStreetMap is a collaborative online mapping project that creates a free editable map of the world.\nThis is the most used source of road network data for transportation analysis in academia, since it is available almost everywhere in the world, is open and free to use.\n\n\n\n\n\n\nAlthough it can be not 100% accurate, OSM is a good source of data for most of the cases.\n\n\n\nYou can access it’s visualization tool at www.openstreetmap.org. To edit the map, you can use the Editor, once you register.\nIf you want to download the data, you can use the following tools.\n\nOverpass API\nGeofabrik\n\nThese websites include all the OSM data, with much more information than you need.\n\n\n13.1.2 HOT Export Tool\nThis interactive tool helps you to select the region you want to extract, the type of information to include, and the output data format.\nAccess via export.hotosm.org1.\n\nAfter the export, you can read in R using the sf package:\n\n\nCode\nGent = sf::st_read(\"../data/Gent_center.gpkg\", quiet = TRUE)\n\nmapview::mapview(Gent, zcol = \"highway\")\n\n\n\n\n\n\n\n\n13.1.3 OSM in R\nThere are also some R packages that can help you to download and work with OpenStreetMap data, such as:\n\nosmdata\nosmextract\n\nThis is an example of how to download OpenStreetMap road network data using the osmextract package:\n\n\nCode\nlibrary(osmextract)\nOSM_Malta = oe_get_network(place = \"Malta\") # it will geocode the place\n\nMalta_main_roads = OSM_Malta |&gt; \n  filter(highway %in% c(\"primary\", \"secondary\", \"tertiary\", \"trunk\"))\n\nplot(Malta_main_roads[\"highway\"])",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Open transportation data</span>"
-    ]
-  },
-  {
-    "objectID": "open-data.html#transportation-services-data",
-    "href": "open-data.html#transportation-services-data",
-    "title": "13  Open transportation data",
-    "section": "13.2 Transportation Services’ Data",
-    "text": "13.2 Transportation Services’ Data\n\n13.2.1 GTFS\nGeneral Transit Feed Specification (GTFS) is standard format for documenting public transportation information, including: routes, schedules, stop locations, calendar patterns, trips, and possible transfers. Transit agencies are responsible for maintaining the data up-to-date.\nThis information is used in several applications, such as Google Maps, to provide public transportation directions. It can be offered for a city, a region, or even a whole country, depending on the PT agency.\nThe recent version 2 of the GTFS standard includes more information, such as real-time data.\nThe data is usually in a .zip file that includes several .txt files (one for each type of information) with tabular relations.\n\n\n\nSource: trilliumtransit.com\n\n\n\nOnline sources\nYou can find most GTFS data in the following websites:\n\nTransitLand\nTransitFeeds\n\nSome PT agencies also provide their open-data in their websites.\n\n\nR packages\nThere are some nice R packages to read and manipulate GTFS data, such as:\n\ntidytransit\ngtfstools\n\n\n\n\n\n\n\nBe aware that they may share the same function names, so it is important to use of of them at the time.\n\n\n\n\n\n\n13.2.2 National Access Points\nThe European Union has a directive that requires the member states to provide access to transportation data. Data includes not only Public Transportation data, but also road networks, car parking, and other transportation-related information.\nList of the European Union members states with National Access Points for Transportation data\nExample of Bus services data in Belgium:\n\n\n\nSource: Transport Data Belgium",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Open transportation data</span>"
-    ]
-  },
-  {
-    "objectID": "open-data.html#footnotes",
-    "href": "open-data.html#footnotes",
-    "title": "13  Open transportation data",
-    "section": "",
-    "text": "You need an OSM account to use it.↩︎",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Open transportation data</span>"
-    ]
-  },
-  {
-    "objectID": "grid.html",
-    "href": "grid.html",
-    "title": "14  Grids",
-    "section": "",
-    "text": "14.1 Make grid\nCode\nlibrary(sf)\nlibrary(dplyr)\nlibrary(mapview)\n\nMUNICIPIOSgeo = st_read(\"data/Municipalities_geo.gpkg\")\nLISBON = MUNICIPIOSgeo |&gt; filter(Municipality == \"Lisboa\") |&gt; st_transform(3857)\nTo make a grid we is the st_make_grid() function.\nCode\nGRID = LISBON |&gt;\n  st_make_grid(cellsize = 800, what = \"polygons\", square = TRUE) |&gt; # 800m, we are using a projected crs\n  st_sf() |&gt; # from list to sf\n  st_transform(crs = 4326) # to WGS84\n\nGRID = GRID |&gt;  \n  mutate(id = c(1:nrow(GRID)))  # just to give an ID to each cell \n\nmapview(GRID)",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Grids</span>"
-    ]
-  },
-  {
-    "objectID": "grid.html#count-points-in-polygons",
-    "href": "grid.html#count-points-in-polygons",
-    "title": "14  Grids",
-    "section": "14.2 Count points in polygons",
-    "text": "14.2 Count points in polygons\n\n\nCode\nSURVEY = read.csv(\"data/SURVEY.txt\", sep = \"\\t\")\nSURVEYgeo = SURVEY |&gt; st_as_sf(coords = c(\"lon\", \"lat\"), crs = 4326)\n\nSURVEY_with_GRIDid = SURVEYgeo |&gt; \n  st_join(GRID, \n          join = st_intersects) |&gt; \n    st_drop_geometry() |&gt; \n    group_by(id) |&gt; \n    summarise(count = n()) |&gt; \n    ungroup()\n\n# back to grid\nGRIDdensity = GRID |&gt; left_join(SURVEY_with_GRIDid)\n\nmapview(GRIDdensity, zcol = \"count\")",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Grids</span>"
-    ]
-  },
-  {
     "objectID": "interactive-maps.html",
     "href": "interactive-maps.html",
-    "title": "15  Interactive maps",
+    "title": "10  Interactive maps",
     "section": "",
-    "text": "15.1 Mapview\nMapview allows to create quick interactive maps, only by declaring the function mapview().\nCode\nlibrary(mapview)\nmapview(TRIPSgeo)\nTo color the points by a variable, you can use the zcol argument.\nCode\nmapview(TRIPSgeo, zcol = \"Total\")\nAs you can see, a color palette is automatically assigned to the continuous variable.\nTry to use a categorical variable.\nCode\nmapview(TRIPSgeo,\n        zcol = \"Municipality\", # depending on the variable\n        alpha.regions = 0.4, # also add transparency\n        color = \"white\" # border color\n        )\nYou can go crazy with all the options that mapview offers. Please refer to the documentation to see all the options.",
+    "text": "10.1 Mapview\nMapview allows to create quick interactive maps, only by declaring the function mapview().\nCode\nlibrary(mapview)\nmapview(TRIPSgeo)\nTo color the points by a variable, you can use the zcol argument.\nCode\nmapview(TRIPSgeo, zcol = \"Total\")\nAs you can see, a color palette is automatically assigned to the continuous variable.\nTry to use a categorical variable.\nCode\nmapview(TRIPSgeo,\n        zcol = \"Municipality\", # depending on the variable\n        alpha.regions = 0.4, # also add transparency\n        color = \"white\" # border color\n        )\nYou can go crazy with all the options that mapview offers. Please refer to the documentation to see all the options.",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Interactive maps</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
     ]
   },
   {
     "objectID": "interactive-maps.html#mapview",
     "href": "interactive-maps.html#mapview",
-    "title": "15  Interactive maps",
+    "title": "10  Interactive maps",
     "section": "",
-    "text": "Note that you can change the basemap, and click on the geometries to see the data associated with them.\n\n\n\n\n\n\n15.1.1 Export\nYou can directly export the map as an html file or image, using the Viewer panel.\n\n\n\n\n\n\n\nThis is the most straightforward solution.\n\n\n\nYou can also export a map as an html file or image using code.\n\n\nCode\n# install.packages(\"webshot2\") # you will need this\n\nmap = mapview(TRIPSgeo, zcol = \"Total\") # fisrt create a objet with the desired map\n\nmapshot2(map, \"data/map.html\") # as webpage\nmapshot2(map, file = \"data/map.png\") # as image",
+    "text": "Note that you can change the basemap, and click on the geometries to see the data associated with them.\n\n\n\n\n\n\n10.1.1 Export\nYou can directly export the map as an html file or image, using the Viewer panel.\n\n\n\n\n\n\n\nThis is the most straightforward solution.\n\n\n\nYou can also export a map as an html file or image using code.\n\n\nCode\n# install.packages(\"webshot2\") # you will need this\n\nmap = mapview(TRIPSgeo, zcol = \"Total\") # fisrt create a objet with the desired map\n\nmapshot2(map, \"data/map.html\") # as webpage\nmapshot2(map, file = \"data/map.png\") # as image",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Interactive maps</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
     ]
   },
   {
     "objectID": "interactive-maps.html#rmarkdown",
     "href": "interactive-maps.html#rmarkdown",
-    "title": "15  Interactive maps",
-    "section": "15.2 Rmarkdown",
-    "text": "15.2 Rmarkdown\nTo include a map on a report, website, paper (any type), you can create an Rmarkdown file.\n\nAnd include a R code chunk (ctrl + alt + i) with a map. If the output is html, you will get an interactive map on your document!",
+    "title": "10  Interactive maps",
+    "section": "10.2 Rmarkdown",
+    "text": "10.2 Rmarkdown\nTo include a map on a report, website, paper (any type), you can create an Rmarkdown file.\n\nAnd include a R code chunk (ctrl + alt + i) with a map. If the output is html, you will get an interactive map on your document!",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Interactive maps</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
+    ]
+  },
+  {
+    "objectID": "centroids.html",
+    "href": "centroids.html",
+    "title": "11  Centroids of transport zones",
+    "section": "",
+    "text": "11.1 Geometric centroids\nTaking the Municipalities_geo data from the previous section, we will calculate the geometric centroids, using the st_centroid() function.\nCode\nlibrary(dplyr)\nlibrary(sf)\nlibrary(mapview)\n\nMunicipalities_geo = st_read(\"../data/Municipalities_geo.gpkg\", quiet = TRUE)\n\nCentroid_geo = st_centroid(Municipalities_geo)\nThis creates points at the geometric center of each polygon.\nCode\nmapview(Centroid_geo)\n\n\n\n\n\n\nCode\nmapview(Centroid_geo) + mapview(Municipalities_geo, alpha.regions = 0) # both maps, with full transparency in polygons\nBut… is this the best way to represent the center of a transport zone?\nThese results may be biased by the shape of the polygons, and not represent where activities are. Example: lakes, forests, etc.\nTo overcome this, we can use weighted centroids.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Centroids of transport zones</span>"
+    ]
+  },
+  {
+    "objectID": "centroids.html#weighted-centroids",
+    "href": "centroids.html#weighted-centroids",
+    "title": "11  Centroids of transport zones",
+    "section": "11.2 Weighted centroids",
+    "text": "11.2 Weighted centroids\nWe will weight centroids of transport zones by population and by number of buildings.\nFor this, we will need the census data (INE 2022).\n\n\nCode\nCensus = st_read(\"../data/census.gpkg\", quiet = TRUE)\n\nmapview(Census |&gt; filter(Municipality == \"Lisboa\"), zcol = \"Population\")\n\n\n\n\n\n\nIt was not that easy to estimate weighted centroids with R, as it is with GIS software. But there is this new package centr that can help us (Zomorrodi 2024).\nWe need to specify the group we want to calculate the mean centroids, and the weight variable we want to use.\n\n\nCode\nlibrary(centr)\nCentroid_pop = Census |&gt; \n  mean_center(group = \"Municipality\", weight = \"Population\")\n\n\nWe can do the same for buildings.\n\n\nCode\nCentroid_build = Census |&gt; \n  mean_center(group = \"Municipality\", weight = \"Buildings\")",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Centroids of transport zones</span>"
+    ]
+  },
+  {
+    "objectID": "centroids.html#compare-centroids-in-a-map",
+    "href": "centroids.html#compare-centroids-in-a-map",
+    "title": "11  Centroids of transport zones",
+    "section": "11.3 Compare centroids in a map",
+    "text": "11.3 Compare centroids in a map\n\n11.3.1 Interactive map\n\n\nCode\nmapview(Centroid_geo, col.region = \"blue\") +\n  mapview(Centroid_pop, col.region = \"red\") +\n  mapview(Centroid_build, col.region = \"black\") +\n  mapview(Municipalities_geo, alpha.regions = 0) # polygon limits\n\n\n\n\n\n\nSee how the building, population and geometric centroids of Sintra are apart, from closer to Tagus, to the rural area.\n\n\n11.3.2 Static map\nTo produce the same map, using only plot() and st_geometry(), we need to make sure that the geometries have the same crs.\n\n\nCode\nst_crs(Centroid_geo) # 4326 WGS84\nst_crs(Centroid_pop) # 3763 Portugal TM06\n\n\nSo, we need to transform the geometries to the same crs.\n\n\nCode\nCentroid_pop = st_transform(Centroid_pop, crs = 4326)\nCentroid_build = st_transform(Centroid_build, crs = 4326)\n\n\nNow, to use plot() we incrementally add layers to the plot.\n\n\nCode\n# Plot the Municipalities_geo polygons first (with no fill)\nplot(st_geometry(Municipalities_geo), col = NA, border = \"black\")\n\n# Add the Centroids_geo points in blue\nplot(st_geometry(Centroid_geo), col = \"blue\", pch = 16, add = TRUE) # add!\n\n# Add the Centroid_pop points in red\nplot(st_geometry(Centroid_pop), col = \"red\", pch = 16, add = TRUE)\n\n# Add the Centroid_build points in black\nplot(st_geometry(Centroid_build), col = \"black\", pch = 16, add = TRUE)\n\n\n\n\n\nStatic map of different centroids of Municipalities\n\n\n\n\nIn the next section we will use these centroids to calculate the desire lines between them.\n\n\n\n\n\n\nINE. 2022. “Censos 2021- XVI Recenseamento Geral da População. VI Recenseamento Geral da Habitação.” Lisboa: Instituto National de Estatística. https://censos.ine.pt/xurl/pub/65586079.\n\n\nZomorrodi, Ryan. 2024. Centr: Weighted and Unweighted Spatial Centers. https://ryanzomorrodi.github.io/centr/.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Centroids of transport zones</span>"
+    ]
+  },
+  {
+    "objectID": "desire-lines.html",
+    "href": "desire-lines.html",
+    "title": "12  OD pairs and desire lines",
+    "section": "",
+    "text": "12.1 Desire lines with od_to_sf\nTo create desire lines, we need a dataset with OD pairs and other dataset with the corresponding transport zones (spatial data).\nThe TRIPSmode.Rds dataset includes origins, destinations and number of trips between municipalities.\nCode\nTRIPSmode = readRDS(\"../data/TRIPSmode.Rds\")\nThe Municipalities_geo.gpkg dataset includes the geometry of the transport zones.\nCode\nlibrary(sf)\nMunicipalities_geo = st_read(\"../data/Municipalities_geo.gpkg\", quiet = TRUE) # supress mesage\nThen, we need to load the od package. We will use the od_to_sf() function to create desire lines from OD pairs.\nCode\n# install.packages(\"od\")\nlibrary(od)\n\nTRIPSdlines = od_to_sf(TRIPSmode, z = Municipalities_geo) # z for zones\nFor this magic to work smoothly, the first two columns of the TRIPSmode dataset must be the origin and destination zones, and these zones need to correspond to the first column of the Municipalities_geo dataset (with an associated geometry).\nNow we can visualize the desire lines using the mapview function.\nCode\nlibrary(mapview)\nmapview(TRIPSdlines, zcol = \"Total\")\nAs you can see, this is too much information to be able to understand the flows.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
+    ]
+  },
+  {
+    "objectID": "desire-lines.html#desire-lines-with-od_to_sf",
+    "href": "desire-lines.html#desire-lines-with-od_to_sf",
+    "title": "12  OD pairs and desire lines",
+    "section": "",
+    "text": "See more options with the ?stplanr::od2line function.\n\n\n\n\n\n\n\n12.1.1 Filtering desire lines\nFilter intrazonal trips.\n\n\nCode\nlibrary(dplyr)\n\nTRIPSdlines_inter = TRIPSdlines |&gt; \n  filter(Origin != Destination) |&gt; # remove intrazonal trips\n  filter(Total &gt; 5000) # remove noise\n\nmapview(TRIPSdlines_inter, zcol = \"Total\", lwd = 5)\n\n\n\n\n\n\nFilter trips with origin or destination not in Lisbon.\n\n\nCode\nTRIPSdl_noLX = TRIPSdlines_inter |&gt; \n  filter(Origin != \"Lisboa\", Destination != \"Lisboa\")\n\nmapview(TRIPSdl_noLX, zcol = \"Total\", lwd = 8) # larger line width\n\n\n\n\n\n\nTry to replace the Total with other variables, such as Car, PTransit, and see the differences.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
+    ]
+  },
+  {
+    "objectID": "desire-lines.html#oneway-desire-lines",
+    "href": "desire-lines.html#oneway-desire-lines",
+    "title": "12  OD pairs and desire lines",
+    "section": "12.2 Oneway desire lines",
+    "text": "12.2 Oneway desire lines\nNote that the od_to_sf() function creates bidirectional desire lines. This can be not the ideal for visualization / representation purposes, as you will have 2 lines overlaping.\nThe function od_oneway() aggregates oneway lines to produce bidirectional flows.\nBy default, it returns the sum of each numeric column for each bidirectional origin-destination pair.\n\n\nCode\nnrow(TRIPSdlines)\n\n\n[1] 315\n\n\nCode\nTRIPSdlines_oneway = od_oneway(TRIPSdlines) |&gt; \n  filter(o != d) # remove empty geometries\nnrow(TRIPSdlines_oneway)\n\n\n[1] 150\n\n\nNote that for the last municipalities you have less combinations now. Nevertheless, all the possible combinations are represented.\n\n\nCode\nhead(TRIPSdlines_oneway[,c(1,2)]) # just the first 2 columns\n\n\nSimple feature collection with 6 features and 2 fields\nAttribute-geometry relationships: identity (2)\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: -9.229502 ymin: 38.62842 xmax: -8.915878 ymax: 38.75981\nGeodetic CRS:  WGS 84\n          o        d                       geometry\n1 Alcochete   Almada LINESTRING (-8.915878 38.73...\n2 Alcochete  Amadora LINESTRING (-8.915878 38.73...\n3    Almada  Amadora LINESTRING (-9.193061 38.63...\n4 Alcochete Barreiro LINESTRING (-8.915878 38.73...\n5    Almada Barreiro LINESTRING (-9.193061 38.63...\n6   Amadora Barreiro LINESTRING (-9.229502 38.75...\n\n\nCode\ntail(TRIPSdlines_oneway[,c(1,2)])\n\n\nSimple feature collection with 6 features and 2 fields\nAttribute-geometry relationships: identity (2)\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: -9.357651 ymin: 38.49491 xmax: -8.80664 ymax: 38.92208\nGeodetic CRS:  WGS 84\n           o                   d                       geometry\n145   Oeiras Vila Franca de Xira LINESTRING (-9.276317 38.71...\n146  Palmela Vila Franca de Xira LINESTRING (-8.80664 38.617...\n147   Seixal Vila Franca de Xira LINESTRING (-9.108785 38.60...\n148 Sesimbra Vila Franca de Xira LINESTRING (-9.120129 38.49...\n149  Setúbal Vila Franca de Xira LINESTRING (-8.887489 38.51...\n150   Sintra Vila Franca de Xira LINESTRING (-9.357651 38.82...\n\n\nExample of visualization with Public Transit trips in both ways.\n\n\nCode\nTRIPSdlines_oneway_noLX = TRIPSdlines_oneway |&gt; \n  filter(PTransit &gt; 5000) # reduce noise\n\nmapview(TRIPSdlines_oneway_noLX, zcol = \"PTransit\", lwd = 8)",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
+    ]
+  },
+  {
+    "objectID": "desire-lines.html#using-population-centroids",
+    "href": "desire-lines.html#using-population-centroids",
+    "title": "12  OD pairs and desire lines",
+    "section": "12.3 Using population centroids",
+    "text": "12.3 Using population centroids\nThe od_to_sf() function uses the geometric center of the zones to create the desire lines. But if we replace those zones by the weighted centroids, we can have a more realistic representation of the flows.\n\n\nCode\n# Centroid_pop = st_read(\"data/Centroid_pop.gpkg\")\n\nTRIPSdlines_pop = od_to_sf(TRIPSmode, z = Centroid_pop) |&gt;  # works the same way\n  od_oneway() |&gt; # oneway\n  filter(o != d) # remove empty geometries\n\n\nCheck differences of lines with trips from/to Lisbon:\n\n\nCode\nTRIPSdlines_geo_LX = TRIPSdlines_oneway |&gt; \n  filter(o == \"Lisboa\" | d == \"Lisboa\") # or condition\nTRIPSdlines_pop_LX = TRIPSdlines_pop |&gt; \n  filter(o == \"Lisboa\" | d == \"Lisboa\")\n\nmapview(TRIPSdlines_geo_LX, color = \"blue\") + mapview(TRIPSdlines_pop_LX, color = \"red\")\n\n\n\n\n\n\nThe next step will be estimating the euclidean distances between these centroids, and compare them with the routing distances.\n\n\n\n\n\n\nLovelace, Robin, and Richard Ellison. 2018. “Stplanr: A Package for Transport Planning.” The R Journal 10 (2): 10. https://doi.org/10.32614/RJ-2018-053.\n\n\nLovelace, Robin, Rosa Félix, and Dustin Carlino. 2022. “Jittering: A Computationally Efficient Method for Generating Realistic Route Networks from Origin-Destination Data.” Findings, April. https://doi.org/10.32866/001c.33873.\n\n\nLovelace, Robin, and Malcolm Morgan. 2024. Od: Manipulate and Map Origin-Destination Data. https://github.com/itsleeds/od.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
+    ]
+  },
+  {
+    "objectID": "desire-lines.html#footnotes",
+    "href": "desire-lines.html#footnotes",
+    "title": "12  OD pairs and desire lines",
+    "section": "",
+    "text": "See (Lovelace, Félix, and Carlino 2022).↩︎",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
+    ]
+  },
+  {
+    "objectID": "distances.html",
+    "href": "distances.html",
+    "title": "13  Euclidean and routing distances",
+    "section": "",
+    "text": "13.1 Euclidean distances\nTaking the survey respondents’ location, we will estimate the distance to the university (IST) using the sf package.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
+    ]
+  },
+  {
+    "objectID": "distances.html#euclidean-distances",
+    "href": "distances.html#euclidean-distances",
+    "title": "13  Euclidean and routing distances",
+    "section": "",
+    "text": "Import survey data frame convert to sf\nWe will use a survey dataset with 200 observations, with the following variables: ID, Affiliation, Age, Sex, Transport Mode to IST, and latitude and longitude coordinates.\n\n\nCode\nlibrary(dplyr)\n\nSURVEY = read.csv(\"../data/SURVEY.txt\", sep = \"\\t\") # tab delimiter\nnames(SURVEY)\n\n\n[1] \"ID\"   \"AFF\"  \"AGE\"  \"SEX\"  \"MODE\" \"lat\"  \"lon\" \n\n\nAs we have the coordinates, we can convert this data frame to a spatial feature, as explained in the Introduction to spatial data section.\n\n\nCode\nlibrary(sf)\n\nSURVEYgeo = st_as_sf(SURVEY, coords = c(\"lon\", \"lat\"), crs = 4326) # convert to as sf data\n\n\n\n\nCreate new point at the university\nUsing coordinates from Instituto Superior Técnico, we can directly create a simple feature and assign its crs.\n\n\nCode\nUNIVERSITY = data.frame(place = \"IST\",\n                        lon = -9.1397404,\n                        lat = 38.7370168) |&gt;  # first a dataframe\n  st_as_sf(coords = c(\"lon\", \"lat\"), # then a spacial feature\n           crs = 4326)\n\n\nVisualize in a map:\n\n\nCode\nlibrary(mapview)\nmapview(SURVEYgeo, zcol = \"MODE\") + mapview(UNIVERSITY, col.region = \"red\", cex = 12)\n\n\n\n\n\n\n\n\nStraight lines\nFirst we will create lines connecting the survey locations to the university, using the st_nearest_points() function.\nThis function finds returns the nearest points between two geometries, and creates a line between them. This can be useful to find the nearest train station to each point, for instance.\nAs we only have 1 point at UNIVERSITY layer, we will have the same number of lines as number of surveys = 200.\n\n\nCode\nSURVEYeuclidean = st_nearest_points(SURVEYgeo, UNIVERSITY, pairwise = TRUE) |&gt;\n  st_as_sf() # this creates lines\n\nmapview(SURVEYeuclidean)\n\n\nWarning in cbind(`Feature ID` = fid, mat): number of rows of result is not a\nmultiple of vector length (arg 1)\n\n\n\n\n\n\nNote that if we have more than one point in the second layer, the pairwise = TRUE will create a line for each combination of points. Set to FALSE if, for instance, you have the same number of points in both layers and want to create a line between the corresponding points.\n\n\nDistance\nNow we can estimate the distance using the st_length() function.\n\n\nCode\n# compute the line length and add directly in the first survey layer\nSURVEYgeo = SURVEYgeo |&gt; \n  mutate(distance = st_length(SURVEYeuclidean))\n\n# remove the units - can be useful\nSURVEYgeo$distance = units::drop_units(SURVEYgeo$distance) \n\n\nWe could also estimate the distance using the st_distance() function directly, although we would not get and sf with lines.\n\n\nCode\nSURVEYgeo = SURVEYgeo |&gt; \n  mutate(distance = st_distance(SURVEYgeo, UNIVERSITY)[,1] |&gt;  # in meters\n           units::drop_units()) |&gt;  # remove units\n  mutate(distance = round(distance)) # round to integer\n\nsummary(SURVEYgeo$distance)\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    298    1106    2186    2658    3683    8600 \n\n\nSURVEYgeo is still a points’ sf.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
+    ]
+  },
+  {
+    "objectID": "distances.html#routing-engines",
+    "href": "distances.html#routing-engines",
+    "title": "13  Euclidean and routing distances",
+    "section": "13.2 Routing Engines",
+    "text": "13.2 Routing Engines\nThere are different types of routing engines, regarding the type of network they use, the type of transportation they consider, and the type of data they need. We can have:\n\nUni-modal vs. Multi-modal\n\nOne mode per trip vs. One trip with multiple legs that can be made with different modes\nMulti-modal routing may require GTFS data (realistic Public Transit)\n\nOutput level of the results\n\nRoutes (1 journey = 1 route)\nLegs\nSegments\n\nRouting profiles\n\nType of user\nfastest / shortest path\navoid barriers / tolls, etc\n\n\n\n\n\nRouting options in OpenRouteService\n\n\n\nLocal vs. Remote (service request - usually web API)\n\nSpeed vs. Quota limits / price\nHard vs. Easy set up\nHardware limitations in local routing\nGlobal coverage in remote routing, with frequent updates\n\n\nExamples: OSRM, Dodgr, r5r, Googleway, CycleStreets, HERE.\n\nRouting distances with r5r\nWe use the r5r package to estimate the distance using a road network (Pereira et al. 2021).\n\n\n\n\n\n\nTo properly the setup r5r model for the area you are working on, you need to download the road network data from OpenStreetMap and, if needed, add a GTFS and DEM file, as it will be explained in the next section.\n\n\n\nWe will use only respondents with a distance to the university less than 2 km.\n\n\nCode\nSURVEYsample = SURVEYgeo |&gt; filter(distance &lt;= 2000)\nnrow(SURVEYsample)\n\n\n[1] 95\n\n\nWe need an id (unique identifier) for each survey location, to be used in the routing functions of r5r.\n\n\nCode\n# create id columns for both datasets\nSURVEYsample = SURVEYsample |&gt; \n  mutate(id = c(1:nrow(SURVEYsample))) # from 1 to the number of rows\n\nUNIVERSITY = UNIVERSITY |&gt; \n  mutate(id = 1) # only one row\n\n\n\nDistances by car\nEstimate the routes with time and distance by car, from survey locations to University.\n\n\nCode\nSURVEYcar = detailed_itineraries(\n  r5r_core = r5r_network,\n  origins = SURVEYsample,\n  destinations = UNIVERSITY,\n  mode = \"CAR\",\n  all_to_all = TRUE # if false, only 1-1 would be calculated\n)\n\nnames(SURVEYcar)\n\n\n [1] \"from_id\"          \"from_lat\"         \"from_lon\"         \"to_id\"           \n [5] \"to_lat\"           \"to_lon\"           \"option\"           \"departure_time\"  \n [9] \"total_duration\"   \"total_distance\"   \"segment\"          \"mode\"            \n[13] \"segment_duration\" \"wait\"             \"distance\"         \"route\"           \n[17] \"geometry\"        \n\n\nThe detailed_itineraries() function is super detailed!\n\n\n\n\n\n\nIf we want to know only time and distance, and not the route itself, we can use the travel_time_matrix().\n\n\n\n\n\nDistances by foot\nRepeat the same for WALK1.\n\n\nCode\nSURVEYwalk = detailed_itineraries(\n  r5r_core = r5r_network,\n  origins = SURVEYsample,\n  destinations = UNIVERSITY,\n  mode = \"WALK\",\n  all_to_all = TRUE # if false, only 1-1 would be calculated\n)\n\n\n\n\nDistances by PT\nFor Public Transit (TRANSIT) you may specify the egress mode, the departure time, and the maximum number of transfers.\n\n\nCode\nSURVEYtransit = detailed_itineraries(\n  r5r_core = r5r_network,\n  origins = SURVEYsample,\n  destinations = UNIVERSITY,\n  mode = \"TRANSIT\",\n  mode_egress = \"WALK\",\n  max_rides = 1, # The maximum PT rides allowed in the same trip\n  departure_datetime =  as.POSIXct(\"20-09-2023 08:00:00\",\n                                 format = \"%d-%m-%Y %H:%M:%S\"),\n  all_to_all = TRUE # if false, only 1-1 would be calculated\n)",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
+    ]
+  },
+  {
+    "objectID": "distances.html#compare-distances",
+    "href": "distances.html#compare-distances",
+    "title": "13  Euclidean and routing distances",
+    "section": "13.3 Compare distances",
+    "text": "13.3 Compare distances\nWe can now compare the euclidean and routing distances that we estimated for the survey locations under 2 km.\n\n\nCode\nsummary(SURVEYsample$distance) # Euclidean\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    298     790    1046    1112    1470    1963 \n\n\nCode\nsummary(SURVEYwalk$distance) # Walk\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    569    1090    1465    1505    1925    2710 \n\n\nCode\nsummary(SURVEYcar$distance) # Car\n\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    228    1401    1823    1893    2431    3177 \n\n\n\nWhat can you understand from this results?\n\n\n\n\n\n\n\n\n\n\n\nCircuity\nCompare 1 single route.\n\n\nCode\nmapview(SURVEYeuclidean[165,], color = \"black\") + # 1556 meters\n  mapview(SURVEYwalk[78,], color = \"red\") + # 1989 meters\n  mapview(SURVEYcar[78,], color = \"blue\") # 2565 meters\n\n\n\n\n\n\nWith this we can see the circuity of the routes, a measure of route / transportation efficiency, which is the ratio between the routing distance and the euclidean distance.\nThe cicuity for car (1.65) is usually higher than for walking (1.28) or biking, for shorter distances.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
+    ]
+  },
+  {
+    "objectID": "distances.html#visualize-routes",
+    "href": "distances.html#visualize-routes",
+    "title": "13  Euclidean and routing distances",
+    "section": "13.4 Visualize routes",
+    "text": "13.4 Visualize routes\nVisualize with transparency of 30%, to get a clue when they overlay.\n\n\nCode\nmapview(SURVEYwalk, alpha = 0.3)\n\n\n\n\n\n\nCode\nmapview(SURVEYcar, alpha = 0.3, color = \"red\")\n\n\n\n\n\n\nWe can also use the overline() function from stplanr package to break up the routes when they overline, and add them up.\n\n\nCode\n# we create a value that we can later sum\n# it can be the number of trips represented by this route\nSURVEYwalk$trips = 1 # in this case is only one respondent per route\n\nSURVEYwalk_overline = stplanr::overline(\n  SURVEYwalk,\n  attrib = \"trips\",\n  fun = sum\n)\n\nmapview(SURVEYwalk_overline, zcol = \"trips\", lwd = 3)\n\n\n\n\n\n\nWith this we can visually inform on how many people travel along a route, from the survey dataset2.\n\n\n\n\n\n\nPereira, Rafael H. M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue Vieira Braga, and Matthew Wigginton Conway. 2021. “R5r: Rapid Realistic Routing on Multimodal Transport Networks with r5 in r.” Findings, March. https://doi.org/10.32866/001c.21262.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
+    ]
+  },
+  {
+    "objectID": "distances.html#footnotes",
+    "href": "distances.html#footnotes",
+    "title": "13  Euclidean and routing distances",
+    "section": "",
+    "text": "For bike you would use BICYCLE.↩︎\nAssuming all travel by the shortest path.↩︎",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Euclidean and routing distances</span>"
+    ]
+  },
+  {
+    "objectID": "open-data.html",
+    "href": "open-data.html",
+    "title": "14  Open transportation data",
+    "section": "",
+    "text": "14.1 Road Networks",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Open transportation data</span>"
+    ]
+  },
+  {
+    "objectID": "open-data.html#road-networks",
+    "href": "open-data.html#road-networks",
+    "title": "14  Open transportation data",
+    "section": "",
+    "text": "14.1.1 OpenStreetMap\nThe OpenStreetMap is a collaborative online mapping project that creates a free editable map of the world.\nThis is the most used source of road network data for transportation analysis in academia, since it is available almost everywhere in the world, is open and free to use.\n\n\n\n\n\n\nAlthough it can be not 100% accurate, OSM is a good source of data for most of the cases.\n\n\n\nYou can access it’s visualization tool at www.openstreetmap.org. To edit the map, you can use the Editor, once you register.\nIf you want to download the data, you can use the following tools.\n\nOverpass API\nGeofabrik\n\nThese websites include all the OSM data, with much more information than you need.\n\n\n14.1.2 HOT Export Tool\nThis interactive tool helps you to select the region you want to extract, the type of information to include, and the output data format.\nAccess via export.hotosm.org1.\n\nAfter the export, you can read in R using the sf package:\n\n\nCode\nGent = sf::st_read(\"../data/Gent_center.gpkg\", quiet = TRUE)\n\nmapview::mapview(Gent, zcol = \"highway\")\n\n\n\n\n\n\n\n\n14.1.3 OSM in R\nThere are also some R packages that can help you to download and work with OpenStreetMap data, such as:\n\nosmdata\nosmextract\n\nThis is an example of how to download OpenStreetMap road network data using the osmextract package:\n\n\nCode\nlibrary(osmextract)\nOSM_Malta = oe_get_network(place = \"Malta\") # it will geocode the place\n\nMalta_main_roads = OSM_Malta |&gt; \n  filter(highway %in% c(\"primary\", \"secondary\", \"tertiary\", \"trunk\"))\n\nplot(Malta_main_roads[\"highway\"])",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Open transportation data</span>"
+    ]
+  },
+  {
+    "objectID": "open-data.html#transportation-services-data",
+    "href": "open-data.html#transportation-services-data",
+    "title": "14  Open transportation data",
+    "section": "14.2 Transportation Services’ Data",
+    "text": "14.2 Transportation Services’ Data\n\n14.2.1 GTFS\nGeneral Transit Feed Specification (GTFS) is standard format for documenting public transportation information, including: routes, schedules, stop locations, calendar patterns, trips, and possible transfers. Transit agencies are responsible for maintaining the data up-to-date.\nThis information is used in several applications, such as Google Maps, to provide public transportation directions. It can be offered for a city, a region, or even a whole country, depending on the PT agency.\nThe recent version 2 of the GTFS standard includes more information, such as real-time data.\nThe data is usually in a .zip file that includes several .txt files (one for each type of information) with tabular relations.\n\n\n\nSource: trilliumtransit.com\n\n\n\nOnline sources\nYou can find most GTFS data in the following websites:\n\nTransitLand\nTransitFeeds\n\nSome PT agencies also provide their open-data in their websites.\n\n\nR packages\nThere are some nice R packages to read and manipulate GTFS data, such as:\n\ntidytransit\ngtfstools\n\n\n\n\n\n\n\nBe aware that they may share the same function names, so it is important to use of of them at the time.\n\n\n\n\n\n\n14.2.2 National Access Points\nThe European Union has a directive that requires the member states to provide access to transportation data. Data includes not only Public Transportation data, but also road networks, car parking, and other transportation-related information.\nList of the European Union members states with National Access Points for Transportation data\nExample of Bus services data in Belgium:\n\n\n\nSource: Transport Data Belgium",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Open transportation data</span>"
+    ]
+  },
+  {
+    "objectID": "open-data.html#footnotes",
+    "href": "open-data.html#footnotes",
+    "title": "14  Open transportation data",
+    "section": "",
+    "text": "You need an OSM account to use it.↩︎",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Open transportation data</span>"
+    ]
+  },
+  {
+    "objectID": "grid.html",
+    "href": "grid.html",
+    "title": "15  Grids",
+    "section": "",
+    "text": "15.1 Make grid\nCode\nlibrary(sf)\nlibrary(dplyr)\nlibrary(mapview)\n\nMUNICIPIOSgeo = st_read(\"data/Municipalities_geo.gpkg\")\nLISBON = MUNICIPIOSgeo |&gt; filter(Municipality == \"Lisboa\") |&gt; st_transform(3857)\nTo make a grid we is the st_make_grid() function.\nCode\nGRID = LISBON |&gt;\n  st_make_grid(cellsize = 800, what = \"polygons\", square = TRUE) |&gt; # 800m, we are using a projected crs\n  st_sf() |&gt; # from list to sf\n  st_transform(crs = 4326) # to WGS84\n\nGRID = GRID |&gt;  \n  mutate(id = c(1:nrow(GRID)))  # just to give an ID to each cell \n\nmapview(GRID)",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Grids</span>"
+    ]
+  },
+  {
+    "objectID": "grid.html#count-points-in-polygons",
+    "href": "grid.html#count-points-in-polygons",
+    "title": "15  Grids",
+    "section": "15.2 Count points in polygons",
+    "text": "15.2 Count points in polygons\n\n\nCode\nSURVEY = read.csv(\"data/SURVEY.txt\", sep = \"\\t\")\nSURVEYgeo = SURVEY |&gt; st_as_sf(coords = c(\"lon\", \"lat\"), crs = 4326)\n\nSURVEY_with_GRIDid = SURVEYgeo |&gt; \n  st_join(GRID, \n          join = st_intersects) |&gt; \n    st_drop_geometry() |&gt; \n    group_by(id) |&gt; \n    summarise(count = n()) |&gt; \n    ungroup()\n\n# back to grid\nGRIDdensity = GRID |&gt; left_join(SURVEY_with_GRIDid)\n\nmapview(GRIDdensity, zcol = \"count\")",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Grids</span>"
     ]
   },
   {
