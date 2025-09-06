@@ -33,7 +33,7 @@ and paste it in your session.\
 Run each line using `CTRL` + `ENTER`
 :::
 
-## Install and load packages
+## Load packages
 
 ```{r}
 #| message: false
@@ -45,10 +45,8 @@ library(corrplot) # correlation plots
 
 ## Dataset
 
-The database used in this example is a treated database from the
-Mobility Survey executed for the metropolitan areas of Lisbon and Porto
-in 2018 [@IMOB]. We will only focus on trips within the metropolitan
-area of Lisbon.
+The database used in this example is a treated database from the Mobility Survey for the metropolitan areas of Lisbon and Porto in 2018 [@IMOB].
+We will only focus on trips within the metropolitan area of Lisbon.
 
 Included **variables**:
 
