@@ -55,7 +55,8 @@ book:
     - references.qmd
   
   repo-url: https://github.com/U-Shift/MQAT
-  favicon: images/favicon.png
+  site-url: https://U-Shift.github.io/MQAT
+  # favicon: images/favicon.png
   # sidebar:
     # tools:
     #   - icon: download
