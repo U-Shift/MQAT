@@ -1,6 +1,7 @@
 ---
 title: "Multiple Linear Regression"
 code-fold: false
+number-depth: 2
 ---
 
 ::: {.callout-tip appearance="simple"}

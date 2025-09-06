@@ -1,6 +1,7 @@
 ---
 eval: true
 code-fold: false
+number-depth: 2
 engine: knitr
 ---
 

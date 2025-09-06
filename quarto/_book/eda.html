@@ -1907,271 +1907,272 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <div class="sourceCode" id="cb44" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Exploratory Data Analysis"</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Intro</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>This chapter will show you how to use visualization and transformation</span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>to explore your data in a systematic way, a task that statisticians call</span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>exploratory data analysis, or **EDA** for short. EDA is an iterative</span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>cycle, where you should feel free to "fall in love" with your data.</span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>You:</span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Generate questions about your data.</span>
-<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Search for answers by visualizing, transforming, and modelling your</span>
-<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>    data.</span>
-<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Use what you learn to refine your questions and/or generate new</span>
-<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>    questions.</span>
-<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Note: EDA is not a formal process with a strict set of rules!</span></span>
-<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>See @wickham2017r for more, in particular the EDA chapter.</span>
-<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
-<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Do it yourself with R</span></span>
-<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>Copy the script</span>
-<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">ExploratoryDataAnalysis.R</span><span class="co">](https://github.com/U-Shift/MQAT/blob/main/code/classroom/ExploratoryDataAnalysis.R)</span></span>
-<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a>and paste it in your session.\</span>
-<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a>Run each line using <span class="in">`CTRL`</span> + <span class="in">`ENTER`</span></span>
-<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Load packages</span></span>
-<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Pack of most used libraries for data science</span></span>
-<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr) <span class="co"># summary of the data</span></span>
-<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DataExplorer) <span class="co"># exploratory data analysis</span></span>
-<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot) <span class="co"># correlation plots</span></span>
-<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dataset</span></span>
-<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a>The database used in this example is a treated database from the Mobility Survey for the metropolitan areas of Lisbon and Porto in 2018 <span class="co">[</span><span class="ot">@IMOB</span><span class="co">]</span>.</span>
-<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a>We will only focus on trips within the metropolitan area of Lisbon.</span>
-<span id="cb44-52"><a href="#cb44-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-53"><a href="#cb44-53" aria-hidden="true" tabindex="-1"></a>Included **variables**:</span>
-<span id="cb44-54"><a href="#cb44-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-55"><a href="#cb44-55" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Origin_dicofre16`</span> - Code of Freguesia (district) as set by INE</span>
-<span id="cb44-56"><a href="#cb44-56" aria-hidden="true" tabindex="-1"></a>    after 2016 (Distrito + Concelho + Freguesia), for trip origin</span>
-<span id="cb44-57"><a href="#cb44-57" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Total`</span> - number of trips with origin at each district</span>
-<span id="cb44-58"><a href="#cb44-58" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Walk`</span> - number of walking trips</span>
-<span id="cb44-59"><a href="#cb44-59" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Bike`</span> - number of bike trips</span>
-<span id="cb44-60"><a href="#cb44-60" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Car`</span> - number of car trips. Includes taxi and motorcycle.</span>
-<span id="cb44-61"><a href="#cb44-61" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`PTransit`</span> - number of Public Transit trips</span>
-<span id="cb44-62"><a href="#cb44-62" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Other`</span> - number of other trips (truck, van, tractor, aviation)</span>
-<span id="cb44-63"><a href="#cb44-63" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Distance`</span> - average trip distance (km)</span>
-<span id="cb44-64"><a href="#cb44-64" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Duration`</span> - average trip duration (minutes)</span>
-<span id="cb44-65"><a href="#cb44-65" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Car_perc`</span> - percentage of car trips</span>
-<span id="cb44-66"><a href="#cb44-66" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`N_INDIVIDUOS`</span> - number of residents <span class="co">[</span><span class="ot">@INEcensus</span><span class="co">]</span></span>
-<span id="cb44-67"><a href="#cb44-67" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Male_perc`</span> - percentage of male residents <span class="co">[</span><span class="ot">@INEcensus</span><span class="co">]</span></span>
-<span id="cb44-68"><a href="#cb44-68" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`IncomeHH`</span> - average household income</span>
-<span id="cb44-69"><a href="#cb44-69" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Nvehicles`</span> - average number of car/motorcycle vehicles in the</span>
-<span id="cb44-70"><a href="#cb44-70" aria-hidden="true" tabindex="-1"></a>    household</span>
-<span id="cb44-71"><a href="#cb44-71" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`DrivingLic`</span> - percentage of car driving licence holders</span>
-<span id="cb44-72"><a href="#cb44-72" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`CarParkFree_Work`</span> - percentage of respondents with free car parking</span>
-<span id="cb44-73"><a href="#cb44-73" aria-hidden="true" tabindex="-1"></a>    at the work location</span>
-<span id="cb44-74"><a href="#cb44-74" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`PTpass`</span> - percentage of public transit monthly pass holders</span>
-<span id="cb44-75"><a href="#cb44-75" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`internal`</span> - binary variable (factor). <span class="in">`Yes`</span>: trip with same TAZ</span>
-<span id="cb44-76"><a href="#cb44-76" aria-hidden="true" tabindex="-1"></a>    origin and destination, <span class="in">`No`</span>: trips with different destination</span>
-<span id="cb44-77"><a href="#cb44-77" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Lisboa`</span> - binary variable (factor). <span class="in">`Yes`</span>: the district is part of</span>
-<span id="cb44-78"><a href="#cb44-78" aria-hidden="true" tabindex="-1"></a>    Lisbon municipality, <span class="in">`No`</span>: otherwise</span>
-<span id="cb44-79"><a href="#cb44-79" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Area_km2`</span> - area of in <span class="in">`Origin_dicofre16`</span>, in km^2^</span>
-<span id="cb44-80"><a href="#cb44-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-81"><a href="#cb44-81" aria-hidden="true" tabindex="-1"></a><span class="fu">### Import dataset</span></span>
-<span id="cb44-82"><a href="#cb44-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-85"><a href="#cb44-85" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-86"><a href="#cb44-86" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"../data/IMOBmodel.Rds"</span>)</span>
-<span id="cb44-87"><a href="#cb44-87" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-88"><a href="#cb44-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-89"><a href="#cb44-89" aria-hidden="true" tabindex="-1"></a>Take a look at the dataset</span>
-<span id="cb44-90"><a href="#cb44-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-93"><a href="#cb44-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-94"><a href="#cb44-94" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data) <span class="co"># open in table</span></span>
-<span id="cb44-95"><a href="#cb44-95" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data) <span class="co"># glimpse of the dataset</span></span>
-<span id="cb44-96"><a href="#cb44-96" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data) <span class="co"># Structure of the dataset </span></span>
-<span id="cb44-97"><a href="#cb44-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-98"><a href="#cb44-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-99"><a href="#cb44-99" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary statistics</span></span>
-<span id="cb44-100"><a href="#cb44-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-101"><a href="#cb44-101" aria-hidden="true" tabindex="-1"></a>Have an overview of the variables and their statistics' summary.</span>
-<span id="cb44-102"><a href="#cb44-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-105"><a href="#cb44-105" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-106"><a href="#cb44-106" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data) <span class="co"># Check the summary statistics</span></span>
-<span id="cb44-107"><a href="#cb44-107" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data) <span class="co"># In a more organized way</span></span>
-<span id="cb44-108"><a href="#cb44-108" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-109"><a href="#cb44-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-110"><a href="#cb44-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## Missing data</span></span>
-<span id="cb44-111"><a href="#cb44-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-112"><a href="#cb44-112" aria-hidden="true" tabindex="-1"></a>Is there missing data (<span class="in">`NA`</span>)? How many?</span>
-<span id="cb44-113"><a href="#cb44-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-116"><a href="#cb44-116" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-117"><a href="#cb44-117" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">is.na</span>(data))</span>
-<span id="cb44-118"><a href="#cb44-118" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-119"><a href="#cb44-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-120"><a href="#cb44-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Outliers</span></span>
-<span id="cb44-121"><a href="#cb44-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-122"><a href="#cb44-122" aria-hidden="true" tabindex="-1"></a>Inspect outliers and distributions</span>
-<span id="cb44-123"><a href="#cb44-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-126"><a href="#cb44-126" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-127"><a href="#cb44-127" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb44-128"><a href="#cb44-128" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data) <span class="co"># This does now work if variables are not all continuous</span></span>
-<span id="cb44-129"><a href="#cb44-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-130"><a href="#cb44-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-133"><a href="#cb44-133" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-134"><a href="#cb44-134" aria-hidden="true" tabindex="-1"></a>data_continuous <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>Origin_dicofre16, <span class="sc">-</span>internal, <span class="sc">-</span>Lisboa) <span class="co"># Exclude categorical variables</span></span>
-<span id="cb44-135"><a href="#cb44-135" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_continuous) <span class="co"># Exclude categorical variables</span></span>
-<span id="cb44-136"><a href="#cb44-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-137"><a href="#cb44-137" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data_continuous<span class="sc">$</span>Total) <span class="co"># histogram</span></span>
-<span id="cb44-138"><a href="#cb44-138" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_continuous<span class="sc">$</span>Total) <span class="co"># outliers detected</span></span>
-<span id="cb44-139"><a href="#cb44-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-140"><a href="#cb44-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-141"><a href="#cb44-141" aria-hidden="true" tabindex="-1"></a><span class="fu">### Treating outliers</span></span>
-<span id="cb44-142"><a href="#cb44-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-143"><a href="#cb44-143" aria-hidden="true" tabindex="-1"></a>Based on the theory, we can create a function to detect the outliers.</span>
-<span id="cb44-144"><a href="#cb44-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-147"><a href="#cb44-147" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-148"><a href="#cb44-148" aria-hidden="true" tabindex="-1"></a>outlier <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
-<span id="cb44-149"><a href="#cb44-149" aria-hidden="true" tabindex="-1"></a>  q <span class="ot">=</span> <span class="fu">quantile</span>(x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># Q1 and Q3</span></span>
-<span id="cb44-150"><a href="#cb44-150" aria-hidden="true" tabindex="-1"></a>  caps <span class="ot">=</span> <span class="fu">quantile</span>(x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="co"># 5th and 95th percentile</span></span>
-<span id="cb44-151"><a href="#cb44-151" aria-hidden="true" tabindex="-1"></a>  H <span class="ot">=</span> <span class="fl">1.5</span> <span class="sc">*</span> <span class="fu">IQR</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="co"># interquartile range</span></span>
-<span id="cb44-152"><a href="#cb44-152" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb44-153"><a href="#cb44-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">case_when</span>(</span>
-<span id="cb44-154"><a href="#cb44-154" aria-hidden="true" tabindex="-1"></a>    x <span class="sc">&lt;</span> (q[<span class="dv">1</span>] <span class="sc">-</span> H) <span class="sc">~</span> caps[<span class="dv">1</span>], <span class="co"># replace values that are LESS than Q1-1.5*IQR with the P5 value</span></span>
-<span id="cb44-155"><a href="#cb44-155" aria-hidden="true" tabindex="-1"></a>    x <span class="sc">&gt;</span> (q[<span class="dv">2</span>] <span class="sc">+</span> H) <span class="sc">~</span> caps[<span class="dv">2</span>], <span class="co"># replace values that are MORE than Q3+1.5*IQR with the P95 value</span></span>
-<span id="cb44-156"><a href="#cb44-156" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> x <span class="co"># otherwise, return the original value</span></span>
-<span id="cb44-157"><a href="#cb44-157" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb44-158"><a href="#cb44-158" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb44-159"><a href="#cb44-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-160"><a href="#cb44-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-161"><a href="#cb44-161" aria-hidden="true" tabindex="-1"></a>Now, use it in a copy of the table</span>
-<span id="cb44-162"><a href="#cb44-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-165"><a href="#cb44-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-166"><a href="#cb44-166" aria-hidden="true" tabindex="-1"></a>data_outliers <span class="ot">=</span> data_continuous <span class="co"># duplicate the table</span></span>
-<span id="cb44-167"><a href="#cb44-167" aria-hidden="true" tabindex="-1"></a>data_outliers<span class="sc">$</span>Total <span class="ot">=</span> <span class="fu">outlier</span>(data_outliers<span class="sc">$</span>Total) <span class="co"># Use the function to the same variable</span></span>
-<span id="cb44-168"><a href="#cb44-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-169"><a href="#cb44-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-170"><a href="#cb44-170" aria-hidden="true" tabindex="-1"></a>Take a look again at the boxplot</span>
-<span id="cb44-171"><a href="#cb44-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-174"><a href="#cb44-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-175"><a href="#cb44-175" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_outliers<span class="sc">$</span>Total)</span>
-<span id="cb44-176"><a href="#cb44-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-177"><a href="#cb44-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-178"><a href="#cb44-178" aria-hidden="true" tabindex="-1"></a>Compare the variable with and without the outliers</span>
-<span id="cb44-179"><a href="#cb44-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-182"><a href="#cb44-182" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-183"><a href="#cb44-183" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean</span></span>
-<span id="cb44-184"><a href="#cb44-184" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data<span class="sc">$</span>Total)</span>
-<span id="cb44-185"><a href="#cb44-185" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data_outliers<span class="sc">$</span>Total)</span>
-<span id="cb44-186"><a href="#cb44-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-187"><a href="#cb44-187" aria-hidden="true" tabindex="-1"></a><span class="co"># Median</span></span>
-<span id="cb44-188"><a href="#cb44-188" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(data<span class="sc">$</span>Total)</span>
-<span id="cb44-189"><a href="#cb44-189" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(data_outliers<span class="sc">$</span>Total)</span>
-<span id="cb44-190"><a href="#cb44-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-191"><a href="#cb44-191" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard deviation</span></span>
-<span id="cb44-192"><a href="#cb44-192" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(data<span class="sc">$</span>Total)</span>
-<span id="cb44-193"><a href="#cb44-193" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(data_outliers<span class="sc">$</span>Total)</span>
-<span id="cb44-194"><a href="#cb44-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-195"><a href="#cb44-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-196"><a href="#cb44-196" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
-<span id="cb44-197"><a href="#cb44-197" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
-<span id="cb44-198"><a href="#cb44-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-199"><a href="#cb44-199" aria-hidden="true" tabindex="-1"></a>There are many methods to treat outliers. This is just one of them.</span>
-<span id="cb44-200"><a href="#cb44-200" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-201"><a href="#cb44-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-202"><a href="#cb44-202" aria-hidden="true" tabindex="-1"></a><span class="fu">## Histograms</span></span>
-<span id="cb44-203"><a href="#cb44-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-204"><a href="#cb44-204" aria-hidden="true" tabindex="-1"></a>Plot histograms of all the continuous variables</span>
-<span id="cb44-205"><a href="#cb44-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-208"><a href="#cb44-208" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-209"><a href="#cb44-209" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_histogram</span>(data, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="co"># histograms with 3 columns</span></span>
-<span id="cb44-210"><a href="#cb44-210" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_density</span>(data, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="co"># density plots</span></span>
-<span id="cb44-211"><a href="#cb44-211" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-212"><a href="#cb44-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-213"><a href="#cb44-213" aria-hidden="true" tabindex="-1"></a>Check how other variables are distributed regarding <span class="in">`Car_perc`</span></span>
-<span id="cb44-214"><a href="#cb44-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-217"><a href="#cb44-217" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-218"><a href="#cb44-218" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_boxplot</span>(data, <span class="at">by =</span> <span class="st">"Car_perc"</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb44-219"><a href="#cb44-219" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-220"><a href="#cb44-220" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
-<span id="cb44-221"><a href="#cb44-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-222"><a href="#cb44-222" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
-<span id="cb44-223"><a href="#cb44-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-224"><a href="#cb44-224" aria-hidden="true" tabindex="-1"></a>When <span class="in">`Car_perc`</span> increases, <span class="in">`PTpass`</span> decreases.</span>
-<span id="cb44-225"><a href="#cb44-225" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-226"><a href="#cb44-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-227"><a href="#cb44-227" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
-<span id="cb44-228"><a href="#cb44-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-229"><a href="#cb44-229" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise</span></span>
-<span id="cb44-230"><a href="#cb44-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-231"><a href="#cb44-231" aria-hidden="true" tabindex="-1"></a>Try plotting the boxplots of each independent variable with <span class="in">`Car_perc`</span>.</span>
-<span id="cb44-232"><a href="#cb44-232" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-233"><a href="#cb44-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="an">number-depth:</span><span class="co"> 2</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Intro</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>This chapter will show you how to use visualization and transformation</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>to explore your data in a systematic way, a task that statisticians call</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>exploratory data analysis, or **EDA** for short. EDA is an iterative</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>cycle, where you should feel free to "fall in love" with your data.</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>You:</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Generate questions about your data.</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Search for answers by visualizing, transforming, and modelling your</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>    data.</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Use what you learn to refine your questions and/or generate new</span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>    questions.</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Note: EDA is not a formal process with a strict set of rules!</span></span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>See @wickham2017r for more, in particular the EDA chapter.</span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## Do it yourself with R</span></span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a>Copy the script</span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">ExploratoryDataAnalysis.R</span><span class="co">](https://github.com/U-Shift/MQAT/blob/main/code/classroom/ExploratoryDataAnalysis.R)</span></span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a>and paste it in your session.\</span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a>Run each line using <span class="in">`CTRL`</span> + <span class="in">`ENTER`</span></span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## Load packages</span></span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Pack of most used libraries for data science</span></span>
+<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr) <span class="co"># summary of the data</span></span>
+<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DataExplorer) <span class="co"># exploratory data analysis</span></span>
+<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot) <span class="co"># correlation plots</span></span>
+<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dataset</span></span>
+<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a>The database used in this example is a treated database from the Mobility Survey for the metropolitan areas of Lisbon and Porto in 2018 <span class="co">[</span><span class="ot">@IMOB</span><span class="co">]</span>.</span>
+<span id="cb44-52"><a href="#cb44-52" aria-hidden="true" tabindex="-1"></a>We will only focus on trips within the metropolitan area of Lisbon.</span>
+<span id="cb44-53"><a href="#cb44-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-54"><a href="#cb44-54" aria-hidden="true" tabindex="-1"></a>Included **variables**:</span>
+<span id="cb44-55"><a href="#cb44-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-56"><a href="#cb44-56" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Origin_dicofre16`</span> - Code of Freguesia (district) as set by INE</span>
+<span id="cb44-57"><a href="#cb44-57" aria-hidden="true" tabindex="-1"></a>    after 2016 (Distrito + Concelho + Freguesia), for trip origin</span>
+<span id="cb44-58"><a href="#cb44-58" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Total`</span> - number of trips with origin at each district</span>
+<span id="cb44-59"><a href="#cb44-59" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Walk`</span> - number of walking trips</span>
+<span id="cb44-60"><a href="#cb44-60" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Bike`</span> - number of bike trips</span>
+<span id="cb44-61"><a href="#cb44-61" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Car`</span> - number of car trips. Includes taxi and motorcycle.</span>
+<span id="cb44-62"><a href="#cb44-62" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`PTransit`</span> - number of Public Transit trips</span>
+<span id="cb44-63"><a href="#cb44-63" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Other`</span> - number of other trips (truck, van, tractor, aviation)</span>
+<span id="cb44-64"><a href="#cb44-64" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Distance`</span> - average trip distance (km)</span>
+<span id="cb44-65"><a href="#cb44-65" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Duration`</span> - average trip duration (minutes)</span>
+<span id="cb44-66"><a href="#cb44-66" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Car_perc`</span> - percentage of car trips</span>
+<span id="cb44-67"><a href="#cb44-67" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`N_INDIVIDUOS`</span> - number of residents <span class="co">[</span><span class="ot">@INEcensus</span><span class="co">]</span></span>
+<span id="cb44-68"><a href="#cb44-68" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Male_perc`</span> - percentage of male residents <span class="co">[</span><span class="ot">@INEcensus</span><span class="co">]</span></span>
+<span id="cb44-69"><a href="#cb44-69" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`IncomeHH`</span> - average household income</span>
+<span id="cb44-70"><a href="#cb44-70" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Nvehicles`</span> - average number of car/motorcycle vehicles in the</span>
+<span id="cb44-71"><a href="#cb44-71" aria-hidden="true" tabindex="-1"></a>    household</span>
+<span id="cb44-72"><a href="#cb44-72" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`DrivingLic`</span> - percentage of car driving licence holders</span>
+<span id="cb44-73"><a href="#cb44-73" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`CarParkFree_Work`</span> - percentage of respondents with free car parking</span>
+<span id="cb44-74"><a href="#cb44-74" aria-hidden="true" tabindex="-1"></a>    at the work location</span>
+<span id="cb44-75"><a href="#cb44-75" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`PTpass`</span> - percentage of public transit monthly pass holders</span>
+<span id="cb44-76"><a href="#cb44-76" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`internal`</span> - binary variable (factor). <span class="in">`Yes`</span>: trip with same TAZ</span>
+<span id="cb44-77"><a href="#cb44-77" aria-hidden="true" tabindex="-1"></a>    origin and destination, <span class="in">`No`</span>: trips with different destination</span>
+<span id="cb44-78"><a href="#cb44-78" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Lisboa`</span> - binary variable (factor). <span class="in">`Yes`</span>: the district is part of</span>
+<span id="cb44-79"><a href="#cb44-79" aria-hidden="true" tabindex="-1"></a>    Lisbon municipality, <span class="in">`No`</span>: otherwise</span>
+<span id="cb44-80"><a href="#cb44-80" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Area_km2`</span> - area of in <span class="in">`Origin_dicofre16`</span>, in km^2^</span>
+<span id="cb44-81"><a href="#cb44-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-82"><a href="#cb44-82" aria-hidden="true" tabindex="-1"></a><span class="fu">### Import dataset</span></span>
+<span id="cb44-83"><a href="#cb44-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-86"><a href="#cb44-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-87"><a href="#cb44-87" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"../data/IMOBmodel.Rds"</span>)</span>
+<span id="cb44-88"><a href="#cb44-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-89"><a href="#cb44-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-90"><a href="#cb44-90" aria-hidden="true" tabindex="-1"></a>Take a look at the dataset</span>
+<span id="cb44-91"><a href="#cb44-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-94"><a href="#cb44-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-95"><a href="#cb44-95" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data) <span class="co"># open in table</span></span>
+<span id="cb44-96"><a href="#cb44-96" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data) <span class="co"># glimpse of the dataset</span></span>
+<span id="cb44-97"><a href="#cb44-97" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data) <span class="co"># Structure of the dataset </span></span>
+<span id="cb44-98"><a href="#cb44-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-99"><a href="#cb44-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-100"><a href="#cb44-100" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary statistics</span></span>
+<span id="cb44-101"><a href="#cb44-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-102"><a href="#cb44-102" aria-hidden="true" tabindex="-1"></a>Have an overview of the variables and their statistics' summary.</span>
+<span id="cb44-103"><a href="#cb44-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-106"><a href="#cb44-106" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-107"><a href="#cb44-107" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data) <span class="co"># Check the summary statistics</span></span>
+<span id="cb44-108"><a href="#cb44-108" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data) <span class="co"># In a more organized way</span></span>
+<span id="cb44-109"><a href="#cb44-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-110"><a href="#cb44-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-111"><a href="#cb44-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Missing data</span></span>
+<span id="cb44-112"><a href="#cb44-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-113"><a href="#cb44-113" aria-hidden="true" tabindex="-1"></a>Is there missing data (<span class="in">`NA`</span>)? How many?</span>
+<span id="cb44-114"><a href="#cb44-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-117"><a href="#cb44-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-118"><a href="#cb44-118" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">is.na</span>(data))</span>
+<span id="cb44-119"><a href="#cb44-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-120"><a href="#cb44-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-121"><a href="#cb44-121" aria-hidden="true" tabindex="-1"></a><span class="fu">## Outliers</span></span>
+<span id="cb44-122"><a href="#cb44-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-123"><a href="#cb44-123" aria-hidden="true" tabindex="-1"></a>Inspect outliers and distributions</span>
+<span id="cb44-124"><a href="#cb44-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-127"><a href="#cb44-127" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-128"><a href="#cb44-128" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb44-129"><a href="#cb44-129" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data) <span class="co"># This does now work if variables are not all continuous</span></span>
+<span id="cb44-130"><a href="#cb44-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-131"><a href="#cb44-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-134"><a href="#cb44-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-135"><a href="#cb44-135" aria-hidden="true" tabindex="-1"></a>data_continuous <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>Origin_dicofre16, <span class="sc">-</span>internal, <span class="sc">-</span>Lisboa) <span class="co"># Exclude categorical variables</span></span>
+<span id="cb44-136"><a href="#cb44-136" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_continuous) <span class="co"># Exclude categorical variables</span></span>
+<span id="cb44-137"><a href="#cb44-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-138"><a href="#cb44-138" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data_continuous<span class="sc">$</span>Total) <span class="co"># histogram</span></span>
+<span id="cb44-139"><a href="#cb44-139" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_continuous<span class="sc">$</span>Total) <span class="co"># outliers detected</span></span>
+<span id="cb44-140"><a href="#cb44-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-141"><a href="#cb44-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-142"><a href="#cb44-142" aria-hidden="true" tabindex="-1"></a><span class="fu">### Treating outliers</span></span>
+<span id="cb44-143"><a href="#cb44-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-144"><a href="#cb44-144" aria-hidden="true" tabindex="-1"></a>Based on the theory, we can create a function to detect the outliers.</span>
+<span id="cb44-145"><a href="#cb44-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-148"><a href="#cb44-148" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-149"><a href="#cb44-149" aria-hidden="true" tabindex="-1"></a>outlier <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
+<span id="cb44-150"><a href="#cb44-150" aria-hidden="true" tabindex="-1"></a>  q <span class="ot">=</span> <span class="fu">quantile</span>(x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># Q1 and Q3</span></span>
+<span id="cb44-151"><a href="#cb44-151" aria-hidden="true" tabindex="-1"></a>  caps <span class="ot">=</span> <span class="fu">quantile</span>(x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="co"># 5th and 95th percentile</span></span>
+<span id="cb44-152"><a href="#cb44-152" aria-hidden="true" tabindex="-1"></a>  H <span class="ot">=</span> <span class="fl">1.5</span> <span class="sc">*</span> <span class="fu">IQR</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="co"># interquartile range</span></span>
+<span id="cb44-153"><a href="#cb44-153" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-154"><a href="#cb44-154" aria-hidden="true" tabindex="-1"></a>  <span class="fu">case_when</span>(</span>
+<span id="cb44-155"><a href="#cb44-155" aria-hidden="true" tabindex="-1"></a>    x <span class="sc">&lt;</span> (q[<span class="dv">1</span>] <span class="sc">-</span> H) <span class="sc">~</span> caps[<span class="dv">1</span>], <span class="co"># replace values that are LESS than Q1-1.5*IQR with the P5 value</span></span>
+<span id="cb44-156"><a href="#cb44-156" aria-hidden="true" tabindex="-1"></a>    x <span class="sc">&gt;</span> (q[<span class="dv">2</span>] <span class="sc">+</span> H) <span class="sc">~</span> caps[<span class="dv">2</span>], <span class="co"># replace values that are MORE than Q3+1.5*IQR with the P95 value</span></span>
+<span id="cb44-157"><a href="#cb44-157" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> x <span class="co"># otherwise, return the original value</span></span>
+<span id="cb44-158"><a href="#cb44-158" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-159"><a href="#cb44-159" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-160"><a href="#cb44-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-161"><a href="#cb44-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-162"><a href="#cb44-162" aria-hidden="true" tabindex="-1"></a>Now, use it in a copy of the table</span>
+<span id="cb44-163"><a href="#cb44-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-166"><a href="#cb44-166" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-167"><a href="#cb44-167" aria-hidden="true" tabindex="-1"></a>data_outliers <span class="ot">=</span> data_continuous <span class="co"># duplicate the table</span></span>
+<span id="cb44-168"><a href="#cb44-168" aria-hidden="true" tabindex="-1"></a>data_outliers<span class="sc">$</span>Total <span class="ot">=</span> <span class="fu">outlier</span>(data_outliers<span class="sc">$</span>Total) <span class="co"># Use the function to the same variable</span></span>
+<span id="cb44-169"><a href="#cb44-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-170"><a href="#cb44-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-171"><a href="#cb44-171" aria-hidden="true" tabindex="-1"></a>Take a look again at the boxplot</span>
+<span id="cb44-172"><a href="#cb44-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-175"><a href="#cb44-175" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-176"><a href="#cb44-176" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_outliers<span class="sc">$</span>Total)</span>
+<span id="cb44-177"><a href="#cb44-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-178"><a href="#cb44-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-179"><a href="#cb44-179" aria-hidden="true" tabindex="-1"></a>Compare the variable with and without the outliers</span>
+<span id="cb44-180"><a href="#cb44-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-183"><a href="#cb44-183" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-184"><a href="#cb44-184" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean</span></span>
+<span id="cb44-185"><a href="#cb44-185" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data<span class="sc">$</span>Total)</span>
+<span id="cb44-186"><a href="#cb44-186" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data_outliers<span class="sc">$</span>Total)</span>
+<span id="cb44-187"><a href="#cb44-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-188"><a href="#cb44-188" aria-hidden="true" tabindex="-1"></a><span class="co"># Median</span></span>
+<span id="cb44-189"><a href="#cb44-189" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(data<span class="sc">$</span>Total)</span>
+<span id="cb44-190"><a href="#cb44-190" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(data_outliers<span class="sc">$</span>Total)</span>
+<span id="cb44-191"><a href="#cb44-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-192"><a href="#cb44-192" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard deviation</span></span>
+<span id="cb44-193"><a href="#cb44-193" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(data<span class="sc">$</span>Total)</span>
+<span id="cb44-194"><a href="#cb44-194" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(data_outliers<span class="sc">$</span>Total)</span>
+<span id="cb44-195"><a href="#cb44-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-196"><a href="#cb44-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-197"><a href="#cb44-197" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
+<span id="cb44-198"><a href="#cb44-198" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
+<span id="cb44-199"><a href="#cb44-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-200"><a href="#cb44-200" aria-hidden="true" tabindex="-1"></a>There are many methods to treat outliers. This is just one of them.</span>
+<span id="cb44-201"><a href="#cb44-201" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-202"><a href="#cb44-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-203"><a href="#cb44-203" aria-hidden="true" tabindex="-1"></a><span class="fu">## Histograms</span></span>
+<span id="cb44-204"><a href="#cb44-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-205"><a href="#cb44-205" aria-hidden="true" tabindex="-1"></a>Plot histograms of all the continuous variables</span>
+<span id="cb44-206"><a href="#cb44-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-209"><a href="#cb44-209" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-210"><a href="#cb44-210" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_histogram</span>(data, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="co"># histograms with 3 columns</span></span>
+<span id="cb44-211"><a href="#cb44-211" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_density</span>(data, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="co"># density plots</span></span>
+<span id="cb44-212"><a href="#cb44-212" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-213"><a href="#cb44-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-214"><a href="#cb44-214" aria-hidden="true" tabindex="-1"></a>Check how other variables are distributed regarding <span class="in">`Car_perc`</span></span>
+<span id="cb44-215"><a href="#cb44-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-218"><a href="#cb44-218" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-219"><a href="#cb44-219" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_boxplot</span>(data, <span class="at">by =</span> <span class="st">"Car_perc"</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb44-220"><a href="#cb44-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-221"><a href="#cb44-221" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
+<span id="cb44-222"><a href="#cb44-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-223"><a href="#cb44-223" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
+<span id="cb44-224"><a href="#cb44-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-225"><a href="#cb44-225" aria-hidden="true" tabindex="-1"></a>When <span class="in">`Car_perc`</span> increases, <span class="in">`PTpass`</span> decreases.</span>
+<span id="cb44-226"><a href="#cb44-226" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-227"><a href="#cb44-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-228"><a href="#cb44-228" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb44-229"><a href="#cb44-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-230"><a href="#cb44-230" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise</span></span>
+<span id="cb44-231"><a href="#cb44-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-232"><a href="#cb44-232" aria-hidden="true" tabindex="-1"></a>Try plotting the boxplots of each independent variable with <span class="in">`Car_perc`</span>.</span>
+<span id="cb44-233"><a href="#cb44-233" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb44-234"><a href="#cb44-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-235"><a href="#cb44-235" aria-hidden="true" tabindex="-1"></a><span class="fu">## Correlations</span></span>
-<span id="cb44-236"><a href="#cb44-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-237"><a href="#cb44-237" aria-hidden="true" tabindex="-1"></a>Plot correlation heatmaps, between continuous variables.</span>
-<span id="cb44-238"><a href="#cb44-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-241"><a href="#cb44-241" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-242"><a href="#cb44-242" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate correlation matrix</span></span>
-<span id="cb44-243"><a href="#cb44-243" aria-hidden="true" tabindex="-1"></a>corrmat <span class="ot">=</span> <span class="fu">cor</span>(data_continuous, <span class="at">method =</span> <span class="st">"pearson"</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb44-244"><a href="#cb44-244" aria-hidden="true" tabindex="-1"></a>corrmat</span>
-<span id="cb44-245"><a href="#cb44-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-246"><a href="#cb44-246" aria-hidden="true" tabindex="-1"></a><span class="co"># store the results so you can call the p-value at the corrplot</span></span>
-<span id="cb44-247"><a href="#cb44-247" aria-hidden="true" tabindex="-1"></a>res <span class="ot">=</span> <span class="fu">cor.mtest</span>(data_continuous, <span class="at">conf.level =</span> .<span class="dv">95</span>) </span>
-<span id="cb44-248"><a href="#cb44-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-249"><a href="#cb44-249" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(</span>
-<span id="cb44-250"><a href="#cb44-250" aria-hidden="true" tabindex="-1"></a>  corrmat,</span>
-<span id="cb44-251"><a href="#cb44-251" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"color"</span>, <span class="co"># or "circle"</span></span>
-<span id="cb44-252"><a href="#cb44-252" aria-hidden="true" tabindex="-1"></a>  <span class="at">p.mat =</span> res<span class="sc">$</span>p,</span>
-<span id="cb44-253"><a href="#cb44-253" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
-<span id="cb44-254"><a href="#cb44-254" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"upper"</span>, <span class="co"># display only the upper triangular</span></span>
-<span id="cb44-255"><a href="#cb44-255" aria-hidden="true" tabindex="-1"></a>  <span class="co"># order = "hclust", # order by hierarchical clustering</span></span>
-<span id="cb44-256"><a href="#cb44-256" aria-hidden="true" tabindex="-1"></a>  <span class="at">tl.col =</span> <span class="st">"black"</span> <span class="co"># text label color</span></span>
-<span id="cb44-257"><a href="#cb44-257" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb44-258"><a href="#cb44-258" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-259"><a href="#cb44-259" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
-<span id="cb44-260"><a href="#cb44-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-261"><a href="#cb44-261" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
-<span id="cb44-262"><a href="#cb44-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-263"><a href="#cb44-263" aria-hidden="true" tabindex="-1"></a>The pairwise correlations that are crossed are statistically not significant.</span>
-<span id="cb44-264"><a href="#cb44-264" aria-hidden="true" tabindex="-1"></a>The null hypothesis (H~0~) is that correlation is zero.</span>
-<span id="cb44-265"><a href="#cb44-265" aria-hidden="true" tabindex="-1"></a>The alternative hypothesis (H~A~) is that correlation is not zero.</span>
-<span id="cb44-266"><a href="#cb44-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-267"><a href="#cb44-267" aria-hidden="true" tabindex="-1"></a>This means that the correlations are only significant when you reject the null hypothesis (p-value &lt; 0.05).</span>
-<span id="cb44-268"><a href="#cb44-268" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-269"><a href="#cb44-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-270"><a href="#cb44-270" aria-hidden="true" tabindex="-1"></a>Other method, using the <span class="in">`DataExplorer`</span> package</span>
-<span id="cb44-271"><a href="#cb44-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-274"><a href="#cb44-274" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-275"><a href="#cb44-275" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_correlation</span>(data_continuous)</span>
-<span id="cb44-276"><a href="#cb44-276" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-277"><a href="#cb44-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-235"><a href="#cb44-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-236"><a href="#cb44-236" aria-hidden="true" tabindex="-1"></a><span class="fu">## Correlations</span></span>
+<span id="cb44-237"><a href="#cb44-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-238"><a href="#cb44-238" aria-hidden="true" tabindex="-1"></a>Plot correlation heatmaps, between continuous variables.</span>
+<span id="cb44-239"><a href="#cb44-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-242"><a href="#cb44-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-243"><a href="#cb44-243" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate correlation matrix</span></span>
+<span id="cb44-244"><a href="#cb44-244" aria-hidden="true" tabindex="-1"></a>corrmat <span class="ot">=</span> <span class="fu">cor</span>(data_continuous, <span class="at">method =</span> <span class="st">"pearson"</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb44-245"><a href="#cb44-245" aria-hidden="true" tabindex="-1"></a>corrmat</span>
+<span id="cb44-246"><a href="#cb44-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-247"><a href="#cb44-247" aria-hidden="true" tabindex="-1"></a><span class="co"># store the results so you can call the p-value at the corrplot</span></span>
+<span id="cb44-248"><a href="#cb44-248" aria-hidden="true" tabindex="-1"></a>res <span class="ot">=</span> <span class="fu">cor.mtest</span>(data_continuous, <span class="at">conf.level =</span> .<span class="dv">95</span>) </span>
+<span id="cb44-249"><a href="#cb44-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-250"><a href="#cb44-250" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(</span>
+<span id="cb44-251"><a href="#cb44-251" aria-hidden="true" tabindex="-1"></a>  corrmat,</span>
+<span id="cb44-252"><a href="#cb44-252" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"color"</span>, <span class="co"># or "circle"</span></span>
+<span id="cb44-253"><a href="#cb44-253" aria-hidden="true" tabindex="-1"></a>  <span class="at">p.mat =</span> res<span class="sc">$</span>p,</span>
+<span id="cb44-254"><a href="#cb44-254" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb44-255"><a href="#cb44-255" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"upper"</span>, <span class="co"># display only the upper triangular</span></span>
+<span id="cb44-256"><a href="#cb44-256" aria-hidden="true" tabindex="-1"></a>  <span class="co"># order = "hclust", # order by hierarchical clustering</span></span>
+<span id="cb44-257"><a href="#cb44-257" aria-hidden="true" tabindex="-1"></a>  <span class="at">tl.col =</span> <span class="st">"black"</span> <span class="co"># text label color</span></span>
+<span id="cb44-258"><a href="#cb44-258" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-259"><a href="#cb44-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-260"><a href="#cb44-260" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
+<span id="cb44-261"><a href="#cb44-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-262"><a href="#cb44-262" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
+<span id="cb44-263"><a href="#cb44-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-264"><a href="#cb44-264" aria-hidden="true" tabindex="-1"></a>The pairwise correlations that are crossed are statistically not significant.</span>
+<span id="cb44-265"><a href="#cb44-265" aria-hidden="true" tabindex="-1"></a>The null hypothesis (H~0~) is that correlation is zero.</span>
+<span id="cb44-266"><a href="#cb44-266" aria-hidden="true" tabindex="-1"></a>The alternative hypothesis (H~A~) is that correlation is not zero.</span>
+<span id="cb44-267"><a href="#cb44-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-268"><a href="#cb44-268" aria-hidden="true" tabindex="-1"></a>This means that the correlations are only significant when you reject the null hypothesis (p-value &lt; 0.05).</span>
+<span id="cb44-269"><a href="#cb44-269" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-270"><a href="#cb44-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-271"><a href="#cb44-271" aria-hidden="true" tabindex="-1"></a>Other method, using the <span class="in">`DataExplorer`</span> package</span>
+<span id="cb44-272"><a href="#cb44-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-275"><a href="#cb44-275" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-276"><a href="#cb44-276" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_correlation</span>(data_continuous)</span>
+<span id="cb44-277"><a href="#cb44-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb44-278"><a href="#cb44-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-279"><a href="#cb44-279" aria-hidden="true" tabindex="-1"></a>Check the _p-value_ of a crossed pair correlation: </span>
-<span id="cb44-280"><a href="#cb44-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-283"><a href="#cb44-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-284"><a href="#cb44-284" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>IncomeHH, data<span class="sc">$</span>Bike)</span>
-<span id="cb44-285"><a href="#cb44-285" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>IncomeHH, data<span class="sc">$</span>Duration)</span>
-<span id="cb44-286"><a href="#cb44-286" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>Distance, data<span class="sc">$</span>Duration)</span>
-<span id="cb44-287"><a href="#cb44-287" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-288"><a href="#cb44-288" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
-<span id="cb44-289"><a href="#cb44-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-290"><a href="#cb44-290" aria-hidden="true" tabindex="-1"></a>The default for <span class="in">`cor.test`</span> is Pearson, two-sided, with a 95% confident level.</span>
-<span id="cb44-291"><a href="#cb44-291" aria-hidden="true" tabindex="-1"></a>Check <span class="in">`?cor.test`</span> for more options.</span>
-<span id="cb44-292"><a href="#cb44-292" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-293"><a href="#cb44-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-279"><a href="#cb44-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-280"><a href="#cb44-280" aria-hidden="true" tabindex="-1"></a>Check the _p-value_ of a crossed pair correlation: </span>
+<span id="cb44-281"><a href="#cb44-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-284"><a href="#cb44-284" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-285"><a href="#cb44-285" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>IncomeHH, data<span class="sc">$</span>Bike)</span>
+<span id="cb44-286"><a href="#cb44-286" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>IncomeHH, data<span class="sc">$</span>Duration)</span>
+<span id="cb44-287"><a href="#cb44-287" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>Distance, data<span class="sc">$</span>Duration)</span>
+<span id="cb44-288"><a href="#cb44-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-289"><a href="#cb44-289" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb44-290"><a href="#cb44-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-291"><a href="#cb44-291" aria-hidden="true" tabindex="-1"></a>The default for <span class="in">`cor.test`</span> is Pearson, two-sided, with a 95% confident level.</span>
+<span id="cb44-292"><a href="#cb44-292" aria-hidden="true" tabindex="-1"></a>Check <span class="in">`?cor.test`</span> for more options.</span>
+<span id="cb44-293"><a href="#cb44-293" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb44-294"><a href="#cb44-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-297"><a href="#cb44-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-298"><a href="#cb44-298" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb44-299"><a href="#cb44-299" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb44-300"><a href="#cb44-300" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"quarto/eda.qmd"</span>, <span class="st">"code/eda.R"</span>, <span class="at">documentation =</span> <span class="dv">1</span>)</span>
-<span id="cb44-301"><a href="#cb44-301" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-302"><a href="#cb44-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-295"><a href="#cb44-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-298"><a href="#cb44-298" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-299"><a href="#cb44-299" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb44-300"><a href="#cb44-300" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb44-301"><a href="#cb44-301" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"quarto/eda.qmd"</span>, <span class="st">"code/eda.R"</span>, <span class="at">documentation =</span> <span class="dv">1</span>)</span>
+<span id="cb44-302"><a href="#cb44-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-303"><a href="#cb44-303" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

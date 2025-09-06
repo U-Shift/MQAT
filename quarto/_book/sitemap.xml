@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://U-Shift.github.io/MQAT/eda.html</loc>
-    <lastmod>2025-09-06T19:23:45.676Z</lastmod>
+    <lastmod>2025-09-06T21:17:33.241Z</lastmod>
   </url>
   <url>
     <loc>https://U-Shift.github.io/MQAT/data-manipulation.html</loc>
-    <lastmod>2025-09-06T17:10:58.706Z</lastmod>
+    <lastmod>2025-09-06T21:17:30.076Z</lastmod>
   </url>
   <url>
     <loc>https://U-Shift.github.io/MQAT/r-basics.html</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://U-Shift.github.io/MQAT/linear-regression.html</loc>
-    <lastmod>2025-09-06T21:10:20.776Z</lastmod>
+    <lastmod>2025-09-06T21:17:27.744Z</lastmod>
   </url>
   <url>
     <loc>https://U-Shift.github.io/MQAT/factor-analysis.html</loc>
@@ -31,5 +31,9 @@
   <url>
     <loc>https://U-Shift.github.io/MQAT/software.html</loc>
     <lastmod>2025-09-06T16:57:13.651Z</lastmod>
+  </url>
+  <url>
+    <loc>https://U-Shift.github.io/MQAT/spatial-data.html</loc>
+    <lastmod>2025-09-06T16:17:30.380Z</lastmod>
   </url>
 </urlset>

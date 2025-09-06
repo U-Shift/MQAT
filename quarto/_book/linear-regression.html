@@ -313,16 +313,16 @@ div.csl-indent {
   <li><a href="#load-packages" id="toc-load-packages" class="nav-link active" data-scroll-target="#load-packages"><span class="header-section-number">6.1</span> Load packages</a></li>
   <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset"><span class="header-section-number">6.2</span> Dataset</a>
   <ul class="collapse">
-  <li><a href="#import-dataset" id="toc-import-dataset" class="nav-link" data-scroll-target="#import-dataset"><span class="header-section-number">6.2.1</span> Import dataset</a></li>
+  <li><a href="#import-dataset" id="toc-import-dataset" class="nav-link" data-scroll-target="#import-dataset">Import dataset</a></li>
   </ul></li>
   <li><a href="#check-the-assumptions" id="toc-check-the-assumptions" class="nav-link" data-scroll-target="#check-the-assumptions"><span class="header-section-number">6.3</span> Check the assumptions</a></li>
   <li><a href="#assumption-1-normal-distribution" id="toc-assumption-1-normal-distribution" class="nav-link" data-scroll-target="#assumption-1-normal-distribution"><span class="header-section-number">6.4</span> Assumption 1: Normal distribution</a></li>
   <li><a href="#assumption-2-linear-relationship" id="toc-assumption-2-linear-relationship" class="nav-link" data-scroll-target="#assumption-2-linear-relationship"><span class="header-section-number">6.5</span> Assumption 2: Linear relationship</a></li>
   <li><a href="#assumption-3-no-multicollinearity" id="toc-assumption-3-no-multicollinearity" class="nav-link" data-scroll-target="#assumption-3-no-multicollinearity"><span class="header-section-number">6.6</span> Assumption 3: No multicollinearity</a>
   <ul class="collapse">
-  <li><a href="#declare-the-model" id="toc-declare-the-model" class="nav-link" data-scroll-target="#declare-the-model"><span class="header-section-number">6.6.1</span> Declare the model</a></li>
-  <li><a href="#assessing-the-model" id="toc-assessing-the-model" class="nav-link" data-scroll-target="#assessing-the-model"><span class="header-section-number">6.6.2</span> Assessing the model</a></li>
-  <li><a href="#calculate-the-variance-inflation-factor-vif" id="toc-calculate-the-variance-inflation-factor-vif" class="nav-link" data-scroll-target="#calculate-the-variance-inflation-factor-vif"><span class="header-section-number">6.6.3</span> Calculate the Variance Inflation Factor (VIF)</a></li>
+  <li><a href="#declare-the-model" id="toc-declare-the-model" class="nav-link" data-scroll-target="#declare-the-model">Declare the model</a></li>
+  <li><a href="#assessing-the-model" id="toc-assessing-the-model" class="nav-link" data-scroll-target="#assessing-the-model">Assessing the model</a></li>
+  <li><a href="#calculate-the-variance-inflation-factor-vif" id="toc-calculate-the-variance-inflation-factor-vif" class="nav-link" data-scroll-target="#calculate-the-variance-inflation-factor-vif">Calculate the Variance Inflation Factor (VIF)</a></li>
   </ul></li>
   <li><a href="#assumption-4-independence-of-observations" id="toc-assumption-4-independence-of-observations" class="nav-link" data-scroll-target="#assumption-4-independence-of-observations"><span class="header-section-number">6.7</span> Assumption 4: independence of observations</a></li>
   <li><a href="#assumption-5-constant-variance-homoscedasticity" id="toc-assumption-5-constant-variance-homoscedasticity" class="nav-link" data-scroll-target="#assumption-5-constant-variance-homoscedasticity"><span class="header-section-number">6.8</span> Assumption 5: Constant Variance (Homoscedasticity)</a></li>
@@ -405,8 +405,8 @@ Run each line using <code>CTRL</code> + <code>ENTER</code></p>
 <li><code>Lisboa</code> - binary variable (factor). <code>Yes</code>: the district is part of Lisbon municipality, <code>No</code>: otherwise</li>
 <li><code>Area_km2</code> - area of in <code>Origin_dicofre16</code>, in km<sup>2</sup></li>
 </ul>
-<section id="import-dataset" class="level3" data-number="6.2.1">
-<h3 data-number="6.2.1" class="anchored" data-anchor-id="import-dataset"><span class="header-section-number">6.2.1</span> Import dataset</h3>
+<section id="import-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="import-dataset">Import dataset</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"../data/IMOBmodel.Rds"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data_continuous <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>Origin_dicofre16, <span class="sc">-</span>internal, <span class="sc">-</span>Lisboa) <span class="co"># Exclude categorical variables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -907,8 +907,8 @@ alternative hypothesis: two-sided</code></pre>
 <section id="assumption-3-no-multicollinearity" class="level2" data-number="6.6">
 <h2 data-number="6.6" class="anchored" data-anchor-id="assumption-3-no-multicollinearity"><span class="header-section-number">6.6</span> Assumption 3: No multicollinearity</h2>
 <p>Check the <a href="./eda.html#correlations">correlation plot</a> before choosing the variables.</p>
-<section id="declare-the-model" class="level3" data-number="6.6.1">
-<h3 data-number="6.6.1" class="anchored" data-anchor-id="declare-the-model"><span class="header-section-number">6.6.1</span> Declare the model</h3>
+<section id="declare-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="declare-the-model">Declare the model</h3>
 <div class="callout callout-style-simple callout-tip">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -987,8 +987,8 @@ F-statistic: 42.06 on 18 and 217 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="assessing-the-model" class="level3" data-number="6.6.2">
-<h3 data-number="6.6.2" class="anchored" data-anchor-id="assessing-the-model"><span class="header-section-number">6.6.2</span> Assessing the model</h3>
+<section id="assessing-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="assessing-the-model">Assessing the model</h3>
 <ol type="1">
 <li><p>First check the <strong>pvalue</strong> and the <strong>F statistics</strong> of the model to see if there is any statistical relation between the dependent variable and the independent variables. If pvalue &lt; 0.05 and the F statistics &gt; Fcritical = 2.39, then the model is statistically acceptable.</p></li>
 <li><p>The <strong>R-square</strong> and <strong>Adjusted R-square</strong> evaluate the amount of variance that is explained by the model. The difference between one and another is that the R-square does not consider the number of variables. If you increase the number of variables in the model, the R-square will tend to increase which can lead to overfitting. On the other hand, the Adjusted R-square adjust to the number of independent variables.</p></li>
@@ -1010,8 +1010,8 @@ Your turn
 </div>
 </div>
 </section>
-<section id="calculate-the-variance-inflation-factor-vif" class="level3" data-number="6.6.3">
-<h3 data-number="6.6.3" class="anchored" data-anchor-id="calculate-the-variance-inflation-factor-vif"><span class="header-section-number">6.6.3</span> Calculate the Variance Inflation Factor (VIF)</h3>
+<section id="calculate-the-variance-inflation-factor-vif" class="level3">
+<h3 class="anchored" data-anchor-id="calculate-the-variance-inflation-factor-vif">Calculate the Variance Inflation Factor (VIF)</h3>
 <p>We use the <code>vif()</code> function from the car package to calculate the VIF for each predictor variable in the model:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1040,7 +1040,7 @@ Your turn
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">durbinWatsonTest</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> lag Autocorrelation D-W Statistic p-value
-   1      0.07881007      1.840798   0.112
+   1      0.07881007      1.840798    0.11
  Alternative hypothesis: rho != 0</code></pre>
 </div>
 </div>
@@ -1752,266 +1752,267 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <div class="sourceCode" id="cb20" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Multiple Linear Regression"</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Do it yourself with R</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>Copy the script <span class="co">[</span><span class="ot">MultipleLinarRegression.R</span><span class="co">](https://github.com/U-Shift/MQAT/blob/main/code/classroom/MultipleLinarRegression.R)</span> and paste it in your session.\</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>Run each line using <span class="in">`CTRL`</span> + <span class="in">`ENTER`</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>**Your task**: Estimate a linear regression model that predicts the car percentage per district.</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Load packages</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Pack of most used libraries for data science</span></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr) <span class="co"># summary of the data</span></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DataExplorer) <span class="co"># exploratory data analysis</span></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot) <span class="co"># correlation plots</span></span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) <span class="co"># Testing autocorrelation (Durbin Watson)</span></span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(olsrr) <span class="co"># Testing multicollinearity (VIF, TOL, etc.)</span></span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dataset</span></span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>The database used in this example is a treated database from the Mobility Survey for the metropolitan areas of Lisbon in 2018 <span class="co">[</span><span class="ot">@IMOB</span><span class="co">]</span>.</span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>Included **variables**:</span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Origin_dicofre16`</span> - Code of Freguesia (district) as set by INE after 2016 (Distrito + Concelho + Freguesia), for trip origin</span>
-<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Total`</span> - number of trips with origin at each district</span>
-<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Walk`</span> - number of walking trips</span>
-<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Bike`</span> - number of bike trips</span>
-<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Car`</span> - number of car trips. Includes taxi and motorcycle.</span>
-<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`PTransit`</span> - number of Public Transit trips</span>
-<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Other`</span> - number of other trips (truck, van, tractor, aviation)</span>
-<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Distance`</span> - average trip distance (km)</span>
-<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Duration`</span> - average trip duration (minutes)</span>
-<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Car_perc`</span> - percentage of car trips</span>
-<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`N_INDIVIDUOS`</span> - number of residents <span class="co">[</span><span class="ot">@INEcensus</span><span class="co">]</span></span>
-<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Male_perc`</span> - percentage of male residents <span class="co">[</span><span class="ot">@INEcensus</span><span class="co">]</span></span>
-<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`IncomeHH`</span> - average household income</span>
-<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Nvehicles`</span> - average number of car/motorcycle vehicles in the household</span>
-<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`DrivingLic`</span> - percentage of car driving licence holders</span>
-<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`CarParkFree_Work`</span> - percentage of respondents with free car parking at the work location</span>
-<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`PTpass`</span> - percentage of public transit monthly pass holders</span>
-<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`internal`</span> - binary variable (factor). <span class="in">`Yes`</span>: trip with same TAZ origin and destination, <span class="in">`No`</span>: trips with different destination</span>
-<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Lisboa`</span> - binary variable (factor). <span class="in">`Yes`</span>: the district is part of Lisbon municipality, <span class="in">`No`</span>: otherwise</span>
-<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Area_km2`</span> - area of in <span class="in">`Origin_dicofre16`</span>, in km^2^</span>
-<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a><span class="fu">### Import dataset</span></span>
-<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"../data/IMOBmodel.Rds"</span>)</span>
-<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a>data_continuous <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>Origin_dicofre16, <span class="sc">-</span>internal, <span class="sc">-</span>Lisboa) <span class="co"># Exclude categorical variables</span></span>
-<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a>Show summary statistics</span>
-<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data)</span>
-<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a>The dependent variable is continuous.</span>
-<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a><span class="fu">## Check the assumptions</span></span>
-<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a>Before running the model, you need to check if the assumptions are met.</span>
-<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>The dependent variable is normally distributed</span>
-<span id="cb20-81"><a href="#cb20-81" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Linear relationship between the dependent variable and the independent variables</span>
-<span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>No multicollinearity between independent variables (or only very little)</span>
-<span id="cb20-83"><a href="#cb20-83" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>The observations are independent</span>
-<span id="cb20-84"><a href="#cb20-84" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Constant Variance (Assumption of Homoscedasticity)</span>
-<span id="cb20-85"><a href="#cb20-85" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>Residuals are normally distributed</span>
-<span id="cb20-86"><a href="#cb20-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-87"><a href="#cb20-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 1: Normal distribution</span></span>
-<span id="cb20-88"><a href="#cb20-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-89"><a href="#cb20-89" aria-hidden="true" tabindex="-1"></a>The Dependent Variable is be normally distributed.</span>
-<span id="cb20-90"><a href="#cb20-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-91"><a href="#cb20-91" aria-hidden="true" tabindex="-1"></a>Check the histogram of <span class="in">`Car_perc`</span>:</span>
-<span id="cb20-92"><a href="#cb20-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-95"><a href="#cb20-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-96"><a href="#cb20-96" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data<span class="sc">$</span>Car_perc)</span>
-<span id="cb20-97"><a href="#cb20-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-98"><a href="#cb20-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-99"><a href="#cb20-99" aria-hidden="true" tabindex="-1"></a>If the sample is small (<span class="sc">\&lt;</span> 50 observations), we use **Shapiro-Wilk** test:</span>
-<span id="cb20-100"><a href="#cb20-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-103"><a href="#cb20-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-104"><a href="#cb20-104" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(data<span class="sc">$</span>Car_perc)</span>
-<span id="cb20-105"><a href="#cb20-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-106"><a href="#cb20-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-107"><a href="#cb20-107" aria-hidden="true" tabindex="-1"></a>If not, use the **Kolmogorov-Smirnov** test:</span>
-<span id="cb20-108"><a href="#cb20-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-111"><a href="#cb20-111" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-112"><a href="#cb20-112" aria-hidden="true" tabindex="-1"></a><span class="fu">ks.test</span>(</span>
-<span id="cb20-113"><a href="#cb20-113" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>Car_perc,</span>
-<span id="cb20-114"><a href="#cb20-114" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pnorm"</span>,</span>
-<span id="cb20-115"><a href="#cb20-115" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">mean</span>(data<span class="sc">$</span>Car_perc),</span>
-<span id="cb20-116"><a href="#cb20-116" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="fu">sd</span>(data<span class="sc">$</span>Car_perc)</span>
-<span id="cb20-117"><a href="#cb20-117" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-118"><a href="#cb20-118" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-119"><a href="#cb20-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-120"><a href="#cb20-120" aria-hidden="true" tabindex="-1"></a>The null hypothesis for both tests is that the distribution is normal. Therefore, for the distribution to be normal, the pvalue must be **\&gt; 0.05** and the null hypothesis is not rejected. From the output obtained we can assume normality.</span>
-<span id="cb20-121"><a href="#cb20-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-122"><a href="#cb20-122" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 2: Linear relationship</span></span>
-<span id="cb20-123"><a href="#cb20-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-124"><a href="#cb20-124" aria-hidden="true" tabindex="-1"></a>There is a linear relationship between dependent variable (DV) and independent variables (IV).</span>
-<span id="cb20-125"><a href="#cb20-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-126"><a href="#cb20-126" aria-hidden="true" tabindex="-1"></a>We can check this assumption by plotting scatterplots of the DV against each IV:</span>
-<span id="cb20-127"><a href="#cb20-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-130"><a href="#cb20-130" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-131"><a href="#cb20-131" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-132"><a href="#cb20-132" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Total, <span class="at">xlab =</span> <span class="st">"Car_perc (%)"</span>, <span class="at">ylab =</span> <span class="st">"Total (number of trips)"</span>)  </span>
-<span id="cb20-133"><a href="#cb20-133" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Walk, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Walk"</span>)  </span>
-<span id="cb20-134"><a href="#cb20-134" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Bike, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Bike"</span>)  </span>
-<span id="cb20-135"><a href="#cb20-135" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Car, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Car"</span>)  </span>
-<span id="cb20-136"><a href="#cb20-136" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>PTransit, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"PTransit"</span>)</span>
-<span id="cb20-137"><a href="#cb20-137" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Other, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Other"</span>)</span>
-<span id="cb20-138"><a href="#cb20-138" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Distance, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Distance"</span>)</span>
-<span id="cb20-139"><a href="#cb20-139" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Duration, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Duration"</span>)</span>
-<span id="cb20-140"><a href="#cb20-140" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>N_INDIVIDUOS, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"N_INDIVIDUOS"</span>)</span>
-<span id="cb20-141"><a href="#cb20-141" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Male_perc, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Male_perc"</span>)</span>
-<span id="cb20-142"><a href="#cb20-142" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>IncomeHH, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"IncomeHH"</span>)</span>
-<span id="cb20-143"><a href="#cb20-143" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Nvehicles, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Nvehicles"</span>)</span>
-<span id="cb20-144"><a href="#cb20-144" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>DrivingLic, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Driving License"</span>)</span>
-<span id="cb20-145"><a href="#cb20-145" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>CarParkFree_Work, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Free car parking at work"</span>)</span>
-<span id="cb20-146"><a href="#cb20-146" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>PTpass, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"PTpass"</span>)</span>
-<span id="cb20-147"><a href="#cb20-147" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>internal, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"internal trips"</span>)</span>
-<span id="cb20-148"><a href="#cb20-148" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Lisboa, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Lisboa"</span>)</span>
-<span id="cb20-149"><a href="#cb20-149" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Area_km2, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Area_km2"</span>)</span>
-<span id="cb20-150"><a href="#cb20-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-151"><a href="#cb20-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-152"><a href="#cb20-152" aria-hidden="true" tabindex="-1"></a>Or you can make a pairwise scatterplot matrix, that compares every variable with each other:</span>
-<span id="cb20-153"><a href="#cb20-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-156"><a href="#cb20-156" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-157"><a href="#cb20-157" aria-hidden="true" tabindex="-1"></a><span class="co"># pairs(data_continuous, pch = 19, lower.panel = NULL) # we have too many variables, let's split the plots</span></span>
-<span id="cb20-158"><a href="#cb20-158" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(data_continuous[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">lower.panel =</span> <span class="cn">NULL</span>)</span>
-<span id="cb20-159"><a href="#cb20-159" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(data_continuous[,<span class="dv">7</span><span class="sc">:</span><span class="dv">12</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">lower.panel =</span> <span class="cn">NULL</span>)</span>
-<span id="cb20-160"><a href="#cb20-160" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(data_continuous[,<span class="dv">13</span><span class="sc">:</span><span class="dv">17</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">lower.panel =</span> <span class="cn">NULL</span>)</span>
-<span id="cb20-161"><a href="#cb20-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-162"><a href="#cb20-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-163"><a href="#cb20-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 3: No multicollinearity</span></span>
-<span id="cb20-164"><a href="#cb20-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-165"><a href="#cb20-165" aria-hidden="true" tabindex="-1"></a>Check the <span class="co">[</span><span class="ot">correlation plot</span><span class="co">](eda.qmd#correlations)</span> before choosing the variables.</span>
-<span id="cb20-166"><a href="#cb20-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-167"><a href="#cb20-167" aria-hidden="true" tabindex="-1"></a><span class="fu">### Declare the model</span></span>
-<span id="cb20-168"><a href="#cb20-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-169"><a href="#cb20-169" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
-<span id="cb20-170"><a href="#cb20-170" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`CTRL`</span> + <span class="in">`SHIFT`</span> + <span class="in">`C`</span> to comment/uncomment lines (variables)</span>
-<span id="cb20-171"><a href="#cb20-171" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb20-172"><a href="#cb20-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-175"><a href="#cb20-175" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-176"><a href="#cb20-176" aria-hidden="true" tabindex="-1"></a><span class="co"># names(data) # to see the names of the variables</span></span>
-<span id="cb20-177"><a href="#cb20-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-178"><a href="#cb20-178" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">lm</span>(</span>
-<span id="cb20-179"><a href="#cb20-179" aria-hidden="true" tabindex="-1"></a>  Car_perc <span class="sc">~</span> Total <span class="sc">+</span></span>
-<span id="cb20-180"><a href="#cb20-180" aria-hidden="true" tabindex="-1"></a>    Walk <span class="sc">+</span></span>
-<span id="cb20-181"><a href="#cb20-181" aria-hidden="true" tabindex="-1"></a>    Bike <span class="sc">+</span></span>
-<span id="cb20-182"><a href="#cb20-182" aria-hidden="true" tabindex="-1"></a>    Car <span class="sc">+</span></span>
-<span id="cb20-183"><a href="#cb20-183" aria-hidden="true" tabindex="-1"></a>    PTransit <span class="sc">+</span></span>
-<span id="cb20-184"><a href="#cb20-184" aria-hidden="true" tabindex="-1"></a>    Other <span class="sc">+</span></span>
-<span id="cb20-185"><a href="#cb20-185" aria-hidden="true" tabindex="-1"></a>    Distance <span class="sc">+</span> </span>
-<span id="cb20-186"><a href="#cb20-186" aria-hidden="true" tabindex="-1"></a>    Duration <span class="sc">+</span> </span>
-<span id="cb20-187"><a href="#cb20-187" aria-hidden="true" tabindex="-1"></a>    N_INDIVIDUOS <span class="sc">+</span> </span>
-<span id="cb20-188"><a href="#cb20-188" aria-hidden="true" tabindex="-1"></a>    Male_perc <span class="sc">+</span> </span>
-<span id="cb20-189"><a href="#cb20-189" aria-hidden="true" tabindex="-1"></a>    IncomeHH <span class="sc">+</span> </span>
-<span id="cb20-190"><a href="#cb20-190" aria-hidden="true" tabindex="-1"></a>    Nvehicles <span class="sc">+</span> </span>
-<span id="cb20-191"><a href="#cb20-191" aria-hidden="true" tabindex="-1"></a>    DrivingLic <span class="sc">+</span> </span>
-<span id="cb20-192"><a href="#cb20-192" aria-hidden="true" tabindex="-1"></a>    CarParkFree_Work <span class="sc">+</span> </span>
-<span id="cb20-193"><a href="#cb20-193" aria-hidden="true" tabindex="-1"></a>    PTpass <span class="sc">+</span> </span>
-<span id="cb20-194"><a href="#cb20-194" aria-hidden="true" tabindex="-1"></a>    internal <span class="sc">+</span> </span>
-<span id="cb20-195"><a href="#cb20-195" aria-hidden="true" tabindex="-1"></a>    Lisboa <span class="sc">+</span> </span>
-<span id="cb20-196"><a href="#cb20-196" aria-hidden="true" tabindex="-1"></a>    Area_km2,</span>
-<span id="cb20-197"><a href="#cb20-197" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data</span>
-<span id="cb20-198"><a href="#cb20-198" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-199"><a href="#cb20-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-200"><a href="#cb20-200" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span>
-<span id="cb20-201"><a href="#cb20-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-202"><a href="#cb20-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-203"><a href="#cb20-203" aria-hidden="true" tabindex="-1"></a><span class="fu">### Assessing the model</span></span>
-<span id="cb20-204"><a href="#cb20-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-205"><a href="#cb20-205" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>First check the **pvalue** and the **F statistics** of the model to see if there is any statistical relation between the dependent variable and the independent variables. If pvalue <span class="sc">\&lt;</span> 0.05 and the F statistics <span class="sc">\&gt;</span> Fcritical = 2.39, then the model is statistically acceptable.</span>
-<span id="cb20-206"><a href="#cb20-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-207"><a href="#cb20-207" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>The **R-square** and **Adjusted R-square** evaluate the amount of variance that is explained by the model. The difference between one and another is that the R-square does not consider the number of variables. If you increase the number of variables in the model, the R-square will tend to increase which can lead to overfitting. On the other hand, the Adjusted R-square adjust to the number of independent variables.</span>
-<span id="cb20-208"><a href="#cb20-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-209"><a href="#cb20-209" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Take a look at the **t-value** and the Pr(<span class="sc">\&gt;</span>\|t\|). If the t-value <span class="sc">\&gt;</span> 1.96 or Pr(<span class="sc">\&gt;</span>\|t\|) <span class="sc">\&lt;</span> 0.05, then the IV is statistically significant to the model.</span>
-<span id="cb20-210"><a href="#cb20-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-211"><a href="#cb20-211" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>To analyze the **estimates** of the variables, you should first check the **signal** and assess if the independent variable has a direct or inverse relationship with the dependent variable. It is only possible to evaluate the **magnitude** of the estimate if all variables are continuous and standardized or by calculating the elasticities. Do not forget to access the **Intercept**...</span>
-<span id="cb20-212"><a href="#cb20-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-213"><a href="#cb20-213" aria-hidden="true" tabindex="-1"></a>We can see from the output that the R-squared value for the model (with ALL variables) is **0.7772**. We can also see that the overall F-statistic is **42.06** and the corresponding p-value is **\&lt;2.2e-16**, which indicates that the overall regression model is significant. Also, the predictor variables <span class="in">`DrivingLic`</span> and <span class="in">`CarParkFree_Work`</span>, <span class="in">`internal(No)`</span> and <span class="in">`Lisboa(Yes)`</span> are statistically significant at the 0.05 significance level.</span>
-<span id="cb20-214"><a href="#cb20-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-215"><a href="#cb20-215" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
-<span id="cb20-216"><a href="#cb20-216" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your turn</span></span>
-<span id="cb20-217"><a href="#cb20-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-218"><a href="#cb20-218" aria-hidden="true" tabindex="-1"></a>Now try to remove some variables from the model and assess it again. Elaborate a justification to exclude those variables.</span>
-<span id="cb20-219"><a href="#cb20-219" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb20-220"><a href="#cb20-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-221"><a href="#cb20-221" aria-hidden="true" tabindex="-1"></a><span class="fu">### Calculate the Variance Inflation Factor (VIF)</span></span>
-<span id="cb20-222"><a href="#cb20-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-223"><a href="#cb20-223" aria-hidden="true" tabindex="-1"></a>We use the <span class="in">`vif()`</span> function from the car package to calculate the VIF for each predictor variable in the model:</span>
-<span id="cb20-224"><a href="#cb20-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-227"><a href="#cb20-227" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-228"><a href="#cb20-228" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model)</span>
-<span id="cb20-229"><a href="#cb20-229" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-230"><a href="#cb20-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-231"><a href="#cb20-231" aria-hidden="true" tabindex="-1"></a>A common rule of thumb is that a VIF value greater than 5 indicates a high level of multicollinearity among the predictor variables, which is potentially concerning.</span>
-<span id="cb20-232"><a href="#cb20-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-233"><a href="#cb20-233" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 4: independence of observations</span></span>
-<span id="cb20-234"><a href="#cb20-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-235"><a href="#cb20-235" aria-hidden="true" tabindex="-1"></a>Multiple linear regression assumes that each observation in the dataset is independent.</span>
-<span id="cb20-236"><a href="#cb20-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-237"><a href="#cb20-237" aria-hidden="true" tabindex="-1"></a>The error (E) is independent across observations and the error variance is constant across IV</span>
-<span id="cb20-238"><a href="#cb20-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-239"><a href="#cb20-239" aria-hidden="true" tabindex="-1"></a>The simplest way to determine if this assumption is met is to perform a Durbin-Watson test, which is a formal statistical test that tells us whether or not the **residuals** (and thus the **observations**) exhibit autocorrelation.</span>
-<span id="cb20-240"><a href="#cb20-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-243"><a href="#cb20-243" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-244"><a href="#cb20-244" aria-hidden="true" tabindex="-1"></a><span class="fu">durbinWatsonTest</span>(model)</span>
-<span id="cb20-245"><a href="#cb20-245" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-246"><a href="#cb20-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-247"><a href="#cb20-247" aria-hidden="true" tabindex="-1"></a>**H~0~ (null hypothesis):** There is no correlation among the residuals. Since p-value <span class="sc">\&gt;</span> 0.05, we do not reject the null hypothesis and we can not discard that there is autocorrelation in the model.</span>
-<span id="cb20-248"><a href="#cb20-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-249"><a href="#cb20-249" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
-<span id="cb20-250"><a href="#cb20-250" aria-hidden="true" tabindex="-1"></a>In the Durbin-Watson test, values of the D-W Statistic vary from 0 to 4.</span>
-<span id="cb20-251"><a href="#cb20-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-252"><a href="#cb20-252" aria-hidden="true" tabindex="-1"></a>If the values are from 1.8 to 2.2 this means that there is **no autocorrelation** in the model.</span>
-<span id="cb20-253"><a href="#cb20-253" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb20-254"><a href="#cb20-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-255"><a href="#cb20-255" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 5: Constant Variance (Homoscedasticity)</span></span>
-<span id="cb20-256"><a href="#cb20-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-257"><a href="#cb20-257" aria-hidden="true" tabindex="-1"></a>The simplest way to determine if this assumption is met is to create a plot of standardized residuals versus predicted values.</span>
-<span id="cb20-258"><a href="#cb20-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-261"><a href="#cb20-261" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-262"><a href="#cb20-262" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span>
-<span id="cb20-263"><a href="#cb20-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-264"><a href="#cb20-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-265"><a href="#cb20-265" aria-hidden="true" tabindex="-1"></a>For the Residuals, check the following **assumptions**:</span>
-<span id="cb20-266"><a href="#cb20-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-267"><a href="#cb20-267" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Residuals vs Fitted:** This plot is used to detect non-linearity, heteroscedasticity, and outliers.</span>
-<span id="cb20-268"><a href="#cb20-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-269"><a href="#cb20-269" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Normal Q-Q:** The quantile-quantile (Q-Q) plot is used to check if the disturbances follow a normal distribution</span>
-<span id="cb20-270"><a href="#cb20-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-271"><a href="#cb20-271" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Scale-Location:** This plot is used to verify if the residuals are spread equally (homoscedasticity) or not (heteroscedasticity) through the sample.</span>
-<span id="cb20-272"><a href="#cb20-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-273"><a href="#cb20-273" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Residuals vs Leverage:** This plot is used to detect the impact of the outliers in the model. If the outliers are outside the Cook-distance, this may lead to serious problems in the model.</span>
-<span id="cb20-274"><a href="#cb20-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-275"><a href="#cb20-275" aria-hidden="true" tabindex="-1"></a>Try analyzing the plots and check if the model meets the assumptions.</span>
-<span id="cb20-276"><a href="#cb20-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-277"><a href="#cb20-277" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 6: Residuals are normally distributed</span></span>
-<span id="cb20-278"><a href="#cb20-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-279"><a href="#cb20-279" aria-hidden="true" tabindex="-1"></a>Assess the Q-Q Residuals plot above. When the residuals clearly depart from a straight diagonal line, it indicates that they do not follow a normal distribution.</span>
-<span id="cb20-280"><a href="#cb20-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-281"><a href="#cb20-281" aria-hidden="true" tabindex="-1"></a>Use a formal statistical test like Shapiro-Wilk, Kolmogorov-Smironov to validate those results.</span>
-<span id="cb20-282"><a href="#cb20-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-285"><a href="#cb20-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb20-286"><a href="#cb20-286" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb20-287"><a href="#cb20-287" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb20-288"><a href="#cb20-288" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"quarto/linear-regression.qmd"</span>, <span class="st">"code/mlr.R"</span>, <span class="at">documentation =</span> <span class="dv">1</span>)</span>
-<span id="cb20-289"><a href="#cb20-289" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="an">number-depth:</span><span class="co"> 2</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Do it yourself with R</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>Copy the script <span class="co">[</span><span class="ot">MultipleLinarRegression.R</span><span class="co">](https://github.com/U-Shift/MQAT/blob/main/code/classroom/MultipleLinarRegression.R)</span> and paste it in your session.\</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>Run each line using <span class="in">`CTRL`</span> + <span class="in">`ENTER`</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>**Your task**: Estimate a linear regression model that predicts the car percentage per district.</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Load packages</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Pack of most used libraries for data science</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr) <span class="co"># summary of the data</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DataExplorer) <span class="co"># exploratory data analysis</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot) <span class="co"># correlation plots</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) <span class="co"># Testing autocorrelation (Durbin Watson)</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(olsrr) <span class="co"># Testing multicollinearity (VIF, TOL, etc.)</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dataset</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>The database used in this example is a treated database from the Mobility Survey for the metropolitan areas of Lisbon in 2018 <span class="co">[</span><span class="ot">@IMOB</span><span class="co">]</span>.</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>Included **variables**:</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Origin_dicofre16`</span> - Code of Freguesia (district) as set by INE after 2016 (Distrito + Concelho + Freguesia), for trip origin</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Total`</span> - number of trips with origin at each district</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Walk`</span> - number of walking trips</span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Bike`</span> - number of bike trips</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Car`</span> - number of car trips. Includes taxi and motorcycle.</span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`PTransit`</span> - number of Public Transit trips</span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Other`</span> - number of other trips (truck, van, tractor, aviation)</span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Distance`</span> - average trip distance (km)</span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Duration`</span> - average trip duration (minutes)</span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Car_perc`</span> - percentage of car trips</span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`N_INDIVIDUOS`</span> - number of residents <span class="co">[</span><span class="ot">@INEcensus</span><span class="co">]</span></span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Male_perc`</span> - percentage of male residents <span class="co">[</span><span class="ot">@INEcensus</span><span class="co">]</span></span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`IncomeHH`</span> - average household income</span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Nvehicles`</span> - average number of car/motorcycle vehicles in the household</span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`DrivingLic`</span> - percentage of car driving licence holders</span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`CarParkFree_Work`</span> - percentage of respondents with free car parking at the work location</span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`PTpass`</span> - percentage of public transit monthly pass holders</span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`internal`</span> - binary variable (factor). <span class="in">`Yes`</span>: trip with same TAZ origin and destination, <span class="in">`No`</span>: trips with different destination</span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Lisboa`</span> - binary variable (factor). <span class="in">`Yes`</span>: the district is part of Lisbon municipality, <span class="in">`No`</span>: otherwise</span>
+<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Area_km2`</span> - area of in <span class="in">`Origin_dicofre16`</span>, in km^2^</span>
+<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### Import dataset</span></span>
+<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"../data/IMOBmodel.Rds"</span>)</span>
+<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a>data_continuous <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>Origin_dicofre16, <span class="sc">-</span>internal, <span class="sc">-</span>Lisboa) <span class="co"># Exclude categorical variables</span></span>
+<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a>Show summary statistics</span>
+<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data)</span>
+<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a>The dependent variable is continuous.</span>
+<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## Check the assumptions</span></span>
+<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a>Before running the model, you need to check if the assumptions are met.</span>
+<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-81"><a href="#cb20-81" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>The dependent variable is normally distributed</span>
+<span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Linear relationship between the dependent variable and the independent variables</span>
+<span id="cb20-83"><a href="#cb20-83" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>No multicollinearity between independent variables (or only very little)</span>
+<span id="cb20-84"><a href="#cb20-84" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>The observations are independent</span>
+<span id="cb20-85"><a href="#cb20-85" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Constant Variance (Assumption of Homoscedasticity)</span>
+<span id="cb20-86"><a href="#cb20-86" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>Residuals are normally distributed</span>
+<span id="cb20-87"><a href="#cb20-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-88"><a href="#cb20-88" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 1: Normal distribution</span></span>
+<span id="cb20-89"><a href="#cb20-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-90"><a href="#cb20-90" aria-hidden="true" tabindex="-1"></a>The Dependent Variable is be normally distributed.</span>
+<span id="cb20-91"><a href="#cb20-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-92"><a href="#cb20-92" aria-hidden="true" tabindex="-1"></a>Check the histogram of <span class="in">`Car_perc`</span>:</span>
+<span id="cb20-93"><a href="#cb20-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-96"><a href="#cb20-96" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-97"><a href="#cb20-97" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data<span class="sc">$</span>Car_perc)</span>
+<span id="cb20-98"><a href="#cb20-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-99"><a href="#cb20-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-100"><a href="#cb20-100" aria-hidden="true" tabindex="-1"></a>If the sample is small (<span class="sc">\&lt;</span> 50 observations), we use **Shapiro-Wilk** test:</span>
+<span id="cb20-101"><a href="#cb20-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-104"><a href="#cb20-104" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-105"><a href="#cb20-105" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(data<span class="sc">$</span>Car_perc)</span>
+<span id="cb20-106"><a href="#cb20-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-107"><a href="#cb20-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-108"><a href="#cb20-108" aria-hidden="true" tabindex="-1"></a>If not, use the **Kolmogorov-Smirnov** test:</span>
+<span id="cb20-109"><a href="#cb20-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-112"><a href="#cb20-112" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-113"><a href="#cb20-113" aria-hidden="true" tabindex="-1"></a><span class="fu">ks.test</span>(</span>
+<span id="cb20-114"><a href="#cb20-114" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>Car_perc,</span>
+<span id="cb20-115"><a href="#cb20-115" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pnorm"</span>,</span>
+<span id="cb20-116"><a href="#cb20-116" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">mean</span>(data<span class="sc">$</span>Car_perc),</span>
+<span id="cb20-117"><a href="#cb20-117" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="fu">sd</span>(data<span class="sc">$</span>Car_perc)</span>
+<span id="cb20-118"><a href="#cb20-118" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-119"><a href="#cb20-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-120"><a href="#cb20-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-121"><a href="#cb20-121" aria-hidden="true" tabindex="-1"></a>The null hypothesis for both tests is that the distribution is normal. Therefore, for the distribution to be normal, the pvalue must be **\&gt; 0.05** and the null hypothesis is not rejected. From the output obtained we can assume normality.</span>
+<span id="cb20-122"><a href="#cb20-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-123"><a href="#cb20-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 2: Linear relationship</span></span>
+<span id="cb20-124"><a href="#cb20-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-125"><a href="#cb20-125" aria-hidden="true" tabindex="-1"></a>There is a linear relationship between dependent variable (DV) and independent variables (IV).</span>
+<span id="cb20-126"><a href="#cb20-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-127"><a href="#cb20-127" aria-hidden="true" tabindex="-1"></a>We can check this assumption by plotting scatterplots of the DV against each IV:</span>
+<span id="cb20-128"><a href="#cb20-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-131"><a href="#cb20-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-132"><a href="#cb20-132" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-133"><a href="#cb20-133" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Total, <span class="at">xlab =</span> <span class="st">"Car_perc (%)"</span>, <span class="at">ylab =</span> <span class="st">"Total (number of trips)"</span>)  </span>
+<span id="cb20-134"><a href="#cb20-134" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Walk, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Walk"</span>)  </span>
+<span id="cb20-135"><a href="#cb20-135" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Bike, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Bike"</span>)  </span>
+<span id="cb20-136"><a href="#cb20-136" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Car, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Car"</span>)  </span>
+<span id="cb20-137"><a href="#cb20-137" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>PTransit, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"PTransit"</span>)</span>
+<span id="cb20-138"><a href="#cb20-138" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Other, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Other"</span>)</span>
+<span id="cb20-139"><a href="#cb20-139" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Distance, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Distance"</span>)</span>
+<span id="cb20-140"><a href="#cb20-140" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Duration, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Duration"</span>)</span>
+<span id="cb20-141"><a href="#cb20-141" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>N_INDIVIDUOS, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"N_INDIVIDUOS"</span>)</span>
+<span id="cb20-142"><a href="#cb20-142" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Male_perc, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Male_perc"</span>)</span>
+<span id="cb20-143"><a href="#cb20-143" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>IncomeHH, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"IncomeHH"</span>)</span>
+<span id="cb20-144"><a href="#cb20-144" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Nvehicles, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Nvehicles"</span>)</span>
+<span id="cb20-145"><a href="#cb20-145" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>DrivingLic, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Driving License"</span>)</span>
+<span id="cb20-146"><a href="#cb20-146" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>CarParkFree_Work, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Free car parking at work"</span>)</span>
+<span id="cb20-147"><a href="#cb20-147" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>PTpass, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"PTpass"</span>)</span>
+<span id="cb20-148"><a href="#cb20-148" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>internal, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"internal trips"</span>)</span>
+<span id="cb20-149"><a href="#cb20-149" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Lisboa, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Lisboa"</span>)</span>
+<span id="cb20-150"><a href="#cb20-150" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> data<span class="sc">$</span>Car_perc, <span class="at">y =</span> data<span class="sc">$</span>Area_km2, <span class="at">xlab =</span> <span class="st">"Car_perc"</span>, <span class="at">ylab =</span> <span class="st">"Area_km2"</span>)</span>
+<span id="cb20-151"><a href="#cb20-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-152"><a href="#cb20-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-153"><a href="#cb20-153" aria-hidden="true" tabindex="-1"></a>Or you can make a pairwise scatterplot matrix, that compares every variable with each other:</span>
+<span id="cb20-154"><a href="#cb20-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-157"><a href="#cb20-157" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-158"><a href="#cb20-158" aria-hidden="true" tabindex="-1"></a><span class="co"># pairs(data_continuous, pch = 19, lower.panel = NULL) # we have too many variables, let's split the plots</span></span>
+<span id="cb20-159"><a href="#cb20-159" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(data_continuous[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">lower.panel =</span> <span class="cn">NULL</span>)</span>
+<span id="cb20-160"><a href="#cb20-160" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(data_continuous[,<span class="dv">7</span><span class="sc">:</span><span class="dv">12</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">lower.panel =</span> <span class="cn">NULL</span>)</span>
+<span id="cb20-161"><a href="#cb20-161" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(data_continuous[,<span class="dv">13</span><span class="sc">:</span><span class="dv">17</span>], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">lower.panel =</span> <span class="cn">NULL</span>)</span>
+<span id="cb20-162"><a href="#cb20-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-163"><a href="#cb20-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-164"><a href="#cb20-164" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 3: No multicollinearity</span></span>
+<span id="cb20-165"><a href="#cb20-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-166"><a href="#cb20-166" aria-hidden="true" tabindex="-1"></a>Check the <span class="co">[</span><span class="ot">correlation plot</span><span class="co">](eda.qmd#correlations)</span> before choosing the variables.</span>
+<span id="cb20-167"><a href="#cb20-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-168"><a href="#cb20-168" aria-hidden="true" tabindex="-1"></a><span class="fu">### Declare the model</span></span>
+<span id="cb20-169"><a href="#cb20-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-170"><a href="#cb20-170" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb20-171"><a href="#cb20-171" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`CTRL`</span> + <span class="in">`SHIFT`</span> + <span class="in">`C`</span> to comment/uncomment lines (variables)</span>
+<span id="cb20-172"><a href="#cb20-172" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb20-173"><a href="#cb20-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-176"><a href="#cb20-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-177"><a href="#cb20-177" aria-hidden="true" tabindex="-1"></a><span class="co"># names(data) # to see the names of the variables</span></span>
+<span id="cb20-178"><a href="#cb20-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-179"><a href="#cb20-179" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">lm</span>(</span>
+<span id="cb20-180"><a href="#cb20-180" aria-hidden="true" tabindex="-1"></a>  Car_perc <span class="sc">~</span> Total <span class="sc">+</span></span>
+<span id="cb20-181"><a href="#cb20-181" aria-hidden="true" tabindex="-1"></a>    Walk <span class="sc">+</span></span>
+<span id="cb20-182"><a href="#cb20-182" aria-hidden="true" tabindex="-1"></a>    Bike <span class="sc">+</span></span>
+<span id="cb20-183"><a href="#cb20-183" aria-hidden="true" tabindex="-1"></a>    Car <span class="sc">+</span></span>
+<span id="cb20-184"><a href="#cb20-184" aria-hidden="true" tabindex="-1"></a>    PTransit <span class="sc">+</span></span>
+<span id="cb20-185"><a href="#cb20-185" aria-hidden="true" tabindex="-1"></a>    Other <span class="sc">+</span></span>
+<span id="cb20-186"><a href="#cb20-186" aria-hidden="true" tabindex="-1"></a>    Distance <span class="sc">+</span> </span>
+<span id="cb20-187"><a href="#cb20-187" aria-hidden="true" tabindex="-1"></a>    Duration <span class="sc">+</span> </span>
+<span id="cb20-188"><a href="#cb20-188" aria-hidden="true" tabindex="-1"></a>    N_INDIVIDUOS <span class="sc">+</span> </span>
+<span id="cb20-189"><a href="#cb20-189" aria-hidden="true" tabindex="-1"></a>    Male_perc <span class="sc">+</span> </span>
+<span id="cb20-190"><a href="#cb20-190" aria-hidden="true" tabindex="-1"></a>    IncomeHH <span class="sc">+</span> </span>
+<span id="cb20-191"><a href="#cb20-191" aria-hidden="true" tabindex="-1"></a>    Nvehicles <span class="sc">+</span> </span>
+<span id="cb20-192"><a href="#cb20-192" aria-hidden="true" tabindex="-1"></a>    DrivingLic <span class="sc">+</span> </span>
+<span id="cb20-193"><a href="#cb20-193" aria-hidden="true" tabindex="-1"></a>    CarParkFree_Work <span class="sc">+</span> </span>
+<span id="cb20-194"><a href="#cb20-194" aria-hidden="true" tabindex="-1"></a>    PTpass <span class="sc">+</span> </span>
+<span id="cb20-195"><a href="#cb20-195" aria-hidden="true" tabindex="-1"></a>    internal <span class="sc">+</span> </span>
+<span id="cb20-196"><a href="#cb20-196" aria-hidden="true" tabindex="-1"></a>    Lisboa <span class="sc">+</span> </span>
+<span id="cb20-197"><a href="#cb20-197" aria-hidden="true" tabindex="-1"></a>    Area_km2,</span>
+<span id="cb20-198"><a href="#cb20-198" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data</span>
+<span id="cb20-199"><a href="#cb20-199" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-200"><a href="#cb20-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-201"><a href="#cb20-201" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span>
+<span id="cb20-202"><a href="#cb20-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-203"><a href="#cb20-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-204"><a href="#cb20-204" aria-hidden="true" tabindex="-1"></a><span class="fu">### Assessing the model</span></span>
+<span id="cb20-205"><a href="#cb20-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-206"><a href="#cb20-206" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>First check the **pvalue** and the **F statistics** of the model to see if there is any statistical relation between the dependent variable and the independent variables. If pvalue <span class="sc">\&lt;</span> 0.05 and the F statistics <span class="sc">\&gt;</span> Fcritical = 2.39, then the model is statistically acceptable.</span>
+<span id="cb20-207"><a href="#cb20-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-208"><a href="#cb20-208" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>The **R-square** and **Adjusted R-square** evaluate the amount of variance that is explained by the model. The difference between one and another is that the R-square does not consider the number of variables. If you increase the number of variables in the model, the R-square will tend to increase which can lead to overfitting. On the other hand, the Adjusted R-square adjust to the number of independent variables.</span>
+<span id="cb20-209"><a href="#cb20-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-210"><a href="#cb20-210" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Take a look at the **t-value** and the Pr(<span class="sc">\&gt;</span>\|t\|). If the t-value <span class="sc">\&gt;</span> 1.96 or Pr(<span class="sc">\&gt;</span>\|t\|) <span class="sc">\&lt;</span> 0.05, then the IV is statistically significant to the model.</span>
+<span id="cb20-211"><a href="#cb20-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-212"><a href="#cb20-212" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>To analyze the **estimates** of the variables, you should first check the **signal** and assess if the independent variable has a direct or inverse relationship with the dependent variable. It is only possible to evaluate the **magnitude** of the estimate if all variables are continuous and standardized or by calculating the elasticities. Do not forget to access the **Intercept**...</span>
+<span id="cb20-213"><a href="#cb20-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-214"><a href="#cb20-214" aria-hidden="true" tabindex="-1"></a>We can see from the output that the R-squared value for the model (with ALL variables) is **0.7772**. We can also see that the overall F-statistic is **42.06** and the corresponding p-value is **\&lt;2.2e-16**, which indicates that the overall regression model is significant. Also, the predictor variables <span class="in">`DrivingLic`</span> and <span class="in">`CarParkFree_Work`</span>, <span class="in">`internal(No)`</span> and <span class="in">`Lisboa(Yes)`</span> are statistically significant at the 0.05 significance level.</span>
+<span id="cb20-215"><a href="#cb20-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-216"><a href="#cb20-216" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb20-217"><a href="#cb20-217" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your turn</span></span>
+<span id="cb20-218"><a href="#cb20-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-219"><a href="#cb20-219" aria-hidden="true" tabindex="-1"></a>Now try to remove some variables from the model and assess it again. Elaborate a justification to exclude those variables.</span>
+<span id="cb20-220"><a href="#cb20-220" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb20-221"><a href="#cb20-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-222"><a href="#cb20-222" aria-hidden="true" tabindex="-1"></a><span class="fu">### Calculate the Variance Inflation Factor (VIF)</span></span>
+<span id="cb20-223"><a href="#cb20-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-224"><a href="#cb20-224" aria-hidden="true" tabindex="-1"></a>We use the <span class="in">`vif()`</span> function from the car package to calculate the VIF for each predictor variable in the model:</span>
+<span id="cb20-225"><a href="#cb20-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-228"><a href="#cb20-228" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-229"><a href="#cb20-229" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model)</span>
+<span id="cb20-230"><a href="#cb20-230" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-231"><a href="#cb20-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-232"><a href="#cb20-232" aria-hidden="true" tabindex="-1"></a>A common rule of thumb is that a VIF value greater than 5 indicates a high level of multicollinearity among the predictor variables, which is potentially concerning.</span>
+<span id="cb20-233"><a href="#cb20-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-234"><a href="#cb20-234" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 4: independence of observations</span></span>
+<span id="cb20-235"><a href="#cb20-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-236"><a href="#cb20-236" aria-hidden="true" tabindex="-1"></a>Multiple linear regression assumes that each observation in the dataset is independent.</span>
+<span id="cb20-237"><a href="#cb20-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-238"><a href="#cb20-238" aria-hidden="true" tabindex="-1"></a>The error (E) is independent across observations and the error variance is constant across IV</span>
+<span id="cb20-239"><a href="#cb20-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-240"><a href="#cb20-240" aria-hidden="true" tabindex="-1"></a>The simplest way to determine if this assumption is met is to perform a Durbin-Watson test, which is a formal statistical test that tells us whether or not the **residuals** (and thus the **observations**) exhibit autocorrelation.</span>
+<span id="cb20-241"><a href="#cb20-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-244"><a href="#cb20-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-245"><a href="#cb20-245" aria-hidden="true" tabindex="-1"></a><span class="fu">durbinWatsonTest</span>(model)</span>
+<span id="cb20-246"><a href="#cb20-246" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-247"><a href="#cb20-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-248"><a href="#cb20-248" aria-hidden="true" tabindex="-1"></a>**H~0~ (null hypothesis):** There is no correlation among the residuals. Since p-value <span class="sc">\&gt;</span> 0.05, we do not reject the null hypothesis and we can not discard that there is autocorrelation in the model.</span>
+<span id="cb20-249"><a href="#cb20-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-250"><a href="#cb20-250" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb20-251"><a href="#cb20-251" aria-hidden="true" tabindex="-1"></a>In the Durbin-Watson test, values of the D-W Statistic vary from 0 to 4.</span>
+<span id="cb20-252"><a href="#cb20-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-253"><a href="#cb20-253" aria-hidden="true" tabindex="-1"></a>If the values are from 1.8 to 2.2 this means that there is **no autocorrelation** in the model.</span>
+<span id="cb20-254"><a href="#cb20-254" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb20-255"><a href="#cb20-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-256"><a href="#cb20-256" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 5: Constant Variance (Homoscedasticity)</span></span>
+<span id="cb20-257"><a href="#cb20-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-258"><a href="#cb20-258" aria-hidden="true" tabindex="-1"></a>The simplest way to determine if this assumption is met is to create a plot of standardized residuals versus predicted values.</span>
+<span id="cb20-259"><a href="#cb20-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-262"><a href="#cb20-262" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-263"><a href="#cb20-263" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span>
+<span id="cb20-264"><a href="#cb20-264" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-265"><a href="#cb20-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-266"><a href="#cb20-266" aria-hidden="true" tabindex="-1"></a>For the Residuals, check the following **assumptions**:</span>
+<span id="cb20-267"><a href="#cb20-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-268"><a href="#cb20-268" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Residuals vs Fitted:** This plot is used to detect non-linearity, heteroscedasticity, and outliers.</span>
+<span id="cb20-269"><a href="#cb20-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-270"><a href="#cb20-270" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Normal Q-Q:** The quantile-quantile (Q-Q) plot is used to check if the disturbances follow a normal distribution</span>
+<span id="cb20-271"><a href="#cb20-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-272"><a href="#cb20-272" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Scale-Location:** This plot is used to verify if the residuals are spread equally (homoscedasticity) or not (heteroscedasticity) through the sample.</span>
+<span id="cb20-273"><a href="#cb20-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-274"><a href="#cb20-274" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Residuals vs Leverage:** This plot is used to detect the impact of the outliers in the model. If the outliers are outside the Cook-distance, this may lead to serious problems in the model.</span>
+<span id="cb20-275"><a href="#cb20-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-276"><a href="#cb20-276" aria-hidden="true" tabindex="-1"></a>Try analyzing the plots and check if the model meets the assumptions.</span>
+<span id="cb20-277"><a href="#cb20-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-278"><a href="#cb20-278" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assumption 6: Residuals are normally distributed</span></span>
+<span id="cb20-279"><a href="#cb20-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-280"><a href="#cb20-280" aria-hidden="true" tabindex="-1"></a>Assess the Q-Q Residuals plot above. When the residuals clearly depart from a straight diagonal line, it indicates that they do not follow a normal distribution.</span>
+<span id="cb20-281"><a href="#cb20-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-282"><a href="#cb20-282" aria-hidden="true" tabindex="-1"></a>Use a formal statistical test like Shapiro-Wilk, Kolmogorov-Smironov to validate those results.</span>
+<span id="cb20-283"><a href="#cb20-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-286"><a href="#cb20-286" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-287"><a href="#cb20-287" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb20-288"><a href="#cb20-288" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb20-289"><a href="#cb20-289" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"quarto/linear-regression.qmd"</span>, <span class="st">"code/mlr.R"</span>, <span class="at">documentation =</span> <span class="dv">1</span>)</span>
+<span id="cb20-290"><a href="#cb20-290" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
