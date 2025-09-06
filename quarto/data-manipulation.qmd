@@ -16,7 +16,7 @@ You can load the `dplyr` package directly, or load the entire tidy universe (`ti
 library(dplyr)
 ```
 
-Using the same dataset as in [R basics](https://u-shift.github.io/EITcourse/r-basics.html) but with slightly differences[^data-manipulation-1].
+Using the same dataset as in [R basics](r-basics.html#manipulation) but with slightly differences[^data-manipulation-1].
 
 [^data-manipulation-1]: This dataset includes the number of trips with origin in each neighborhood, divided by mode of transport, and inter or intra municipal trips.
 

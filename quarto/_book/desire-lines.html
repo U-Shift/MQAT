@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -92,12 +92,12 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-77cb982c3ae5178da5248b9c8921380f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-0b1e80eae3a2d67fe1799060ddf1655e.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -381,8 +381,8 @@ div.csl-indent {
 <li><p>OD jittering<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
 </ul>
 <p><img src="images/clipboard-157094575.png" class="img-fluid" width="261"> <img src="images/clipboard-1443223500.png" class="img-fluid" width="215"> <img src="images/clipboard-2000165959.png" class="img-fluid" width="242" alt="Examples of representation od desire lines: a) multiple origins and 1 destination; b) transport zones; c) od jittering"></p>
-<p>The <a href="https://docs.ropensci.org/stplanr/index.html"><code>stplanr</code></a> package is a collection of functions for sustainable transport planning with R, and it is built on top of the <code>sf</code> package <span class="citation" data-cites="stplanr">(<a href="#ref-stplanr" role="doc-biblioref">Lovelace and Ellison 2018</a>)</span>.</p>
-<p>In this workshop, we will use the <a href="https://itsleeds.github.io/od/"><code>od</code></a> package, a lightweight package with a few functions from <code>stplanr</code>, namely the ones to create desire lines from origin-destination (OD) pairs <span class="citation" data-cites="od">(<a href="#ref-od" role="doc-biblioref">Lovelace and Morgan 2024</a>)</span>.</p>
+<p>The <a href="https://docs.ropensci.org/stplanr/index.html"><code>stplanr</code></a> package is a collection of functions for sustainable transport planning with R, and it is built on top of the <code>sf</code> package <span class="citation" data-cites="stplanr">(<a href="references.html#ref-stplanr" role="doc-biblioref">Lovelace and Ellison 2018</a>)</span>.</p>
+<p>In this workshop, we will use the <a href="https://itsleeds.github.io/od/"><code>od</code></a> package, a lightweight package with a few functions from <code>stplanr</code>, namely the ones to create desire lines from origin-destination (OD) pairs <span class="citation" data-cites="od">(<a href="references.html#ref-od" role="doc-biblioref">Lovelace and Morgan 2024</a>)</span>.</p>
 <section id="desire-lines-with-od_to_sf" class="level2" data-number="11.1">
 <h2 data-number="11.1" class="anchored" data-anchor-id="desire-lines-with-od_to_sf"><span class="header-section-number">11.1</span> Desire lines with <code>od_to_sf</code></h2>
 <p>To create desire lines, we need a dataset with OD pairs <strong>and</strong> other dataset with the corresponding transport zones (spatial data).</p>
@@ -584,7 +584,7 @@ Geodetic CRS:  WGS 84
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-stplanr" class="csl-entry" role="listitem">
 Lovelace, Robin, and Richard Ellison. 2018. <span>“Stplanr: A Package for Transport Planning.”</span> <em><span>The R Journal</span></em> 10 (2): 10. <a href="https://doi.org/10.32614/RJ-2018-053">https://doi.org/10.32614/RJ-2018-053</a>.
 </div>
@@ -599,7 +599,7 @@ Lovelace, Robin, and Malcolm Morgan. 2024. <em>Od: Manipulate and Map Origin-Des
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>See <span class="citation" data-cites="Lovelace2022">(<a href="#ref-Lovelace2022" role="doc-biblioref">Lovelace, Félix, and Carlino 2022</a>)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>See <span class="citation" data-cites="Lovelace2022">(<a href="references.html#ref-Lovelace2022" role="doc-biblioref">Lovelace, Félix, and Carlino 2022</a>)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -830,6 +830,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -991,6 +993,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
