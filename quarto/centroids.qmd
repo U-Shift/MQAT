@@ -76,8 +76,7 @@ But there is this new package [`centr`](https://ryanzomorrodi.github.io/centr) t
 
 We need to specify the **group** we want to calculate the **mean centroids**, and the **weight variable** we want to use.
 
-```{r}
-# test
+```{r centr}
 library(centr)
 Centroid_pop = Census |> 
   mean_center(group = "Municipality", weight = "Population")
@@ -85,7 +84,7 @@ Centroid_pop = Census |>
 
 We can do the same for buildings.
 
-```{r}
+```{r buildings}
 Centroid_build = Census |> 
   mean_center(group = "Municipality", weight = "Buildings")
 ```
@@ -94,7 +93,7 @@ Centroid_build = Census |>
 
 ### Interactive map
 
-```{r}
+```{r mapcomparecentr}
 #| fig-format: png
 mapview(Centroid_geo, col.region = "blue") +
   mapview(Centroid_pop, col.region = "red") +

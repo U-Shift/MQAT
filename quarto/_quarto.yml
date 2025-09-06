@@ -42,7 +42,7 @@ book:
     - part: "**GIS in R**"
       chapters:
         - spatial-data.qmd
-        - centroids.qmd
+        - centroids.qmd # see issue #4
         # - geocode.qmd
         - desire-lines.qmd
         - distances.qmd
