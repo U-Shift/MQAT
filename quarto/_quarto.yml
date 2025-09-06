@@ -1,0 +1,95 @@
+project:
+  type: book
+  execute-dir: project
+
+execute:
+  freeze: auto
+  # cache: true
+  
+  
+book:
+  title: "MQAT"
+  output-file: "GetYourDatasetReady2024"
+  subtitle: "Exercises in R"
+  author: 
+    - name: "Rosa Félix"
+      email: rosamfelix@tecnico.pt
+      url: http://www.rosafelix.bike
+      orcid: 0000-0002-5642-6006
+      # affiliation: "Instituto Superior Técnico - University of Lisbon"
+    - name: "Gabriel Valença"
+      email: gabrielvalenca@tecnico.pt
+      url: https://ushift.tecnico.ulisboa.pt/team-gabriel-valenca/
+      orcid: 0000-0002-3684-3005
+      # affiliation: "Instituto Superior Técnico - University of Lisbon"
+    - name: "Filipe Moura"
+      email: fmoura@tecnico.pt
+      url: https://ushift.tecnico.ulisboa.pt/team-filipe-moura/
+      orcid: 0000-0001-7749-8490
+  date: today
+  # date-modified: today
+  chapters:
+    - index.qmd
+    - software.qmd
+    - part: "**Data and Models**"
+      chapters:
+        - r-basics.qmd
+        - data-manipulation.qmd
+        - eda.qmd
+        - linear-regression.qmd
+        - factor-analysis.qmd
+        - clusters.qmd
+    - part: "**GIS in R**"
+      chapters:
+        - spatial-data.qmd
+        - centroids.qmd
+        # - geocode.qmd
+        - desire-lines.qmd
+        - distances.qmd
+        - open-data.qmd
+        - grid.qmd
+        - interactive-maps.qmd
+        # - quarto/r5r.qmd
+        # - intro.qmd
+    # - about.qmd
+    - references.qmd
+  
+  repo-url: https://github.com/U-Shift/MQAT
+  site-url: https://U-Shift.github.io/MQAT
+  # favicon: images/favicon.png
+  # sidebar:
+    # tools:
+    #   - icon: download
+    #     href: https://github.com/U-Shift/EITcourse/releases/download/2024.09/EITcourse_GetYourDatasetReady2024.pdf
+    #     text: "Download PDF"
+    #     target: _blank
+  page-footer:
+    left: "R Félix, G Valença, F Moura"
+    center: "MQAT - Instituto Superior Técnico"
+    right: "September 2025"
+    
+    
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: superhero
+    code-fold: show
+    code-tools: true
+    number-depth: 3
+    toc-expand: 3
+  pdf:
+    documentclass: scrreprt
+    # engine: knitr
+    toc: true
+    number-depth: 3
+    toc-depth: 3
+    # cover-image: images/cover.png # not working
+    output-ext:  "pdf"
+# prefer-html: true
+    
+editor: visual
+
+google-scholar: true
