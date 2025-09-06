@@ -1,194 +1,251 @@
 
- 
-# Example exercise: Trip production of the Metropolitan Area of Lisbon.
-
-#' **Your task**: Estimate a linear regression model that predicts the car percentage per county.  
- 
-# Variables:
 #' 
-#'*Origin_dicofre16* - Code of Freguesias as set by INE after 2016 (Distrito + Concelho + Freguesia)
-#'*Total* - number of trips with origin in Origin_dicofre16
-#'*Walk* - number of walking trips with origin in Origin_dicofre16
-#'*Bike* - number of bike trips with origin in Origin_dicofre16
-#'*Car* - number of car trips with origin in Origin_dicofre16. Includes taxi and motorcycle.
-#'*PTransit* - number of Public Transit trips with origin in Origin_dicofre16
-#'*Other* - number of other trips (truck, van, tractor, aviation) with origin in Origin_dicofre16
-#'*Distance* - average trip distance (km) with origin in Origin_dicofre16
-#'*Duration* - average trip duration (minutes) with origin in Origin_dicofre16
-#'*Car_perc* - percentage of car trips with origin in Origin_dicofre16
-#'*N_INDIVIDUOS* - number of residents in Origin_dicofre16 (Censos 2021)
-#'*Male_perc* - percentage of male residents in Origin_dicofre16 (Censos 2021)
-#'*IncomeHH* - average household income in Origin_dicofre16
-#'*Nvehicles* - average number of car/motorcycle vehicles in the household in Origin_dicofre16
-#'*DrivingLic* - percentage of car driving licence holders in Origin_dicofre16
-#'*CarParkFree_Work* - percentage of respondents with free car parking at the work location, in Origin_dicofre16
-#'*PTpass* - percentage of public transit monthly pass holders in Origin_dicofre16
-#'*internal* - binary variable (factor). "Yes": internal trips in that freguesia (Origin_dicofre16), "No": external trips from that freguesia
-#'*Lisboa* - binary variable (factor). "Yes": the freguesia is part of Lisbon municipality, "No": otherwise
-#'*Area_km2* - area of in Origin_dicofre16, in km2
- 
-  # Let's begin!
- 
-    # Import Libraries
-      library(tidyverse) # Pack of most used libraries
-      library(skimr) # Library used for providing a summary of the data
-      library(DataExplorer) # Library used in data science to perform exploratory data analysis
-      library(corrplot) # Library used for correlation plots
-      library(car) # Library used for testing autocorrelation (Durbin Watson)
-      library(olsrr) # Library used for testing multicollinearity (VIF, TOL, etc.)
-      library(corrplot) # For correlation plots
+#' **Your task**: Estimate a linear regression model that predicts the car percentage per district.
+#' 
+#' ## Load packages
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+library(tidyverse) # Pack of most used libraries for data science
+library(skimr) # summary of the data
+library(DataExplorer) # exploratory data analysis
+library(corrplot) # correlation plots
 
-    # Import dataset and transform into dataframe
-        dataset = readRDS("data/IMOBmodel.Rds")
-        
-        # Check the class
-          class(dataset)
+library(car) # Testing autocorrelation (Durbin Watson)
+library(olsrr) # Testing multicollinearity (VIF, TOL, etc.)
 
- 
-        # Transform the dataset into a dataframe
-          df = data.frame(dataset)
+#' 
+#' ## Dataset
+#' 
+#' The database used in this example is a treated database from the Mobility Survey for the metropolitan areas of Lisbon in 2018 [@IMOB].
+#' 
+#' Included **variables**:
+#' 
+#' -   `Origin_dicofre16` - Code of Freguesia (district) as set by INE after 2016 (Distrito + Concelho + Freguesia), for trip origin
+#' -   `Total` - number of trips with origin at each district
+#' -   `Walk` - number of walking trips
+#' -   `Bike` - number of bike trips
+#' -   `Car` - number of car trips. Includes taxi and motorcycle.
+#' -   `PTransit` - number of Public Transit trips
+#' -   `Other` - number of other trips (truck, van, tractor, aviation)
+#' -   `Distance` - average trip distance (km)
+#' -   `Duration` - average trip duration (minutes)
+#' -   `Car_perc` - percentage of car trips
+#' -   `N_INDIVIDUOS` - number of residents [@INEcensus]
+#' -   `Male_perc` - percentage of male residents [@INEcensus]
+#' -   `IncomeHH` - average household income
+#' -   `Nvehicles` - average number of car/motorcycle vehicles in the household
+#' -   `DrivingLic` - percentage of car driving licence holders
+#' -   `CarParkFree_Work` - percentage of respondents with free car parking at the work location
+#' -   `PTpass` - percentage of public transit monthly pass holders
+#' -   `internal` - binary variable (factor). `Yes`: trip with same TAZ origin and destination, `No`: trips with different destination
+#' -   `Lisboa` - binary variable (factor). `Yes`: the district is part of Lisbon municipality, `No`: otherwise
+#' -   `Area_km2` - area of in `Origin_dicofre16`, in km^2^
+#' 
+#' ### Import dataset
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+data = readRDS("../data/IMOBmodel.Rds")
+data_continuous = data |> select(-Origin_dicofre16, -internal, -Lisboa) # Exclude categorical variables
 
-#'*Assumption 1:* Dependent variable is continuous. 
-    
-    # Show summary statistics
-      skim(df)
-      summary(df)
+#' 
+#' Show summary statistics
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+skim(data)
 
-    # Show boxplot
-      boxplot(df$Distance)
-      
-      summary(df$Distance)
- 
-# Multiple Linear Regression
-#' Equation with `Car_perc` as the dependent variable:  
+#' 
+#' The dependent variable is continuous.
+#' 
+#' ## Check the assumptions
+#' 
+#' Before running the model, you need to check if the assumptions are met.
+#' 
+#' 1.  The dependent variable is normally distributed
+#' 2.  Linear relationship between the dependent variable and the independent variables
+#' 3.  No multicollinearity between independent variables (or only very little)
+#' 4.  The observations are independent
+#' 5.  Constant Variance (Assumption of Homoscedasticity)
+#' 6.  Residuals are normally distributed
+#' 
+#' 
+#' 
+#' ## Assumption 1: Normal distribution
+#' 
+#' The Dependent Variable is be normally distributed.
+#' 
+#' Check the histogram of `Car_perc`:
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+hist(data$Car_perc)
 
-# Checking assumptions
-  # Before running the model, you need to check if the assumptions are met.
- 
-    # Linear relation
-      
-#'*Assumption 2:* There is a linear relationship between dependent variable (DV) and independent variables (IV)
- 
-    par(mfrow=c(2,3)) #set plot area as 2 rows and 3 columns
-    
-    plot(x = df$Car_perc, y = df$Total, xlab = "Car_perc (%)", ylab = "Total (number of trips)")  
-    plot(x = df$Car_perc, y = df$Walk, xlab = "Car_perc", ylab = "Walk")  
-    plot(x = df$Car_perc, y = df$Bike, xlab = "Car_perc", ylab = "Bike")  
-    plot(x = df$Car_perc, y = df$Car, xlab = "Car_perc", ylab = "Car")  
-    plot(x = df$Car_perc, y = df$PTransit, xlab = "Car_perc", ylab = "PTransit")
-    plot(x = df$Car_perc, y = df$Other, xlab = "Car_perc", ylab = "Other")
-    plot(x = df$Car_perc, y = df$Distance, xlab = "Car_perc", ylab = "Distance")
-    plot(x = df$Car_perc, y = df$Duration, xlab = "Car_perc", ylab = "Duration")
-    plot(x = df$Car_perc, y = df$N_INDIVIDUOS, xlab = "Car_perc", ylab = "N_INDIVIDUOS")
-    plot(x = df$Car_perc, y = df$Male_perc, xlab = "Car_perc", ylab = "Male_perc")
-    plot(x = df$Car_perc, y = df$IncomeHH, xlab = "Car_perc", ylab = "IncomeHH")
-    plot(x = df$Car_perc, y = df$Nvehicles, xlab = "Car_perc", ylab = "Nvehicles")
-    plot(x = df$Car_perc, y = df$DrivingLic, xlab = "Car_perc", ylab = "Driving License")
-    plot(x = df$Car_perc, y = df$CarParkFree_Work, xlab = "Car_perc", ylab = "Free car parking at work")
-    plot(x = df$Car_perc, y = df$PTpass, xlab = "Car_perc", ylab = "PTpass")
-    plot(x = df$Car_perc, y = df$internal, xlab = "Car_perc", ylab = "internal trips")
-    plot(x = df$Car_perc, y = df$Lisboa, xlab = "Car_perc", ylab = "Lisboa")
-    plot(x = df$Car_perc, y = df$Area_km2, xlab = "Car_perc", ylab = "Area_km2")
+#' 
+#' If the sample is small (\< 50 observations), we use **Shapiro-Wilk** test:
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+shapiro.test(data$Car_perc)
 
+#' 
+#' If not, use the **Kolmogorov-Smirnov** test:
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+ks.test(
+  data$Car_perc,
+  "pnorm",
+  mean = mean(data$Car_perc),
+  sd = sd(data$Car_perc)
+)
 
-    #' Or you could execute a pairwise scatterplot matrix, that compares every variable with each other: 
-   
-    pairs(df[,c(2:17,20)], pch = 19, lower.panel = NULL) #cannot put categorical and character variables in this function
+#' 
+#' The null hypothesis for both tests is that the distribution is normal. Therefore, for the distribution to be normal, the pvalue must be **\> 0.05** and the null hypothesis is not rejected. From the output obtained we can assume normality.
+#' 
+#' 
+#' 
+#' ## Assumption 2: Linear relationship
+#' 
+#' There is a linear relationship between dependent variable (DV) and independent variables (IV).
+#' 
+#' We can check this assumption by plotting scatterplots of the DV against each IV:
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
 
-    #This function is not visible with many variables. 
-    #Try reducing the size. 
+plot(x = data$Car_perc, y = data$Total, xlab = "Car_perc (%)", ylab = "Total (number of trips)")
+plot(x = data$Car_perc, y = data$Walk, xlab = "Car_perc", ylab = "Walk")
+plot(x = data$Car_perc, y = data$Bike, xlab = "Car_perc", ylab = "Bike")
+plot(x = data$Car_perc, y = data$Car, xlab = "Car_perc", ylab = "Car")
+plot(x = data$Car_perc, y = data$PTransit, xlab = "Car_perc", ylab = "PTransit")
+plot(x = data$Car_perc, y = data$Other, xlab = "Car_perc", ylab = "Other")
+plot(x = data$Car_perc, y = data$Distance, xlab = "Car_perc", ylab = "Distance")
+plot(x = data$Car_perc, y = data$Duration, xlab = "Car_perc", ylab = "Duration")
+plot(x = data$Car_perc, y = data$N_INDIVIDUOS, xlab = "Car_perc", ylab = "N_INDIVIDUOS")
+plot(x = data$Car_perc, y = data$Male_perc, xlab = "Car_perc", ylab = "Male_perc")
+plot(x = data$Car_perc, y = data$IncomeHH, xlab = "Car_perc", ylab = "IncomeHH")
+plot(x = data$Car_perc, y = data$Nvehicles, xlab = "Car_perc", ylab = "Nvehicles")
+plot(x = data$Car_perc, y = data$DrivingLic, xlab = "Car_perc", ylab = "Driving License")
+plot(x = data$Car_perc, y = data$CarParkFree_Work, xlab = "Car_perc", ylab = "Free car parking at work")
+plot(x = data$Car_perc, y = data$PTpass, xlab = "Car_perc", ylab = "PTpass")
+plot(x = data$Car_perc, y = data$internal, xlab = "Car_perc", ylab = "internal trips")
+plot(x = data$Car_perc, y = data$Lisboa, xlab = "Car_perc", ylab = "Lisboa")
+plot(x = data$Car_perc, y = data$Area_km2, xlab = "Car_perc", ylab = "Area_km2")
 
-    pairs(df[,c(2:10)], pch = 19, lower.panel = NULL)
+#' 
+#' Or you can make a pairwise scatterplot matrix, that compares every variable with each other:
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+# pairs(data_continuous, pch = 19, lower.panel = NULL) # we have too many variables, let's split the plots
+pairs(data_continuous[,1:6], pch = 19, lower.panel = NULL)
+pairs(data_continuous[,7:12], pch = 19, lower.panel = NULL)
+pairs(data_continuous[,13:17], pch = 19, lower.panel = NULL)
 
-#'*Assumption 3:* The Dependent Variable should be normally distributed.  
+#' 
+#' ## Assumption 3: No multicollinearity
+#' 
+#' Check the [correlation plot](eda.qmd#correlations) before choosing the variables.
+#' 
+#' ### Declare the model
+#' 
 
-  #' Check the histogram of `Car_perc`
+#' Use `CTRL` + `SHIFT` + `C` to comment/uncomment lines (variables)
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+names(data) # to see the names of the variables
 
-    par(mfrow=c(1,1))
-    hist(df$Duration)
-  
-  # If the sample is smaller than 50 observations, use Shapiro-Wilk test: 
+model = lm(
+  Car_perc ~ Total +
+    Walk +
+    Bike +
+    Car +
+    PTransit +
+    Other +
+    Distance + 
+    Duration + 
+    N_INDIVIDUOS + 
+    Male_perc + 
+    IncomeHH + 
+    Nvehicles + 
+    DrivingLic + 
+    CarParkFree_Work + 
+    PTpass + 
+    internal + 
+    Lisboa + 
+    Area_km2,
+  data = data
+)
 
-    shapiro.test(df$Car_perc)
-
-  # If not, use the Kolmogorov-Smirnov test
- 
-    ks.test(df$Car_perc, "pnorm", mean=mean(df$Car_perc), sd = sd(df$Car_perc))
-
-#' The null hypothesis of both tests is that the distribution is normal. 
-#' Therefore, for the distribution to be normal, the pvalue > 0.05 and you should not reject the null hypothesis.
-
-#'* Multiple linear regression model*
-    
-#' Check the correlation plot before choosing the variables. 
-
-
-  model <- lm(Car_perc ~ Total +
-               Walk +
-               Bike +
-               Car +
-               PTransit +
-               Other +
-               Distance +
-               Duration +
-               N_INDIVIDUOS +
-               Male_perc +
-               IncomeHH +
-               Nvehicles +
-               DrivingLic +
-               CarParkFree_Work +
-               PTpass +
-               internal +
-               Lisboa +
-               Area_km2,
-              data = df)
 summary(model)
 
-#'*Tip:* Use the function `names(df)` in the console to obtain the names of the variables.  
-#'*Tip:* Use ctrl+shift+c to comment a variable
- 
-#' **Assessing the model**:
- 
-#' 1. First check the **pvalue** and the **F statistics** of the model to see if there is any statistical relation 
-#' between the dependent variable and the independent variables. 
-#' If pvalue < 0.05 and the F statistics > Fcritical = 2,39, then the model is statistically acceptable.  
+#' 
+#' ### Assessing the model
+#' 
+#' 1.  First check the **pvalue** and the **F statistics** of the model to see if there is any statistical relation between the dependent variable and the independent variables. If pvalue \< 0.05 and the F statistics \> Fcritical = 2.39, then the model is statistically acceptable.
+#' 
+#' 2.  The **R-square** and **Adjusted R-square** evaluate the amount of variance that is explained by the model. The difference between one and another is that the R-square does not consider the number of variables. If you increase the number of variables in the model, the R-square will tend to increase which can lead to overfitting. On the other hand, the Adjusted R-square adjust to the number of independent variables.
+#' 
+#' 3.  Take a look at the **t-value** and the Pr(\>\|t\|). If the t-value \> 1.96 or Pr(\>\|t\|) \< 0.05, then the IV is statistically significant to the model.
+#' 
+#' 4.  To analyze the **estimates** of the variables, you should first check the **signal** and assess if the independent variable has a direct or inverse relationship with the dependent variable. It is only possible to evaluate the **magnitude** of the estimate if all variables are continuous and standardized or by calculating the elasticities. Do not forget to access the **Intercept**...
+#' 
+#' We can see from the output that the R-squared value for the model (with ALL variables) is **0.7772**. We can also see that the overall F-statistic is **42.06** and the corresponding p-value is **\<2.2e-16**, which indicates that the overall regression model is significant. Also, the predictor variables `DrivingLic` and `CarParkFree_Work`, `internal(No)` and `Lisboa(Yes)` are statistically significant at the 0.05 significance level.
+#' 
 
-#' 2. The **R-square** and **Adjusted R-square** evaluate the amount of variance that is explained by the model. 
-#' The difference between one and another is that the R-square does not consider the number of variables.
-#' If you increase the number of variables in the model, the R-square will tend to increase which can lead to overfitting. 
-#' On the other hand, the Adjusted R-square adjust to the number of independent variables. 
- 
-#' 3. Take a look at the **t-value** and the Pr(>|t|). 
-#' If the t-value > 1,96 or Pr(>|t|) < 0,05, then the IV is statistically significant to the model.
-   
-#' 4. To analyze the **estimates** of the variables, you should first check the **signal** 
-#' and evaluate if the independent variable has a direct or inverse relationship with the dependent variable. 
-#' It is only possible to evaluate the **magnitude** of the estimate if all variables are continuous and standardized 
-#' or by calculating the elasticities. The elasticities are explained and demonstrated in chapter 4. 
+#' ### Your turn
+#' 
+#' Now try to remove some variables from the model and assess it again. Elaborate a justification to exclude those variables.
 
-#' Residuals
-#' Check the following assumptions
+#' 
+#' ### Calculate the Variance Inflation Factor (VIF)
+#' 
+#' We use the `vif()` function from the car package to calculate the VIF for each predictor variable in the model:
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+car::vif(model)
 
-#' *Assumption 4:* The error (E) is independent across observations and the error variance is constant across IV – Homoscedasticity
-#' *Assumption 5:* Disturbances are approximately normally distributed
+#' 
+#' A common rule of thumb is that a VIF value greater than 5 indicates a high level of multicollinearity among the predictor variables, which is potentially concerning.
+#' 
+#' 
+#' 
+#' ## Assumption 4: independence of observations
+#' 
+#' Multiple linear regression assumes that each observation in the dataset is independent.
+#' 
+#' The error (E) is independent across observations and the error variance is constant across IV
+#' 
+#' The simplest way to determine if this assumption is met is to perform a Durbin-Watson test, which is a formal statistical test that tells us whether or not the **residuals** (and thus the **observations**) exhibit autocorrelation.
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+durbinWatsonTest(model)
 
-#' * **Residuals vs Fitted:** This plot is used to detect non-linearity, heteroscedasticity, and outliers. 
+#' 
+#' **H~0~ (null hypothesis):** There is no correlation among the residuals. Since p-value \> 0.05, we do not reject the null hypothesis and we can not discard that there is autocorrelation in the model.
+#' 
+#' In the Durbin-Watson test, values of the D-W Statistic vary from 0 to 4.
+#' 
+#' If the values are from 1.8 to 2.2 this means that there is **no autocorrelation** in the model.
+#' 
+#' ## Assumption 5: Constant Variance (Homoscedasticity)
+#' 
+#' The simplest way to determine if this assumption is met is to create a plot of standardized residuals versus predicted values.
+#' 
+## ------------------------------------------------------------------------------------------------------------------------------
+plot(model)
 
-#' **Normal Q-Q:** The quantile-quantile (Q-Q) plot is used to check if the disturbances follow a normal distribution.
-
-#' * **Scale-Location:** This plot is used to verify if the residuals are spread equally (homoscedasticity) or not 
-#' (heteroscedasticity) through the sample. 
-#' * **Residuals vs Leverage:** This plot is used to detect the impact of the outliers in the model. 
-#' If the outliers are outside the Cook-distance, this may lead to serious problems in the model. 
- 
-#' Try analyzing the plots and check if the model meets the assumptions. 
-    par(mfrow=c(2,2))
-    plot(model)
-
- 
-#' *Assumption 6:* Non-autocorrelation of disturbances
-#' Execute the Durbin-Watson test to evaluate autocorrelation of the residuals
-    durbinWatsonTest(model)
-
-#' > **Note:** In the Durbin-Watson test, values of the D-W Statistic vary from 0 to 4. 
-#' If the values are from 1.8 to 2.2 this means that there is no autocorrelation in the model. 
+#' 
+#' For the Residuals, check the following **assumptions**:
+#' 
+#' -   **Residuals vs Fitted:** This plot is used to detect non-linearity, heteroscedasticity, and outliers.
+#' 
+#' -   **Normal Q-Q:** The quantile-quantile (Q-Q) plot is used to check if the disturbances follow a normal distribution
+#' 
+#' -   **Scale-Location:** This plot is used to verify if the residuals are spread equally (homoscedasticity) or not (heteroscedasticity) through the sample.
+#' 
+#' -   **Residuals vs Leverage:** This plot is used to detect the impact of the outliers in the model. If the outliers are outside the Cook-distance, this may lead to serious problems in the model.
+#' 
+#' Try analyzing the plots and check if the model meets the assumptions.
+#' 
+#' 
+#' ## Assumption 6: Residuals are normally distributed
+#' 
+#' Assess the Q-Q Residuals plot above. When the residuals clearly depart from a straight diagonal line, it indicates that they do not follow a normal distribution.
+#' 
+#' Use a formal statistical test like Shapiro-Wilk, Kolmogorov-Smironov to validate those results.
+#' 
