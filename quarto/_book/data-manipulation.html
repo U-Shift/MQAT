@@ -292,13 +292,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#select-variables" id="toc-select-variables" class="nav-link active" data-scroll-target="#select-variables"><span class="header-section-number">4.1</span> Select variables</a>
   <ul class="collapse">
-  <li><a href="#using-pipes" id="toc-using-pipes" class="nav-link" data-scroll-target="#using-pipes"><span class="header-section-number">4.1.1</span> Using pipes!</a></li>
+  <li><a href="#using-pipes" id="toc-using-pipes" class="nav-link" data-scroll-target="#using-pipes">Using pipes!</a></li>
   </ul></li>
   <li><a href="#filter-observations" id="toc-filter-observations" class="nav-link" data-scroll-target="#filter-observations"><span class="header-section-number">4.2</span> Filter observations</a></li>
   <li><a href="#create-new-variables" id="toc-create-new-variables" class="nav-link" data-scroll-target="#create-new-variables"><span class="header-section-number">4.3</span> Create new variables</a></li>
   <li><a href="#change-data-type" id="toc-change-data-type" class="nav-link" data-scroll-target="#change-data-type"><span class="header-section-number">4.4</span> Change data type</a>
   <ul class="collapse">
-  <li><a href="#factors" id="toc-factors" class="nav-link" data-scroll-target="#factors"><span class="header-section-number">4.4.1</span> Factors</a></li>
+  <li><a href="#factors" id="toc-factors" class="nav-link" data-scroll-target="#factors">Factors</a></li>
   </ul></li>
   <li><a href="#join-data-tables" id="toc-join-data-tables" class="nav-link" data-scroll-target="#join-data-tables"><span class="header-section-number">4.5</span> Join data tables</a></li>
   <li><a href="#group_by-and-summarize" id="toc-group_by-and-summarize" class="nav-link" data-scroll-target="#group_by-and-summarize"><span class="header-section-number">4.6</span> group_by and summarize</a></li>
@@ -381,8 +381,8 @@ Important
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>TRIPS_new <span class="ot">=</span> <span class="fu">select</span>(TRIPS_new, <span class="sc">-</span>Total) <span class="co"># dropping the Total column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="using-pipes" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="using-pipes"><span class="header-section-number">4.1.1</span> Using pipes!</h3>
+<section id="using-pipes" class="level3">
+<h3 class="anchored" data-anchor-id="using-pipes">Using pipes!</h3>
 <p>Now, let’s introduce pipes. Pipes are a rule as: “<strong>With this, do this.</strong>”</p>
 <p>This is useful to skip the first argument of the functions (usually the dataset to apply the function).</p>
 <p>Applying a pipe to the <code>select()</code> function, we can write as:</p>
@@ -454,8 +454,8 @@ Important
 <li>date (<code>Date</code>)</li>
 <li>factor (<code>factor</code>)</li>
 </ul>
-<section id="factors" class="level3" data-number="4.4.1">
-<h3 data-number="4.4.1" class="anchored" data-anchor-id="factors"><span class="header-section-number">4.4.1</span> Factors</h3>
+<section id="factors" class="level3">
+<h3 class="anchored" data-anchor-id="factors">Factors</h3>
 <p>Factors are useful to deal with categorical data. You can convert a character to a factor using <code>as.factor()</code>, and also use labels and levels for categorical ordinal data.</p>
 <p>We can change the <code>Lisbon</code> variable to a factor, and <code>Internal</code> too.</p>
 <div class="cell">

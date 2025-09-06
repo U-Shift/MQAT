@@ -42,13 +42,13 @@ book:
     - part: "**GIS in R**"
       chapters:
         - spatial-data.qmd
+        - interactive-maps.qmd
         - centroids.qmd # see issue #4
         # - geocode.qmd
         - desire-lines.qmd
         - distances.qmd
         - open-data.qmd
         - grid.qmd
-        - interactive-maps.qmd
         # - quarto/r5r.qmd
         # - intro.qmd
     # - about.qmd
@@ -80,14 +80,14 @@ format:
     code-tools: true
     number-depth: 3
     toc-expand: 3
-  pdf:
-    documentclass: scrreprt
-    # engine: knitr
-    toc: true
-    number-depth: 3
-    toc-depth: 3
+#  pdf:
+#    documentclass: scrreprt
+#    # engine: knitr
+#    toc: true
+#    number-depth: 3
+#    toc-depth: 3
     # cover-image: images/cover.png # not working
-    output-ext:  "pdf"
+#    output-ext:  "pdf"
 # prefer-html: true
     
 editor: visual
