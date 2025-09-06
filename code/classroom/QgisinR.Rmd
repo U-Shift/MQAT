@@ -1,0 +1,498 @@
+---
+title: "GIS in R - exercises"
+author: "R Félix"
+date: "MQAT 2024"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    number_sections: true
+    # code_folding: "hide"
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+```{r libraries}
+library(tidyverse)
+library(sf)
+library(mapview)
+```
+
+
+# Intro
+
+This Rmarkdown notebook aims to show some examples of how to solve the classroom proposed exercises in QGIS, but in R.
+
+There are several ways to reach the same solution. Here we present only one of them.
+
+# Represent Transport Zones
+
+Download and open `TRIPSgeo_mun.gpkg` and `TRIPSgeo_freg.gpkg` under [MQAT/geo/](https://github.com/U-Shift/MQAT/tree/main/geo) repository.
+
+```{r getdata1}
+TRIPSgeo_mun = st_read("geo/TRIPSgeo_mun.gpkg", quiet = TRUE) # we add quiet = TRUE so we don't get annoying messages on the info
+TRIPSgeo_freg = st_read("geo/TRIPSgeo_freg.gpkg", quiet = TRUE)
+
+# you can also open directly from url from github. example:
+# TRIPSgeo_mun = st_read("https://github.com/U-Shift/MQAT/raw/main/geo/TRIPSgeo_mun.gpkg")
+```
+
+Represent Transport Zones with Total, and with Car %.
+
+```{r carper}
+# create Car_per variable
+TRIPSgeo_mun = TRIPSgeo_mun |> mutate(Car_per = Car / Total * 100)
+TRIPSgeo_freg = TRIPSgeo_freg |> mutate(Car_per = Car / Total * 100)
+
+#Vizualize in map
+mapview(TRIPSgeo_mun, zcol = "Car_per")
+mapview(TRIPSgeo_freg, zcol = "Car_per", col.regions = rev(hcl.colors(9, "-Inferno"))) #palete inferno com 9 classes, reverse color ramp
+```
+
+# Centroids
+
+## Geometric centroids
+
+```{r geocentroid}
+CENTROIDSgeo = st_centroid(TRIPSgeo_mun)
+# mapview(CENTROIDSgeo)
+```
+
+
+## Weigthed centroids
+
+We will weight centroids of transport zones by population and by number of buildings.
+
+For this, we will need the census data.
+Get BGRI Data^[Base Geográfica de Referenciação de Informação, Censos 2021] from INE website, at *Área Metropolitana de Lisboa* level: [https://mapas.ine.pt/download/index2021.phtml](mapas.ine.pt/download/index2021.phtml)
+
+```{r getcensus}
+BGRI = st_read("original/BGRI21_LISBOA.gpkg", quiet = TRUE)
+```
+
+It was not that easy to estimate weighted centroids with R, as it is with GIS software.
+But there is this new package [`centr`](https://ryanzomorrodi.github.io/centr) that can help us.
+
+We need to specify the **group** we want to calculate the **mean centroids**, and the **weight variable** we want to use.
+
+```{r}
+library(centr)
+CENTROIDSpop = BGRI |> 
+  mean_center(group = "DTMN21", # Municipalities
+              weight = "N_INDIVIDUOS") # Population
+```
+
+We can do the same for buildings.
+
+```{r}
+CENTROIDSbuild = BGRI |> 
+  mean_center(group = "DTMN21", # Municipalities
+              weight = "N_EDIFICIOS_CLASSICOS") # Buildings
+```
+
+## Compare in map
+
+```{r mapcentroid}
+mapview(CENTROIDSgeo) +
+  mapview(CENTROIDSpop, col.region = "red") +
+  mapview(CENTROIDSbuild, col.region = "black")
+```
+
+See how the building, population and geometric centroids of Sintra are apart, from closer to Tagus, to the rural area.
+
+
+# Desire Lines
+
+Download `TRIPSdl_mun.gpkg` 
+
+```{r getdl}
+TRIPSdl_mun = st_read("geo/TRIPSdl_mun.gpkg", quiet = TRUE) 
+```
+
+Filter intrazonal trips, and trips with origin or desination in Lisbon.
+
+```{r withlx}
+TRIPSdl_mun = TRIPSdl_mun |> 
+  filter(Origin_mun != Destination_mun) |> 
+  filter(Total > 5000) # remove noise
+
+mapview(TRIPSdl_mun, zcol = "Total", lwd = 5)
+```
+
+```{r filterlx}
+TRIPSdl_mun_noLX = TRIPSdl_mun |> 
+  filter(Origin_mun != "Lisboa", Destination_mun != "Lisboa")
+
+mapview(TRIPSdl_mun_noLX, zcol = "Total", lwd = 8)
+```
+
+You can replace the `Total` with other variable, such as `Car`, `PTransit`, and so on.
+
+> Note: The function [`od_oneway()`](https://docs.ropensci.org/stplanr/reference/od_oneway.html) aggregates oneway lines to produce bidirectional flows. By default, it returns the sum of each numeric column for each bidirectional origin-destination pair. This is better for viz purpouses.
+
+# Euclidean vs. Routing distance
+
+## Euclidean distance
+
+### Create new point at IST
+
+```{r createist}
+IST = st_sfc(st_point(c(-9.1397404, 38.7370168)), crs = 4326)
+```
+
+### Import survey and visualize
+
+```{r survey}
+SURVEY = read.csv("geo/SURVEYist.txt", sep = "\t") # tab delimiter
+SURVEY = st_as_sf(SURVEY, coords = c("lon", "lat"), crs = 4326) # transform as geo data
+
+mapview(SURVEY, zcol = "MODE") + mapview(IST, col.region = "red", cex = 12)
+```
+
+### Reproject layers
+
+In R we can process distances in meters on-fly.
+
+Buy here is the code to project layers from Geographic coordinates (WGS 84 - EPSG:[4364](https://epsg.io/4326)) to Projected coordinates (Pseudo-Mercator - EPSG:[3857](https://epsg.io/3857), or Portuguese Tranversor-Mercator 06 - EPSG:[3763](https://epsg.io/3763)).
+
+```{r projectlayers}
+ISTprojected = st_transform(IST, crs = 3857)
+SURVEYprojected = st_transform(SURVEY, crs = 3857)
+```
+
+### Straight lines and distance
+
+Nearest point between the two layers. As we only have 1 point at IST layer, we will have the same number of lines as number of surveys = `r nrow(SURVEY)`.
+
+```{r eucdistance}
+SURVEYeuclidean = st_nearest_points(SURVEY, IST, pairwise = TRUE) |> st_as_sf() # this creates lines
+
+mapview(SURVEYeuclidean)
+
+SURVEY$distance = st_length(SURVEYeuclidean) # compute distance and add directly in the first layer
+
+summary(SURVEY$distance) # in meters
+
+# to remove the units - can be useful
+SURVEY$distance = units::drop_units(SURVEY$distance)
+```
+
+The same function can be used to find the closest GIRA station to each survey home location. And also check where are the ones that are far away from GIRA.
+
+```{r girahub}
+GIRA = st_read("geo/GIRA2023.geojson", quiet = TRUE) # we can also read geojson with this function!
+
+nearest = st_nearest_feature(SURVEY, GIRA) # creates an index of the closest GIRA station id
+
+SURVEY$distanceGIRA = st_distance(SURVEY, GIRA[nearest,], by_element = TRUE)
+
+mapview(SURVEY, zcol = "distanceGIRA") +
+  mapview(GIRA, col.regions = "grey20", cex = 4, legend = FALSE)
+```
+
+## Routing distance
+
+We use the [openrouteservice-r](https://giscience.github.io/openrouteservice-r/) package. For that you need to [create an account](https://openrouteservice.org/dev/#/signup) and get a Token / api key.
+
+> **Note on how to store credentials in R**  
+Using an API key from [OpenRouteService](https://openrouteservice.org/dev/#/signup), you should store it at your computer and **never show it directly on code**.  
+For that `usethis::edit_r_environ()` and paste your token as `ORS_API_KEY="xxxxxxxxxxxxxxxxxxxxxx"` (replace with your token).    
+Save the .Renviron file, and press `Ctrl+Shift+F10` to restart R so it can take effect.
+
+See the [documentation](https://giscience.github.io/openrouteservice-r/articles/openrouteservice.html) for more details.
+
+### Distances 1 point to many points
+
+Estimate the time and distance by `foot-waking` and `driving-car`, `fastest` mode, from survey locations (under 2 km^[for speed-up purposes - api request limit up to 40 / minute]) to IST.
+
+```{r routingdataprep}
+# devtools::install_github("GIScience/openrouteservice-r")
+library(openrouteservice)
+# ors_api_key(Sys.getenv("ORS_API_KEY")) # one time setup
+
+# get coordinates variable
+SURVEY$coordinates = st_coordinates(SURVEY)
+IST$coordinates = st_coordinates(IST)
+
+# Filter only the locations up to 2km euclidean
+SURVEYsample = SURVEY |> filter(distance <= 2000)
+# nrow(SURVEYsample) # 95
+```
+
+
+Although it is the same algorithm, here it works differently from QGIS.
+
+There are many ways of doing this. If we want to know only time and distance, and **not the route** itself, we can use the `ors_matrix()`. See example [here](https://web.tecnico.ulisboa.pt/~rosamfelix/gis/trips/timedistancematrix.html#Distance_and_time_matrix).  
+If we need the route, we should use the function `ors_directions()`. This one is not that easy to set-up because the function is prepared to retrieve only one result per request :( So we do a loop. Don't worry, it is not that
+
+```{r orsloop1, eval=FALSE, include=TRUE}
+ROUTES_foot = data.frame() # initial empty data frame
+
+# loop - the origin (i) is the survey location, and the IST is always the same destination
+for (i in 1:nrow(SURVEYsample)) {
+  ROUTES1 = ors_directions(
+    data.frame(
+      lon = c(SURVEYsample$coordinates[i, 1], IST$coordinates[1, 1]),
+      lat = c(SURVEYsample$coordinates[i, 2], IST$coordinates[1, 2])
+    ),
+    profile = "foot-walking", # or driving-car cycling-regular cycling-electric
+    preference = "fastest", # or shortest
+    output = "sf"
+  )
+  ROUTES1$distance = ROUTES1$summary[[1]]$distance # extract these values from summary
+  ROUTES1$duration = ROUTES1$summary[[1]]$duration
+  
+  ROUTES_foot = rbind(ROUTES_foot, ROUTES1) # to keep adding in the same df
+}
+
+ROUTES_foot = ROUTES_foot |>
+  select(distance, duration, geometry) |> # discard unnecessary variables
+  mutate(ID = SURVEYsample$ID) # cbind with syrvey ID
+```
+
+Repeat the same for `car-driving`.
+
+```{r orsloop2, eval=FALSE, include=TRUE}
+ROUTES_car = data.frame() # initial empty data frame
+
+# loop - the origin (i) is the survey location, and the IST is always the same destination
+for (i in 1:nrow(SURVEYsample)) {
+  ROUTES1 = ors_directions(
+    data.frame(
+      lon = c(SURVEYsample$coordinates[i, 1], IST$coordinates[1, 1]),
+      lat = c(SURVEYsample$coordinates[i, 2], IST$coordinates[1, 2])
+    ),
+    profile = "driving-car", # or cycling-regular cycling-electric foot-walking
+    preference = "fastest", # or shortest
+    output = "sf"
+  )
+  ROUTES1$distance = ROUTES1$summary[[1]]$distance # extract these values from summary
+  ROUTES1$duration = ROUTES1$summary[[1]]$duration
+  
+  ROUTES_car = rbind(ROUTES_car, ROUTES1) # to keep adding in the same df
+}
+
+ROUTES_car = ROUTES_car |>
+  select(distance, duration, geometry) |> # discard unnecessary variables
+  mutate(ID = SURVEYsample$ID) # cbind with syrvey ID
+```
+
+```{r importexport1, include=FALSE}
+# st_write(ROUTES_foot, "original/routes_foot.geojson")
+# st_write(ROUTES_car, "original/routes_car.geojson")
+
+ROUTES_foot = st_read("original/routes_foot.geojson", quiet = TRUE)
+ROUTES_car = st_read("original/routes_car.geojson", quiet = TRUE)
+```
+
+## Compare distances
+
+We can compare the euclidean and routing distances that we estimated for the survey locations under 2 km.
+
+```{r distancessummary}
+summary(SURVEYsample$distance) # Euclidean
+summary(ROUTES_foot$distance) # Walk
+summary(ROUTES_car$distance) # Car
+```
+
+## Vizualise routes
+
+Visualize with transparency of 30%
+
+```{r maproutes}
+mapview(ROUTES_foot, alpha = 0.3)
+mapview(ROUTES_car, alpha = 0.3, color = "red")
+```
+
+We can also use the `overline()` [function from stplanr package](https://docs.ropensci.org/stplanr/reference/overline.html) to break up the routes when they overline, and add them up.
+
+```{r overline, message=FALSE, warning=FALSE}
+library(stplanr)
+
+# we create a value that we can later sum, it also could be the number of trips represented by this route. in this case is only one respondent per route
+ROUTES_foot$trips = 1 
+
+ROUTES_foot_overline = overline(
+  ROUTES_foot,
+  attrib = "trips",
+  fun = sum
+)
+
+mapview(ROUTES_foot_overline, zcol = "trips", lwd = 3)
+```
+
+*   How many people are entering IST by the stairs near *Bar de Civil*?  
+*   And by the North gate?
+*   And from Alameda stairs?
+
+# Buffers vs. Isochones and Service Areas
+
+## Buffer
+
+Represent a buffer of 500 m and 2000 m from IST^[Here I selected only the first variable because now we also have the coordinates information (unecessary for this procedure)].
+
+```{r bufferIST}
+
+# BUFFERist500 = st_buffer(IST, dist = 500) # non  projected - results may be weird
+BUFFERist500 = geo_buffer(IST[1], dist = 500) # from stplnar, to make sure it is in meters.
+BUFFERist2000 = geo_buffer(IST[1], dist = 2000)
+
+mapview(BUFFERist500) + mapview(BUFFERist2000, alpha.regions = 0.5)
+```
+
+## Isochrone
+
+### Isochrone from 1 point - distance
+
+We use again the `openrouteservice` r package.
+
+```{r isoch1}
+ISOCist = ors_isochrones(
+  IST$coordinates,
+  profile = "foot-walking",
+  range_type = "distance", # or time
+  range = c(500, 1000, 2000),
+  output = "sf"
+)
+
+ISOCist = arrange(ISOCist, -value) # to make the larger polygons on top of the table so the are displayed behind.
+
+mapview(ISOCist, zcol = "value", alpha.regions = 0.5)
+```
+
+As you can see, the distance buffer of 500m is larger than the isochrone of 500m.
+Actually we can measure their area of reach.
+
+```{r arearatio}
+ISOCist$area = st_area(ISOCist)
+BUFFERist500$area = st_area(BUFFERist500)
+BUFFERist2000$area = st_area(BUFFERist2000)
+
+ratio1 = BUFFERist500$area / ISOCist$area[ISOCist$value == 500] # 1.71
+ratio2 = BUFFERist2000$area / ISOCist$area[ISOCist$value == 2000] # 1.22
+```
+
+The euclidean buffer of 500m is `r round(ratio1, 2)` times larger than its isochrone, and the buffer of 2000m is `r round(ratio2, 2)` times larger than its isochrone.
+
+
+### Isochrone from more than 1 point - time
+
+For this purpose we will use the high schools dataset.
+
+```{r getschools}
+# import schools
+SCHOOLS = st_read("geo/SCHOOLS_basicsec.gpkg", quiet = TRUE)
+
+SCHOOLS$coordinates = st_coordinates(SCHOOLS) # create coordinate variable
+
+SCHOOLShigh = SCHOOLS |>
+  filter(Nivel == "Secundario") |> # filter the high schools
+  filter(INF_NOME != "Escola Básica e Secundária Gil Vicente") # the building is too far apart from the OSM networks and routing cannot be fount for this school
+
+# list of XY coordinates for ORS
+coor = data.frame(lon = SCHOOLShigh$coordinates[, 1], lat = SCHOOLShigh$coordinates[, 2])
+```
+
+And proceed with the time isochrones, for a range of 20 min, with 5 min intervals.
+
+```{r isoch2, eval=FALSE, include=TRUE}
+coor_max5 = sample_n(coor, 5) # error of api, get a loop to overpass this!
+
+ISOCist_5 = ors_isochrones(
+  coor_max5,
+  profile = "foot-walking",
+  range_type = "time", # or distance
+  range = 20*60, # 20 minutes in seconds
+  interval = 5*60, # to have intervals of 5 minutes
+  output = "sf"
+)
+```
+
+Because `openrouteservece` only allows a [max of 5 requests](https://openrouteservice.org/restrictions/) for isochrones at a time, we put it in a loop to run for all the 19 high schools.
+
+```{r isoch2loop, cache=TRUE}
+ISOCist = data.frame() # to start with a skeleton of df
+
+for (i in 1:nrow(coor)) {
+  ISOCist_i =
+    ors_isochrones(
+      coor[i,],
+      profile = "foot-walking",
+      range_type = "time", # or distance
+      range = 20 * 60, # 20 minutes in seconds
+      interval = 5 * 60, # to have intervals of 5 minutes
+      attributes = "area", #you can directly get area, population, and so on. see documentation
+      output = "sf"
+    )
+  ISOCist = rbind(ISOCist, ISOCist_i) # bind the results into the skeleton, one by one
+}
+
+ISOCist = arrange(ISOCist, -value) # to make the larger polygons on top of the table so the are displayed behind.
+```
+```{r isoch2map}
+mapview(ISOCist, zcol = "value", alpha.regions = 0.5)
+```
+
+And now merge this information with the schools' names.
+
+```{r}
+summary(ISOCist$area[ISOCist$value==1200])/1000000 # in km²
+```
+
+
+# Grids
+
+## Create a grid
+
+To make a grid we use the `st_make_grid()` function.
+
+```{r}
+# read data
+MUNICIPIOSgeo = st_read("geo/MUNICIPIOSgeo.gpkg", quiet = TRUE)
+LISBON = MUNICIPIOSgeo |> filter(Concelho == "Lisboa") # filter only Lisbon
+```
+
+```{r}
+GRID = LISBON |>
+  st_transform(crs = 3857) |> # to a projected crs
+  st_make_grid(cellsize = 500, # meters, we are using a projected crs
+               what = "polygons",
+               square = TRUE) |> # if FALSE, hexagons
+  st_sf() |> # from list to sf
+  st_transform(crs = 4326) # to WGS84
+
+GRID = GRID |>  
+  mutate(id = c(1:nrow(GRID)))  # just to give an ID to each cell 
+
+mapview(GRID, alpha = 0)
+```
+
+## Count points in polygons
+
+```{r}
+BUSstops = st_read("geo/Carris_stops.gpkg", quiet = TRUE)
+
+BUS_with_GRIDid = BUSstops |> 
+  st_join(GRID, 
+          join = st_intersects) |> 
+    st_drop_geometry() |> 
+    group_by(id) |> 
+    summarise(freq = sum(frequency)) |> 
+    ungroup()
+
+# back to grid
+GRIDdensity = GRID |> left_join(BUS_with_GRIDid)
+
+mapview(GRIDdensity,
+        zcol = "freq",
+        alpha.regions = 0.5, # area
+        alpha = 0) # limits
+```
+
+*Work In Progress*

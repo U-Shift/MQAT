@@ -1,0 +1,325 @@
+
+# aim: tutorial R and RStudio -----------------------------------------------------------------
+
+# 0. Introduce myself
+
+Who am I, and which areas I work most
+Why I started using R
+
+r notebook
+2 pakages created (slopes, odjittering)
+Free and Open Source Software <3
+drop my contacts
+
+R learning curve
+You don't need to know everything! And you dont need to know by heart
+I'm teaching the functions will prob use most
+
+The best way to learn R is to use it with a specific assingment, work, etc
+It is a lot copy - paste - adapting [you don't learn to PROGRAM]
+there are severall ways to reach the same results, and to write the same funcrions
+For me, it helps to think in thr problems more in the "abstract" fashion - focous more in the variables and operations than in the cases itself (imagine millions of rows - trip data)
+Infinite dimensions (tables inside tables)
+
+It is great to test differenr scenarios, apply to other case study, and so on
+
+never went back to excel
+
+Follow-me approach
+
+
+
+# 1. Open RStudio
+
+explain the 4 panels
+
+examples in the console:
+  3+3
+3*3
+1:10
+round(3.14)
+round(3.14, 1) #1 digit
+
+, 1 is an argument!
+explain that it usualy in a function you have several arguments. 
+most of them have default values, so you dont need to type everything.
+using TAB helps you to see which other arguments exist in that function
+also, you can see help ?round
+
+
+
+## 1.1 Working directory
+getwd()
+setwd()
+Create new project in a existing directory or new directory 
+
+all files are in a RELATIVE path. you don't neet to use the full path starting from the "Disk".
+
+
+## 1.2 Script
+
+you can have different scrip files! not only with R. See notepad (for instance to take notes for this class), python, RMaekDown.
+Depending on what you select, the code will highligth differently with flavors (show import pandas with r and python)
+
+you can also set the colors in global options
+
+I would recommend you to open now an R script where you're going to take your own comments/notes
+
+When you save, you are saving the SCRIPT, not the rest. If you want to save the projec, it will ask you (.Rproj) as well as the .Rdata in the environment
+
+comment allways!
+ctrl + shift + c # comment
+ctrl + shift + r # new section
+ctrl + shift + a # arranje 
+
+example
+b=1+2*(2-3)
+
+
+ctrl + enter # run this line
+select + ctrl + enter # run selection
+# run button will run everythin in the script!
+
+what you write and run is exaclty what you are expected to have. computer will not guess your brain!
+
+
+# 2. Data structure
+
+t = data.frame(a = 1:10, b = cumsum(1:10))
+t
+
+t = data.frame(a = 1:9, b = cumsum(1:9), c = rep(c("a", "b", NA), 3))
+
+TABELA[row, column] or TABELA[case, variable]
+c(,, , :)
+
+t[c(1,2),]
+t[,c(1,2)]
+t[is.na(t$c),]
+
+tab when writing code (vars in table)
+() # sometimes if you miss the final bracket, it asks you + ?
+""
+
+
+a = c("Car", "Ped", "Bus") # difference with and without the ""
+
+
+
+## 2.1 open Rds
+
+start a new section
+change section in bar or view outline
+
+teach the TAB thing # it helps a lot not to typo or to be lost in folder structures!
+
+read...(TAB)
+
+
+TABLE = readRDS("data/IMOBmodel.Rds") # you can give other name
+TABLE = readRDS(url("https://github.com/U-Shift/MQAT/raw/main/data/IMOBmodel0.Rds"))
+
+
+see what's on the data (environment)
+list or grid
+open table od View()
+mouse over type of variable and number
+order by total - notice the rownames change order!
+
+
+## 2.2 open csv
+
+in Import Dataset - from text (readr)
+(i prefer txt with tab separator)
+you can CHANGE type of DTCC and Dicofre to character! same as TABLE
+call NAMES 
+
+replace chr to num if "Dicofre"
+
+## 2.3 Type of data
+int
+num
+chr
+logical (TRUE / FALSE)
+
+
+names(TABLE)
+explain who the index is read (number of column)
+
+table(TABLE$var)
+table(TABLE$Lisboa)
+
+
+make as factor for categorical variables
+see table(TABLE$Lisboa) again
+
+## 2.4 Change a var name
+Several ways
+names(TABLE)[1] = "Dicofre"
+mutate(New = Old) |> select(-Old)
+
+## Create new variable
+Car_per
+(you forgot *100 ? it is ok, you can overwrite)
+TABLE$Car_perc = 100 * TABLE$Car / TABLE$Total
+
+# Remove variable
+TABLE = TABLE[,-10]
+
+
+## Pipes !
+to avoid writing TABLE$ each time
+This_data |> do_this |> do_this ...
+change from %>% to |> 
+
+ctrl + shift + m
+global options |> code
+
+library(tidyverse) #tidy world - includes...
+
+
+3.1 Create variables
+mutate()
+TABLE = TABLE |> mutate(Car_perc = Car / Total) # create new var
+add 100* # if the variable does not exists, it is created. otherwise it overwrites
+
+# delete var
+TABLE = TABLE |> select(-Car_perc)
+
+
+
+
+# 3. Some operations
+filter, select
+
+
+TABLE2 = TABLE |> select(Dicofre, Total, Walk, Car, Bike)
+# create new table, change order of selected vars
+
+
+filter old fashion: TABELA[Total>1700,] # não esquecer a virgula
+TABELA[TABELA$Idade>18 & TABELA$Genero=="Feminino", c(1:3)]
+TABLE2 = TABLE2 |> filter(Total > 17000)
+TABLE2 = TABLE2 |> filter(Total > median(Total)) #you can have other conditions inside the condition
+
+or
+TABLE2 = TABLE |> select(Dicofre, Total, Walk, Car, Bike) 
+|> filter(Total > 17000)
+
+TABLE3 = TABLE |> filter(Total > 17000 & Lisboa == "Yes")
+TABLE3 = TABLE |> filter(Total > 17000, Lisboa == "Yes")
+TABLE3 = TABLE |> filter(Total > 17000) |> filter(Lisboa == "Yes") |> select(-Lisboa)
+
+== != < > <= >=
+&, |
+is.na  !is.na
+%in% !%in%
+
+
+t4 = t |> filter(is.na(c))
+
+
+sort, arrange
+TABLE2 = TABLE2 |> arrange(Total)
+TABLE2 = TABLE2 |> arrange(-Total) #decrescente - note the row.names!
+
+
+
+
+
+# 4. left_join
+
+MODEL |> left_join(other_table)
+
+explain that both tables dont need to be the same lenght
+(can you explain what can happen when shorter / longer, and opposite?)
+when the common name (or names!) are the same 
+by
+
+TABLE4 = TABLE3 |> left_join(NAMES)
+
+with different names:
+TABLE5 = TABLE3 |> mutate(DICOFRE = Dicofre) |> select(-Dicofre)
+add left_join(NAMES) # ERROR - no common variables
+
+TABLE5 = TABLE3 |>
+  mutate(NOVONOME = Dicofre) |>
+  select(-Dicofre) |>
+  left_join(NAMES, by = c("NOVONOME" = "Dicofre"))
+  
+# you can join with more than one common variable!
+
+TABLE6 = TABLE |> left_join(NAMES) # use all
+
+
+# 5. group_by, summarize, (ungroup())
+
+dar exemplo do left_join com uma tabela que não se fez ungroup
+
+TABLE7 = TABLE6 |> group_by(Concelho) |> summarise(Total = sum(Total),
+                                                   WalkT = sum(Walk),
+                                                   BikeT = sum(Bike),
+                                                   CarT= sum(Car))
+
+add ungroup()
+
+make all this in the same line:
+
+
+TABLE7 = TABLE |> 
+  left_join(NAMES) |>
+  group_by(Concelho) |>
+  summarise(
+    Total = sum(Total),
+    WalkT = sum(Walk),
+    BikeT = sum(Bike),
+    CarT = sum(Car)
+) |>
+  ungroup
+  
+  add |> arrange(-Total)
+  
+
+
+## 3.3 simple viz
+mean
+median
+(na.rm = TRUE) # if needed
+
+plot(TABLE7$Total)
+plot(TABLE7$CarT, TABLE7$Total)
+
+hist(TABLE$Total)
+hist(TABLE$Total, labels = TRUE)
+abline(v = median(TABLE$Total))
+abline(v = mean(TABLE$Total), col = "red")
+  
+export image! metafile for word document  
+resize
+
+  
+plot(MODEL$Distance, MODEL$Duration)
+
+
+talk about using GGPLOT2
+
+
+
+
+######## Rmd (demosntration if we have the time)
+
+output:
+  pdf_document:
+    number_sections: true
+
+load libraries that you need    
+read data
+change plot to last histogram
+
+
+#### Be in mind
+errors are meaningful!! you can search for them
+use pipes make your life easier
+create new dfs with different names
+
+the most common is whent you forget to load a library
