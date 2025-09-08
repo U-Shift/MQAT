@@ -1,5 +1,6 @@
 ---
 number-depth: 2
+code-fold: false
 format:
   pdf:
     prefer-html: true
@@ -199,9 +200,9 @@ If we want to know only time and distance, and **not the route** itself, we can 
 
 #### Distances by foot
 
-Repeat the same for `WALK`[^distances-1].
+Repeat the same for `WALK`[^1].
 
-[^distances-1]: For bike you would use `BICYCLE`.
+[^1]: For bike you would use `BICYCLE`.
 
 ```{r}
 #| warning: false
@@ -325,6 +326,14 @@ SURVEYwalk_overline = stplanr::overline(
 mapview(SURVEYwalk_overline, zcol = "trips", lwd = 3)
 ```
 
-With this we can visually inform on how many people travel along a route, from the survey dataset[^distances-2].
+With this we can visually inform on how many people travel along a route, from the survey dataset[^2].
 
-[^distances-2]: Assuming all travel by the shortest path.
+[^2]: Assuming all travel by the shortest path.
+
+::: {.callout-tip appearance="simple"}
+## Questions
+
+-   How many people are entering IST by the stairs near *Bar de Civil*?
+-   And by the North gate?
+-   And from Alameda stairs?
+:::
