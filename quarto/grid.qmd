@@ -1,8 +1,14 @@
 ---
-eval: false
+title: "Grids"
+code-fold: false
+number-depth: 2
+message: false
+warning: false
+format:
+  pdf:
+    prefer-html: true
 ---
 
-# Grids
 
 ## Make grid
 
@@ -13,37 +19,41 @@ library(sf)
 library(dplyr)
 library(mapview)
 
-MUNICIPIOSgeo = st_read("data/Municipalities_geo.gpkg")
-LISBON = MUNICIPIOSgeo |> filter(Municipality == "Lisboa") |> st_transform(3857)
+MUNICIPIOSgeo = st_read("../data/Municipalities_geo.gpkg", quiet = TRUE)
+LISBON = MUNICIPIOSgeo |> filter(Municipality == "Lisboa") # filter only Lisbon
 ```
 
 To make a grid we is the `st_make_grid()` function.
 
 ```{r}
 GRID = LISBON |>
-  st_make_grid(cellsize = 800, what = "polygons", square = TRUE) |> # 800m, we are using a projected crs
+  st_transform(crs = 3857) |> # to a projected crs
+  st_make_grid(cellsize = 500, # meters, we are using a projected crs
+               what = "polygons",
+               square = TRUE) |> # if FALSE, hexagons
   st_sf() |> # from list to sf
   st_transform(crs = 4326) # to WGS84
 
 GRID = GRID |>  
   mutate(id = c(1:nrow(GRID)))  # just to give an ID to each cell 
 
-mapview(GRID)
+mapview(GRID, alpha = 0)
 ```
 
 ## Count points in polygons
 
+We can use the grid to count survey respondents in each cell.
 
 ```{r}
-SURVEY = read.csv("data/SURVEY.txt", sep = "\t")
-SURVEYgeo = SURVEY |> st_as_sf(coords = c("lon", "lat"), crs = 4326)
+SURVEY = read.csv("../data/SURVEY.txt", sep = "\t")
+SURVEYgeo = SURVEY |> st_as_sf(coords = c("lon", "lat"), crs = 4326) # convert to sf from coordinates
 
 SURVEY_with_GRIDid = SURVEYgeo |> 
   st_join(GRID, 
           join = st_intersects) |> 
     st_drop_geometry() |> 
     group_by(id) |> 
-    summarise(count = n()) |> 
+    summarise(count = n()) |> # variable with the number of points
     ungroup()
 
 # back to grid
@@ -51,3 +61,27 @@ GRIDdensity = GRID |> left_join(SURVEY_with_GRIDid)
 
 mapview(GRIDdensity, zcol = "count")
 ```
+
+
+Or to count bus stops in each cell.
+
+```{r}
+BUSstops = st_read("../geo/Carris_stops.gpkg", quiet = TRUE)
+
+BUS_with_GRIDid = BUSstops |> 
+  st_join(GRID, 
+          join = st_intersects) |> 
+    st_drop_geometry() |> 
+    group_by(id) |> 
+    summarise(freq = sum(frequency)) |> 
+    ungroup()
+
+# back to grid
+GRIDdensity = GRID |> left_join(BUS_with_GRIDid)
+
+mapview(GRIDdensity |> filter(!is.na(freq)), # exclude NAs
+        zcol = "freq",
+        alpha.regions = 0.5, # area transparency
+        alpha = 0) # hide cell limits
+```
+
