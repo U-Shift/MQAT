@@ -43,10 +43,11 @@ book:
       chapters:
         - spatial-data.qmd
         - interactive-maps.qmd
-        - centroids.qmd # see issue #4
+        - centroids.qmd
         # - geocode.qmd
         - desire-lines.qmd
         - distances.qmd
+        - buffers.qmd
         - open-data.qmd
         - grid.qmd
         # - quarto/r5r.qmd
