@@ -775,34 +775,34 @@
   {
     "objectID": "interactive-maps.html",
     "href": "interactive-maps.html",
-    "title": "15  Interactive maps",
+    "title": "10  Interactive maps",
     "section": "",
-    "text": "15.1 Mapview\nMapview allows to create quick interactive maps, only by declaring the function mapview().\nCode\nlibrary(mapview)\nmapview(TRIPSgeo)\nTo color the points by a variable, you can use the zcol argument.\nCode\nmapview(TRIPSgeo, zcol = \"Total\")\nAs you can see, a color palette is automatically assigned to the continuous variable.\nTry to use a categorical variable.\nCode\nmapview(TRIPSgeo,\n        zcol = \"Municipality\", # depending on the variable\n        alpha.regions = 0.4, # also add transparency\n        color = \"white\" # border color\n        )\nYou can go crazy with all the options that mapview offers. Please refer to the documentation to see all the options.",
+    "text": "10.1 Mapview\nYou can plot a static map using plof(sf), but you can also create interactive maps.\nInteractive maps are useful to explore the data, as you can zoom in and out, and click on the points to see the data associated with them.\nThere are several R packages to create interactive maps. For instance, the tmap package, the leaflet package, and the mapview package.\nMapview allows to create quick interactive maps, only by declaring the function mapview().\nlibrary(mapview)\nmapview(TRIPSgeo)\nTo color the points by a variable, you can use the zcol argument.\nmapview(TRIPSgeo, zcol = \"Total\")\nAs you can see, a color palette is automatically assigned to the continuous variable.\nTry to use a categorical variable.\nCode\nmapview(TRIPSgeo,\n        zcol = \"Municipality\", # depending on the variable\n        alpha.regions = 0.4, # also add transparency\n        color = \"white\" # border color\n        )\nYou can go crazy with all the options that mapview offers. Please refer to the documentation to see all the options.",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Interactive maps</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
     ]
   },
   {
     "objectID": "interactive-maps.html#mapview",
     "href": "interactive-maps.html#mapview",
-    "title": "15  Interactive maps",
+    "title": "10  Interactive maps",
     "section": "",
-    "text": "Note that you can change the basemap, and click on the geometries to see the data associated with them.\n\n\n\n\n\n\n15.1.1 Export\nYou can directly export the map as an html file or image, using the Viewer panel.\n\n\n\n\n\n\n\nThis is the most straightforward solution.\n\n\n\nYou can also export a map as an html file or image using code.\n\n\nCode\n# install.packages(\"webshot2\") # you will need this\n\nmap = mapview(TRIPSgeo, zcol = \"Total\") # fisrt create a objet with the desired map\n\nmapshot2(map, \"data/map.html\") # as webpage\nmapshot2(map, file = \"data/map.png\") # as image",
+    "text": "Note that you can change the basemap, and click on the geometries to see the data associated with them.\n\n\n\n\n\n\nExport\nYou can directly export the map as an html file or image, using the Viewer panel.\n\n\n\n\n\n\n\nThis is the most straightforward solution.\n\n\n\nYou can also export a map as an html file or image using code.\n\n# install.packages(\"webshot2\") # you will need this\n\nmap = mapview(TRIPSgeo, zcol = \"Total\") # first create an objet with the desired map\n\nmapshot2(map, \"data/map.html\") # as webpage\nmapshot2(map, file = \"data/map.png\") # as image",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Interactive maps</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
     ]
   },
   {
     "objectID": "interactive-maps.html#rmarkdown",
     "href": "interactive-maps.html#rmarkdown",
-    "title": "15  Interactive maps",
-    "section": "15.2 Rmarkdown",
-    "text": "15.2 Rmarkdown\nTo include a map on a report, website, paper (any type), you can create an Rmarkdown file.\n\nAnd include a R code chunk (ctrl + alt + i) with a map. If the output is html, you will get an interactive map on your document!",
+    "title": "10  Interactive maps",
+    "section": "10.2 Rmarkdown",
+    "text": "10.2 Rmarkdown\nTo include a map on a report, website, paper (any type), you can create an Rmarkdown file.\n\nAnd include a R code chunk (ctrl + alt + i) with a map. If the output is html, you will get an interactive map on your document!",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Interactive maps</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
     ]
   },
   {
@@ -846,6 +846,17 @@
     "crumbs": [
       "**GIS in R**",
       "<span class='chapter-number'>14</span>  <span class='chapter-title'>Buffers vs. Isochones</span>"
+    ]
+  },
+  {
+    "objectID": "interactive-maps.html#flowmap-blue",
+    "href": "interactive-maps.html#flowmap-blue",
+    "title": "10  Interactive maps",
+    "section": "10.3 Flowmap blue",
+    "text": "10.3 Flowmap blue\nA way to visualize traffic or travel volumes between areas (OD pairs) is through the online tool flowmap.blue.\nBut you need to prepare the data so that they are exactly in the requested format. (See the used source code).\nYou need two files:\n\nlocations\nflows\n\nTry to copy and paste the content of these files in the corresponding fields the information about car trips in the Lisbon metropolitan area according to INE (2018).\n\n\n\n\n\n\n\nTry it yourself\n\n\n\nVisualize the public transit trips in the Lisbon metropolitan area. (flows_tp)\n\nWhich differences do you see between car and public transit trips?\nHow many trips are made daily in public transit with origin or destination in Sintra?\n\n\n\n\n\n\n\n\n\nINE. 2018. “Mobilidade e Funcionalidade Do Território Nas Áreas Metropolitanas do Porto e de Lisboa: 2017.” Lisboa: Instituto National de Estatística. https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&xlang=pt.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
     ]
   }
 ]
