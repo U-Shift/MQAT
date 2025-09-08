@@ -11,7 +11,11 @@ Copy the script [MultipleLinarRegression.R](https://github.com/U-Shift/MQAT/blob
 Run each line using `CTRL` + `ENTER`
 :::
 
-**Your task**: Estimate a linear regression model that predicts the car percentage per district.
+::: callout-caution
+## Your task
+
+Estimate a linear regression model that predicts the car percentage per district.
+:::
 
 ## Load packages
 
@@ -106,7 +110,9 @@ ks.test(
 )
 ```
 
-The null hypothesis for both tests is that the distribution is normal. Therefore, for the distribution to be normal, the pvalue must be **\> 0.05** and the null hypothesis is not rejected. From the output obtained we can assume normality.
+The null hypothesis for both tests is that the distribution is normal.
+Therefore, for the distribution to be normal, the pvalue must be **\> 0.05** and the null hypothesis is not rejected.
+From the output obtained we can assume normality.
 
 ## Assumption 2: Linear relationship
 
@@ -185,20 +191,30 @@ summary(model)
 
 ### Assessing the model
 
-1.  First check the **pvalue** and the **F statistics** of the model to see if there is any statistical relation between the dependent variable and the independent variables. If pvalue \< 0.05 and the F statistics \> Fcritical = 2.39, then the model is statistically acceptable.
+1.  First check the **pvalue** and the **F statistics** of the model to see if there is any statistical relation between the dependent variable and the independent variables.
+    If pvalue \< 0.05 and the F statistics \> Fcritical = 2.39, then the model is statistically acceptable.
 
-2.  The **R-square** and **Adjusted R-square** evaluate the amount of variance that is explained by the model. The difference between one and another is that the R-square does not consider the number of variables. If you increase the number of variables in the model, the R-square will tend to increase which can lead to overfitting. On the other hand, the Adjusted R-square adjust to the number of independent variables.
+2.  The **R-square** and **Adjusted R-square** evaluate the amount of variance that is explained by the model.
+    The difference between one and another is that the R-square does not consider the number of variables.
+    If you increase the number of variables in the model, the R-square will tend to increase which can lead to overfitting.
+    On the other hand, the Adjusted R-square adjust to the number of independent variables.
 
-3.  Take a look at the **t-value** and the Pr(\>\|t\|). If the t-value \> 1.96 or Pr(\>\|t\|) \< 0.05, then the IV is statistically significant to the model.
+3.  Take a look at the **t-value** and the Pr(\>\|t\|).
+    If the t-value \> 1.96 or Pr(\>\|t\|) \< 0.05, then the IV is statistically significant to the model.
 
-4.  To analyze the **estimates** of the variables, you should first check the **signal** and assess if the independent variable has a direct or inverse relationship with the dependent variable. It is only possible to evaluate the **magnitude** of the estimate if all variables are continuous and standardized or by calculating the elasticities. Do not forget to access the **Intercept**...
+4.  To analyse the **estimates** of the variables, you should first check the **signal** and assess if the independent variable has a direct or inverse relationship with the dependent variable.
+    It is only possible to evaluate the **magnitude** of the estimate if all variables are continuous and standardized or by calculating the elasticities.
+    Do not forget to access the **Intercept**...
 
-We can see from the output that the R-squared value for the model (with ALL variables) is **0.7772**. We can also see that the overall F-statistic is **42.06** and the corresponding p-value is **\<2.2e-16**, which indicates that the overall regression model is significant. Also, the predictor variables `DrivingLic` and `CarParkFree_Work`, `internal(No)` and `Lisboa(Yes)` are statistically significant at the 0.05 significance level.
+We can see from the output that the R-squared value for the model (with ALL variables) is **0.7772**.
+We can also see that the overall F-statistic is **42.06** and the corresponding p-value is **\<2.2e-16**, which indicates that the overall regression model is significant.
+Also, the predictor variables `DrivingLic` and `CarParkFree_Work`, `internal(No)` and `Lisboa(Yes)` are statistically significant at the 0.05 significance level.
 
 ::: {.callout-tip appearance="simple"}
 ### Your turn
 
-Now try to remove some variables from the model and assess it again. Elaborate a justification to exclude those variables.
+Now try to remove some variables from the model and assess it again.
+Elaborate a justification to exclude those variables.
 :::
 
 ### Calculate the Variance Inflation Factor (VIF)
@@ -211,7 +227,12 @@ car::vif(model)
 
 A common rule of thumb is that a VIF value greater than 5 indicates a high level of multicollinearity among the predictor variables, which is potentially concerning.
 
-## Assumption 4: independence of observations
+### Condition index
+
+Condition index is another diagnostic tool for detecting multicollinearity, with values above 10 indicating moderate multicollinearity and values above 30 indicating severe multicollinearity.
+You will learn how to to that in the next class: [Factor analysis](factor-analysis.qmd).
+
+## Assumption 4: Independence of observations
 
 Multiple linear regression assumes that each observation in the dataset is independent.
 
@@ -223,13 +244,16 @@ The simplest way to determine if this assumption is met is to perform a Durbin-W
 durbinWatsonTest(model)
 ```
 
-**H~0~ (null hypothesis):** There is no correlation among the residuals. Since p-value \> 0.05, we do not reject the null hypothesis and we can not discard that there is autocorrelation in the model.
-
 ::: callout-note
 In the Durbin-Watson test, values of the D-W Statistic vary from 0 to 4.
 
 If the values are from 1.8 to 2.2 this means that there is **no autocorrelation** in the model.
 :::
+
+**H~0~ (null hypothesis):** There is no correlation among the residuals.
+Since p-value \> 0.05, we do not reject the null hypothesis and we can not discard that there is autocorrelation in the model.
+
+If the observations are not independent, you may consider to treat the observarions as a panel data.
 
 ## Assumption 5: Constant Variance (Homoscedasticity)
 
@@ -247,15 +271,17 @@ For the Residuals, check the following **assumptions**:
 
 -   **Scale-Location:** This plot is used to verify if the residuals are spread equally (homoscedasticity) or not (heteroscedasticity) through the sample.
 
--   **Residuals vs Leverage:** This plot is used to detect the impact of the outliers in the model. If the outliers are outside the Cook-distance, this may lead to serious problems in the model.
+-   **Residuals vs Leverage:** This plot is used to detect the impact of the outliers in the model.
+    If the outliers are outside the Cook-distance, this may lead to serious problems in the model.
 
 Try analyzing the plots and check if the model meets the assumptions.
 
 ## Assumption 6: Residuals are normally distributed
 
-Assess the Q-Q Residuals plot above. When the residuals clearly depart from a straight diagonal line, it indicates that they do not follow a normal distribution.
+Assess the Q-Q Residuals plot above.
+When the residuals clearly depart from a straight diagonal line, it indicates that they do not follow a normal distribution.
 
-Use a formal statistical test like Shapiro-Wilk, Kolmogorov-Smironov to validate those results.
+Use a formal statistical test like Shapiro-Wilk or Kolmogorov-Smironov to validate those results.
 
 ```{r}
 #| eval: false
