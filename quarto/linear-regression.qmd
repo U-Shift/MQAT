@@ -11,7 +11,7 @@ Copy the script [MultipleLinarRegression.R](https://github.com/U-Shift/MQAT/blob
 Run each line using `CTRL` + `ENTER`
 :::
 
-::: callout-caution
+::: callout-important
 ## Your task
 
 Estimate a linear regression model that predicts the car percentage per district.
