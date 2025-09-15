@@ -1,5 +1,5 @@
 # Quantitative Methods of Analysis in Transportation 
-Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT11/2025-2026/1-semestre)
+Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT112/2025-2026/1-semestre)
 
 ## Content
 
@@ -42,7 +42,7 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 
 ### GIS for Transportation
 
-* R scripts and results for the [QGIS exercises in R](http://rosafelix.bike/ushift/QgisinR.html)
+* R scripts and results for the [QGIS exercises in R](https://u-shift.github.io/MQAT/spatial-data.html)
 * Data used, under `geo` folder
 
 #### Other materials
