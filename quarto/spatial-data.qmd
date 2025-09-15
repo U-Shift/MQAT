@@ -1,4 +1,13 @@
-# Introduction to spatial data
+---
+title: "Introduction to spatial data"
+code-fold: false
+number-depth: 2
+message: false
+warning: false
+format:
+  pdf:
+    prefer-html: true
+---
 
 Spatial data is **data that is associated with a geometry**.
 This geometry can be a point, a line, a polygon, or a grid.
