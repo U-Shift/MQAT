@@ -86,11 +86,11 @@ RStudio is available for free download from [Posit RStudio](https://posit.co/dow
 ::: {.panel-tabset .nav-pills}
 ### Windows 10/11
 
-[Download RStudio 2025.05](https://download1.rstudio.org/electron/windows/RStudio-2025.05.1-513.exe) and run the executable file.
+[Download RStudio 2025.09](https://download1.rstudio.org/electron/windows/RStudio-2025.09.0-387.exe) and run the executable file.
 
 ### MacOS
 
-[Download RStudio 2025.05](https://download1.rstudio.org/electron/macos/RStudio-2025.05.1-513.dmg) and install it as usual.
+[Download RStudio 2025.09](https://download1.rstudio.org/electron/macos/RStudio-2025.09.0-387.dmg) and install it as usual.
 
 ### Ubuntu
 
@@ -101,7 +101,7 @@ Install it via the terminal:
 
 ```{bash}
 sudo apt install libssl-dev libclang-dev
-wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2025.05.1-513-amd64.deb
+wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2025.09.0-387-amd64.deb
 sudo dpkg -i rstudio*
 rm -v rstudio*
 ```
