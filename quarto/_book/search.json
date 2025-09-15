@@ -414,7 +414,7 @@
     "href": "linear-regression.html#assumption-4-independence-of-observations",
     "title": "6  Multiple Linear Regression",
     "section": "6.7 Assumption 4: Independence of observations",
-    "text": "6.7 Assumption 4: Independence of observations\nMultiple linear regression assumes that each observation in the dataset is independent.\nThe error (E) is independent across observations and the error variance is constant across IV\nThe simplest way to determine if this assumption is met is to perform a Durbin-Watson test, which is a formal statistical test that tells us whether or not the residuals (and thus the observations) exhibit autocorrelation.\n\ndurbinWatsonTest(model)\n\n lag Autocorrelation D-W Statistic p-value\n   1      0.07881007      1.840798   0.132\n Alternative hypothesis: rho != 0\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn the Durbin-Watson test, values of the D-W Statistic vary from 0 to 4.\nIf the values are from 1.8 to 2.2 this means that there is no autocorrelation in the model.\n\n\nH0 (null hypothesis): There is no correlation among the residuals. Since p-value &gt; 0.05, we do not reject the null hypothesis and we can not discard that there is autocorrelation in the model.\nIf the observations are not independent, you may consider to treat the observarions as a panel data.",
+    "text": "6.7 Assumption 4: Independence of observations\nMultiple linear regression assumes that each observation in the dataset is independent.\nThe error (E) is independent across observations and the error variance is constant across IV\nThe simplest way to determine if this assumption is met is to perform a Durbin-Watson test, which is a formal statistical test that tells us whether or not the residuals (and thus the observations) exhibit autocorrelation.\n\ndurbinWatsonTest(model)\n\n lag Autocorrelation D-W Statistic p-value\n   1      0.07881007      1.840798   0.096\n Alternative hypothesis: rho != 0\n\n\n\n\n\n\n\n\nNote\n\n\n\nIn the Durbin-Watson test, values of the D-W Statistic vary from 0 to 4.\nIf the values are from 1.8 to 2.2 this means that there is no autocorrelation in the model.\n\n\nH0 (null hypothesis): There is no correlation among the residuals. Since p-value &gt; 0.05, we do not reject the null hypothesis and we can not discard that there is autocorrelation in the model.\nIf the observations are not independent, you may consider to treat the observarions as a panel data.",
     "crumbs": [
       "**Data and Models**",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Multiple Linear Regression</span>"
@@ -491,7 +491,7 @@
     "href": "spatial-data.html",
     "title": "9  Introduction to spatial data",
     "section": "",
-    "text": "9.1 Import vector data\nDownload and open Municipalities_geo.gpkg under EITcourse/data repository.\nWithin the sf package, we use the st_read() to read spatial features.\nCode\nMunicipalities_geo = st_read(\"data/Municipalities_geo.gpkg\")",
+    "text": "9.1 Import vector data\nSpatial data is data that is associated with a geometry. This geometry can be a point, a line, a polygon, or a grid.\nSpatial data can be represented in many ways, such as vector data and raster data. In this tutorial, we will learn how to work with spatial data in R.\nWe will use the sf package to work with vector data, and the dplyr package to manipulate data.\nThe sf package is a powerful package for working with spatial data in R. It includes hundreds of functions to deal with spatial data (Pebesma and Bivand 2023).\nDownload and open Municipalities_geo.gpkg under EITcourse/data repository.\nWithin the sf package, we use the st_read() to read spatial features.\nCode\nMunicipalities_geo = st_read(\"data/Municipalities_geo.gpkg\")",
     "crumbs": [
       "**GIS in R**",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Introduction to spatial data</span>"
@@ -553,6 +553,50 @@
     ]
   },
   {
+    "objectID": "interactive-maps.html",
+    "href": "interactive-maps.html",
+    "title": "10  Interactive maps",
+    "section": "",
+    "text": "10.1 Mapview\nYou can plot a static map using plof(sf), but you can also create interactive maps.\nInteractive maps are useful to explore the data, as you can zoom in and out, and click on the points to see the data associated with them.\nThere are several R packages to create interactive maps. For instance, the tmap package, the leaflet package, and the mapview package.\nMapview allows to create quick interactive maps, only by declaring the function mapview().\nlibrary(mapview)\nmapview(TRIPSgeo)\nTo color the points by a variable, you can use the zcol argument.\nmapview(TRIPSgeo, zcol = \"Total\")\nAs you can see, a color palette is automatically assigned to the continuous variable.\nTry to use a categorical variable.\nCode\nmapview(TRIPSgeo,\n        zcol = \"Municipality\", # depending on the variable\n        alpha.regions = 0.4, # also add transparency\n        color = \"white\" # border color\n        )\nYou can go crazy with all the options that mapview offers. Please refer to the documentation to see all the options.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
+    ]
+  },
+  {
+    "objectID": "interactive-maps.html#mapview",
+    "href": "interactive-maps.html#mapview",
+    "title": "10  Interactive maps",
+    "section": "",
+    "text": "Note that you can change the basemap, and click on the geometries to see the data associated with them.\n\n\n\n\n\n\nExport\nYou can directly export the map as an html file or image, using the Viewer panel.\n\n\n\n\n\n\n\nThis is the most straightforward solution.\n\n\n\nYou can also export a map as an html file or image using code.\n\n# install.packages(\"webshot2\") # you will need this\n\nmap = mapview(TRIPSgeo, zcol = \"Total\") # first create an objet with the desired map\n\nmapshot2(map, \"data/map.html\") # as webpage\nmapshot2(map, file = \"data/map.png\") # as image",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
+    ]
+  },
+  {
+    "objectID": "interactive-maps.html#rmarkdown",
+    "href": "interactive-maps.html#rmarkdown",
+    "title": "10  Interactive maps",
+    "section": "10.2 Rmarkdown",
+    "text": "10.2 Rmarkdown\nTo include a map on a report, website, paper (any type), you can create an Rmarkdown file.\n\nAnd include a R code chunk (ctrl + alt + i) with a map. If the output is html, you will get an interactive map on your document!",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
+    ]
+  },
+  {
+    "objectID": "interactive-maps.html#flowmap-blue",
+    "href": "interactive-maps.html#flowmap-blue",
+    "title": "10  Interactive maps",
+    "section": "10.3 Flowmap blue",
+    "text": "10.3 Flowmap blue\nA way to visualize traffic or travel volumes between areas (OD pairs) is through the online tool flowmap.blue.\nBut you need to prepare the data so that they are exactly in the requested format. (See the used source code).\nYou need two files:\n\nlocations\nflows\n\nTry to copy and paste the content of these files in the corresponding fields the information about car trips in the Lisbon metropolitan area according to INE (2018).\n\n\n\n\n\n\n\nTry it yourself\n\n\n\nVisualize the public transit trips in the Lisbon metropolitan area. (flows_tp)\n\nWhich differences do you see between car and public transit trips?\nHow many trips are made daily in public transit with origin or destination in Sintra?\n\n\n\n\n\n\n\n\n\nINE. 2018. “Mobilidade e Funcionalidade Do Território Nas Áreas Metropolitanas do Porto e de Lisboa: 2017.” Lisboa: Instituto National de Estatística. https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&xlang=pt.",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
+    ]
+  },
+  {
     "objectID": "centroids.html",
     "href": "centroids.html",
     "title": "11  Centroids of transport zones",
@@ -588,56 +632,56 @@
   {
     "objectID": "desire-lines.html",
     "href": "desire-lines.html",
-    "title": "11  OD pairs and desire lines",
+    "title": "12  OD pairs and desire lines",
     "section": "",
-    "text": "11.1 Desire lines with od_to_sf\nTo create desire lines, we need a dataset with OD pairs and other dataset with the corresponding transport zones (spatial data).\nThe TRIPSmode.Rds dataset includes origins, destinations and number of trips between municipalities.\nCode\nTRIPSmode = readRDS(\"../data/TRIPSmode.Rds\")\nThe Municipalities_geo.gpkg dataset includes the geometry of the transport zones.\nCode\nlibrary(sf)\nMunicipalities_geo = st_read(\"../data/Municipalities_geo.gpkg\", quiet = TRUE) # supress mesage\nThen, we need to load the od package. We will use the od_to_sf() function to create desire lines from OD pairs.\nCode\n# install.packages(\"od\")\nlibrary(od)\n\nTRIPSdlines = od_to_sf(TRIPSmode, z = Municipalities_geo) # z for zones\nFor this magic to work smoothly, the first two columns of the TRIPSmode dataset must be the origin and destination zones, and these zones need to correspond to the first column of the Municipalities_geo dataset (with an associated geometry).\nNow we can visualize the desire lines using the mapview function.\nCode\nlibrary(mapview)\nmapview(TRIPSdlines, zcol = \"Total\")\nAs you can see, this is too much information to be able to understand the flows.",
+    "text": "12.1 Desire lines with od_to_sf\nDesire lines are a way to represent the flow of people or goods between two points. They are often used in transport planning to represent the flow of trips between zones.\nThere are many ways to create desire lines, connecting origins and destinations. For instance:\nThe stplanr package is a collection of functions for sustainable transport planning with R, and it is built on top of the sf package (Lovelace and Ellison 2018).\nIn this workshop, we will use the od package, a lightweight package with a few functions from stplanr, namely the ones to create desire lines from origin-destination (OD) pairs (Lovelace and Morgan 2024).\nTo create desire lines, we need a dataset with OD pairs and other dataset with the corresponding transport zones (spatial data).\nThe TRIPSmode.Rds dataset includes origins, destinations and number of trips between municipalities.\nCode\nTRIPSmode = readRDS(\"../data/TRIPSmode.Rds\")\nThe Municipalities_geo.gpkg dataset includes the geometry of the transport zones.\nCode\nlibrary(sf)\nMunicipalities_geo = st_read(\"../data/Municipalities_geo.gpkg\", quiet = TRUE) # supress mesage\nThen, we need to load the od package. We will use the od_to_sf() function to create desire lines from OD pairs.\nCode\n# install.packages(\"od\")\nlibrary(od)\n\nTRIPSdlines = od_to_sf(TRIPSmode, z = Municipalities_geo) # z for zones\nFor this magic to work smoothly, the first two columns of the TRIPSmode dataset must be the origin and destination zones, and these zones need to correspond to the first column of the Municipalities_geo dataset (with an associated geometry).\nNow we can visualize the desire lines using the mapview function.\nCode\nlibrary(mapview)\nmapview(TRIPSdlines, zcol = \"Total\")\nAs you can see, this is too much information to be able to understand the flows.",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
     ]
   },
   {
     "objectID": "desire-lines.html#desire-lines-with-od_to_sf",
     "href": "desire-lines.html#desire-lines-with-od_to_sf",
-    "title": "11  OD pairs and desire lines",
+    "title": "12  OD pairs and desire lines",
     "section": "",
-    "text": "See more options with the ?stplanr::od2line function.\n\n\n\n\n\n\n\n11.1.1 Filtering desire lines\nFilter intrazonal trips.\n\n\nCode\nlibrary(dplyr)\n\nTRIPSdlines_inter = TRIPSdlines |&gt; \n  filter(Origin != Destination) |&gt; # remove intrazonal trips\n  filter(Total &gt; 5000) # remove noise\n\nmapview(TRIPSdlines_inter, zcol = \"Total\", lwd = 5)\n\n\n\n\n\n\nFilter trips with origin or destination not in Lisbon.\n\n\nCode\nTRIPSdl_noLX = TRIPSdlines_inter |&gt; \n  filter(Origin != \"Lisboa\", Destination != \"Lisboa\")\n\nmapview(TRIPSdl_noLX, zcol = \"Total\", lwd = 8) # larger line width\n\n\n\n\n\n\nTry to replace the Total with other variables, such as Car, PTransit, and see the differences.",
+    "text": "See more options with the ?stplanr::od2line function.\n\n\n\n\n\n\n\n12.1.1 Filtering desire lines\nFilter intrazonal trips.\n\n\nCode\nlibrary(dplyr)\n\nTRIPSdlines_inter = TRIPSdlines |&gt; \n  filter(Origin != Destination) |&gt; # remove intrazonal trips\n  filter(Total &gt; 5000) # remove noise\n\nmapview(TRIPSdlines_inter, zcol = \"Total\", lwd = 5)\n\n\n\n\n\n\nFilter trips with origin or destination not in Lisbon.\n\n\nCode\nTRIPSdl_noLX = TRIPSdlines_inter |&gt; \n  filter(Origin != \"Lisboa\", Destination != \"Lisboa\")\n\nmapview(TRIPSdl_noLX, zcol = \"Total\", lwd = 8) # larger line width\n\n\n\n\n\n\nTry to replace the Total with other variables, such as Car, PTransit, and see the differences.",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
     ]
   },
   {
     "objectID": "desire-lines.html#oneway-desire-lines",
     "href": "desire-lines.html#oneway-desire-lines",
-    "title": "11  OD pairs and desire lines",
-    "section": "11.2 Oneway desire lines",
-    "text": "11.2 Oneway desire lines\nNote that the od_to_sf() function creates bidirectional desire lines. This can be not the ideal for visualization / representation purposes, as you will have 2 lines overlaping.\nThe function od_oneway() aggregates oneway lines to produce bidirectional flows.\nBy default, it returns the sum of each numeric column for each bidirectional origin-destination pair.\n\n\nCode\nnrow(TRIPSdlines)\n\n\n[1] 315\n\n\nCode\nTRIPSdlines_oneway = od_oneway(TRIPSdlines) |&gt; \n  filter(o != d) # remove empty geometries\nnrow(TRIPSdlines_oneway)\n\n\n[1] 150\n\n\nNote that for the last municipalities you have less combinations now. Nevertheless, all the possible combinations are represented.\n\n\nCode\nhead(TRIPSdlines_oneway[,c(1,2)]) # just the first 2 columns\n\n\nSimple feature collection with 6 features and 2 fields\nAttribute-geometry relationships: identity (2)\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: -9.229502 ymin: 38.62842 xmax: -8.915878 ymax: 38.75981\nGeodetic CRS:  WGS 84\n          o        d                       geometry\n1 Alcochete   Almada LINESTRING (-8.915878 38.73...\n2 Alcochete  Amadora LINESTRING (-8.915878 38.73...\n3    Almada  Amadora LINESTRING (-9.193061 38.63...\n4 Alcochete Barreiro LINESTRING (-8.915878 38.73...\n5    Almada Barreiro LINESTRING (-9.193061 38.63...\n6   Amadora Barreiro LINESTRING (-9.229502 38.75...\n\n\nCode\ntail(TRIPSdlines_oneway[,c(1,2)])\n\n\nSimple feature collection with 6 features and 2 fields\nAttribute-geometry relationships: identity (2)\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: -9.357651 ymin: 38.49491 xmax: -8.80664 ymax: 38.92208\nGeodetic CRS:  WGS 84\n           o                   d                       geometry\n145   Oeiras Vila Franca de Xira LINESTRING (-9.276317 38.71...\n146  Palmela Vila Franca de Xira LINESTRING (-8.80664 38.617...\n147   Seixal Vila Franca de Xira LINESTRING (-9.108785 38.60...\n148 Sesimbra Vila Franca de Xira LINESTRING (-9.120129 38.49...\n149  Setúbal Vila Franca de Xira LINESTRING (-8.887489 38.51...\n150   Sintra Vila Franca de Xira LINESTRING (-9.357651 38.82...\n\n\nExample of visualization with Public Transit trips in both ways.\n\n\nCode\nTRIPSdlines_oneway_noLX = TRIPSdlines_oneway |&gt; \n  filter(PTransit &gt; 5000) # reduce noise\n\nmapview(TRIPSdlines_oneway_noLX, zcol = \"PTransit\", lwd = 8)",
+    "title": "12  OD pairs and desire lines",
+    "section": "12.2 Oneway desire lines",
+    "text": "12.2 Oneway desire lines\nNote that the od_to_sf() function creates bidirectional desire lines. This can be not the ideal for visualization / representation purposes, as you will have 2 lines overlaping.\nThe function od_oneway() aggregates oneway lines to produce bidirectional flows.\nBy default, it returns the sum of each numeric column for each bidirectional origin-destination pair.\n\n\nCode\nnrow(TRIPSdlines)\n\n\n[1] 315\n\n\nCode\nTRIPSdlines_oneway = od_oneway(TRIPSdlines) |&gt; \n  filter(o != d) # remove empty geometries\nnrow(TRIPSdlines_oneway)\n\n\n[1] 150\n\n\nNote that for the last municipalities you have less combinations now. Nevertheless, all the possible combinations are represented.\n\n\nCode\nhead(TRIPSdlines_oneway[,c(1,2)]) # just the first 2 columns\n\n\nSimple feature collection with 6 features and 2 fields\nAttribute-geometry relationships: identity (2)\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: -9.229502 ymin: 38.62842 xmax: -8.915878 ymax: 38.75981\nGeodetic CRS:  WGS 84\n          o        d                       geometry\n1 Alcochete   Almada LINESTRING (-8.915878 38.73...\n2 Alcochete  Amadora LINESTRING (-8.915878 38.73...\n3    Almada  Amadora LINESTRING (-9.193061 38.63...\n4 Alcochete Barreiro LINESTRING (-8.915878 38.73...\n5    Almada Barreiro LINESTRING (-9.193061 38.63...\n6   Amadora Barreiro LINESTRING (-9.229502 38.75...\n\n\nCode\ntail(TRIPSdlines_oneway[,c(1,2)])\n\n\nSimple feature collection with 6 features and 2 fields\nAttribute-geometry relationships: identity (2)\nGeometry type: LINESTRING\nDimension:     XY\nBounding box:  xmin: -9.357651 ymin: 38.49491 xmax: -8.80664 ymax: 38.92208\nGeodetic CRS:  WGS 84\n           o                   d                       geometry\n145   Oeiras Vila Franca de Xira LINESTRING (-9.276317 38.71...\n146  Palmela Vila Franca de Xira LINESTRING (-8.80664 38.617...\n147   Seixal Vila Franca de Xira LINESTRING (-9.108785 38.60...\n148 Sesimbra Vila Franca de Xira LINESTRING (-9.120129 38.49...\n149  Setúbal Vila Franca de Xira LINESTRING (-8.887489 38.51...\n150   Sintra Vila Franca de Xira LINESTRING (-9.357651 38.82...\n\n\nExample of visualization with Public Transit trips in both ways.\n\n\nCode\nTRIPSdlines_oneway_noLX = TRIPSdlines_oneway |&gt; \n  filter(PTransit &gt; 5000) # reduce noise\n\nmapview(TRIPSdlines_oneway_noLX, zcol = \"PTransit\", lwd = 8)",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
     ]
   },
   {
     "objectID": "desire-lines.html#using-population-centroids",
     "href": "desire-lines.html#using-population-centroids",
-    "title": "11  OD pairs and desire lines",
-    "section": "11.3 Using population centroids",
-    "text": "11.3 Using population centroids\nThe od_to_sf() function uses the geometric center of the zones to create the desire lines. But if we replace those zones by the weighted centroids, we can have a more realistic representation of the flows.\n\n\nCode\n# Centroid_pop = st_read(\"data/Centroid_pop.gpkg\")\n\nTRIPSdlines_pop = od_to_sf(TRIPSmode, z = Centroid_pop) |&gt;  # works the same way\n  od_oneway() |&gt; # oneway\n  filter(o != d) # remove empty geometries\n\n\nCheck differences of lines with trips from/to Lisbon:\n\n\nCode\nTRIPSdlines_geo_LX = TRIPSdlines_oneway |&gt; \n  filter(o == \"Lisboa\" | d == \"Lisboa\") # or condition\nTRIPSdlines_pop_LX = TRIPSdlines_pop |&gt; \n  filter(o == \"Lisboa\" | d == \"Lisboa\")\n\nmapview(TRIPSdlines_geo_LX, color = \"blue\") + mapview(TRIPSdlines_pop_LX, color = \"red\")\n\n\n\n\n\n\nThe next step will be estimating the euclidean distances between these centroids, and compare them with the routing distances.\n\n\n\n\n\n\nLovelace, Robin, and Richard Ellison. 2018. “Stplanr: A Package for Transport Planning.” The R Journal 10 (2): 10. https://doi.org/10.32614/RJ-2018-053.\n\n\nLovelace, Robin, Rosa Félix, and Dustin Carlino. 2022. “Jittering: A Computationally Efficient Method for Generating Realistic Route Networks from Origin-Destination Data.” Findings, April. https://doi.org/10.32866/001c.33873.\n\n\nLovelace, Robin, and Malcolm Morgan. 2024. Od: Manipulate and Map Origin-Destination Data. https://github.com/itsleeds/od.",
+    "title": "12  OD pairs and desire lines",
+    "section": "12.3 Using population centroids",
+    "text": "12.3 Using population centroids\nThe od_to_sf() function uses the geometric center of the zones to create the desire lines. But if we replace those zones by the weighted centroids, we can have a more realistic representation of the flows.\n\n\nCode\n# Centroid_pop = st_read(\"data/Centroid_pop.gpkg\")\n\nTRIPSdlines_pop = od_to_sf(TRIPSmode, z = Centroid_pop) |&gt;  # works the same way\n  od_oneway() |&gt; # oneway\n  filter(o != d) # remove empty geometries\n\n\nCheck differences of lines with trips from/to Lisbon:\n\n\nCode\nTRIPSdlines_geo_LX = TRIPSdlines_oneway |&gt; \n  filter(o == \"Lisboa\" | d == \"Lisboa\") # or condition\nTRIPSdlines_pop_LX = TRIPSdlines_pop |&gt; \n  filter(o == \"Lisboa\" | d == \"Lisboa\")\n\nmapview(TRIPSdlines_geo_LX, color = \"blue\") + mapview(TRIPSdlines_pop_LX, color = \"red\")\n\n\n\n\n\n\nThe next step will be estimating the euclidean distances between these centroids, and compare them with the routing distances.\n\n\n\n\n\n\nLovelace, Robin, and Richard Ellison. 2018. “Stplanr: A Package for Transport Planning.” The R Journal 10 (2): 10. https://doi.org/10.32614/RJ-2018-053.\n\n\nLovelace, Robin, Rosa Félix, and Dustin Carlino. 2022. “Jittering: A Computationally Efficient Method for Generating Realistic Route Networks from Origin-Destination Data.” Findings, April. https://doi.org/10.32866/001c.33873.\n\n\nLovelace, Robin, and Malcolm Morgan. 2024. Od: Manipulate and Map Origin-Destination Data. https://github.com/itsleeds/od.",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
     ]
   },
   {
     "objectID": "desire-lines.html#footnotes",
     "href": "desire-lines.html#footnotes",
-    "title": "11  OD pairs and desire lines",
+    "title": "12  OD pairs and desire lines",
     "section": "",
     "text": "See (Lovelace, Félix, and Carlino 2022).↩︎",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>OD pairs and desire lines</span>"
     ]
   },
   {
@@ -707,115 +751,6 @@
     ]
   },
   {
-    "objectID": "open-data.html",
-    "href": "open-data.html",
-    "title": "13  Open transportation data",
-    "section": "",
-    "text": "13.1 Road Networks",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Open transportation data</span>"
-    ]
-  },
-  {
-    "objectID": "open-data.html#road-networks",
-    "href": "open-data.html#road-networks",
-    "title": "13  Open transportation data",
-    "section": "",
-    "text": "13.1.1 OpenStreetMap\nThe OpenStreetMap is a collaborative online mapping project that creates a free editable map of the world.\nThis is the most used source of road network data for transportation analysis in academia, since it is available almost everywhere in the world, is open and free to use.\n\n\n\n\n\n\nAlthough it can be not 100% accurate, OSM is a good source of data for most of the cases.\n\n\n\nYou can access it’s visualization tool at www.openstreetmap.org. To edit the map, you can use the Editor, once you register.\nIf you want to download the data, you can use the following tools.\n\nOverpass API\nGeofabrik\n\nThese websites include all the OSM data, with much more information than you need.\n\n\n13.1.2 HOT Export Tool\nThis interactive tool helps you to select the region you want to extract, the type of information to include, and the output data format.\nAccess via export.hotosm.org1.\n\nAfter the export, you can read in R using the sf package:\n\n\nCode\nGent = sf::st_read(\"../data/Gent_center.gpkg\", quiet = TRUE)\n\nmapview::mapview(Gent, zcol = \"highway\")\n\n\n\n\n\n\n\n\n13.1.3 OSM in R\nThere are also some R packages that can help you to download and work with OpenStreetMap data, such as:\n\nosmdata\nosmextract\n\nThis is an example of how to download OpenStreetMap road network data using the osmextract package:\n\n\nCode\nlibrary(osmextract)\nOSM_Malta = oe_get_network(place = \"Malta\") # it will geocode the place\n\nMalta_main_roads = OSM_Malta |&gt; \n  filter(highway %in% c(\"primary\", \"secondary\", \"tertiary\", \"trunk\"))\n\nplot(Malta_main_roads[\"highway\"])",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Open transportation data</span>"
-    ]
-  },
-  {
-    "objectID": "open-data.html#transportation-services-data",
-    "href": "open-data.html#transportation-services-data",
-    "title": "13  Open transportation data",
-    "section": "13.2 Transportation Services’ Data",
-    "text": "13.2 Transportation Services’ Data\n\n13.2.1 GTFS\nGeneral Transit Feed Specification (GTFS) is standard format for documenting public transportation information, including: routes, schedules, stop locations, calendar patterns, trips, and possible transfers. Transit agencies are responsible for maintaining the data up-to-date.\nThis information is used in several applications, such as Google Maps, to provide public transportation directions. It can be offered for a city, a region, or even a whole country, depending on the PT agency.\nThe recent version 2 of the GTFS standard includes more information, such as real-time data.\nThe data is usually in a .zip file that includes several .txt files (one for each type of information) with tabular relations.\n\n\n\nSource: trilliumtransit.com\n\n\n\nOnline sources\nYou can find most GTFS data in the following websites:\n\nTransitLand\nTransitFeeds\n\nSome PT agencies also provide their open-data in their websites.\n\n\nR packages\nThere are some nice R packages to read and manipulate GTFS data, such as:\n\ntidytransit\ngtfstools\n\n\n\n\n\n\n\nBe aware that they may share the same function names, so it is important to use of of them at the time.\n\n\n\n\n\n\n13.2.2 National Access Points\nThe European Union has a directive that requires the member states to provide access to transportation data. Data includes not only Public Transportation data, but also road networks, car parking, and other transportation-related information.\nList of the European Union members states with National Access Points for Transportation data\nExample of Bus services data in Belgium:\n\n\n\nSource: Transport Data Belgium",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Open transportation data</span>"
-    ]
-  },
-  {
-    "objectID": "open-data.html#footnotes",
-    "href": "open-data.html#footnotes",
-    "title": "13  Open transportation data",
-    "section": "",
-    "text": "You need an OSM account to use it.↩︎",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Open transportation data</span>"
-    ]
-  },
-  {
-    "objectID": "grid.html",
-    "href": "grid.html",
-    "title": "15  Grids",
-    "section": "",
-    "text": "15.1 Make grid\nlibrary(sf)\nlibrary(dplyr)\nlibrary(mapview)\n\nMUNICIPIOSgeo = st_read(\"../data/Municipalities_geo.gpkg\", quiet = TRUE)\nLISBON = MUNICIPIOSgeo |&gt; filter(Municipality == \"Lisboa\") # filter only Lisbon\nTo make a grid we is the st_make_grid() function.\nGRID = LISBON |&gt;\n  st_transform(crs = 3857) |&gt; # to a projected crs\n  st_make_grid(cellsize = 500, # meters, we are using a projected crs\n               what = \"polygons\",\n               square = TRUE) |&gt; # if FALSE, hexagons\n  st_sf() |&gt; # from list to sf\n  st_transform(crs = 4326) # to WGS84\n\nGRID = GRID |&gt;  \n  mutate(id = c(1:nrow(GRID)))  # just to give an ID to each cell \n\nmapview(GRID, alpha = 0)",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Grids</span>"
-    ]
-  },
-  {
-    "objectID": "grid.html#count-points-in-polygons",
-    "href": "grid.html#count-points-in-polygons",
-    "title": "15  Grids",
-    "section": "15.2 Count points in polygons",
-    "text": "15.2 Count points in polygons\nWe can use the grid to count survey respondents in each cell.\n\nSURVEY = read.csv(\"../data/SURVEY.txt\", sep = \"\\t\")\nSURVEYgeo = SURVEY |&gt; st_as_sf(coords = c(\"lon\", \"lat\"), crs = 4326) # convert to sf from coordinates\n\nSURVEY_with_GRIDid = SURVEYgeo |&gt; \n  st_join(GRID, \n          join = st_intersects) |&gt; \n    st_drop_geometry() |&gt; \n    group_by(id) |&gt; \n    summarise(count = n()) |&gt; # variable with the number of points\n    ungroup()\n\n# back to grid\nGRIDdensity = GRID |&gt; left_join(SURVEY_with_GRIDid)\n\nmapview(GRIDdensity, zcol = \"count\")\n\n\n\n\n\nOr to count bus stops in each cell.\n\nBUSstops = st_read(\"../geo/Carris_stops.gpkg\", quiet = TRUE)\n\nBUS_with_GRIDid = BUSstops |&gt; \n  st_join(GRID, \n          join = st_intersects) |&gt; \n    st_drop_geometry() |&gt; \n    group_by(id) |&gt; \n    summarise(freq = sum(frequency)) |&gt; \n    ungroup()\n\n# back to grid\nGRIDdensity = GRID |&gt; left_join(BUS_with_GRIDid)\n\nmapview(GRIDdensity |&gt; filter(!is.na(freq)), # exclude NAs\n        zcol = \"freq\",\n        alpha.regions = 0.5, # area transparency\n        alpha = 0) # hide cell limits",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Grids</span>"
-    ]
-  },
-  {
-    "objectID": "interactive-maps.html",
-    "href": "interactive-maps.html",
-    "title": "10  Interactive maps",
-    "section": "",
-    "text": "10.1 Mapview\nYou can plot a static map using plof(sf), but you can also create interactive maps.\nInteractive maps are useful to explore the data, as you can zoom in and out, and click on the points to see the data associated with them.\nThere are several R packages to create interactive maps. For instance, the tmap package, the leaflet package, and the mapview package.\nMapview allows to create quick interactive maps, only by declaring the function mapview().\nlibrary(mapview)\nmapview(TRIPSgeo)\nTo color the points by a variable, you can use the zcol argument.\nmapview(TRIPSgeo, zcol = \"Total\")\nAs you can see, a color palette is automatically assigned to the continuous variable.\nTry to use a categorical variable.\nCode\nmapview(TRIPSgeo,\n        zcol = \"Municipality\", # depending on the variable\n        alpha.regions = 0.4, # also add transparency\n        color = \"white\" # border color\n        )\nYou can go crazy with all the options that mapview offers. Please refer to the documentation to see all the options.",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
-    ]
-  },
-  {
-    "objectID": "interactive-maps.html#mapview",
-    "href": "interactive-maps.html#mapview",
-    "title": "10  Interactive maps",
-    "section": "",
-    "text": "Note that you can change the basemap, and click on the geometries to see the data associated with them.\n\n\n\n\n\n\nExport\nYou can directly export the map as an html file or image, using the Viewer panel.\n\n\n\n\n\n\n\nThis is the most straightforward solution.\n\n\n\nYou can also export a map as an html file or image using code.\n\n# install.packages(\"webshot2\") # you will need this\n\nmap = mapview(TRIPSgeo, zcol = \"Total\") # first create an objet with the desired map\n\nmapshot2(map, \"data/map.html\") # as webpage\nmapshot2(map, file = \"data/map.png\") # as image",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
-    ]
-  },
-  {
-    "objectID": "interactive-maps.html#rmarkdown",
-    "href": "interactive-maps.html#rmarkdown",
-    "title": "10  Interactive maps",
-    "section": "10.2 Rmarkdown",
-    "text": "10.2 Rmarkdown\nTo include a map on a report, website, paper (any type), you can create an Rmarkdown file.\n\nAnd include a R code chunk (ctrl + alt + i) with a map. If the output is html, you will get an interactive map on your document!",
-    "crumbs": [
-      "**GIS in R**",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
-    ]
-  },
-  {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
-    "section": "",
-    "text": "Engel, Claudia A. 2023. Introduction to r. cengel.github.io/R-intro/.\n\n\nINE. 2018. “Mobilidade e Funcionalidade Do Território Nas Áreas Metropolitanas do Porto e de Lisboa:\n2017.” Lisboa: Instituto National de Estatística. https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&xlang=pt.\n\n\n———. 2022. “Censos 2021- XVI Recenseamento\nGeral da População. VI Recenseamento Geral da Habitação.”\nLisboa: Instituto National de Estatística. https://censos.ine.pt/xurl/pub/65586079.\n\n\nLovelace, Robin, and Richard Ellison. 2018. “Stplanr: A Package\nfor Transport Planning.” The R Journal 10\n(2): 10. https://doi.org/10.32614/RJ-2018-053.\n\n\nLovelace, Robin, Rosa Félix, and Dustin Carlino. 2022. “Jittering:\nA Computationally Efficient Method for Generating Realistic Route\nNetworks from Origin-Destination Data.” Findings, April.\nhttps://doi.org/10.32866/001c.33873.\n\n\nLovelace, Robin, and Malcolm Morgan. 2024. Od: Manipulate and Map\nOrigin-Destination Data. https://github.com/itsleeds/od.\n\n\nLovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2024.\nGeocomputation with r. 2nd ed. Chapman; Hall/CRC. https://r.geocompx.org/.\n\n\nPebesma, Edzer, and Roger Bivand. 2023. Spatial Data Science: With\nApplications in R. Boca Raton: Chapman; Hall/CRC. https://doi.org/10.1201/9780429459016.\n\n\nPereira, Rafael H. M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue\nVieira Braga, and Matthew Wigginton Conway. 2021. “R5r: Rapid\nRealistic Routing on Multimodal Transport Networks with r5 in\nr.” Findings, March. https://doi.org/10.32866/001c.21262.\n\n\nWickham, Hadley, Mine Çetinaka-Rundel, and Garrett Grolemund. 2017.\nR for Data Science. 2nd ed. O’Reilly Sebastopol. https://r4ds.hadley.nz/.\n\n\nZomorrodi, Ryan. 2024. Centr: Weighted and Unweighted Spatial\nCenters. https://ryanzomorrodi.github.io/centr/.",
-    "crumbs": [
-      "References"
-    ]
-  },
-  {
     "objectID": "buffers.html",
     "href": "buffers.html",
     "title": "14  Buffers vs. Isochones",
@@ -849,14 +784,79 @@
     ]
   },
   {
-    "objectID": "interactive-maps.html#flowmap-blue",
-    "href": "interactive-maps.html#flowmap-blue",
-    "title": "10  Interactive maps",
-    "section": "10.3 Flowmap blue",
-    "text": "10.3 Flowmap blue\nA way to visualize traffic or travel volumes between areas (OD pairs) is through the online tool flowmap.blue.\nBut you need to prepare the data so that they are exactly in the requested format. (See the used source code).\nYou need two files:\n\nlocations\nflows\n\nTry to copy and paste the content of these files in the corresponding fields the information about car trips in the Lisbon metropolitan area according to INE (2018).\n\n\n\n\n\n\n\nTry it yourself\n\n\n\nVisualize the public transit trips in the Lisbon metropolitan area. (flows_tp)\n\nWhich differences do you see between car and public transit trips?\nHow many trips are made daily in public transit with origin or destination in Sintra?\n\n\n\n\n\n\n\n\n\nINE. 2018. “Mobilidade e Funcionalidade Do Território Nas Áreas Metropolitanas do Porto e de Lisboa: 2017.” Lisboa: Instituto National de Estatística. https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&xlang=pt.",
+    "objectID": "open-data.html",
+    "href": "open-data.html",
+    "title": "15  Open transportation data",
+    "section": "",
+    "text": "15.1 Road Networks\nIn this chapter we will guide you through sources of open data for transportation analysis: road networks and public transportation information.",
     "crumbs": [
       "**GIS in R**",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Interactive maps</span>"
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Open transportation data</span>"
+    ]
+  },
+  {
+    "objectID": "open-data.html#road-networks",
+    "href": "open-data.html#road-networks",
+    "title": "15  Open transportation data",
+    "section": "",
+    "text": "15.1.1 OpenStreetMap\nThe OpenStreetMap is a collaborative online mapping project that creates a free editable map of the world.\nThis is the most used source of road network data for transportation analysis in academia, since it is available almost everywhere in the world, is open and free to use.\n\n\n\n\n\n\nAlthough it can be not 100% accurate, OSM is a good source of data for most of the cases.\n\n\n\nYou can access it’s visualization tool at www.openstreetmap.org. To edit the map, you can use the Editor, once you register.\nIf you want to download the data, you can use the following tools.\n\nOverpass API\nGeofabrik\n\nThese websites include all the OSM data, with much more information than you need.\n\n\n15.1.2 HOT Export Tool\nThis interactive tool helps you to select the region you want to extract, the type of information to include, and the output data format.\nAccess via export.hotosm.org1.\n\nAfter the export, you can read in R using the sf package:\n\n\nCode\nGent = sf::st_read(\"../data/Gent_center.gpkg\", quiet = TRUE)\n\nmapview::mapview(Gent, zcol = \"highway\")\n\n\n\n\n\n\n\n\n15.1.3 OSM in R\nThere are also some R packages that can help you to download and work with OpenStreetMap data, such as:\n\nosmdata\nosmextract\n\nThis is an example of how to download OpenStreetMap road network data using the osmextract package:\n\n\nCode\nlibrary(osmextract)\nOSM_Malta = oe_get_network(place = \"Malta\") # it will geocode the place\n\nMalta_main_roads = OSM_Malta |&gt; \n  filter(highway %in% c(\"primary\", \"secondary\", \"tertiary\", \"trunk\"))\n\nplot(Malta_main_roads[\"highway\"])",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Open transportation data</span>"
+    ]
+  },
+  {
+    "objectID": "open-data.html#transportation-services-data",
+    "href": "open-data.html#transportation-services-data",
+    "title": "15  Open transportation data",
+    "section": "15.2 Transportation Services’ Data",
+    "text": "15.2 Transportation Services’ Data\n\n15.2.1 GTFS\nGeneral Transit Feed Specification (GTFS) is standard format for documenting public transportation information, including: routes, schedules, stop locations, calendar patterns, trips, and possible transfers. Transit agencies are responsible for maintaining the data up-to-date.\nThis information is used in several applications, such as Google Maps, to provide public transportation directions. It can be offered for a city, a region, or even a whole country, depending on the PT agency.\nThe recent version 2 of the GTFS standard includes more information, such as real-time data.\nThe data is usually in a .zip file that includes several .txt files (one for each type of information) with tabular relations.\n\n\n\nSource: trilliumtransit.com\n\n\n\nOnline sources\nYou can find most GTFS data in the following websites:\n\nTransitLand\nTransitFeeds\n\nSome PT agencies also provide their open-data in their websites.\n\n\nR packages\nThere are some nice R packages to read and manipulate GTFS data, such as:\n\ntidytransit\ngtfstools\n\n\n\n\n\n\n\nBe aware that they may share the same function names, so it is important to use of of them at the time.\n\n\n\n\n\n\n15.2.2 National Access Points\nThe European Union has a directive that requires the member states to provide access to transportation data. Data includes not only Public Transportation data, but also road networks, car parking, and other transportation-related information.\nList of the European Union members states with National Access Points for Transportation data\nExample of Bus services data in Belgium:\n\n\n\nSource: Transport Data Belgium",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Open transportation data</span>"
+    ]
+  },
+  {
+    "objectID": "open-data.html#footnotes",
+    "href": "open-data.html#footnotes",
+    "title": "15  Open transportation data",
+    "section": "",
+    "text": "You need an OSM account to use it.↩︎",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Open transportation data</span>"
+    ]
+  },
+  {
+    "objectID": "grid.html",
+    "href": "grid.html",
+    "title": "16  Grids",
+    "section": "",
+    "text": "16.1 Make grid\nlibrary(sf)\nlibrary(dplyr)\nlibrary(mapview)\n\nMUNICIPIOSgeo = st_read(\"../data/Municipalities_geo.gpkg\", quiet = TRUE)\nLISBON = MUNICIPIOSgeo |&gt; filter(Municipality == \"Lisboa\") # filter only Lisbon\nTo make a grid we is the st_make_grid() function.\nGRID = LISBON |&gt;\n  st_transform(crs = 3857) |&gt; # to a projected crs\n  st_make_grid(cellsize = 500, # meters, we are using a projected crs\n               what = \"polygons\",\n               square = TRUE) |&gt; # if FALSE, hexagons\n  st_sf() |&gt; # from list to sf\n  st_transform(crs = 4326) # to WGS84\n\nGRID = GRID |&gt;  \n  mutate(id = c(1:nrow(GRID)))  # just to give an ID to each cell \n\nmapview(GRID, alpha = 0)",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Grids</span>"
+    ]
+  },
+  {
+    "objectID": "grid.html#count-points-in-polygons",
+    "href": "grid.html#count-points-in-polygons",
+    "title": "16  Grids",
+    "section": "16.2 Count points in polygons",
+    "text": "16.2 Count points in polygons\nWe can use the grid to count survey respondents in each cell.\n\nSURVEY = read.csv(\"../data/SURVEY.txt\", sep = \"\\t\")\nSURVEYgeo = SURVEY |&gt; st_as_sf(coords = c(\"lon\", \"lat\"), crs = 4326) # convert to sf from coordinates\n\nSURVEY_with_GRIDid = SURVEYgeo |&gt; \n  st_join(GRID, \n          join = st_intersects) |&gt; \n    st_drop_geometry() |&gt; \n    group_by(id) |&gt; \n    summarise(count = n()) |&gt; # variable with the number of points\n    ungroup()\n\n# back to grid\nGRIDdensity = GRID |&gt; left_join(SURVEY_with_GRIDid)\n\nmapview(GRIDdensity, zcol = \"count\")\n\n\n\n\n\nOr to count bus stops in each cell.\n\nBUSstops = st_read(\"../geo/Carris_stops.gpkg\", quiet = TRUE)\n\nBUS_with_GRIDid = BUSstops |&gt; \n  st_join(GRID, \n          join = st_intersects) |&gt; \n    st_drop_geometry() |&gt; \n    group_by(id) |&gt; \n    summarise(freq = sum(frequency)) |&gt; \n    ungroup()\n\n# back to grid\nGRIDdensity = GRID |&gt; left_join(BUS_with_GRIDid)\n\nmapview(GRIDdensity |&gt; filter(!is.na(freq)), # exclude NAs\n        zcol = \"freq\",\n        alpha.regions = 0.5, # area transparency\n        alpha = 0) # hide cell limits",
+    "crumbs": [
+      "**GIS in R**",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Grids</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Engel, Claudia A. 2023. Introduction to r. cengel.github.io/R-intro/.\n\n\nINE. 2018. “Mobilidade e Funcionalidade Do Território Nas Áreas Metropolitanas do Porto e de Lisboa:\n2017.” Lisboa: Instituto National de Estatística. https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&xlang=pt.\n\n\n———. 2022. “Censos 2021- XVI Recenseamento\nGeral da População. VI Recenseamento Geral da Habitação.”\nLisboa: Instituto National de Estatística. https://censos.ine.pt/xurl/pub/65586079.\n\n\nLovelace, Robin, and Richard Ellison. 2018. “Stplanr: A Package\nfor Transport Planning.” The R Journal 10\n(2): 10. https://doi.org/10.32614/RJ-2018-053.\n\n\nLovelace, Robin, Rosa Félix, and Dustin Carlino. 2022. “Jittering:\nA Computationally Efficient Method for Generating Realistic Route\nNetworks from Origin-Destination Data.” Findings, April.\nhttps://doi.org/10.32866/001c.33873.\n\n\nLovelace, Robin, and Malcolm Morgan. 2024. Od: Manipulate and Map\nOrigin-Destination Data. https://github.com/itsleeds/od.\n\n\nLovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2024.\nGeocomputation with r. 2nd ed. Chapman; Hall/CRC. https://r.geocompx.org/.\n\n\nPebesma, Edzer, and Roger Bivand. 2023. Spatial Data Science: With\nApplications in R. Boca Raton: Chapman; Hall/CRC. https://doi.org/10.1201/9780429459016.\n\n\nPereira, Rafael H. M., Marcus Saraiva, Daniel Herszenhut, Carlos Kaue\nVieira Braga, and Matthew Wigginton Conway. 2021. “R5r: Rapid\nRealistic Routing on Multimodal Transport Networks with r5 in\nr.” Findings, March. https://doi.org/10.32866/001c.21262.\n\n\nWickham, Hadley, Mine Çetinaka-Rundel, and Garrett Grolemund. 2017.\nR for Data Science. 2nd ed. O’Reilly Sebastopol. https://r4ds.hadley.nz/.\n\n\nZomorrodi, Ryan. 2024. Centr: Weighted and Unweighted Spatial\nCenters. https://ryanzomorrodi.github.io/centr/.",
+    "crumbs": [
+      "References"
     ]
   }
 ]
