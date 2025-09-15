@@ -6,7 +6,7 @@
     "section": "",
     "text": "1 Introduction\nMaterials, data and tutorials for the Quantitative Methods of Analysis in Transportation course of the MSc in Transportation Systems at Instituto Superior Técnico - University of Lisbon.\nThis website aims to provide tools to deal with exploring and treating transportation datasets using R programming, an open-source and widely used tool for data analytics in urban mobility.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>This is not the official website for the course.</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
@@ -16,7 +16,7 @@
     "section": "Recommended readings",
     "text": "Recommended readings\n\nEngel (2023) Introduction to R.\nWickham, Çetinaka-Rundel, and Grolemund (2017) R for Data Science.\nLovelace, Nowosad, and Muenchow (2024) Geocomputation with R.\n\n\n\n\n\n\n\nEngel, Claudia A. 2023. Introduction to r. cengel.github.io/R-intro/.\n\n\nLovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2024. Geocomputation with r. 2nd ed. Chapman; Hall/CRC. https://r.geocompx.org/.\n\n\nWickham, Hadley, Mine Çetinaka-Rundel, and Garrett Grolemund. 2017. R for Data Science. 2nd ed. O’Reilly Sebastopol. https://r4ds.hadley.nz/.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>This is not the official website for the course.</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
