@@ -298,11 +298,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#r" id="toc-r" class="nav-link active" data-scroll-target="#r"><span class="header-section-number">2.1</span> R</a></li>
   <li><a href="#rstudio" id="toc-rstudio" class="nav-link" data-scroll-target="#rstudio"><span class="header-section-number">2.2</span> RStudio</a></li>
-  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages"><span class="header-section-number">2.3</span> R packages</a>
-  <ul class="collapse">
-  <li><a href="#tinytex" id="toc-tinytex" class="nav-link" data-scroll-target="#tinytex"><span class="header-section-number">2.3.1</span> TinyTex</a></li>
-  </ul></li>
-  <li><a href="#open-route-service" id="toc-open-route-service" class="nav-link" data-scroll-target="#open-route-service"><span class="header-section-number">2.4</span> Open Route Service</a></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages"><span class="header-section-number">2.3</span> R packages</a></li>
+  <li><a href="#tinytex" id="toc-tinytex" class="nav-link" data-scroll-target="#tinytex"><span class="header-section-number">2.4</span> TinyTex</a></li>
+  <li><a href="#open-route-service" id="toc-open-route-service" class="nav-link" data-scroll-target="#open-route-service"><span class="header-section-number">2.5</span> Open Route Service</a></li>
   </ul>
 </nav>
     </div>
@@ -436,8 +434,9 @@ Important
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"osmextract"</span>) <span class="co"># optional</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"stplanr"</span>) <span class="co"># optional</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="tinytex" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="tinytex"><span class="header-section-number">2.3.1</span> TinyTex</h3>
+</section>
+<section id="tinytex" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="tinytex"><span class="header-section-number">2.4</span> TinyTex</h2>
 <p>To be able to export your Rmakdown document to a <strong>pdf</strong> file, you will need a LaTeX processor. <code>tinytex</code> is a lightweight R package with the most used features of <strong>LaTeX</strong> that you can use with R.</p>
 <p>You can install it from RStudio console by running:</p>
 <div class="cell">
@@ -451,9 +450,8 @@ Important
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">tlmgr_update</span>() <span class="co"># updates all latex pkgs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
-<section id="open-route-service" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="open-route-service"><span class="header-section-number">2.4</span> Open Route Service</h2>
+<section id="open-route-service" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="open-route-service"><span class="header-section-number">2.5</span> Open Route Service</h2>
 <p>For some GIS exercises, we will use the <a href="https://openrouteservice.org/">Open Route Service</a> API to calculate routes and travel times.</p>
 <p><a href="https://openrouteservice.org/dev/#/signup">Sign up for an account</a> and create a token.</p>
 <p>Copy your API.</p>
@@ -1238,7 +1236,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"stplanr"</span>) <span class="co"># optional</span></span>
 <span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a><span class="fu">### TinyTex</span></span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a><span class="fu">## TinyTex</span></span>
 <span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a>To be able to export your Rmakdown document to a **pdf** file, you will need a LaTeX processor.</span>
 <span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a><span class="in">`tinytex`</span> is a lightweight R package with the most used features of **LaTeX** that you can use with R.</span>

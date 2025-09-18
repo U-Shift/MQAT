@@ -67,6 +67,8 @@ data_continuous = data |> select(-Origin_dicofre16, -internal, -Lisboa) # Exclud
 Show summary statistics
 
 ```{r}
+#| message: false
+#| warning: false
 skim(data)
 ```
 
