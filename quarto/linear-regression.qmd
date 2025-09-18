@@ -167,7 +167,8 @@ Use `CTRL` + `SHIFT` + `C` to comment/uncomment lines (variables)
 # names(data) # to see the names of the variables
 
 model = lm(
-  Car_perc ~ Total +
+  Car_perc ~
+    Total +
     Walk +
     Bike +
     Car +
