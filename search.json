@@ -54,7 +54,17 @@
     "href": "software.html#r-packages",
     "title": "2  Software",
     "section": "2.3 R packages",
-    "text": "2.3 R packages\nYou will need to install some packages to work with the data and scripts in this course.\nYou can install them in RStudio by searching for them in the Packages tab:\n\nor by running the following code in the console:\n\ninstall.packages(\"tidyverse\")\ninstall.packages(\"readxl\")\n\ninstall.packages(\"sf\")\ninstall.packages(\"mapview\")\ninstall.packages(\"rmarkdown\")\ninstall.packages(\"centr\")\ninstall.packages(\"od\")\ninstall.packages(\"openrouteservice\")\n\ninstall.packages(c(\"remotes\", \"devtools\", \"usethis\")) # optional\ninstall.packages(\"osmextract\") # optional\ninstall.packages(\"stplanr\") # optional\n\n\n2.3.1 TinyTex\nTo be able to export your Rmakdown document to a pdf file, you will need a LaTeX processor. tinytex is a lightweight R package with the most used features of LaTeX that you can use with R.\nYou can install it from RStudio console by running:\n\n# you need to run both lines\ninstall.packages(\"tinytex\")\ntinytex::install_tinytex()\n\nTo use some LaTeX packages, you also need to install tlmgr.\n\ntinytex::tlmgr_install()\ntinytex::tlmgr_update() # updates all latex pkgs",
+    "text": "2.3 R packages\nYou will need to install some packages to work with the data and scripts in this course.\nYou can install them in RStudio by searching for them in the Packages tab:\n\nor by running the following code in the console:\n\ninstall.packages(\"tidyverse\")\ninstall.packages(\"readxl\")\n\ninstall.packages(\"sf\")\ninstall.packages(\"mapview\")\ninstall.packages(\"rmarkdown\")\ninstall.packages(\"centr\")\ninstall.packages(\"od\")\ninstall.packages(\"openrouteservice\")\n\ninstall.packages(c(\"remotes\", \"devtools\", \"usethis\")) # optional\ninstall.packages(\"osmextract\") # optional\ninstall.packages(\"stplanr\") # optional",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
+    ]
+  },
+  {
+    "objectID": "software.html#tinytex",
+    "href": "software.html#tinytex",
+    "title": "2  Software",
+    "section": "2.4 TinyTex",
+    "text": "2.4 TinyTex\nTo be able to export your Rmakdown document to a pdf file, you will need a LaTeX processor. tinytex is a lightweight R package with the most used features of LaTeX that you can use with R.\nYou can install it from RStudio console by running:\n\n# you need to run both lines\ninstall.packages(\"tinytex\")\ntinytex::install_tinytex()\n\nTo use some LaTeX packages, you also need to install tlmgr.\n\ntinytex::tlmgr_install()\ntinytex::tlmgr_update() # updates all latex pkgs",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
     ]
@@ -63,8 +73,8 @@
     "objectID": "software.html#open-route-service",
     "href": "software.html#open-route-service",
     "title": "2  Software",
-    "section": "2.4 Open Route Service",
-    "text": "2.4 Open Route Service\nFor some GIS exercises, we will use the Open Route Service API to calculate routes and travel times.\nSign up for an account and create a token.\nCopy your API.\nIn RStudio console, run:\n\n# install.packages(\"openrouteservice\")\n\nopenrouteservice::ors_api_key(\"YOUR-API-KEY\")\n\nThis will store your key on your .Renviron file, meaning that every time you open RStudio, you won’t need to run this command again.\nThis is useful also to write your openrouteservice scripts without sharing your key with others.",
+    "section": "2.5 Open Route Service",
+    "text": "2.5 Open Route Service\nFor some GIS exercises, we will use the Open Route Service API to calculate routes and travel times.\nSign up for an account and create a token.\nCopy your API.\nIn RStudio console, run:\n\n# install.packages(\"openrouteservice\")\n\nopenrouteservice::ors_api_key(\"YOUR-API-KEY\")\n\nThis will store your key on your .Renviron file, meaning that every time you open RStudio, you won’t need to run this command again.\nThis is useful also to write your openrouteservice scripts without sharing your key with others.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
     ]
