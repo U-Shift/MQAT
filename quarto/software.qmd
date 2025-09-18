@@ -134,7 +134,7 @@ install.packages("osmextract") # optional
 install.packages("stplanr") # optional
 ```
 
-### TinyTex
+## TinyTex
 
 To be able to export your Rmakdown document to a **pdf** file, you will need a LaTeX processor.
 `tinytex` is a lightweight R package with the most used features of **LaTeX** that you can use with R.
