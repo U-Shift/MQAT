@@ -157,21 +157,15 @@ tinytex::tlmgr_update() # updates all latex pkgs
 
 ## Open Route Service
 
-For some GIS exercises, we will use the [Open Route Service](https://openrouteservice.org/) API to calculate routes and travel times.
-
-[Sign up for an account](https://openrouteservice.org/dev/#/signup) and create a token.
-
-Copy your API.
+For some GIS exercises, we will use the [Open Route Service](https://openrouteservice.org/) to calculate routes and travel times.
 
 In RStudio console, run:
 
 ```{r}
 # install.packages("openrouteservice")
 
-openrouteservice::ors_api_key("YOUR-API-KEY")
-
+# instructions to setup at the U-Shift server
+options(openrouteservice.url = "https://...") # the server address provided to you
+openrouteservice::ors_api_key("") # empty key
 ```
 
-This will store your key on your `.Renviron` file, meaning that every time you open RStudio, you won't need to run this command again.
-
-This is useful also to write your `openrouteservice` scripts without sharing your key with others.
