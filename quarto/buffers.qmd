@@ -49,7 +49,8 @@ ISOCist = ors_isochrones(
   output = "sf"
 )
 
-ISOCist = arrange(ISOCist, -value) # to make the larger polygons on top of the table so the are displayed behind.
+ISOCist = arrange(ISOCist, -value) |>  # to make the larger polygons on top of the table so the are displayed behind.
+          select(value, geometry)
 
 mapview(ISOCist, zcol = "value", alpha.regions = 0.5)
 ```
