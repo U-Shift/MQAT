@@ -19,6 +19,13 @@ library(openrouteservice) # to make isochrones
 library(mapview)
 ```
 
+```{r}
+#| include: false
+# instructions to setup at the U-Shift server
+options(openrouteservice.url = "https://ushift.rosafelix.bike/ors/") 
+openrouteservice::ors_api_key("") # empty key
+```
+
 ## Buffer
 
 Represent a buffer of 500 m and 2000 m from IST[^1].
