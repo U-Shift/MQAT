@@ -21,7 +21,9 @@ library(mapview)
 
 ## Buffer
 
-Represent a buffer of 500 m and 2000 m from IST^[Here I selected only the first variable because now we also have the coordinates information (unecessary for this procedure)].
+Represent a buffer of 500 m and 2000 m from IST[^1].
+
+[^1]: Here I selected only the first variable because now we also have the coordinates information (unecessary for this procedure)
 
 ```{r bufferIST}
 IST = st_sfc(st_point(c(-9.1397404, 38.7370168)), crs = 4326) # create a point
@@ -50,7 +52,7 @@ ISOCist = ors_isochrones(
 )
 
 ISOCist = arrange(ISOCist, -value) |>  # to make the larger polygons on top of the table so the are displayed behind.
-          select(value, geometry)
+          select(-center) # unnecessary variable
 
 mapview(ISOCist, zcol = "value", alpha.regions = 0.5)
 ```
@@ -69,7 +71,6 @@ ratio2 = BUFFERist2000$area / ISOCist$area[ISOCist$value == 2000] # 1.22
 
 The euclidean buffer of 500m is `r round(ratio1, 2)` times larger than its isochrone, and the buffer of 2000m is `r round(ratio2, 2)` times larger than its isochrone.
 
-
 ### Isochrone from more than 1 point - time
 
 For this purpose we will use the high schools dataset.
@@ -81,31 +82,39 @@ SCHOOLS = st_read("../geo/SCHOOLS_basicsec.gpkg", quiet = TRUE)
 SCHOOLS$coordinates = st_coordinates(SCHOOLS) # create coordinate variable
 
 SCHOOLShigh = SCHOOLS |>
-  filter(Nivel == "Secundario") |> # filter the high schools
-  filter(INF_NOME != "Escola Básica e Secundária Gil Vicente") # the building is too far apart from the OSM networks and routing cannot be fount for this school
+  filter(Nivel == "Secundario")  # filter the high schools
+SCHOOLShigh = SCHOOLShigh |> mutate(id = 1:nrow(SCHOOLShigh)) # provide and id
 
 # list of XY coordinates for ORS
-coor = data.frame(lon = SCHOOLShigh$coordinates[, 1], lat = SCHOOLShigh$coordinates[, 2])
+coord_schools = data.frame(lon = SCHOOLShigh$coordinates[, 1],
+                           lat = SCHOOLShigh$coordinates[, 2])
+                           # id = SCHOOLShigh$id)
 ```
 
 And proceed with the time isochrones, for a range of 20 min, with 5 min intervals.
 
-```{r isoch2, eval=FALSE, include=TRUE}
-coor_max5 = sample_n(coor, 5) # error of api, get a loop to overpass this!
-
-ISOCist_5 = ors_isochrones(
-  coor_max5,
+```{r isoch2, include=TRUE}
+ISOCschools = ors_isochrones(
+  coord_schools,
   profile = "foot-walking",
   range_type = "time", # or distance
   range = 20*60, # 20 minutes in seconds
   interval = 5*60, # to have intervals of 5 minutes
+  attributes = "area", #you can directly get area, population, and so on.
   output = "sf"
 )
+
+ISOCschools = arrange(ISOCschools, -value) |> # larger polygons on top of the table so the are displayed behind.
+  select(-center)
 ```
 
-Because `openrouteservece` only allows a [max of 5 requests](https://openrouteservice.org/restrictions/) for isochrones at a time, we put it in a loop to run for all the 19 high schools.
+<!-- Because `openrouteservece` only allows a [max of 5 requests](https://openrouteservice.org/restrictions/) for isochrones at a time, we put it in a loop to run for all the 19 high schools. -->
 
 ```{r isoch2loop, cache=TRUE}
+#| eval: false
+#| include: false
+
+# WITH ORS IN USHIFT THIS IS NOT RELEVANT ANYMORE
 ISOCist = data.frame() # to start with a skeleton of df
 
 for (i in 1:nrow(coor)) {
@@ -121,15 +130,25 @@ for (i in 1:nrow(coor)) {
     )
   ISOCist = rbind(ISOCist, ISOCist_i) # bind the results into the skeleton, one by one
 }
-
-ISOCist = arrange(ISOCist, -value) # to make the larger polygons on top of the table so the are displayed behind.
-```
-```{r isoch2map}
-mapview(ISOCist, zcol = "value", alpha.regions = 0.5)
 ```
 
 And now merge this information with the schools' names.
 
 ```{r}
-summary(ISOCist$area[ISOCist$value==1200])/1000000 # in km²
+ISOCschools = ISOCschools |>
+  mutate(id = group_index + 1, # because group_index starts at 0
+         value = value/60) |> 
+    left_join(SCHOOLShigh |>
+                st_drop_geometry() |>
+                select(id, INF_NOME, Alunos))
+```
+
+```{r isoch2map}
+mapview(ISOCschools, zcol = "value", alpha.regions = 0.5)
+```
+
+And estimate areas for the 20min isochrones
+
+```{r}
+summary(ISOCschools$area[ISOCschools$value==20])/1000000 # in km²
 ```
