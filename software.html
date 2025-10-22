@@ -452,17 +452,15 @@ Important
 </section>
 <section id="open-route-service" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="open-route-service"><span class="header-section-number">2.5</span> Open Route Service</h2>
-<p>For some GIS exercises, we will use the <a href="https://openrouteservice.org/">Open Route Service</a> API to calculate routes and travel times.</p>
-<p><a href="https://openrouteservice.org/dev/#/signup">Sign up for an account</a> and create a token.</p>
-<p>Copy your API.</p>
+<p>For some GIS exercises, we will use the <a href="https://openrouteservice.org/">Open Route Service</a> to calculate routes and travel times.</p>
 <p>In RStudio console, run:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("openrouteservice")</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>openrouteservice<span class="sc">::</span><span class="fu">ors_api_key</span>(<span class="st">"YOUR-API-KEY"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># instructions to setup at the U-Shift server</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">openrouteservice.url =</span> <span class="st">"https://..."</span>) <span class="co"># the server address provided to you</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>openrouteservice<span class="sc">::</span><span class="fu">ors_api_key</span>(<span class="st">""</span>) <span class="co"># empty key</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This will store your key on your <code>.Renviron</code> file, meaning that every time you open RStudio, you won’t need to run this command again.</p>
-<p>This is useful also to write your <code>openrouteservice</code> scripts without sharing your key with others.</p>
 
 
 <!-- -->
@@ -1259,24 +1257,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a><span class="fu">## Open Route Service</span></span>
 <span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>For some GIS exercises, we will use the <span class="co">[</span><span class="ot">Open Route Service</span><span class="co">](https://openrouteservice.org/)</span> API to calculate routes and travel times.</span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>For some GIS exercises, we will use the <span class="co">[</span><span class="ot">Open Route Service</span><span class="co">](https://openrouteservice.org/)</span> to calculate routes and travel times.</span>
 <span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Sign up for an account</span><span class="co">](https://openrouteservice.org/dev/#/signup)</span> and create a token.</span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a>In RStudio console, run:</span>
 <span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a>Copy your API.</span>
-<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a>In RStudio console, run:</span>
-<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("openrouteservice")</span></span>
-<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a>openrouteservice<span class="sc">::</span><span class="fu">ors_api_key</span>(<span class="st">"YOUR-API-KEY"</span>)</span>
-<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a>This will store your key on your <span class="in">`.Renviron`</span> file, meaning that every time you open RStudio, you won't need to run this command again.</span>
-<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a>This is useful also to write your <span class="in">`openrouteservice`</span> scripts without sharing your key with others.</span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("openrouteservice")</span></span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a><span class="co"># instructions to setup at the U-Shift server</span></span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">openrouteservice.url =</span> <span class="st">"https://..."</span>) <span class="co"># the server address provided to you</span></span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a>openrouteservice<span class="sc">::</span><span class="fu">ors_api_key</span>(<span class="st">""</span>) <span class="co"># empty key</span></span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
