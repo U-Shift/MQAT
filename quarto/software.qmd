@@ -105,7 +105,6 @@ wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2025.09.0-387-am
 sudo dpkg -i rstudio*
 rm -v rstudio*
 ```
-
 :::
 
 ## R packages
@@ -154,8 +153,7 @@ tinytex::tlmgr_install()
 tinytex::tlmgr_update() # updates all latex pkgs
 ```
 
-
-## Open Route Service
+## Open Route Service {#ors}
 
 For some GIS exercises, we will use the [Open Route Service](https://openrouteservice.org/) to calculate routes and travel times.
 
@@ -168,4 +166,3 @@ In RStudio console, run:
 options(openrouteservice.url = "https://...") # the server address provided to you
 openrouteservice::ors_api_key("") # empty key
 ```
-

@@ -1,5 +1,5 @@
 ---
-number-depth: 2
+number-depth: 3
 code-fold: false
 format:
   pdf:
@@ -8,7 +8,7 @@ format:
 
 # Euclidean and routing distances
 
-We will show how to estimate euclidean distances (*as crown flights*) using `sf` package, and the distances using a road network using `r5r` package (demonstrative).
+We will show how to estimate euclidean distances (*as crown flights*) using `sf` package, and the distances using a road network using `openrouteservice` package.
 
 ## Euclidean distances
 
@@ -60,8 +60,7 @@ mapview(SURVEYgeo, zcol = "MODE") + mapview(UNIVERSITY, col.region = "red", cex 
 
 First we will create lines connecting the survey locations to the university, using the `st_nearest_points()` function.
 
-This function finds returns the nearest points between two geometries, and creates a line between them.
-This can be useful to find the nearest train station to each point, for instance.
+This function finds returns the nearest points between two geometries, and creates a line between them. This can be useful to find the nearest train station to each point, for instance.
 
 As we only have 1 point at UNIVERSITY layer, we will have the same number of lines as number of surveys = `r nrow(SURVEY)`.
 
@@ -73,8 +72,7 @@ SURVEYeuclidean = st_nearest_points(SURVEYgeo, UNIVERSITY, pairwise = TRUE) |>
 mapview(SURVEYeuclidean)
 ```
 
-Note that if we have more than one point in the second layer, the `pairwise = TRUE` will create a line for each combination of points.
-Set to `FALSE` if, for instance, you have the same number of points in both layers and want to create a line between the corresponding points.
+Note that if we have more than one point in the second layer, the `pairwise = TRUE` will create a line for each combination of points. Set to `FALSE` if, for instance, you have the same number of points in both layers and want to create a line between the corresponding points.
 
 ### Distance
 
@@ -105,8 +103,7 @@ summary(SURVEYgeo$distance)
 
 ## Routing Engines
 
-There are different types of routing engines, regarding the type of network they use, the type of transportation they consider, and the type of data they need.
-We can have:
+There are different types of routing engines, regarding the type of network they use, the type of transportation they consider, and the type of data they need. We can have:
 
 -   Uni-modal vs. Multi-modal
 
@@ -136,108 +133,308 @@ We can have:
 
 Examples: [OSRM](https://project-osrm.org/), [Dodgr](https://urbananalyst.github.io/dodgr/), [r5r](https://ipeagit.github.io/r5r/), [Googleway](https://symbolixau.github.io/googleway/reference/access_result.html), [CycleStreets](https://m.cyclestreets.net/journey), [HERE](https://munterfi.github.io/hereR/).
 
-### Routing distances with `r5r`
+<!-- ### Routing distances with `r5r` -->
 
-We use the `r5r` package to estimate the distance using a road network [@Pereira2021r5r].
+<!-- We use the `r5r` package to estimate the distance using a road network [@Pereira2021r5r]. -->
+
+<!-- ::: {.callout-note appearance="simple"} -->
+
+<!-- To properly the setup r5r model for the area you are working on, you need to download the **road network** data from OpenStreetMap and, if needed, add a **GTFS** and **DEM** file, as it will be explained in the [next section](r5r.qmd). -->
+
+<!-- ::: -->
+
+<!-- ```{r} -->
+
+<!-- #| message: false -->
+
+<!-- #| warning: false -->
+
+<!-- #| include: false -->
+
+<!-- options(java.parameters = "-Xmx4G") # allocate memory -->
+
+<!-- url = "https://github.com/U-Shift/EITcourse/releases/download/2024.09/network.dat" -->
+
+<!-- download.file(url, destfile = "../data/network.dat", mode = "wb") -->
+
+<!-- library(r5r) -->
+
+<!-- r5r_network = setup_r5("../data/", overwrite = FALSE) # load existing network -->
+
+<!-- ``` -->
+
+<!-- We will use only respondents with a distance to the university less than 2 km. -->
+
+<!-- ```{r} -->
+
+<!-- #| warning: false -->
+
+<!-- SURVEYsample = SURVEYgeo |> filter(distance <= 2000) -->
+
+<!-- nrow(SURVEYsample) -->
+
+<!-- ``` -->
+
+<!-- We need an id (unique identifier) for each survey location, to be used in the routing functions of `r5r`. -->
+
+<!-- ```{r} -->
+
+<!-- # create id columns for both datasets -->
+
+<!-- SURVEYsample = SURVEYsample |>  -->
+
+<!--   mutate(id = c(1:nrow(SURVEYsample))) # from 1 to the number of rows -->
+
+<!-- UNIVERSITY = UNIVERSITY |>  -->
+
+<!--   mutate(id = 1) # only one row -->
+
+<!-- ``` -->
+
+<!-- #### Distances by car -->
+
+<!-- Estimate the routes with time and distance by car, from survey locations to University. -->
+
+<!-- ```{r} -->
+
+<!-- #| warning: false -->
+
+<!-- SURVEYcar = detailed_itineraries( -->
+
+<!--   r5r_core = r5r_network, -->
+
+<!--   origins = SURVEYsample, -->
+
+<!--   destinations = UNIVERSITY, -->
+
+<!--   mode = "CAR", -->
+
+<!--   all_to_all = TRUE # if false, only 1-1 would be calculated -->
+
+<!-- ) -->
+
+<!-- names(SURVEYcar) -->
+
+<!-- ``` -->
+
+<!-- The [`detailed_itineraries()`](https://ipeagit.github.io/r5r/reference/detailed_itineraries.html) function is super detailed! -->
+
+<!-- ::: {.callout-note appearance="simple"} -->
+
+<!-- If we want to know only time and distance, and **not the route** itself, we can use the [`travel_time_matrix()`](https://ipeagit.github.io/r5r/reference/travel_time_matrix.html). -->
+
+<!-- ::: -->
+
+<!-- #### Distances by foot -->
+
+<!-- Repeat the same for `WALK`[^1]. -->
+
+<!-- [^1]: For bike you would use `BICYCLE`. -->
+
+<!-- ```{r} -->
+
+<!-- #| warning: false -->
+
+<!-- #| code-fold: true -->
+
+<!-- SURVEYwalk = detailed_itineraries( -->
+
+<!--   r5r_core = r5r_network, -->
+
+<!--   origins = SURVEYsample, -->
+
+<!--   destinations = UNIVERSITY, -->
+
+<!--   mode = "WALK", -->
+
+<!--   all_to_all = TRUE # if false, only 1-1 would be calculated -->
+
+<!-- ) -->
+
+<!-- ``` -->
+
+<!-- #### Distances by PT -->
+
+<!-- For Public Transit (`TRANSIT`) you may specify the egress mode, the departure time, and the maximum number of transfers. -->
+
+<!-- ```{r} -->
+
+<!-- #| warning: false -->
+
+<!-- #| code-fold: true -->
+
+<!-- #| eval: false -->
+
+<!-- SURVEYtransit = detailed_itineraries( -->
+
+<!--   r5r_core = r5r_network, -->
+
+<!--   origins = SURVEYsample, -->
+
+<!--   destinations = UNIVERSITY, -->
+
+<!--   mode = "TRANSIT", -->
+
+<!--   mode_egress = "WALK", -->
+
+<!--   max_rides = 1, # The maximum PT rides allowed in the same trip -->
+
+<!--   departure_datetime =  as.POSIXct("20-09-2023 08:00:00", -->
+
+<!--                                  format = "%d-%m-%Y %H:%M:%S"), -->
+
+<!--   all_to_all = TRUE # if false, only 1-1 would be calculated -->
+
+<!-- ) -->
+
+<!-- ``` -->
+
+## Routing distances with `openrouteservice`
+
+We will use the `openrouteservice` r package to estimate the distances using a road network [@openrouteservicer].
 
 ::: {.callout-note appearance="simple"}
-To properly the setup r5r model for the area you are working on, you need to download the **road network** data from OpenStreetMap and, if needed, add a **GTFS** and **DEM** file, as it will be explained in the [next section](r5r.qmd).
+To properly use the `openrouteservice` package, you need to setup the ORS provider. See the [setup instructions](software.qmd#ors) for more details.
 :::
-
-```{r}
-#| message: false
-#| warning: false
-#| include: false
-options(java.parameters = "-Xmx4G") # allocate memory
-url = "https://github.com/U-Shift/EITcourse/releases/download/2024.09/network.dat"
-download.file(url, destfile = "../data/network.dat", mode = "wb")
-
-library(r5r)
-r5r_network = setup_r5("../data/", overwrite = FALSE) # load existing network
-```
 
 We will use only respondents with a distance to the university less than 2 km.
 
 ```{r}
-#| warning: false
 SURVEYsample = SURVEYgeo |> filter(distance <= 2000)
 nrow(SURVEYsample)
 ```
 
-We need an id (unique identifier) for each survey location, to be used in the routing functions of `r5r`.
+We need an id (unique identifier) for each survey location, so we can [compare](#compare) them later.
+
+Also, we need to extract the coordinates, from both datasets, to be used in the routing functions of [`openrouteservice::directions()`](https://giscience.github.io/openrouteservice-r/reference/ors_directions.html).
 
 ```{r}
 # create id columns for both datasets
-SURVEYsample = SURVEYsample |> 
-  mutate(id = c(1:nrow(SURVEYsample))) # from 1 to the number of rows
+SURVEYsample = SURVEYsample |>
+  mutate(id = c(1:nrow(SURVEYsample))) |>  # from 1 to the number of rows
+  mutate(coordinates = st_coordinates(geometry)) # extract coordinates
 
-UNIVERSITY = UNIVERSITY |> 
-  mutate(id = 1) # only one row
+UNIVERSITY = UNIVERSITY |>
+  mutate(id = 1) |> # only one row
+  mutate(coordinates = st_coordinates(geometry)) # extract coordinates
 ```
 
-#### Distances by car
+### Distances by car
 
 Estimate the routes with time and distance by car, from survey locations to University.
 
-```{r}
-#| warning: false
-SURVEYcar = detailed_itineraries(
-  r5r_core = r5r_network,
-  origins = SURVEYsample,
-  destinations = UNIVERSITY,
-  mode = "CAR",
-  all_to_all = TRUE # if false, only 1-1 would be calculated
-)
-
-names(SURVEYcar)
-```
-
-The [`detailed_itineraries()`](https://ipeagit.github.io/r5r/reference/detailed_itineraries.html) function is super detailed!
-
-::: {.callout-note appearance="simple"}
-If we want to know only time and distance, and **not the route** itself, we can use the [`travel_time_matrix()`](https://ipeagit.github.io/r5r/reference/travel_time_matrix.html).
+::: {.callout-warning appearance="simple"}
+This one is not that easy to set-up because the function is prepared to retrieve only one result per request :( So we do a loop function.
 :::
 
-#### Distances by foot
+```{r orsloop1}
+#| eval: false
+#| include: true
+library(openrouteservice)
 
-Repeat the same for `WALK`[^1].
+SURVEYcar = data.frame() # initial empty data frame
 
-[^1]: For bike you would use `BICYCLE`.
+# loop - the origin (i) is the survey location, and the UNIVERSITY is always the same destination
+for (i in 1:nrow(SURVEYsample)) {
+  ROUTES1 = ors_directions(
+    data.frame(
+      lon = c(SURVEYsample$coordinates[i, 1], UNIVERSITY$coordinates[1, 1]),
+      lat = c(SURVEYsample$coordinates[i, 2], UNIVERSITY$coordinates[1, 2])
+    ),
+    profile = "driving-car", # or cycling-regular foot-walking
+    preference = "fastest", # or shortest
+    output = "sf"
+  )
+  ROUTES1$distance = ROUTES1$summary[[1]]$distance # extract these values from summary
+  ROUTES1$duration = ROUTES1$summary[[1]]$duration
+  
+  SURVEYcar = rbind(SURVEYcar, ROUTES1) # to keep adding in the same df
+}
 
-```{r}
-#| warning: false
-#| code-fold: true
-SURVEYwalk = detailed_itineraries(
-  r5r_core = r5r_network,
-  origins = SURVEYsample,
-  destinations = UNIVERSITY,
-  mode = "WALK",
-  all_to_all = TRUE # if false, only 1-1 would be calculated
-)
+SURVEYcar = SURVEYcar |>
+  select(distance, duration, geometry) |> # discard unnecessary variables
+  mutate(ID = SURVEYsample$ID) # cbind with syrvey ID
 ```
 
-#### Distances by PT
+### Distances by foot
 
-For Public Transit (`TRANSIT`) you may specify the egress mode, the departure time, and the maximum number of transfers.
+Repeat the same for `foot-walking`.
 
-```{r}
-#| warning: false
+```{r orsloop2}
 #| code-fold: true
 #| eval: false
-SURVEYtransit = detailed_itineraries(
-  r5r_core = r5r_network,
-  origins = SURVEYsample,
-  destinations = UNIVERSITY,
-  mode = "TRANSIT",
-  mode_egress = "WALK",
-  max_rides = 1, # The maximum PT rides allowed in the same trip
-  departure_datetime =  as.POSIXct("20-09-2023 08:00:00",
-                                 format = "%d-%m-%Y %H:%M:%S"),
-  all_to_all = TRUE # if false, only 1-1 would be calculated
-)
+#| include: true
+SURVEYwalk = data.frame() # initial empty data frame
+
+# loop - the origin (i) is the survey location, and the UNIVERSITY is always the same destination
+for (i in 1:nrow(SURVEYsample)) {
+  ROUTES1 = ors_directions(
+    data.frame(
+      lon = c(SURVEYsample$coordinates[i, 1], UNIVERSITY$coordinates[1, 1]),
+      lat = c(SURVEYsample$coordinates[i, 2], UNIVERSITY$coordinates[1, 2])
+    ),
+    profile = "foot-walking", # or driving-car cycling-regular cycling-electric
+    preference = "fastest", # or shortest
+    output = "sf"
+  )
+  ROUTES1$distance = ROUTES1$summary[[1]]$distance # extract these values from summary
+  ROUTES1$duration = ROUTES1$summary[[1]]$duration
+  
+  SURVEYwalk = rbind(SURVEYwalk, ROUTES1) # to keep adding in the same df
+}
+
+SURVEYwalk = SURVEYwalk |>
+  select(distance, duration, geometry) |> # discard unnecessary variables
+  mutate(ID = SURVEYsample$ID) # cbind with survey ID
 ```
 
-## Compare distances
+### Distances by bike
+
+And for `cycling-regular`.
+
+```{r orsloop3}
+#| code-fold: true
+#| eval: false
+#| include: true
+SURVEYbike = data.frame() # initial empty data frame
+
+# loop - the origin (i) is the survey location, and the UNIVERSITY is always the same destination
+for (i in 1:nrow(SURVEYsample)) {
+  ROUTES1 = ors_directions(
+    data.frame(
+      lon = c(SURVEYsample$coordinates[i, 1], UNIVERSITY$coordinates[1, 1]),
+      lat = c(SURVEYsample$coordinates[i, 2], UNIVERSITY$coordinates[1, 2])
+    ),
+    profile = "cycling-regular", 
+    preference = "fastest", # or shortest
+    output = "sf"
+  )
+  ROUTES1$distance = ROUTES1$summary[[1]]$distance # extract these values from summary
+  ROUTES1$duration = ROUTES1$summary[[1]]$duration
+  
+  SURVEYbike = rbind(SURVEYbike, ROUTES1) # to keep adding in the same df
+}
+
+SURVEYbike = SURVEYbike |>
+  select(distance, duration, geometry) |> # discard unnecessary variables
+  mutate(ID = SURVEYsample$ID) # cbind with survey ID
+```
+
+```{r importexport1, include=FALSE}
+# st_write(SURVEYcar, "../original/routes_car.geojson")
+# st_write(SURVEYwalk, "../original/routes_foot.geojson")
+# st_write(SURVEYbike, "../original/routes_bike.geojson")
+
+SURVEYcar = st_read("../original/routes_car.geojson", quiet = TRUE)
+SURVEYwalk = st_read("../original/routes_foot.geojson", quiet = TRUE)
+SURVEYbike = st_read("../original/routes_bike.geojson", quiet = TRUE)
+```
+
+::: {.callout-note appearance="simple"}
+If we want to know only time and distance, and **not the route** itself, we can use the [`ors_matrix()`](https://giscience.github.io/openrouteservice-r/reference/ors_matrix.html).
+:::
+
+## Compare distances {#compare}
 
 We can now compare the euclidean and routing distances that we estimated for the survey locations under 2 km.
 
@@ -245,6 +442,7 @@ We can now compare the euclidean and routing distances that we estimated for the
 summary(SURVEYsample$distance) # Euclidean
 summary(SURVEYwalk$distance) # Walk
 summary(SURVEYcar$distance) # Car
+summary(SURVEYbike$distance) # Bike
 ```
 
 > What can you understand from this results?
@@ -253,7 +451,8 @@ summary(SURVEYcar$distance) # Car
 #| echo: false
 distances = data.frame(euclidean = SURVEYsample$distance,
                        walk = SURVEYwalk$distance,
-                       car = SURVEYcar$distance)
+                       car = SURVEYcar$distance,
+                       bike = SURVEYbike$distance)
 distances = distances |> arrange(euclidean)
 
 # Define the number of observations
@@ -264,22 +463,24 @@ plot(1:n, distances$euclidean, type = "n",
      ylim = range(distances), 
      xlab = "Observation (sorted by Euclidean distance)", 
      ylab = "Distance [m]", 
-     main = "Distances by Euclidean, Walk, and Car")
+     main = "Distances by Euclidean, Walk, Car, and Bike")
 
 # Add lines for each type of distance
 lines(1:n, distances$euclidean, lwd = 2)
 lines(1:n, distances$walk, col = "red", lwd = 2)
 lines(1:n, distances$car, col = "blue", lwd = 2)
+lines(1:n, distances$bike, col = "gold", lwd = 2)
 
 # Optional: Add points for better visibility
 points(1:n, distances$euclidean, pch = 16)
 points(1:n, distances$walk, col = "red", pch = 16)
 points(1:n, distances$car, col = "blue", pch = 16)
+points(1:n, distances$bike, col = "gold", pch = 16)
 
 # Add a legend to distinguish the lines
-legend("topleft", legend = c("Euclidean", "Walk", "Car"),
-       col = c("black", "red", "blue"), 
-       lwd = 2, lty = c(1, 2, 3), pch = 16)
+legend("topleft", legend = c("Euclidean", "Walk", "Car", "Bike"),
+       col = c("black", "red", "blue", "gold"), 
+       lwd = 2, lty = c(1, 2, 3, 4), pch = 16)
 ```
 
 ### Circuity
@@ -290,13 +491,14 @@ Compare 1 single route.
 #| fig-format: png
 #| code-fold: true
 mapview(SURVEYeuclidean[165,], color = "black") + # 1556 meters
-  mapview(SURVEYwalk[78,], color = "red") + # 1989 meters
-  mapview(SURVEYcar[78,], color = "blue") # 2565 meters
+  mapview(SURVEYwalk[78,], color = "red") + # 2126 meters
+  mapview(SURVEYcar[78,], color = "blue") + # 2058 meters
+  mapview(SURVEYbike[78,], color = "gold") # 2025 meters
 ```
 
 With this we can see the **circuity** of the routes, a measure of route / transportation efficiency, which is the ratio between the routing distance and the euclidean distance.
 
-The cicuity for car (`r round(2565/1556,2)`) is usually higher than for walking (`r round(1989/1556,2)`) or biking, for shorter distances.
+The circuity for car (`r round(2058/1556,2)`) is usually lower than for walking (`r round(2126/1556,2)`) or biking, for longer distances, and higher opposite for shorter distances.
 
 ## Visualize routes
 
@@ -306,6 +508,7 @@ Visualize with transparency of 30%, to get a clue when they overlay.
 #| fig-format: png
 mapview(SURVEYwalk, alpha = 0.3)
 mapview(SURVEYcar, alpha = 0.3, color = "red")
+mapview(SURVEYbike, alpha = 0.3, color = "darkgreen")
 ```
 
 We can also use the [`overline()`](https://docs.ropensci.org/stplanr/reference/overline.html) function from `stplanr` package to break up the routes when they *overline*, and add them up.
@@ -326,9 +529,9 @@ SURVEYwalk_overline = stplanr::overline(
 mapview(SURVEYwalk_overline, zcol = "trips", lwd = 3)
 ```
 
-With this we can visually inform on how many people travel along a route, from the survey dataset[^2].
+With this we can visually inform on how many people travel along a route, from the survey dataset[^1].
 
-[^2]: Assuming all travel by the shortest path.
+[^1]: Assuming all travel by the shortest path.
 
 ::: {.callout-tip appearance="simple"}
 ## Questions
