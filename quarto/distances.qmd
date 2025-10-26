@@ -65,6 +65,7 @@ This function finds returns the nearest points between two geometries, and creat
 As we only have 1 point at UNIVERSITY layer, we will have the same number of lines as number of surveys = `r nrow(SURVEY)`.
 
 ```{r}
+#| warning: false
 #| fig-format: png
 SURVEYeuclidean = st_nearest_points(SURVEYgeo, UNIVERSITY, pairwise = TRUE) |>
   st_as_sf() # this creates lines
@@ -428,6 +429,10 @@ SURVEYbike = SURVEYbike |>
 SURVEYcar = st_read("../original/routes_car.geojson", quiet = TRUE)
 SURVEYwalk = st_read("../original/routes_foot.geojson", quiet = TRUE)
 SURVEYbike = st_read("../original/routes_bike.geojson", quiet = TRUE)
+```
+
+```{r}
+names(SURVEYcar)
 ```
 
 ::: {.callout-note appearance="simple"}
