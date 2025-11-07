@@ -356,7 +356,7 @@ plot_factor_loading(
   data_factor = data_factor, # model no rotation
   f1 = 1, # Factor 1
   f2 = 2, # Factor 2
-  method = "No rotation",
+  method = "No rotation", # plot title
   color = "blue"
 )
 ```
@@ -380,7 +380,7 @@ plot_factor_loading(
   data_factor = data_factor_var, # model oblimn
   f1 = 1, # Factor 1
   f2 = 2, # Factor 2
-  method = "Oblimn rotation",
+  method = "Oblimin rotation",
   color = "darkgreen"
 )
 ```
