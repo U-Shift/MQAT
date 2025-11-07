@@ -1,3 +1,6 @@
+---
+title: "Cluster Analysis"
+---
 
 #### Example exercise: Airports
 

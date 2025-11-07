@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Factor Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="FactorAnalysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="FactorAnalysis_files/libs/quarto-html/quarto.js"></script>
+<script src="FactorAnalysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="FactorAnalysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="FactorAnalysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="FactorAnalysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="FactorAnalysis_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="FactorAnalysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="FactorAnalysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="FactorAnalysis_files/libs/bootstrap/bootstrap-c467476fdef4ff89c6ac9e6bae73856a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Factor Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Do it yourself with R
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Copy the script <a href="https://github.com/U-Shift/MQAT/blob/main/code/classroom/FactorAnalysis.R"><code>FactorAnalysis.R</code></a> and paste it in your session.<br>
+Run each line using <code>CTRL</code> + <code>ENTER</code></p>
+</div>
+</div>
+<p>This exercise is based on the paper “<strong>Residential location satisfaction in the Lisbon metropolitan area</strong>”, by <span class="citation" data-cites="martinez2010">@martinez2010</span> .</p>
+<p>The aim of this study was to examine the perception of households towards their residential location considering land use and accessibility factors, as well as household socio-economic and attitudinal characteristics.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Your task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create meaningful latent factors.</p>
+</div>
+</div>
+<section id="load-packages" class="level2">
+<h2 class="anchored" data-anchor-id="load-packages">Load packages</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Pack of most used libraries for data science</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarytools) <span class="co"># Summary of the dataset</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreign) <span class="co"># Read SPSS files</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nFactors) <span class="co"># Factor analysis</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GPArotation) <span class="co"># GPA Rotation for Factor Analysis</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co"># Personality, psychometric, and psychological research</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="dataset" class="level2">
+<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
+<p>Included <strong>variables</strong>:</p>
+<ul>
+<li><code>RespondentID</code> - ID of the respondent</li>
+<li><code>DWELCLAS</code> - Classification of the dwelling</li>
+<li><code>INCOME</code> - Income of the household</li>
+<li><code>CHILD13</code> - Number of children under 13 years old</li>
+<li><code>H18</code> - Number of household members over 18 years old</li>
+<li><code>HEMPLOY</code> - Number of household members employed</li>
+<li><code>HSIZE</code> - Household size</li>
+<li><code>IAGE</code> - Age of the respondent</li>
+<li><code>ISEX</code> - Sex of the respondent</li>
+<li><code>NCARS</code> - Number of cars in the household</li>
+<li><code>AREA</code> - Area of the dwelling</li>
+<li><code>BEDROOM</code> - Number of bedrooms in the dwelling</li>
+<li><code>PARK</code> - Number of parking spaces in the dwelling</li>
+<li><code>BEDSIZE</code> - BEDROOM/HSIZE</li>
+<li><code>PARKSIZE</code> - PARK/NCARS</li>
+<li><code>RAGE10</code> - 1 if Dwelling age &lt;= 10</li>
+<li><code>TCBD</code> - Private car distance in time to CBD</li>
+<li><code>DISTTC</code> - Euclidean distance to heavy public transport system stops</li>
+<li><code>TWCBD</code> - Private car distance in time of workplace to CBD</li>
+<li><code>TDWWK</code> - Private car distance in time of dwelling to work place</li>
+<li><code>HEADH</code> - 1 if Head of the Household</li>
+<li><code>POPDENS</code> - Population density per hectare</li>
+<li><code>EQUINDEX</code> - Number of undergraduate students/Population over 20 years old (500m)</li>
+</ul>
+<section id="import-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="import-dataset">Import dataset</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.spss</span>(<span class="st">"../data/example_fact.sav"</span>, <span class="at">to.data.frame =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="get-to-know-your-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="get-to-know-your-dataset">Get to know your dataset</h3>
+<p>Take a look at the first values of the dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  RespondentID DWELCLAS INCOME CHILD13 H18 HEMPLOY HSIZE AVADUAGE IAGE ISEX
+1    799161661        5   7500       1   2       2     3 32.00000   32    1
+2    798399409        6   4750       0   1       1     1 31.00000   31    1
+3    798374392        6   4750       2   2       2     4 41.50000   42    0
+4    798275277        5   7500       0   3       2     4 44.66667   52    1
+5    798264250        6   2750       1   1       1     2 33.00000   33    0
+  NCARS AREA BEDROOM PARK   BEDSIZE PARKSIZE RAGE10      TCBD   DISTHTC
+1     2  100       2    1 0.6666667      0.5      1 36.791237  629.1120
+2     1   90       2    1 2.0000000      1.0      0 15.472989  550.5769
+3     2  220       4    2 1.0000000      1.0      1 24.098125  547.8633
+4     3  120       3    0 0.7500000      0.0      0 28.724796 2350.5782
+5     1   90       2    0 1.0000000      0.0      0  7.283384  698.3000
+      TWCBD    TDWWK HEADH   POPDENS   EDUINDEX   GRAVCPC   GRAVCPT  GRAVPCPT
+1 10.003945 31.14282     1  85.70155 0.06406279 0.2492962 0.2492607 1.0001423
+2 15.502989  0.00000     1 146.43494 0.26723192 0.3293831 0.3102800 1.0615674
+3 12.709374 20.38427     1 106.60810 0.09996816 0.2396229 0.2899865 0.8263245
+4  3.168599 32.94246     1  36.78380 0.08671065 0.2734539 0.2487830 1.0991661
+5  5.364160 13.04013     1 181.62720 0.13091674 0.2854017 0.2913676 0.9795244
+  NSTRTC    DISTHW    DIVIDX    ACTDENS   DISTCBD
+1     38 2036.4661 0.3225354  0.6722406  9776.142
+2     34  747.7683 0.3484588  2.4860345  3523.994
+3     33 2279.0577 0.3237884  1.6249059 11036.407
+4      6 1196.4665 0.3272149  1.7664923  6257.262
+5     31 3507.2402 0.3545181 11.3249309  1265.239</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data) <span class="co"># open in table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Make the <code>RespondentID</code> variable as <strong>row names</strong> or case number</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">column_to_rownames</span>(<span class="at">var =</span> <span class="st">"RespondentID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Take a look at the main characteristics of the dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   470 obs. of  31 variables:
+ $ DWELCLAS: num  5 6 6 5 6 6 4 2 6 5 ...
+ $ INCOME  : num  7500 4750 4750 7500 2750 1500 12500 1500 1500 1500 ...
+ $ CHILD13 : num  1 0 2 0 1 0 0 0 0 0 ...
+ $ H18     : num  2 1 2 3 1 3 3 4 1 1 ...
+ $ HEMPLOY : num  2 1 2 2 1 2 0 2 1 1 ...
+ $ HSIZE   : num  3 1 4 4 2 3 3 4 1 1 ...
+ $ AVADUAGE: num  32 31 41.5 44.7 33 ...
+ $ IAGE    : num  32 31 42 52 33 47 62 21 34 25 ...
+ $ ISEX    : num  1 1 0 1 0 1 1 0 0 0 ...
+ $ NCARS   : num  2 1 2 3 1 1 2 3 1 1 ...
+ $ AREA    : num  100 90 220 120 90 100 178 180 80 50 ...
+ $ BEDROOM : num  2 2 4 3 2 2 5 3 2 1 ...
+ $ PARK    : num  1 1 2 0 0 0 2 0 0 1 ...
+ $ BEDSIZE : num  0.667 2 1 0.75 1 ...
+ $ PARKSIZE: num  0.5 1 1 0 0 0 1 0 0 1 ...
+ $ RAGE10  : num  1 0 1 0 0 0 0 0 1 1 ...
+ $ TCBD    : num  36.79 15.47 24.1 28.72 7.28 ...
+ $ DISTHTC : num  629 551 548 2351 698 ...
+ $ TWCBD   : num  10 15.5 12.71 3.17 5.36 ...
+ $ TDWWK   : num  31.1 0 20.4 32.9 13 ...
+ $ HEADH   : num  1 1 1 1 1 1 1 0 1 1 ...
+ $ POPDENS : num  85.7 146.4 106.6 36.8 181.6 ...
+ $ EDUINDEX: num  0.0641 0.2672 0.1 0.0867 0.1309 ...
+ $ GRAVCPC : num  0.249 0.329 0.24 0.273 0.285 ...
+ $ GRAVCPT : num  0.249 0.31 0.29 0.249 0.291 ...
+ $ GRAVPCPT: num  1 1.062 0.826 1.099 0.98 ...
+ $ NSTRTC  : num  38 34 33 6 31 45 12 6 4 22 ...
+ $ DISTHW  : num  2036 748 2279 1196 3507 ...
+ $ DIVIDX  : num  0.323 0.348 0.324 0.327 0.355 ...
+ $ ACTDENS : num  0.672 2.486 1.625 1.766 11.325 ...
+ $ DISTCBD : num  9776 3524 11036 6257 1265 ...
+ - attr(*, "variable.labels")= Named chr(0) 
+  ..- attr(*, "names")= chr(0) 
+ - attr(*, "codepage")= int 1252</code></pre>
+</div>
+</div>
+<p>Check summary statistics of variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>descriptive_stats <span class="ot">=</span> <span class="fu">dfSummary</span>(data)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(descriptive_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Switching method to 'browser'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Output file written: /tmp/RtmptgVjqv/filed6663c4faf46.html</code></pre>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We used a different library of the MLR chapter for perfoming the summary statistics. <strong>R</strong> allows you to do the same or similar tasks with different packages.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="assumptions-for-factoral-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="assumptions-for-factoral-analysis">Assumptions for factoral analysis</h2>
+<p>There are some rules of thumb and assumptions that should be checked before performing a factor analysis.</p>
+<p><strong>Rules of thumb</strong>:</p>
+<ul>
+<li><p>At least 10 variables</p></li>
+<li><p>n &lt; 50 (Unacceptable); n &gt; 200 (recommended)</p></li>
+<li><p>It is recommended to use continuous variables. If your data contains categorical variables, you should transform them to dummy variables.</p></li>
+</ul>
+<p>As we have 31 variables (none categorical) and more than 200 observations, we can proceed to check the assumptions.</p>
+<p><strong>Assumptions</strong>:</p>
+<ul>
+<li>Normality;</li>
+<li>Linearity;</li>
+<li>Homogeneity;</li>
+<li>Homoscedasticity (some multicollinearity is desirable);</li>
+<li>Correlations between variables &lt; 0.3 are not appropriate to use Factor Analysis</li>
+</ul>
+<p>Let’s run a random regression model in order to evaluate some of the assumptions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random regression model</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>random <span class="ot">=</span> <span class="fu">rchisq</span>(<span class="fu">nrow</span>(data), <span class="fu">ncol</span>(data))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fake <span class="ot">=</span> <span class="fu">lm</span>(random <span class="sc">~</span> ., <span class="at">data =</span> data)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>standardized <span class="ot">=</span> <span class="fu">rstudent</span>(fake)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>fitted <span class="ot">=</span> <span class="fu">scale</span>(fake<span class="sc">$</span>fitted.values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="normality" class="level3">
+<h3 class="anchored" data-anchor-id="normality">Normality</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(standardized)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="FactorAnalysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The histogram looks like a normal distribution.</p>
+</section>
+<section id="linearity" class="level3">
+<h3 class="anchored" data-anchor-id="linearity">Linearity</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(standardized)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="FactorAnalysis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The QQ plot shows that the points are close to the diagonal line, indicating linearity.</p>
+</section>
+<section id="homogeneity" class="level3">
+<h3 class="anchored" data-anchor-id="homogeneity">Homogeneity</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fitted, standardized)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">v=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="FactorAnalysis_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The residuals are randomly distributed around zero, indicating homogeneity.</p>
+</section>
+<section id="correlations-between-variables" class="level3">
+<h3 class="anchored" data-anchor-id="correlations-between-variables">Correlations between variables</h3>
+<p>Correlation matrix</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="ot">=</span> <span class="fu">cor</span>(data, <span class="at">method =</span> <span class="st">"pearson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <strong>Bartlett’s test</strong> examines if there is equal variance (homogeneity) between variables. Thus, it evaluates if there is any pattern between variables.</p>
+<section id="correlation-adequacy" class="level4">
+<h4 class="anchored" data-anchor-id="correlation-adequacy">Correlation adequacy</h4>
+<p>Check for correlation adequacy - Bartlett’s Test</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cortest.bartlett</span>(corr_matrix, <span class="at">n =</span> <span class="fu">nrow</span>(data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$chisq
+[1] 9880.074
+
+$p.value
+[1] 0
+
+$df
+[1] 465</code></pre>
+</div>
+</div>
+<p>The null hypothesis is that there is no correlation between variables. Therefore, you want to <strong>reject</strong> the null hypothesis.</p>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> A p-value &lt; 0.05 indicates that there are correlations between variables, and that <strong>factor analysis</strong> may be useful with your data.</p>
+</blockquote>
+</section>
+<section id="sampling-adequacy" class="level4">
+<h4 class="anchored" data-anchor-id="sampling-adequacy">Sampling adequacy</h4>
+<p>Check for sampling adequacy - KMO test</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(corr_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: KMO(r = corr_matrix)
+Overall MSA =  0.68
+MSA for each item = 
+DWELCLAS   INCOME  CHILD13      H18  HEMPLOY    HSIZE AVADUAGE     IAGE 
+    0.70     0.85     0.33     0.58     0.88     0.59     0.38     0.40 
+    ISEX    NCARS     AREA  BEDROOM     PARK  BEDSIZE PARKSIZE   RAGE10 
+    0.71     0.74     0.60     0.53     0.62     0.58     0.57     0.84 
+    TCBD  DISTHTC    TWCBD    TDWWK    HEADH  POPDENS EDUINDEX  GRAVCPC 
+    0.88     0.88     0.82     0.89     0.47     0.82     0.85     0.76 
+ GRAVCPT GRAVPCPT   NSTRTC   DISTHW   DIVIDX  ACTDENS  DISTCBD 
+    0.71     0.31     0.83     0.76     0.63     0.70     0.86 </code></pre>
+</div>
+</div>
+<p>We want at least 0.7 of the overall Mean Sample Adequacy (MSA). If, 0.6 &lt; MSA &lt; 0.7, it is not a good value, but acceptable in some cases.</p>
+</section>
+</section>
+</section>
+<section id="determine-the-number-of-factors-to-extract" class="level2">
+<h2 class="anchored" data-anchor-id="determine-the-number-of-factors-to-extract">Determine the number of factors to extract</h2>
+<p>There are several ways to determine the number of factors to extract. Here we will use three different methods:</p>
+<ul>
+<li>Parallel Analysis</li>
+<li>Kaiser Criterion</li>
+<li>Principal Component Analysis (PCA)</li>
+</ul>
+<section id="parallel-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="parallel-analysis">Parallel Analysis</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>num_factors <span class="ot">=</span> <span class="fu">fa.parallel</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> data, </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm =</span> <span class="st">"ml"</span>, <span class="co"># factor mathod = maximum likelihood</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fa =</span> <span class="st">"fa"</span>) <span class="co"># factor analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="FactorAnalysis_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  8  and the number of components =  NA </code></pre>
+</div>
+</div>
+<p>The selection of the number of factors in the Parallel analysis can be threefold:</p>
+<ul>
+<li>Detect where there is an “elbow” in the graph;</li>
+<li>Detect the intersection between the “FA Actual Data” and the “FA Simulated Data”;</li>
+<li>Consider the number of factors with eigenvalue &gt; 1.</li>
+</ul>
+</section>
+<section id="kaiser-criterion" class="level3">
+<h3 class="anchored" data-anchor-id="kaiser-criterion">Kaiser Criterion</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(num_factors<span class="sc">$</span>fa.values <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="co"># Number of factors with eigenvalue &gt; 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(num_factors<span class="sc">$</span>fa.values <span class="sc">&gt;</span> <span class="fl">0.7</span>) <span class="co"># Number of factors with eigenvalue &gt; 0.7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+</div>
+<p>You can also consider factors with eigenvalue &gt; 0.7, since some of the literature indicate that this value does not overestimate the number of factors as much as considering an eigenvalue = 1.</p>
+</section>
+<section id="principal-component-analysis-pca" class="level3">
+<h3 class="anchored" data-anchor-id="principal-component-analysis-pca">Principal Component Analysis (PCA)</h3>
+<div class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+PCA is not the same thing as Factor Analysis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>PCA only considers the common information (variance) of the variables, while factor analysis takes into account also the unique variance of the variable. Both approaches are often mixed up. In this example we use PCA as only a first criteria for choosing the number of factors. PCA is usually used in image recognition and data reduction of big data.</p>
+</div>
+</div>
+<section id="variance-explained-by-components" class="level4">
+<h4 class="anchored" data-anchor-id="variance-explained-by-components">Variance explained by components</h4>
+<p>Print variance that explains the components</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data_pca <span class="ot">=</span> <span class="fu">princomp</span>(data,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">cor =</span> <span class="cn">TRUE</span>) <span class="co"># standardizes your dataset before running a PCA</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_pca)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                         Comp.1    Comp.2     Comp.3     Comp.4     Comp.5
+Standard deviation     2.450253 1.9587909 1.61305418 1.43367870 1.27628545
+Proportion of Variance 0.193669 0.1237697 0.08393367 0.06630434 0.05254531
+Cumulative Proportion  0.193669 0.3174388 0.40137245 0.46767679 0.52022210
+                           Comp.6     Comp.7     Comp.8    Comp.9    Comp.10
+Standard deviation     1.26612033 1.22242045 1.11550534 1.0304937 0.99888665
+Proportion of Variance 0.05171164 0.04820361 0.04014039 0.0342554 0.03218628
+Cumulative Proportion  0.57193374 0.62013734 0.66027774 0.6945331 0.72671941
+                          Comp.11    Comp.12   Comp.13    Comp.14    Comp.15
+Standard deviation     0.97639701 0.92221635 0.9042314 0.85909928 0.80853555
+Proportion of Variance 0.03075326 0.02743494 0.0263753 0.02380812 0.02108806
+Cumulative Proportion  0.75747267 0.78490761 0.8112829 0.83509102 0.85617908
+                         Comp.16    Comp.17    Comp.18    Comp.19    Comp.20
+Standard deviation     0.7877571 0.74436225 0.72574751 0.69380677 0.67269732
+Proportion of Variance 0.0200181 0.01787339 0.01699063 0.01552799 0.01459747
+Cumulative Proportion  0.8761972 0.89407058 0.91106120 0.92658920 0.94118667
+                          Comp.21    Comp.22    Comp.23     Comp.24     Comp.25
+Standard deviation     0.63466979 0.61328635 0.55192724 0.397467153 0.384354087
+Proportion of Variance 0.01299373 0.01213291 0.00982657 0.005096133 0.004765421
+Cumulative Proportion  0.95418041 0.96631331 0.97613988 0.981236017 0.986001438
+                           Comp.26     Comp.27     Comp.28     Comp.29
+Standard deviation     0.364232811 0.322026864 0.276201256 0.262018088
+Proportion of Variance 0.004279534 0.003345203 0.002460875 0.002214628
+Cumulative Proportion  0.990280972 0.993626175 0.996087050 0.998301679
+                            Comp.30      Comp.31
+Standard deviation     0.1712372644 0.1527277294
+Proportion of Variance 0.0009458774 0.0007524438
+Cumulative Proportion  0.9992475562 1.0000000000</code></pre>
+</div>
+</div>
+</section>
+<section id="scree-plot" class="level4">
+<h4 class="anchored" data-anchor-id="scree-plot">Scree Plot</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data_pca, <span class="at">type =</span> <span class="st">"lines"</span>, <span class="at">npcs =</span> <span class="dv">31</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="FactorAnalysis_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Check the cumulative variance of the first components and the scree plot, and see if the PCA is a good approach to detect the number of factors in this case.</p>
+</section>
+</section>
+</section>
+<section id="exploratory-factor-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-factor-analysis">Exploratory Factor Analysis</h2>
+<p>Run three different factor analysis models with different rotation methods:</p>
+<ul>
+<li><strong>Model 1</strong>: No rotation</li>
+<li><strong>Model 2</strong>: Rotation Varimax</li>
+<li><strong>Model 3</strong>: Rotation Oblimin</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No rotation</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>data_factor <span class="ot">=</span> <span class="fu">factanal</span>(</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  data,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">factors =</span> <span class="dv">4</span>, <span class="co"># change here the number of facotrs based on the EFA</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotation =</span> <span class="st">"none"</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">scores =</span> <span class="fu">c</span>(<span class="st">"regression"</span>),</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm =</span> <span class="st">"ml"</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Rotation Varimax</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>data_factor_var <span class="ot">=</span> <span class="fu">factanal</span>(</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  data,</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">factors =</span> <span class="dv">4</span>,</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotation =</span> <span class="st">"varimax"</span>, <span class="co"># orthogonal rotation</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">scores =</span> <span class="fu">c</span>(<span class="st">"regression"</span>),</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm =</span> <span class="st">"ml"</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Rotiation Oblimin</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>data_factor_obl <span class="ot">=</span> <span class="fu">factanal</span>(</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  data,</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">factors =</span> <span class="dv">4</span>,</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotation =</span> <span class="st">"oblimin"</span>, <span class="co"># oblique rotation</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">scores =</span> <span class="fu">c</span>(<span class="st">"regression"</span>),</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm =</span> <span class="st">"ml"</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Print out the results of <code>data_factor_obl</code>, and have a look.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_factor_obl,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">cutoff =</span> <span class="fl">0.3</span>, <span class="co"># &gt; 0.3 due to the sample size is higher than 350 observations.</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">sort =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+factanal(x = data, factors = 4, scores = c("regression"), rotation = "oblimin",     fm = "ml")
+
+Uniquenesses:
+DWELCLAS   INCOME  CHILD13      H18  HEMPLOY    HSIZE AVADUAGE     IAGE 
+    0.98     0.82     0.09     0.01     0.73     0.01     0.98     0.99 
+    ISEX    NCARS     AREA  BEDROOM     PARK  BEDSIZE PARKSIZE   RAGE10 
+    0.98     0.64     0.93     0.79     0.89     0.62     0.92     0.91 
+    TCBD  DISTHTC    TWCBD    TDWWK    HEADH  POPDENS EDUINDEX  GRAVCPC 
+    0.14     0.54     0.80     0.74     0.67     0.78     0.71     0.04 
+ GRAVCPT GRAVPCPT   NSTRTC   DISTHW   DIVIDX  ACTDENS  DISTCBD 
+    0.05     0.01     0.85     0.66     0.84     0.80     0.31 
+
+Loadings:
+         Factor1 Factor2 Factor3 Factor4
+TCBD      0.93                          
+DISTHTC   0.62                          
+EDUINDEX -0.53                          
+GRAVCPC  -0.98                          
+GRAVCPT  -0.74           -0.55          
+DISTHW    0.56                          
+DISTCBD   0.81                          
+H18               1.02                  
+HSIZE             0.74            0.54  
+NCARS             0.57                  
+BEDSIZE          -0.52                  
+HEADH            -0.56                  
+GRAVPCPT                  1.00          
+CHILD13                           0.97  
+DWELCLAS                                
+INCOME            0.38                  
+HEMPLOY           0.47                  
+AVADUAGE                                
+IAGE                                    
+ISEX                                    
+AREA                                    
+BEDROOM           0.37                  
+PARK                                    
+PARKSIZE                                
+RAGE10                                  
+TWCBD     0.43                          
+TDWWK     0.49                          
+POPDENS  -0.41                          
+NSTRTC   -0.37                          
+DIVIDX   -0.40                          
+ACTDENS  -0.42                          
+
+            Factor1 Factor2 Factor3 Factor4
+SS loadings    5.24    3.13    1.66    1.57
+
+Factor Correlations:
+        Factor1 Factor2 Factor3 Factor4
+Factor1   1.000   0.062   0.117   0.021
+Factor2   0.062   1.000   0.011   0.199
+Factor3   0.117   0.011   1.000   0.054
+Factor4   0.021   0.199   0.054   1.000
+
+Test of the hypothesis that 4 factors are sufficient.
+The chi square statistic is 3628.43 on 347 degrees of freedom.
+The p-value is 0 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>The variability contained in the factors is equal to <code>Communality</code> + <code>Uniqueness</code>.</p>
+</blockquote>
+</section>
+<section id="visualize-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-the-results">Visualize the results</h2>
+<p>We will define a plot function to make it easier to test several plot pairs.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Plot function</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define a plot function</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>plot_factor_loading <span class="ot">&lt;-</span> <span class="cf">function</span>(data_factor,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">f1 =</span> <span class="dv">1</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">f2 =</span> <span class="dv">2</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">method =</span> <span class="st">"No rotation"</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">color =</span> <span class="st">"blue"</span>) {</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to numeric matrix (works for psych loadings objects)</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  L <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(data_factor<span class="sc">$</span>loadings)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extract selected factors</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">item =</span> <span class="fu">rownames</span>(L), <span class="at">x =</span> L[, f1], <span class="at">y =</span> L[, f2])</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> item)) <span class="sc">+</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">color =</span> color,</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>,</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_equal</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Factor "</span>, f1),</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Factor "</span>, f2),</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> method</span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="no-rotation" class="level3">
+<h3 class="anchored" data-anchor-id="no-rotation">No Rotation</h3>
+<p>Plot factor 1 against factor 2, and compare the results</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_factor =</span> data_factor, <span class="co"># model no rotation</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">f1 =</span> <span class="dv">1</span>, <span class="co"># Factor 1</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">f2 =</span> <span class="dv">2</span>, <span class="co"># Factor 2</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"No rotation"</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"blue"</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="FactorAnalysis_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="varimax-rotation" class="level3">
+<h3 class="anchored" data-anchor-id="varimax-rotation">Varimax rotation</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_factor =</span> data_factor_var, <span class="co"># model varimax</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">f1 =</span> <span class="dv">1</span>, <span class="co"># Factor 1</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">f2 =</span> <span class="dv">2</span>, <span class="co"># Factor 2</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"Varimax rotation"</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"red"</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="FactorAnalysis_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="oblimin-rotation" class="level3">
+<h3 class="anchored" data-anchor-id="oblimin-rotation">Oblimin Rotation</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_factor =</span> data_factor_var, <span class="co"># model oblimn</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">f1 =</span> <span class="dv">1</span>, <span class="co"># Factor 1</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">f2 =</span> <span class="dv">2</span>, <span class="co"># Factor 2</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"Oblimn rotation"</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"darkgreen"</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="FactorAnalysis_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>When we have more than two factors it is difficult to analyse the factors by the plots.</p>
+<p>Variables that have low explaining variance in the two factors analysed, could be highly explained by the other factors not present in the graph.</p>
+<div class="callout callout-style-simple callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Your turn
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Try comparing the plots with the factor loadings and plot the other factor pairs (replace <code>f1</code> and <code>f2</code>) to get more familiar with exploratory factor analysis.<br>
+Interpret the factors and try to give them a name.</p>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,13 +1,397 @@
 ---
 title: "Factor Analysis"
+code-fold: false
+number-depth: 3
 ---
 
-
+::: {.callout-tip appearance="simple"}
 ## Do it yourself with R
 
-```r
-{{< include ../code/classroom/FactorAnalysis.R >}}
+Copy the script [`FactorAnalysis.R`](https://github.com/U-Shift/MQAT/blob/main/code/classroom/FactorAnalysis.R) and paste it in your session.\
+Run each line using `CTRL` + `ENTER`
+:::
+
+This exercise is based on the paper "**Residential location satisfaction in the Lisbon metropolitan area**", by @martinez2010 .
+
+The aim of this study was to examine the perception of households towards their residential location considering land use and accessibility factors, as well as household socio-economic and attitudinal characteristics.
+
+::: callout-important
+## Your task
+
+Create meaningful latent factors.
+:::
+
+## Load packages
+
+```{r}
+#| message: false
+library(tidyverse) # Pack of most used libraries for data science
+library(summarytools) # Summary of the dataset
+library(foreign) # Read SPSS files
+library(nFactors) # Factor analysis
+library(GPArotation) # GPA Rotation for Factor Analysis
+library(psych) # Personality, psychometric, and psychological research
 ```
 
+## Dataset
 
-Copy the R code above in your session.
+Included **variables**:
+
+-   `RespondentID` - ID of the respondent
+-   `DWELCLAS` - Classification of the dwelling
+-   `INCOME` - Income of the household
+-   `CHILD13` - Number of children under 13 years old
+-   `H18` - Number of household members over 18 years old
+-   `HEMPLOY` - Number of household members employed
+-   `HSIZE` - Household size
+-   `IAGE` - Age of the respondent
+-   `ISEX` - Sex of the respondent
+-   `NCARS` - Number of cars in the household
+-   `AREA` - Area of the dwelling
+-   `BEDROOM` - Number of bedrooms in the dwelling
+-   `PARK` - Number of parking spaces in the dwelling
+-   `BEDSIZE` - BEDROOM/HSIZE
+-   `PARKSIZE` - PARK/NCARS
+-   `RAGE10` - 1 if Dwelling age \<= 10
+-   `TCBD` - Private car distance in time to CBD
+-   `DISTTC` - Euclidean distance to heavy public transport system stops
+-   `TWCBD` - Private car distance in time of workplace to CBD
+-   `TDWWK` - Private car distance in time of dwelling to work place
+-   `HEADH` - 1 if Head of the Household
+-   `POPDENS` - Population density per hectare
+-   `EQUINDEX` - Number of undergraduate students/Population over 20 years old (500m)
+
+### Import dataset
+
+```{r}
+#| message: false
+#| warning: false
+data = read.spss("../data/example_fact.sav", to.data.frame = T)
+```
+
+### Get to know your dataset
+
+Take a look at the first values of the dataset
+
+```{r}
+head(data, 5)
+View(data) # open in table
+```
+
+Make the `RespondentID` variable as **row names** or case number
+
+```{r}
+data = data |> column_to_rownames(var = "RespondentID")
+```
+
+Take a look at the main characteristics of the dataset
+
+```{r}
+str(data)
+```
+
+Check summary statistics of variables
+
+```{r}
+descriptive_stats = dfSummary(data)
+view(descriptive_stats)
+```
+
+::: {.callout-note appearance="simple"}
+## Note
+
+We used a different library of the MLR chapter for perfoming the summary statistics.
+\
+**R** allows you to do the same or similar tasks with different packages.
+:::
+
+## Assumptions for factoral analysis
+
+There are some rules of thumb and assumptions that should be checked before performing a factor analysis.
+
+**Rules of thumb**:
+
+-   At least 10 variables
+
+-   n \< 50 (Unacceptable); n \> 200 (recommended)
+
+-   It is recommended to use continuous variables.
+    If your data contains categorical variables, you should transform them to dummy variables.
+
+As we have 31 variables (none categorical) and more than 200 observations, we can proceed to check the assumptions.
+
+**Assumptions**:
+
+-   Normality;
+-   Linearity;
+-   Homogeneity;
+-   Homoscedasticity (some multicollinearity is desirable);
+-   Correlations between variables \< 0.3 are not appropriate to use Factor Analysis
+
+Let's run a random regression model in order to evaluate some of the assumptions.
+
+```{r}
+# random regression model
+random = rchisq(nrow(data), ncol(data))
+fake = lm(random ~ ., data = data)
+standardized = rstudent(fake)
+fitted = scale(fake$fitted.values)
+```
+
+### Normality
+
+```{r}
+hist(standardized)
+```
+
+The histogram looks like a normal distribution.
+
+### Linearity
+
+```{r}
+qqnorm(standardized)
+abline(0, 1)
+```
+
+The QQ plot shows that the points are close to the diagonal line, indicating linearity.
+
+### Homogeneity
+
+```{r}
+plot(fitted, standardized)
+abline(h=0, v=0)
+```
+
+The residuals are randomly distributed around zero, indicating homogeneity.
+
+### Correlations between variables
+
+Correlation matrix
+
+```{r}
+corr_matrix = cor(data, method = "pearson")
+```
+
+The **Bartlett's test** examines if there is equal variance (homogeneity) between variables.
+Thus, it evaluates if there is any pattern between variables.
+
+#### Correlation adequacy
+
+Check for correlation adequacy - Bartlett's Test
+
+```{r}
+cortest.bartlett(corr_matrix, n = nrow(data))
+```
+
+The null hypothesis is that there is no correlation between variables.
+Therefore, you want to **reject** the null hypothesis.
+
+> **Note:** A p-value \< 0.05 indicates that there are correlations between variables, and that **factor analysis** may be useful with your data.
+
+#### Sampling adequacy
+
+Check for sampling adequacy - KMO test
+
+```{r}
+KMO(corr_matrix)
+```
+
+We want at least **0.7** of the overall Mean Sample Adequacy (MSA).
+If, 0.6 \< MSA \< 0.7, it is not a good value, but acceptable in some cases.
+
+## Determine the number of factors to extract
+
+There are several ways to determine the number of factors to extract.
+Here we will use three different methods:
+
+-   Parallel Analysis
+-   Kaiser Criterion
+-   Principal Component Analysis (PCA)
+
+### Parallel Analysis
+
+```{r}
+num_factors = fa.parallel(
+  x = data, 
+  fm = "ml", # factor mathod = maximum likelihood
+  fa = "fa") # factor analysis
+```
+
+The selection of the number of factors in the Parallel analysis can be threefold:
+
+-   Detect where there is an "elbow" in the graph;
+-   Detect the intersection between the "FA Actual Data" and the "FA Simulated Data";
+-   Consider the number of factors with eigenvalue \> 1.
+
+### Kaiser Criterion
+
+```{r}
+sum(num_factors$fa.values > 1) # Number of factors with eigenvalue > 1
+sum(num_factors$fa.values > 0.7) # Number of factors with eigenvalue > 0.7
+```
+
+You can also consider factors with eigenvalue \> 0.7, since some of the literature indicate that this value does not overestimate the number of factors as much as considering an eigenvalue = 1.
+
+### Principal Component Analysis (PCA)
+
+::: {.callout-warning appearance="simple"}
+## PCA is not the same thing as Factor Analysis
+
+PCA only considers the common information (variance) of the variables, while factor analysis takes into account also the unique variance of the variable.
+Both approaches are often mixed up.
+In this example we use PCA as only a first criteria for choosing the number of factors.
+PCA is usually used in image recognition and data reduction of big data.
+:::
+
+#### Variance explained by components
+
+Print variance that explains the components
+
+```{r}
+data_pca = princomp(data,
+                    cor = TRUE) # standardizes your dataset before running a PCA
+summary(data_pca)  
+```
+
+#### Scree Plot
+
+```{r}
+plot(data_pca, type = "lines", npcs = 31)
+```
+
+Check the cumulative variance of the first components and the scree plot, and see if the PCA is a good approach to detect the number of factors in this case.
+
+## Exploratory Factor Analysis
+
+Run three different factor analysis models with different rotation methods:
+
+-   **Model 1**: No rotation
+-   **Model 2**: Rotation Varimax
+-   **Model 3**: Rotation Oblimin
+
+```{r}
+# No rotation
+data_factor = factanal(
+  data,
+  factors = 4, # change here the number of facotrs based on the EFA
+  rotation = "none",
+  scores = c("regression"),
+  fm = "ml"
+)
+
+# Rotation Varimax
+data_factor_var = factanal(
+  data,
+  factors = 4,
+  rotation = "varimax", # orthogonal rotation
+  scores = c("regression"),
+  fm = "ml"
+)
+
+# Rotiation Oblimin
+data_factor_obl = factanal(
+  data,
+  factors = 4,
+  rotation = "oblimin", # oblique rotation
+  scores = c("regression"),
+  fm = "ml"
+)
+```
+
+Print out the results of `data_factor_obl`, and have a look.
+
+```{r}
+print(data_factor_obl,
+      digits = 2,
+      cutoff = 0.3, # > 0.3 due to the sample size is higher than 350 observations.
+      sort = TRUE) 
+```
+
+> The variability contained in the factors is equal to `Communality` + `Uniqueness`.
+
+## Visualize the results
+
+We will define a plot function to make it easier to test several plot pairs.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Plot function"
+
+# define a plot function
+plot_factor_loading <- function(data_factor,
+                                f1 = 1,
+                                f2 = 2,
+                                method = "No rotation",
+                                color = "blue") {
+  
+  # Convert to numeric matrix (works for psych loadings objects)
+  L <- as.matrix(data_factor$loadings)
+  
+  # Extract selected factors
+  df <- data.frame(item = rownames(L), x = L[, f1], y = L[, f2])
+  
+  ggplot(df, aes(x = x, y = y, label = item)) +
+    geom_point() +
+    geom_text(color = color,
+              vjust = -0.5,
+              size = 3) +
+    geom_hline(yintercept = 0) +
+    geom_vline(xintercept = 0) +
+    coord_equal(xlim = c(-1, 1), ylim = c(-1, 1)) +
+    labs(
+      x = paste0("Factor ", f1),
+      y = paste0("Factor ", f2),
+      title = method
+    ) +
+    theme_bw()
+}
+```
+
+### No Rotation
+
+Plot factor 1 against factor 2, and compare the results
+
+```{r}
+plot_factor_loading(
+  data_factor = data_factor, # model no rotation
+  f1 = 1, # Factor 1
+  f2 = 2, # Factor 2
+  method = "No rotation",
+  color = "blue"
+)
+```
+
+### Varimax rotation
+
+```{r}
+plot_factor_loading(
+  data_factor = data_factor_var, # model varimax
+  f1 = 1, # Factor 1
+  f2 = 2, # Factor 2
+  method = "Varimax rotation",
+  color = "red"
+)
+```
+
+### Oblimin Rotation
+
+```{r}
+plot_factor_loading(
+  data_factor = data_factor_var, # model oblimn
+  f1 = 1, # Factor 1
+  f2 = 2, # Factor 2
+  method = "Oblimn rotation",
+  color = "darkgreen"
+)
+```
+
+When we have more than two factors it is difficult to analyse the factors by the plots.
+
+Variables that have low explaining variance in the two factors analysed, could be highly explained by the other factors not present in the graph.
+
+::: {.callout-tip appearance="simple"}
+## Your turn
+
+Try comparing the plots with the factor loadings and plot the other factor pairs (replace `f1` and `f2`) to get more familiar with exploratory factor analysis.\
+Interpret the factors and try to give them a name.
+:::
