@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -89,12 +89,12 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-77cb982c3ae5178da5248b9c8921380f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-0b1e80eae3a2d67fe1799060ddf1655e.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -141,6 +141,7 @@ div.csl-indent {
 <meta name="citation_reference" content="citation_title=Introduction to urban accessibility: A practical guide with r;,citation_author=Rafael HM Pereira;,citation_author=Daniel Herszenhut;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=https://ipeagit.github.io/intro_access_book/;">
 <meta name="citation_reference" content="citation_title=R for data science;,citation_author=Hadley Wickham;,citation_author=Mine Çetinaka-Rundel;,citation_author=Garrett Grolemund;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_fulltext_html_url=https://r4ds.hadley.nz/;">
 <meta name="citation_reference" content="citation_title=Openrouteservice: An ’openrouteservice’ API client;,citation_author=Andrzej K. Oleś;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://github.com/GIScience/openrouteservice-r;">
+<meta name="citation_reference" content="citation_title=Assessment of Residential Location Satisfaction in the Lisbon Metropolitan Area;,citation_abstract=This paper addresses the relationship between travel behavior and land use patterns using a Structural Equations Modeling framework and a more comprehensive modeling than in the past. The proposed model structure in this paper is by design heavily influenced by a model developed for Lisbon (1) to allow comparisons. In that paper the existence of significant effects of land use patterns in travel behavior was found. The travel behavior variables included in the model are multidimensional and comprehend both short term, number of trips by mode and trip scheduling, and long term, home location, car and pass ownership, mobility decisions. The modeled land use variables measure the levels of urban intensity and density, diversity, both in terms of types of uses and the mix between jobs and inhabitants and the public transport supply levels. The land use patterns are described both at the residence and employment zones. In order to explicitly account for self selection bias the land use variables are explicitly modeled as functions of socioeconomic attributes of individuals and their households. The Seattle findings are presented and then compared to the Lisbon findings. Many commonalities between the two environments were found but also many important differences. ;,citation_author=Luís Garrido Martinez;,citation_author=João Abreu e Silva;,citation_author=José Manuel Viegas;,citation_publication_date=2010-01;,citation_cover_date=2010-01;,citation_year=2010;,citation_fulltext_html_url=https://trid.trb.org/View/909819;">
 </head>
 
 <body class="nav-sidebar floating">
@@ -366,6 +367,11 @@ Origin-Destination Data</em>. <a href="https://github.com/itsleeds/od">https://g
 <div id="ref-geocomputation" class="csl-entry" role="listitem">
 Lovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2024.
 <em>Geocomputation with r</em>. 2nd ed. Chapman; Hall/CRC. <a href="https://r.geocompx.org/">https://r.geocompx.org/</a>.
+</div>
+<div id="ref-martinez2010" class="csl-entry" role="listitem">
+Martinez, Luís Garrido, João de Abreu e Silva, and José Manuel Viegas.
+2010. <span>“<span class="nocase">Assessment of Residential Location
+Satisfaction in the Lisbon Metropolitan Area</span>.”</span> In. <a href="https://trid.trb.org/View/909819">https://trid.trb.org/View/909819</a>.
 </div>
 <div id="ref-openrouteservicer" class="csl-entry" role="listitem">
 Oleś, Andrzej K. 2025. <em>Openrouteservice: An ’Openrouteservice’ API
@@ -616,8 +622,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -779,7 +783,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
