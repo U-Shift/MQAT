@@ -395,3 +395,19 @@ Variables that have low explaining variance in the two factors analysed, could b
 Try comparing the plots with the factor loadings and plot the other factor pairs (replace `f1` and `f2`) to get more familiar with exploratory factor analysis.\
 Interpret the factors and try to give them a name.
 :::
+
+For instance, we can plot all the factors against each other as follows:
+
+```{r}
+# create all combinations
+p12 <- plot_factor_loading(data_factor, 1, 2, method = "No rotation", color = "blue")
+p13 <- plot_factor_loading(data_factor, 1, 3, method = "No rotation", color = "blue")
+p14 <- plot_factor_loading(data_factor, 1, 4, method = "No rotation", color = "blue")
+p23 <- plot_factor_loading(data_factor, 2, 3, method = "No rotation", color = "blue")
+p24 <- plot_factor_loading(data_factor, 2, 4, method = "No rotation", color = "blue")
+p34 <- plot_factor_loading(data_factor, 3, 4, method = "No rotation", color = "blue")
+
+library(patchwork)
+(p12 + p13 + p14) /
+(p23 + p24 + p34)
+```
