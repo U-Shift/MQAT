@@ -2,6 +2,7 @@
 title: "Factor Analysis"
 code-fold: false
 number-depth: 3
+bibliography: references.bib
 ---
 
 ::: {.callout-tip appearance="simple"}
@@ -100,8 +101,7 @@ view(descriptive_stats)
 ::: {.callout-note appearance="simple"}
 ## Note
 
-We used a different library of the MLR chapter for perfoming the summary statistics.
-\
+We used a different library of the MLR chapter for perfoming the summary statistics.\
 **R** allows you to do the same or similar tasks with different packages.
 :::
 
@@ -261,9 +261,51 @@ plot(data_pca, type = "lines", npcs = 31)
 
 Check the cumulative variance of the first components and the scree plot, and see if the PCA is a good approach to detect the number of factors in this case.
 
-## Exploratory Factor Analysis
+## Exploratory Factor Analysis (EFA)
 
-Run three different factor analysis models with different rotation methods:
+### Rotational indeterminacy
+
+We can rotate the factors, so that the loadings will be as close as possible to a desired structure.
+
+There are two types of rotation methods.
+
+#### **Orthogonal**
+
+Orthogonal rotation clarifies factor structure **while preserving independence between factors** - assumes the factors are independent from each other (i.e., their correlation is zero).
+\
+The underlying factors after rotation will be **uncorrelated**.
+
+The method rotates the factor axes while **keeping them perpendicular**, so the factors remain uncorrelated.
+
+![Based in @field2024spss](images/clipboard-435754132.png){fig-align="center" width="500"}
+
+The goal is to **increase** each item’s loading on **one main factor**, and **reduce** its loadings on the other factors, which makes the factors **easier to interpret**.
+
+Methods include:
+
+-   Varimax
+-   Quartimax
+-   Equimax
+
+#### **Oblique** 
+
+Oblique rotation improves factor interpretability while allowing the factors to be **correlated** with each other.
+Unlike orthogonal rotation, it does **not** force the factors to remain independent.
+
+Because of this, oblique methods are often more suitable for complex and interrelated constructs, where some degree of relationship between factors is expected.
+
+Oblique rotation does **not** require the factor axes to stay perpendicular.
+As a result, the rotated factors can **correlate**, allowing a more realistic representation of how variables relate to multiple underlying dimensions.
+
+![Based in @field2024spss](images/clipboard-4248373259.png){fig-align="center" width="500"}
+
+Methods include:
+
+-   Oblimin
+-   Qaurtimin
+-   Promax
+
+Let's run three different factor analysis models with different rotation methods:
 
 -   **Model 1**: No rotation
 -   **Model 2**: Rotation Varimax
@@ -275,7 +317,7 @@ data_factor = factanal(
   data,
   factors = 4, # change here the number of facotrs based on the EFA
   rotation = "none",
-  scores = c("regression"),
+  scores = "regression",
   fm = "ml"
 )
 
@@ -283,17 +325,17 @@ data_factor = factanal(
 data_factor_var = factanal(
   data,
   factors = 4,
-  rotation = "varimax", # orthogonal rotation
-  scores = c("regression"),
+  rotation = "varimax", # orthogonal rotation (default)
+  scores = "regression",
   fm = "ml"
 )
 
-# Rotiation Oblimin
+# Rotation Oblimin
 data_factor_obl = factanal(
-  data,
+  data, 
   factors = 4,
   rotation = "oblimin", # oblique rotation
-  scores = c("regression"),
+  scores = "regression",
   fm = "ml"
 )
 ```
@@ -309,9 +351,29 @@ print(data_factor_obl,
 
 > The variability contained in the factors is equal to `Communality` + `Uniqueness`.
 
-## Visualize the results
+### Factor scores and factor loadings
 
-We will define a plot function to make it easier to test several plot pairs.
+In addition to the loading structure, you may also want to know the factor scores of each observation.
+
+We can extract the factor scores with
+
+```{r}
+View(data_factor_obl$scores)
+# write.csv(data_factor_obl$scores, "data/data_factor_obl_scores.csv", sep = "\t")
+head(data_factor_obl$scores)
+```
+
+The individual indicator/subtest scores would be the **weighted sum of the factor scores**, where the weights are the determined by **factor loadings**.
+
+```{r}
+View(data_factor_obl$loadings)
+# write.csv(data_factor_obl$loadings, "data/data_factor_obl_loadings.csv", sep = "\t")
+head(data_factor_obl$loadings)
+```
+
+### Visualize Rotation
+
+We will define a plot function to make it easier to visualize several factor pairs.
 
 ```{r}
 #| code-fold: true
@@ -347,7 +409,7 @@ plot_factor_loading <- function(data_factor,
 }
 ```
 
-### No Rotation
+#### No Rotation
 
 Plot factor 1 against factor 2, and compare the results
 
@@ -361,7 +423,7 @@ plot_factor_loading(
 )
 ```
 
-### Varimax rotation
+#### Varimax Rotation
 
 ```{r}
 plot_factor_loading(
@@ -373,7 +435,7 @@ plot_factor_loading(
 )
 ```
 
-### Oblimin Rotation
+#### Oblimin Rotation
 
 ```{r}
 plot_factor_loading(
