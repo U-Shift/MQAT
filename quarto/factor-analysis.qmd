@@ -94,14 +94,15 @@ str(data)
 Check summary statistics of variables
 
 ```{r}
-descriptive_stats = dfSummary(data)
-view(descriptive_stats)
+# skimr::skim(data)
+print(dfSummary(data),
+      method = "render")
 ```
 
 ::: {.callout-note appearance="simple"}
 ## Note
 
-We used a different library of the MLR chapter for perfoming the summary statistics.\
+We used a different library for the summary statistics.\
 **R** allows you to do the same or similar tasks with different packages.
 :::
 
