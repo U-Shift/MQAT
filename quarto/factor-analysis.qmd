@@ -366,6 +366,8 @@ head(data_factor_obl$scores)
 The individual indicator/subtest scores would be the **weighted sum of the factor scores**, where the weights are the determined by **factor loadings**.
 
 ```{r}
+#| message: false
+#| warning: false
 View(data_factor_obl$loadings)
 # write.csv(data_factor_obl$loadings, "data/data_factor_obl_loadings.csv", sep = "\t")
 head(data_factor_obl$loadings)
