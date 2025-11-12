@@ -272,8 +272,7 @@ There are two types of rotation methods.
 
 #### **Orthogonal**
 
-Orthogonal rotation clarifies factor structure **while preserving independence between factors** - assumes the factors are independent from each other (i.e., their correlation is zero).
-\
+Orthogonal rotation clarifies factor structure **while preserving independence between factors** - assumes the factors are independent from each other (i.e., their correlation is zero).\
 The underlying factors after rotation will be **uncorrelated**.
 
 The method rotates the factor axes while **keeping them perpendicular**, so the factors remain uncorrelated.
@@ -288,7 +287,7 @@ Methods include:
 -   Quartimax
 -   Equimax
 
-#### **Oblique** 
+#### **Oblique**
 
 Oblique rotation improves factor interpretability while allowing the factors to be **correlated** with each other.
 Unlike orthogonal rotation, it does **not** force the factors to remain independent.

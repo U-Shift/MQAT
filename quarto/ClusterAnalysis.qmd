@@ -82,12 +82,16 @@ skim(data)
 As exploring the data, we can plot the `Numberofairlines` against the `Destinations` and observe.
 
 ```{r}
-plot(Numberofairlines ~ Destinations, data)
-text(Numberofairlines ~ Destinations, data, # over the previous plot
-  label = Airport, # label
-  pos = 4, # position
-  cex = 0.6 # size
-)
+#| code-fold: true
+ggplot(data, aes(x = Destinations, y = Numberofairlines)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_text(aes(label = Airport), vjust = 1.5, size = 3, show.legend = FALSE) +
+  labs(
+    title = "Airports",
+    x = "Number of destinations",
+    y = "Number of airlines"
+  ) +
+  theme_minimal()
 ```
 
 By looking at the plot, you may already have a clue on the number of clusters with this two variables.
@@ -120,7 +124,11 @@ See how different they are!
 head(data_continuous)
 ```
 
-Z-score standardization: $(x_{i} - x_{\text{mean}}) / {\sigma}$
+Z-score standardization:
+
+$$
+Z = \frac{X - \mu} {\sigma}
+$$
 
 ```{r}
 data_scaled = data_continuous |> 
@@ -173,6 +181,8 @@ We will explore some of them:
 
 #### Single linkage
 
+The *single linkage* method (which is closely related to the minimal spanning tree) adopts a ‘friends of friends’ clustering strategy.
+
 This clustering algorithm is based on a bottom-up approach, by linking two clusters that have the **closest distance** between each other.
 
 ```{r}
@@ -181,6 +191,7 @@ cluster_single = hclust(distance, "single")
 # dendogram
 plot(
   cluster_single,
+    xlab = "Distance - Single linkage",
   hang = -1, # all to the bottom
   cex = 0.6 # label text size
 )
@@ -191,6 +202,8 @@ This results in 4 clusters, with *Heathrow Airport* and *Kaunas Airport* at thei
 
 #### Complete linkage
 
+The *complete linkage* method finds similar clusters.
+
 Complete linkage is based on the **maximizing distance** between observations in each cluster.
 
 ```{r}
@@ -199,6 +212,7 @@ cluster_complete = hclust(distance, "complete")
 # dendogram
 plot(
   cluster_complete,
+    xlab = "Distance - Complete linkage",
   hang = -1, # all to the bottom
   cex = 0.6 # label text size
 )
@@ -207,22 +221,38 @@ rect.hclust(cluster_complete, k = 4, border = "blue") # cut on the dendogram at 
 
 #### Average linkage
 
-The average linkage considers the distance between clusters to be the average of the distances between observations in one cluster to all the members in the other cluster.
+The average linkage considers the distance between clusters to be the average of the **distances between observations in one cluster to all the members in the other cluster**.
 
 ```{r}
 cluster_average = hclust(distance, "average")
-plot(cluster_average, labels = data$Airport, xlab = "Distance - Average linkage", cex=0.6, hang = -1)
-rect.hclust(cluster_average, 4, border = "red")
+
+# dendogram
+plot(
+  cluster_average,
+  xlab = "Distance - Average linkage",
+  hang = -1, # all to the bottom
+  cex = 0.6 # label text size
+)
+rect.hclust(cluster_complete, k = 4, border = "red") # cut on the dendogram at 4 clusters
 ```
 
 #### Ward\`s method
 
-The Ward\`s method considers the measures of similarity as the sum of squares within the cluster summed over all variables.
+*Ward's* minimum variance method aims at finding compact, spherical clusters.
+
+The Ward\`s method considers the measures of similarity as the **sum of squares within the cluster** summed over all variables.
 
 ```{r}
 cluster_ward = hclust(distance, "ward.D2")
-plot(cluster_ward, labels = data$Airport, xlab = "Distance - Ward method", cex=0.6, hang = -1)
-rect.hclust(cluster_ward, 4, border = "orange")
+
+# dendogram
+plot(
+  cluster_ward,
+  xlab = "Distance - Ward's method",
+  hang = -1, # all to the bottom
+  cex = 0.6 # label text size
+)
+rect.hclust(cluster_complete, k = 4, border = "orange") # cut on the dendogram at 4 clusters
 ```
 
 #### Centroid method
@@ -231,37 +261,86 @@ The centroid method considers the similarity between two clusters as the distanc
 
 ```{r}
 cluster_centroid = hclust(distance, "centroid")
-plot(cluster_centroid, labels = data$Airport, xlab = "Distance - Centroid method", cex=0.6, hang = -1)
-rect.hclust(cluster_centroid, 4, border = "darkgreen")
+
+# dendogram
+plot(
+  cluster_centroid,
+  xlab = "Distance - Centroid method",
+  hang = -1, # all to the bottom
+  cex = 0.6 # label text size
+)
+rect.hclust(cluster_complete, k = 4, border = "darkgreen") # cut on the dendogram at 4 clusters
 ```
+
+As mentioned in @Rstats, note however, that methods `centroid` are *not* leading to a *monotone distance* measure, or equivalently the resulting dendrograms can have so called *inversions* or *reversals* which **are hard to interpret**, but note the trichotomies in @cluster2012 .
 
 ### Comparing results from different hierarchical methods
 
-Now lets evaluate the **membership** of each observation with the `cutree` function for each method.
+Now let's assess the **membership** of each observation with the `cutree` function for each method.
 
 ```{r}
-member_single = cutree(cluster_single, 4)
-member_complete = cutree(cluster_complete, 4)
-member_average = cutree(cluster_average, 4)
-member_ward = cutree(cluster_ward, 4)
-member_centroid = cutree(cluster_centroid, 4)
+number_clusters = 4 # change here
+member_single = cutree(cluster_single, k = number_clusters)
+member_complete = cutree(cluster_complete, k = number_clusters)
+member_average = cutree(cluster_average, k = number_clusters)
+member_ward = cutree(cluster_ward, k = number_clusters)
+member_centroid = cutree(cluster_centroid, k = number_clusters)
 ```
 
-Compare how common each method is to each other.
+We can make a table of cluster **memberships for each observation** to each cluster method, and **compare them** with a color code.
 
 ```{r}
-table(member_complete, member_average) # compare the complete linkage with the average linkage
+#| code-fold: true
+# make a data frame
+cluster_membership = data.frame(member_single,
+                                member_complete,
+                                member_average,
+                                member_ward,
+                                member_centroid
+                                )
+# manipulate data for plot
+cluster_long = cluster_membership |>
+  rownames_to_column(var = "airport") |>  # keep airport names
+  pivot_longer(
+    cols = starts_with("member_"),
+    names_to = "method",
+    values_to = "cluster") |>
+  mutate(method = gsub("member_", "", method), # clean names
+         method = factor(method, # preserve the label order
+                         levels = c("single", "complete", "average", "ward", "centroid")))  
+# plot
+ggplot(cluster_long,
+       aes(x = method,
+           y = airport,
+           fill = factor(cluster))) +
+  geom_tile(color = "white") +
+  scale_fill_brewer(palette = "Set3", name = "Cluster") +
+  theme_minimal() +
+  labs(title = "Cluster memberships by method",
+    x = "Clustering method",
+    y = "Airport") +
+  theme(axis.text.y = element_text(size = 6))
 ```
 
-> **Note:** Try comparing other methods, and evaluate how common they are.
+Compare how common each method is to each other:
+
+```{r}
+table(member_complete, member_average) # complete linkage vs. average linkage
+table(member_complete, member_ward) # complete linkage vs. ward's method
+```
+
+::: {.callout-warning appearance="simple"}
+### Your turn
+
+Try comparing other methods, and evaluate how common they are.
+:::
 
 ### Silhouette Plots
 
-evaluate which method is more appropriate
-
 The silhouette plot evaluates how similar an observation is to its own cluster compared to other clusters.
-The clustering configuration is appropriate when most objects have high values.
-Low or negative values indicate that the clustering method is not appropriate or the number of clusters is not ideal.
+The clustering configuration is appropriate when **most objects have high values**.
+\
+**Low or negative values** indicate that the clustering method **is not appropriate** or the number of clusters **is not ideal**.
 
 ```{r}
 plot(silhouette(member_single, distance))
@@ -273,91 +352,109 @@ plot(silhouette(member_centroid, distance))
 
 ## Non-Hirarchical Clustering
 
-##### K-means clustering
+Non-hierarchical clustering is a method that partitions data points into a **predetermined number of clusters**, denoted by 𝑘, without creating a nested tree-like structure.
 
--   k-means with n=3 clusters
+Unlike hierarchical clustering, it requires the user to **specify 𝑘 in advance** and uses an iterative algorithm to optimize a criterion, such as **minimizing the variance within each cluster**.
 
-```{r}
-km_clust = kmeans(data_scaled, 3)
-km_clust #print the results
-```
+Popular examples include *K-Means* and *K-Medoids*, which assign points to the nearest cluster center (centroid or medoid) and repeat the process until the cluster assignments no longer change significantly.
 
--   Other ways of setting the number of clusters
+### K-means clustering
 
-This algorithm will detect how many clusters from 1 to 10 explains more variance
+#### Choose the number of clusters
 
-```{r}
-  k = list()
-  for(i in 1:10){
-    k[[i]] = kmeans(data_scaled, i)
-  }
-```
+We can observe a measure of the goodness of the classification for each k-means, using the following ratio:
 
-> **Note**: Try printing the k value and take a look at the ratio `between_SS` / `total_SS`.
-> Evaluate how it varies when you add clusters.
+$$\frac{Between_{SS}} {Total_{SS}}$$
 
-Now, lets plot `between_SS` / `total_SS` into a scree plot
+`SS` stands for Sum of Squares, so it's the usual decomposition of deviance in deviance "Between" and deviance "Within".
+Ideally you want a clustering that has the properties of
+internal cohesion and external separation, i.e. the **BSS/TSS ratio** should approach **1**.
+
+This algorithm will detect how many clusters, from 1 to 10, explains **more variance, with less clusters**:
 
 ```{r}
-betSS_totSS = list()
-for(i in 1:10){
-betSS_totSS[[i]] = k[[i]]$betweenss/k[[i]]$totss
+# loop for the 10 cluster trials
+kmeans_diagnostic = data.frame()
+
+for (i in 1:10) {
+  km = kmeans(data_scaled, centers = i)
+  km_diagn = data.frame(
+    k = i,
+    between_ss = km$betweenss,
+    tot_ss = km$totss,
+    ratio = km$betweenss / km$totss
+  )
+  kmeans_diagnostic = rbind(kmeans_diagnostic, km_diagn)
 }
-plot(1:10, betSS_totSS, type = "b", ylab = "Between SS / Total SS", xlab = "Number of clusters")
+
+# marginal improvements for each new cluster
+kmeans_diagnostic = kmeans_diagnostic |> 
+  mutate(marginal = ratio - lag(ratio)) 
+
+kmeans_diagnostic
 ```
 
-Let take out the outliers and see the difference in the k-means clustering:
-
--   **Examine the boxplots**
+Plot the ratio into a **scree plot**
 
 ```{r}
-par(cex.axis=0.6, mar=c(11,2,1,1))# Make labels fit in the boxplot
-boxplot(data_scaled, las = 2) #labels rotated to vertical
+plot(kmeans_diagnostic$k, kmeans_diagnostic$ratio,
+     type = "b",
+     ylab = "Between SS / Total SS",
+     xlab = "Number of clusters")
 ```
 
--   **Detect the outliers**
+#### Predetermined number of clusters
+
+In this case we will use the **K-means clustering**, and define `k = 3` (3 clusters).
+
+Here are the cluster results.
 
 ```{r}
-outliers = boxplot.stats(data_scaled)$out
-outliers
+km_clust = kmeans(data_scaled, centers = 3) # k = 3
+km_clust # print the results
 ```
 
--   **Remove rows with outliers**
+If we want to export the **cluster means for each variable** and the **cluster membership for each observation**:
 
 ```{r}
-nrow(data_scaled) #32
-out_ind = which(data_scaled %in% c(outliers)) #the row.names that contain outliers
-data_no_outliers = data_scaled[-c(out_ind),] #remove those rows from the data_scaled
-nrow(data_no_outliers) #31
+# cluster means for each variable
+var_cluster_means = data.frame(cluster = 1:nrow(km_clust$centers),
+                               size = km_clust$size,
+                               km_clust$centers)
+
+# cluster membership for each observation
+obs_cluster_member = data.frame(km_clust$cluster)
 ```
 
-> **Note:** There are many methods to treat outliers.
-> This is just one of them.
-> Note that it is not very appropriate, since it removes many observations that are relevant for the analysis.
-> Try using other methods and evaluate the difference.
+#### Plotting the clusters
 
-Execute a k-means clustering with the dataset without the outliers and see the difference.
+Finally, plot again the `Numberofairlines` against the `Destinations` and observe the clusters results to check if they make sense.
 
 ```{r}
-km_no_outliers = kmeans(data_no_outliers, 3)
-km_no_outliers
+# add cluster membership to original data
+data_clust = data |>  mutate(cluster = factor(km_clust$cluster))
+
+# plot
+ggplot(data_clust, aes(x = Destinations, y = Numberofairlines, color = cluster)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_text(aes(label = Airport), vjust = 1.5, size = 3, show.legend = FALSE) +
+  scale_color_brewer(palette = "Set1") +
+  labs(
+    title = "Airports clustered by k-means",
+    x = "Number of destinations",
+    y = "Number of airlines",
+    color = "Cluster"
+  ) +
+  theme_minimal()
 ```
 
-#### Ploting the clusters
+::: {.callout-tip appearance="simple"}
+## What if... ?
 
-Finally, plotting the clusters results to check if they make sense.\
-Let us go back to first example and take a look.
+Imagine that one of the airports was not operating any more.
 
--   **K-means with outliers**
+Remove one airport from the data, at your choice, and **re-run the cluster analysis**.
 
-```{r}
-plot(Numberofairlines ~ Destinations, data, col = km_clust$cluster)
-with(data, text(Numberofairlines ~ Destinations, label = Airport, pos = 1, cex = 0.6))
-```
-
--   **K-means without outliers**
-
-```{r}
-plot(Numberofairlines ~ Destinations, data, col = km_no_outliers$cluster)
-with(data, text(Numberofairlines ~ Destinations, label = Airport, pos = 1, cex = 0.6))
-```
+How different are the results?
+🤔
+:::
