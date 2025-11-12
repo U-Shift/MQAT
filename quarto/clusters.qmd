@@ -458,3 +458,11 @@ Remove one airport from the data, at your choice, and **re-run the cluster analy
 How different are the results?
 🤔
 :::
+
+```{r}
+#| include: false
+#| echo: false
+#| eval: false
+# this converts this quarto to a plain r script
+knitr::purl("quarto/clusters.qmd", "code/classroom/clusters.R", documentation = 0)
+```

@@ -475,3 +475,11 @@ library(patchwork)
 (p12 + p13 + p14) /
 (p23 + p24 + p34)
 ```
+
+```{r}
+#| include: false
+#| echo: false
+#| eval: false
+# this converts this quarto to a plain r script
+knitr::purl("quarto/factor-analysis.qmd", "code/classroom/factor.R", documentation = 0)
+```
