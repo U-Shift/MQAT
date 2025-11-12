@@ -1,13 +1,460 @@
 ---
 title: "Cluster Analysis"
+code-fold: false
+number-depth: 3
+bibliography: references.bib
 ---
 
-
+::: {.callout-tip appearance="simple"}
 ## Do it yourself with R
 
-```r
-{{< include ../code/classroom/ClusterAnalysis.R >}}
+Copy the script [ClusterAnalysis.R](https://github.com/U-Shift/MQAT/blob/main/code/classroom/ClusterAnalysis.R) and paste it in your session.\
+Run each line using `CTRL` + `ENTER`
+:::
+
+Based on a dataset of European **Airports**, we will create **clusters** based on the observations.
+
+::: callout-important
+## Your task
+
+Create and assess the many types of clustering methods.
+:::
+
+## Load packages
+
+```{r}
+#| message: false
+library(tidyverse) # Pack of most used libraries for data science
+library(readxl) # Import excel files
+library(skimr) # Summary statistics
+library(mclust) # Model based clustering
+library(cluster) # Cluster analysis
+library(factoextra) # Visualizing distances
 ```
 
+## Dataset
 
-Copy the R code above in your session.
+Included **variables**:
+
+-   `Code` - Code of the airport
+-   `Airport` - Name of the airport
+-   `Ordem` - ID of the observations
+-   `Passengers` - Number of passengers
+-   `Movements` - Number of flights
+-   `Numberofairlines` - Number of airlines at each airport
+-   `Mainairlineflightspercentage` - Percentage of flights of the main airline of each airport
+-   `Maximumpercentageoftrafficpercountry` - Maximum percentage of flights per country
+-   `NumberofLCCflightsweekly` - Number of weekly low cost flights
+-   `NumberofLowCostAirlines` - Number of low cost airlines of each airport
+-   `LowCostAirlinespercentage` - Percentage of the number of low cost airlines in each airport
+-   `Destinations` - Number of flights arriving at each airport
+-   `Average_route_Distance` - Average route distance in km
+-   `DistancetoclosestAirport` - Distance to closest airport in km
+-   `DistancetoclosestSimilarAirport` - Distance to closest similar airport in km
+-   `AirportRegionalRelevance` - Relevance of the airport in a regional scale (0 - 1)
+-   `Distancetocitykm` - Distance between the airport and the city in km
+-   `Inhabitantscorrected` - Population of the city
+-   `numberofvisitorscorrected` - Number of visitors arrived in the airport
+-   `GDPcorrected` - Corrected value of the Gross Domestic Product
+-   `Cargoton` - The total number of cargo \[ton\] transported in a certain period multiplied by the number of flights.
+
+### Import dataset
+
+```{r}
+data = read_excel("../data/Data_Aeroports_Clustersv1.xlsx")
+data = data.frame(data) # as data frame only
+```
+
+### Get to know your dataset
+
+Take a look at the first values of the dataset
+
+```{r}
+head(data, 5)
+```
+
+Check summary statistics of variables
+
+```{r}
+skim(data)
+```
+
+As exploring the data, we can plot the `Numberofairlines` against the `Destinations` and observe.
+
+```{r}
+#| code-fold: true
+ggplot(data, aes(x = Destinations, y = Numberofairlines)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_text(aes(label = Airport), vjust = 1.5, size = 3, show.legend = FALSE) +
+  labs(
+    title = "Airports",
+    x = "Number of destinations",
+    y = "Number of airlines"
+  ) +
+  theme_minimal()
+```
+
+By looking at the plot, you may already have a clue on the number of clusters with this two variables.
+However, this is not clear and it does not consider the **other variables** in the analysis.
+
+### Prepare data
+
+#### Row-names
+
+Make the `Code` variable as **row names** or case number
+
+```{r}
+data = data |> column_to_rownames(var = "Code")
+```
+
+#### Remove the non-continuous data
+
+Leave only continuous variables and the ordered ID.
+
+```{r}
+data_continuous = data |> select(-Ordem, -Airport) # remove chr and id variables
+```
+
+#### Standardize variables
+
+Take a look at the scale of the variables.
+See how different they are!
+
+```{r}
+head(data_continuous)
+```
+
+Z-score standardization:
+
+$$
+Z = \frac{X - \mu} {\sigma}
+$$
+
+```{r}
+data_scaled = data_continuous |> 
+  mutate(across(everything(), ~ ( . - mean(.) ) / sd(.)))
+# Result = z-scores, same as scale()
+```
+
+## Hierarchical Clustering
+
+### Distance measures
+
+**Similarity** of observations can be measured through different **distance measures**, including:
+
+-   Euclidean distance
+-   Minkowski distance
+-   Manhattan distance
+-   Mahanalobis distance
+
+Let's measure the **euclidean distances** of our standartize data and visualize them on a heatmap
+
+```{r}
+#| warning: false
+# measure
+distance = dist(data_scaled, method = "euclidean")
+
+# heatmap
+fviz_dist(
+  distance, 
+  gradient = list(
+    low = "#00AFBB",
+    mid = "white",
+    high = "#FC4E07"
+  ),
+  order = FALSE
+)
+```
+
+By the color codes, you can have a clue of the airports that are more similar.
+
+### Types of hierarchical clustering
+
+There are many types of hierarchical clustering.
+We will explore some of them:
+
+-   Single linkage (nearest neighbour) clustering algorithm
+-   Complete linkage (Farthest neighbour) clustering algorithm
+-   Average linkage between groups
+-   Ward\`s method
+-   Centroid method
+
+#### Single linkage
+
+The *single linkage* method (which is closely related to the minimal spanning tree) adopts a ‘friends of friends’ clustering strategy.
+
+This clustering algorithm is based on a bottom-up approach, by linking two clusters that have the **closest distance** between each other.
+
+```{r}
+cluster_single = hclust(distance, "single")
+
+# dendogram
+plot(
+  cluster_single,
+    xlab = "Distance - Single linkage",
+  hang = -1, # all to the bottom
+  cex = 0.6 # label text size
+)
+rect.hclust(cluster_single, k = 4, border = "purple") # cut on the dendogram at 4 clusters
+```
+
+This results in 4 clusters, with *Heathrow Airport* and *Kaunas Airport* at their own cluster.
+
+#### Complete linkage
+
+The *complete linkage* method finds similar clusters.
+
+Complete linkage is based on the **maximizing distance** between observations in each cluster.
+
+```{r}
+cluster_complete = hclust(distance, "complete")
+
+# dendogram
+plot(
+  cluster_complete,
+    xlab = "Distance - Complete linkage",
+  hang = -1, # all to the bottom
+  cex = 0.6 # label text size
+)
+rect.hclust(cluster_complete, k = 4, border = "blue") # cut on the dendogram at 4 clusters
+```
+
+#### Average linkage
+
+The average linkage considers the distance between clusters to be the average of the **distances between observations in one cluster to all the members in the other cluster**.
+
+```{r}
+cluster_average = hclust(distance, "average")
+
+# dendogram
+plot(
+  cluster_average,
+  xlab = "Distance - Average linkage",
+  hang = -1, # all to the bottom
+  cex = 0.6 # label text size
+)
+rect.hclust(cluster_complete, k = 4, border = "red") # cut on the dendogram at 4 clusters
+```
+
+#### Ward\`s method
+
+*Ward's* minimum variance method aims at finding compact, spherical clusters.
+
+The Ward\`s method considers the measures of similarity as the **sum of squares within the cluster** summed over all variables.
+
+```{r}
+cluster_ward = hclust(distance, "ward.D2")
+
+# dendogram
+plot(
+  cluster_ward,
+  xlab = "Distance - Ward's method",
+  hang = -1, # all to the bottom
+  cex = 0.6 # label text size
+)
+rect.hclust(cluster_complete, k = 4, border = "orange") # cut on the dendogram at 4 clusters
+```
+
+#### Centroid method
+
+The centroid method considers the similarity between two clusters as the distance between its centroids.
+
+```{r}
+cluster_centroid = hclust(distance, "centroid")
+
+# dendogram
+plot(
+  cluster_centroid,
+  xlab = "Distance - Centroid method",
+  hang = -1, # all to the bottom
+  cex = 0.6 # label text size
+)
+rect.hclust(cluster_complete, k = 4, border = "darkgreen") # cut on the dendogram at 4 clusters
+```
+
+As mentioned in @Rstats, note however, that methods `centroid` are *not* leading to a *monotone distance* measure, or equivalently the resulting dendrograms can have so called *inversions* or *reversals* which **are hard to interpret**, but note the trichotomies in @cluster2012 .
+
+### Comparing results from different hierarchical methods
+
+Now let's assess the **membership** of each observation with the `cutree` function for each method.
+
+```{r}
+number_clusters = 4 # change here
+member_single = cutree(cluster_single, k = number_clusters)
+member_complete = cutree(cluster_complete, k = number_clusters)
+member_average = cutree(cluster_average, k = number_clusters)
+member_ward = cutree(cluster_ward, k = number_clusters)
+member_centroid = cutree(cluster_centroid, k = number_clusters)
+```
+
+We can make a table of cluster **memberships for each observation** to each cluster method, and **compare them** with a color code.
+
+```{r}
+#| code-fold: true
+# make a data frame
+cluster_membership = data.frame(member_single,
+                                member_complete,
+                                member_average,
+                                member_ward,
+                                member_centroid
+                                )
+# manipulate data for plot
+cluster_long = cluster_membership |>
+  rownames_to_column(var = "airport") |>  # keep airport names
+  pivot_longer(
+    cols = starts_with("member_"),
+    names_to = "method",
+    values_to = "cluster") |>
+  mutate(method = gsub("member_", "", method), # clean names
+         method = factor(method, # preserve the label order
+                         levels = c("single", "complete", "average", "ward", "centroid")))  
+# plot
+ggplot(cluster_long,
+       aes(x = method,
+           y = airport,
+           fill = factor(cluster))) +
+  geom_tile(color = "white") +
+  scale_fill_brewer(palette = "Set3", name = "Cluster") +
+  theme_minimal() +
+  labs(title = "Cluster memberships by method",
+    x = "Clustering method",
+    y = "Airport") +
+  theme(axis.text.y = element_text(size = 6))
+```
+
+Compare how common each method is to each other:
+
+```{r}
+table(member_complete, member_average) # complete linkage vs. average linkage
+table(member_complete, member_ward) # complete linkage vs. ward's method
+```
+
+::: {.callout-warning appearance="simple"}
+### Your turn
+
+Try comparing other methods, and evaluate how common they are.
+:::
+
+### Silhouette Plots
+
+The silhouette plot evaluates how similar an observation is to its own cluster compared to other clusters.
+The clustering configuration is appropriate when **most objects have high values**.
+\
+**Low or negative values** indicate that the clustering method **is not appropriate** or the number of clusters **is not ideal**.
+
+```{r}
+plot(silhouette(member_single, distance))
+plot(silhouette(member_complete, distance))
+plot(silhouette(member_average, distance))
+plot(silhouette(member_ward, distance))
+plot(silhouette(member_centroid, distance))
+```
+
+## Non-Hirarchical Clustering
+
+Non-hierarchical clustering is a method that partitions data points into a **predetermined number of clusters**, denoted by 𝑘, without creating a nested tree-like structure.
+
+Unlike hierarchical clustering, it requires the user to **specify 𝑘 in advance** and uses an iterative algorithm to optimize a criterion, such as **minimizing the variance within each cluster**.
+
+Popular examples include *K-Means* and *K-Medoids*, which assign points to the nearest cluster center (centroid or medoid) and repeat the process until the cluster assignments no longer change significantly.
+
+### K-means clustering
+
+#### Choose the number of clusters
+
+We can observe a measure of the goodness of the classification for each k-means, using the following ratio:
+
+$$\frac{Between_{SS}} {Total_{SS}}$$
+
+`SS` stands for Sum of Squares, so it's the usual decomposition of deviance in deviance "Between" and deviance "Within".
+Ideally you want a clustering that has the properties of
+internal cohesion and external separation, i.e. the **BSS/TSS ratio** should approach **1**.
+
+This algorithm will detect how many clusters, from 1 to 10, explains **more variance, with less clusters**:
+
+```{r}
+# loop for the 10 cluster trials
+kmeans_diagnostic = data.frame()
+
+for (i in 1:10) {
+  km = kmeans(data_scaled, centers = i)
+  km_diagn = data.frame(
+    k = i,
+    between_ss = km$betweenss,
+    tot_ss = km$totss,
+    ratio = km$betweenss / km$totss
+  )
+  kmeans_diagnostic = rbind(kmeans_diagnostic, km_diagn)
+}
+
+# marginal improvements for each new cluster
+kmeans_diagnostic = kmeans_diagnostic |> 
+  mutate(marginal = ratio - lag(ratio)) 
+
+kmeans_diagnostic
+```
+
+Plot the ratio into a **scree plot**
+
+```{r}
+plot(kmeans_diagnostic$k, kmeans_diagnostic$ratio,
+     type = "b",
+     ylab = "Between SS / Total SS",
+     xlab = "Number of clusters")
+```
+
+#### Predetermined number of clusters
+
+In this case we will use the **K-means clustering**, and define `k = 3` (3 clusters).
+
+Here are the cluster results.
+
+```{r}
+km_clust = kmeans(data_scaled, centers = 3) # k = 3
+km_clust # print the results
+```
+
+If we want to export the **cluster means for each variable** and the **cluster membership for each observation**:
+
+```{r}
+# cluster means for each variable
+var_cluster_means = data.frame(cluster = 1:nrow(km_clust$centers),
+                               size = km_clust$size,
+                               km_clust$centers)
+
+# cluster membership for each observation
+obs_cluster_member = data.frame(km_clust$cluster)
+```
+
+#### Plotting the clusters
+
+Finally, plot again the `Numberofairlines` against the `Destinations` and observe the clusters results to check if they make sense.
+
+```{r}
+# add cluster membership to original data
+data_clust = data |>  mutate(cluster = factor(km_clust$cluster))
+
+# plot
+ggplot(data_clust, aes(x = Destinations, y = Numberofairlines, color = cluster)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_text(aes(label = Airport), vjust = 1.5, size = 3, show.legend = FALSE) +
+  scale_color_brewer(palette = "Set1") +
+  labs(
+    title = "Airports clustered by k-means",
+    x = "Number of destinations",
+    y = "Number of airlines",
+    color = "Cluster"
+  ) +
+  theme_minimal()
+```
+
+::: {.callout-tip appearance="simple"}
+## What if... ?
+
+Imagine that one of the airports was not operating any more.
+
+Remove one airport from the data, at your choice, and **re-run the cluster analysis**.
+
+How different are the results?
+🤔
+:::
