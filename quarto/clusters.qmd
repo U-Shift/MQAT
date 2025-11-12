@@ -358,9 +358,9 @@ Unlike hierarchical clustering, it requires the user to **specify 𝑘 in advanc
 
 Popular examples include *K-Means* and *K-Medoids*, which assign points to the nearest cluster center (centroid or medoid) and repeat the process until the cluster assignments no longer change significantly.
 
-### K-means clustering
+In this exercise, we will use the **K-means clustering**.
 
-#### Choose the number of clusters
+### Choose the number of clusters
 
 We can observe a measure of the goodness of the classification for each k-means, using the following ratio:
 
@@ -403,7 +403,7 @@ plot(kmeans_diagnostic$k, kmeans_diagnostic$ratio,
      xlab = "Number of clusters")
 ```
 
-#### Predetermined number of clusters
+### Predetermined number of clusters
 
 In this case we will use the **K-means clustering**, and define `k = 3` (3 clusters).
 
@@ -426,7 +426,7 @@ var_cluster_means = data.frame(cluster = 1:nrow(km_clust$centers),
 obs_cluster_member = data.frame(km_clust$cluster)
 ```
 
-#### Plotting the clusters
+### Plotting the clusters
 
 Finally, plot again the `Numberofairlines` against the `Destinations` and observe the clusters results to check if they make sense.
 
