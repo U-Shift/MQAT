@@ -338,8 +338,7 @@ Try comparing other methods, and evaluate how common they are.
 ### Silhouette Plots
 
 The silhouette plot evaluates how similar an observation is to its own cluster compared to other clusters.
-The clustering configuration is appropriate when **most objects have high values**.
-\
+The clustering configuration is appropriate when **most objects have high values**.\
 **Low or negative values** indicate that the clustering method **is not appropriate** or the number of clusters **is not ideal**.
 
 ```{r}
@@ -367,8 +366,7 @@ We can observe a measure of the goodness of the classification for each k-means,
 $$\frac{Between_{SS}} {Total_{SS}}$$
 
 `SS` stands for Sum of Squares, so it's the usual decomposition of deviance in deviance "Between" and deviance "Within".
-Ideally you want a clustering that has the properties of
-internal cohesion and external separation, i.e. the **BSS/TSS ratio** should approach **1**.
+Ideally you want a clustering that has the properties of internal cohesion and external separation, i.e. the **BSS/TSS ratio** should approach **1**.
 
 This algorithm will detect how many clusters, from 1 to 10, explains **more variance, with less clusters**:
 

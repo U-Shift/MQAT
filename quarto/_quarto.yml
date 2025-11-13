@@ -81,15 +81,15 @@ format:
     code-tools: true
     number-depth: 3
     toc-expand: 3
-#  pdf:
+#   pdf:
 #    documentclass: scrreprt
 #    # engine: knitr
 #    toc: true
 #    number-depth: 3
 #    toc-depth: 3
-    # cover-image: images/cover.png # not working
+# # cover-image: images/cover.png # not working
 #    output-ext:  "pdf"
-# prefer-html: true
+prefer-html: true
     
 editor: visual
 
