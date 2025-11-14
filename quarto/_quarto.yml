@@ -9,12 +9,12 @@ execute:
   
 book:
   title: "MQAT"
-  output-file: "GetYourDatasetReady2024"
+  output-file: "QMAT_Rexercises"
   subtitle: "Exercises in R"
   author: 
     - name: "Rosa Félix"
       email: rosamfelix@tecnico.pt
-      url: http://www.rosafelix.bike
+      url: https://www.rosafelix.bike
       orcid: 0000-0002-5642-6006
       # affiliation: "Instituto Superior Técnico - University of Lisbon"
     - name: "Gabriel Valença"
@@ -81,12 +81,12 @@ format:
     code-tools: true
     number-depth: 3
     toc-expand: 3
-#   pdf:
-#    documentclass: scrreprt
-#    # engine: knitr
-#    toc: true
-#    number-depth: 3
-#    toc-depth: 3
+  # pdf:
+  #  documentclass: scrreprt
+  #  # engine: knitr
+  #  toc: true
+  #  number-depth: 3
+  #  toc-depth: 3
 # # cover-image: images/cover.png # not working
 #    output-ext:  "pdf"
 prefer-html: true

@@ -94,9 +94,8 @@ str(data)
 Check summary statistics of variables
 
 ```{r}
-# skimr::skim(data)
-print(dfSummary(data),
-      method = "render")
+skimr::skim(data)
+# print(dfSummary(data), method = "render")
 ```
 
 ::: {.callout-note appearance="simple"}
