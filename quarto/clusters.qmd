@@ -338,6 +338,7 @@ Try comparing other methods, and evaluate how common they are.
 ### Silhouette Plots
 
 The silhouette plot evaluates how similar an observation is to its own cluster compared to other clusters.
+
 The clustering configuration is appropriate when **most objects have high values**.\
 **Low or negative values** indicate that the clustering method **is not appropriate** or the number of clusters **is not ideal**.
 

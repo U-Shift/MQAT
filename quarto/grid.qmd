@@ -26,6 +26,7 @@ LISBON = MUNICIPIOSgeo |> filter(Municipality == "Lisboa") # filter only Lisbon
 To make a grid we is the `st_make_grid()` function.
 
 ```{r}
+#| fig-format: png
 GRID = LISBON |>
   st_transform(crs = 3857) |> # to a projected crs
   st_make_grid(cellsize = 500, # meters, we are using a projected crs
@@ -45,6 +46,7 @@ mapview(GRID, alpha = 0)
 We can use the grid to count survey respondents in each cell.
 
 ```{r}
+#| fig-format: png
 SURVEY = read.csv("../data/SURVEY.txt", sep = "\t")
 SURVEYgeo = SURVEY |> st_as_sf(coords = c("lon", "lat"), crs = 4326) # convert to sf from coordinates
 
@@ -66,6 +68,7 @@ mapview(GRIDdensity, zcol = "count")
 Or to count bus stops in each cell.
 
 ```{r}
+#| fig-format: png
 BUSstops = st_read("../geo/Carris_stops.gpkg", quiet = TRUE)
 
 BUS_with_GRIDid = BUSstops |> 

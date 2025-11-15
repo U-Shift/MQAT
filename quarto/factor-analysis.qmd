@@ -234,7 +234,7 @@ You can also consider factors with eigenvalue \> 0.7, since some of the literatu
 
 ### Principal Component Analysis (PCA)
 
-::: {.callout-warning appearance="simple"}
+::: {.callout-caution appearance="simple"}
 ## PCA is not the same thing as Factor Analysis
 
 PCA only considers the common information (variance) of the variables, while factor analysis takes into account also the unique variance of the variable.
@@ -276,7 +276,7 @@ The underlying factors after rotation will be **uncorrelated**.
 
 The method rotates the factor axes while **keeping them perpendicular**, so the factors remain uncorrelated.
 
-![Based in @field2024spss](images/clipboard-435754132.png){fig-align="center" width="500"}
+![Based in @field2024spss](images/clipboard-435754132.png){fig-align="center" width="350"}
 
 The goal is to **increase** each item’s loading on **one main factor**, and **reduce** its loadings on the other factors, which makes the factors **easier to interpret**.
 
@@ -296,7 +296,7 @@ Because of this, oblique methods are often more suitable for complex and interre
 Oblique rotation does **not** require the factor axes to stay perpendicular.
 As a result, the rotated factors can **correlate**, allowing a more realistic representation of how variables relate to multiple underlying dimensions.
 
-![Based in @field2024spss](images/clipboard-4248373259.png){fig-align="center" width="500"}
+![Based in @field2024spss](images/clipboard-4248373259.png){fig-align="center" width="350"}
 
 Methods include:
 
