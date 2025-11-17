@@ -28,9 +28,9 @@ openrouteservice::ors_api_key("") # empty key
 
 ## Buffer
 
-Represent a buffer of 500 m and 2000 m from IST[^1].
+Represent a buffer of 500 m and 2000 m from IST[^3].
 
-[^1]: Here I selected only the first variable because now we also have the coordinates information (unecessary for this procedure)
+[^3]: Here I selected only the first variable because now we also have the coordinates information (unecessary for this procedure)
 
 ```{r bufferIST}
 #| fig-format: png

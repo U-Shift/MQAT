@@ -231,9 +231,9 @@ Examples: [OSRM](https://project-osrm.org/), [Dodgr](https://urbananalyst.github
 
 <!-- #### Distances by foot -->
 
-<!-- Repeat the same for `WALK`[^1]. -->
+<!-- Repeat the same for `WALK`[^4]. -->
 
-<!-- [^1]: For bike you would use `BICYCLE`. -->
+<!-- [^4]: For bike you would use `BICYCLE`. -->
 
 <!-- ```{r} -->
 
@@ -540,9 +540,9 @@ SURVEYwalk_overline = stplanr::overline(
 mapview(SURVEYwalk_overline, zcol = "trips", lwd = 3)
 ```
 
-With this we can visually inform on how many people travel along a route, from the survey dataset[^1].
+With this we can visually inform on how many people travel along a route, from the survey dataset[^2].
 
-[^1]: Assuming all travel by the shortest path.
+[^2]: Assuming all travel by the shortest path.
 
 ::: {.callout-tip appearance="simple"}
 ## Questions
