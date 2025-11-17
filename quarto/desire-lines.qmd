@@ -102,6 +102,7 @@ Filter trips with origin or destination **not in** Lisbon.
 
 ```{r}
 #| fig-format: png
+#| message: false
 TRIPSdl_noLX = TRIPSdlines_inter |> 
   filter(Origin != "Lisboa", Destination != "Lisboa")
 
