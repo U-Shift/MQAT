@@ -85,6 +85,8 @@ format:
    documentclass: scrreprt
    # engine: knitr
    papersize: A4
+   fig-align: center # does not work!
+   fig-asp: 1
    toc: true
    number-depth: 3
    toc-depth: 3

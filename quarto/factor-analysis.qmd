@@ -3,6 +3,8 @@ title: "Factor Analysis"
 code-fold: false
 number-depth: 3
 bibliography: references.bib
+fig-align: center # does not work
+fig-asp: 1 # 1:1
 ---
 
 ::: {.callout-tip appearance="simple"}
