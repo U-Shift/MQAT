@@ -81,12 +81,13 @@ format:
     code-tools: true
     number-depth: 3
     toc-expand: 3
-  # pdf:
-  #  documentclass: scrreprt
-  #  # engine: knitr
-  #  toc: true
-  #  number-depth: 3
-  #  toc-depth: 3
+  pdf:
+   documentclass: scrreprt
+   # engine: knitr
+   papersize: A4
+   toc: true
+   number-depth: 3
+   toc-depth: 3
 # # cover-image: images/cover.png # not working
 #    output-ext:  "pdf"
 prefer-html: true
