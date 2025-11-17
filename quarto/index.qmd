@@ -1,4 +1,5 @@
 ---
+title: "Quantitative Methods of Analysis in Transportation course"
 format:
   html:
     title: "Introduction"
