@@ -51,9 +51,8 @@ mapview(BUFFERist500) + mapview(BUFFERist2000, alpha.regions = 0.5)
 
 We use again the `openrouteservice` r package.
 
-```{r isoch1}
-#| fig-format: png
-#| message: false
+```{r isoch0}
+#| eval: false
 ISOCist = ors_isochrones(
   IST$coordinates,
   profile = "foot-walking",
@@ -64,7 +63,18 @@ ISOCist = ors_isochrones(
 
 ISOCist = arrange(ISOCist, -value) |>  # to make the larger polygons on top of the table so the are displayed behind.
           select(-center) # unnecessary variable
+```
+```{r importexportbuffer1}
+#| include: false
+#| message: false
+# st_write(ISOCist, "original/ISOCist.gpkg", delete_dsn = TRUE)
+# piggyback::pb_upload("original/ISOCist.gpkg")
+ISOCist = st_read("https://github.com/U-Shift/MQAT/releases/download/2025/ISOCist.gpkg", quiet = TRUE)
+```
 
+```{r isoch1}
+#| fig-format: png
+#| message: false
 mapview(ISOCist, zcol = "value", alpha.regions = 0.5)
 ```
 
@@ -105,6 +115,7 @@ coord_schools = data.frame(lon = SCHOOLShigh$coordinates[, 1],
 And proceed with the time isochrones, for a range of 20 min, with 5 min intervals.
 
 ```{r isoch2, include=TRUE}
+#| eval: false
 ISOCschools = ors_isochrones(
   coord_schools,
   profile = "foot-walking",
@@ -146,12 +157,20 @@ for (i in 1:nrow(coor)) {
 And now merge this information with the schools' names.
 
 ```{r}
+#| eval: false
 ISOCschools = ISOCschools |>
   mutate(id = group_index + 1, # because group_index starts at 0
          value = value/60) |> 
     left_join(SCHOOLShigh |>
                 st_drop_geometry() |>
                 select(id, INF_NOME, Alunos))
+```
+```{r importexportbuffer2}
+#| include: false
+#| message: false
+# st_write(ISOCschools, "original/ISOCschools.gpkg", delete_dsn = TRUE)
+# piggyback::pb_upload("original/ISOCschools.gpkg")
+ISOCschools = st_read("https://github.com/U-Shift/MQAT/releases/download/2025/ISOCschools.gpkg", quiet = TRUE)
 ```
 
 ```{r isoch2map}

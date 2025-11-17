@@ -429,10 +429,13 @@ SURVEYbike = SURVEYbike |>
 # st_write(SURVEYcar, "../original/routes_car.geojson")
 # st_write(SURVEYwalk, "../original/routes_foot.geojson")
 # st_write(SURVEYbike, "../original/routes_bike.geojson")
+# piggyback::pb_upload("original/routes_car.geojson")
+# piggyback::pb_upload("original/routes_foot.geojson")
+# piggyback::pb_upload("original/routes_bike.geojson")
 
-SURVEYcar = st_read("../original/routes_car.geojson", quiet = TRUE)
-SURVEYwalk = st_read("../original/routes_foot.geojson", quiet = TRUE)
-SURVEYbike = st_read("../original/routes_bike.geojson", quiet = TRUE)
+SURVEYcar = st_read("https://github.com/U-Shift/MQAT/releases/download/2025/routes_car.geojson", quiet = TRUE)
+SURVEYwalk = st_read("https://github.com/U-Shift/MQAT/releases/download/2025/routes_foot.geojson", quiet = TRUE)
+SURVEYbike = st_read("https://github.com/U-Shift/MQAT/releases/download/2025/routes_bike.geojson", quiet = TRUE)
 ```
 
 ```{r}
