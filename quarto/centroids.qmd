@@ -95,6 +95,7 @@ Centroid_build = Census |>
 
 ```{r mapcomparecentr}
 #| fig-format: png
+#| message: false
 mapview(Centroid_geo, col.region = "blue") +
   mapview(Centroid_pop, col.region = "red") +
   mapview(Centroid_build, col.region = "black") +

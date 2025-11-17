@@ -44,6 +44,7 @@ After the export, you can read in R using the `sf` package:
 
 ```{r}
 #| fig-format: png
+#| message: false
 Gent = sf::st_read("../data/Gent_center.gpkg", quiet = TRUE)
 
 mapview::mapview(Gent, zcol = "highway")

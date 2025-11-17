@@ -138,6 +138,7 @@ Example of visualization with Public Transit trips in both ways.
 
 ```{r}
 #| fig-format: png
+#| message: false
 TRIPSdlines_oneway_noLX = TRIPSdlines_oneway |> 
   filter(PTransit > 5000) # reduce noise
 
@@ -168,6 +169,7 @@ Check differences of lines with trips from/to Lisbon:
 
 ```{r}
 #| fig-format: png
+#| message: false
 TRIPSdlines_geo_LX = TRIPSdlines_oneway |> 
   filter(o == "Lisboa" | d == "Lisboa") # or condition
 TRIPSdlines_pop_LX = TRIPSdlines_pop |> 

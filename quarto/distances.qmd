@@ -60,7 +60,8 @@ mapview(SURVEYgeo, zcol = "MODE") + mapview(UNIVERSITY, col.region = "red", cex 
 
 First we will create lines connecting the survey locations to the university, using the `st_nearest_points()` function.
 
-This function finds returns the nearest points between two geometries, and creates a line between them. This can be useful to find the nearest train station to each point, for instance.
+This function finds returns the nearest points between two geometries, and creates a line between them.
+This can be useful to find the nearest train station to each point, for instance.
 
 As we only have 1 point at UNIVERSITY layer, we will have the same number of lines as number of surveys = `r nrow(SURVEY)`.
 
@@ -73,7 +74,8 @@ SURVEYeuclidean = st_nearest_points(SURVEYgeo, UNIVERSITY, pairwise = TRUE) |>
 mapview(SURVEYeuclidean)
 ```
 
-Note that if we have more than one point in the second layer, the `pairwise = TRUE` will create a line for each combination of points. Set to `FALSE` if, for instance, you have the same number of points in both layers and want to create a line between the corresponding points.
+Note that if we have more than one point in the second layer, the `pairwise = TRUE` will create a line for each combination of points.
+Set to `FALSE` if, for instance, you have the same number of points in both layers and want to create a line between the corresponding points.
 
 ### Distance
 
@@ -104,7 +106,8 @@ summary(SURVEYgeo$distance)
 
 ## Routing Engines
 
-There are different types of routing engines, regarding the type of network they use, the type of transportation they consider, and the type of data they need. We can have:
+There are different types of routing engines, regarding the type of network they use, the type of transportation they consider, and the type of data they need.
+We can have:
 
 -   Uni-modal vs. Multi-modal
 
@@ -295,7 +298,8 @@ Examples: [OSRM](https://project-osrm.org/), [Dodgr](https://urbananalyst.github
 We will use the `openrouteservice` r package to estimate the distances using a road network [@openrouteservicer].
 
 ::: {.callout-note appearance="simple"}
-To properly use the `openrouteservice` package, you need to setup the ORS provider. See the [setup instructions](software.qmd#ors) for more details.
+To properly use the `openrouteservice` package, you need to setup the ORS provider.
+See the [setup instructions](software.qmd#ors) for more details.
 :::
 
 We will use only respondents with a distance to the university less than 2 km.
@@ -512,6 +516,7 @@ Visualize with transparency of 30%, to get a clue when they overlay.
 
 ```{r}
 #| fig-format: png
+#| message: false
 mapview(SURVEYwalk, alpha = 0.3)
 mapview(SURVEYcar, alpha = 0.3, color = "red")
 mapview(SURVEYbike, alpha = 0.3, color = "darkgreen")

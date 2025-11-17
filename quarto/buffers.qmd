@@ -33,6 +33,8 @@ Represent a buffer of 500 m and 2000 m from IST[^1].
 [^1]: Here I selected only the first variable because now we also have the coordinates information (unecessary for this procedure)
 
 ```{r bufferIST}
+#| fig-format: png
+#| message: false
 IST = st_sfc(st_point(c(-9.1397404, 38.7370168)), crs = 4326) # create a point
 IST$coordinates = st_coordinates(IST)
 
@@ -50,6 +52,8 @@ mapview(BUFFERist500) + mapview(BUFFERist2000, alpha.regions = 0.5)
 We use again the `openrouteservice` r package.
 
 ```{r isoch1}
+#| fig-format: png
+#| message: false
 ISOCist = ors_isochrones(
   IST$coordinates,
   profile = "foot-walking",
@@ -151,6 +155,8 @@ ISOCschools = ISOCschools |>
 ```
 
 ```{r isoch2map}
+#| fig-format: png
+#| message: false
 mapview(ISOCschools, zcol = "value", alpha.regions = 0.5)
 ```
 

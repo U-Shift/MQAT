@@ -50,6 +50,7 @@ Mapview allows to create quick interactive maps, only by declaring the function 
 
 ```{r}
 #| fig-format: png
+#| message: false
 library(mapview)
 mapview(TRIPSgeo)
 ```
@@ -58,6 +59,7 @@ To color the points by a variable, you can use the `zcol` argument.
 
 ```{r}
 #| fig-format: png
+#| message: false
 mapview(TRIPSgeo, zcol = "Total")
 ```
 

@@ -27,6 +27,7 @@ To make a grid we is the `st_make_grid()` function.
 
 ```{r}
 #| fig-format: png
+#| message: false
 GRID = LISBON |>
   st_transform(crs = 3857) |> # to a projected crs
   st_make_grid(cellsize = 500, # meters, we are using a projected crs
@@ -69,6 +70,7 @@ Or to count bus stops in each cell.
 
 ```{r}
 #| fig-format: png
+#| message: false
 BUSstops = st_read("../geo/Carris_stops.gpkg", quiet = TRUE)
 
 BUS_with_GRIDid = BUSstops |> 
