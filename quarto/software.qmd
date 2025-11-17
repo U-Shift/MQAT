@@ -41,7 +41,7 @@ Download the `.pkg` file and install it as usual.
 
 ### Ubuntu
 
-::: {.callout-important icon="false"}
+::: {.callout-important appearance="simple"}
 These are instructions for Ubuntu.
 If you use other linux distribution, please follow the instructions on [The Comprehensive R Archive Network - CRAN](https://cran.r-project.org/bin/linux/).
 :::
@@ -72,10 +72,10 @@ Then run:
 sudo apt install r-base r-base-core r-recommended r-base-dev
 ```
 
-::: {.callout-tip appearance="simple" icon="false"}
+::: {.callout-tip appearance="simple"}
 ## Optional
 
-To keep up-to-date r version and packages, you can follow the instructions at [r2u](https://eddelbuettel.github.io/r2u/)
+To keep up-to-date R version and packages, you can follow the instructions at [r2u](https://eddelbuettel.github.io/r2u/).
 :::
 ::::::
 
@@ -100,7 +100,7 @@ RStudio is available for free download from [Posit RStudio](https://posit.co/dow
 
 ### Ubuntu
 
-::: {.callout-important icon="false"}
+::: {.callout-important appearance="simple"}
 These are instructions for Ubuntu **24**.
 If you use other linux distribution, please follow the instructions on [Posit RStudio](https://posit.co/download/rstudio-desktop/).
 :::
