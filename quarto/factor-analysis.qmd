@@ -92,12 +92,23 @@ str(data)
 ```
 
 Check summary statistics of variables
+
+::: {.content-hidden unless-format="html"}
+```{r}
+# skimr::skim(data)
+print(dfSummary(data), method = "render")
+```
+::: 
+
+::: {.content-hidden unless-format="pdf"}
 \tiny
 ```{r}
 skimr::skim(data)
 # print(dfSummary(data), method = "render")
 ```
 \normalsize
+::: 
+
 ::: {.callout-note appearance="simple"}
 We used a different library for the summary statistics.\
 **R** allows you to do the same or similar tasks with different packages.
