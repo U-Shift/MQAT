@@ -1,11 +1,18 @@
 ---
-title: "Quantitative Methods of Analysis in Transportation course"
-format:
-  html:
-    title: "Introduction"
-  pdf: 
-    title: "Quantitative Methods of Analysis in Transportation course"
+# title: "Quantitative Methods of Analysis in Transportation course"
+# format:
+#   html:
+#     title: "Introduction"
+#   pdf: 
+#     title: "Quantitative Methods of Analysis in Transportation course"
 ---
+
+::: {.content-hidden unless-format="pdf"}
+# Quantitative Methods of Analysis in Transportation course
+::: 
+<!-- ::: {.content-hidden unless-format="html"} -->
+<!-- # Introduction -->
+<!-- :::  -->
 
 Materials, data and tutorials for the [**Quantitative Methods of Analysis in Transportation**](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT112/2025-2026/1-semestre) course of the [MSc in Transportation Systems](https://tecnico.ulisboa.pt/en/education/courses/masters-programmes/transportation-systems/) at Instituto Superior Técnico - University of Lisbon.
 
@@ -23,7 +30,7 @@ Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](htt
 
 This website aims to provide tools to deal with exploring and treating transportation datasets using [R programming](software.qmd), an open-source and widely used tool for data analytics in urban mobility.
 
-### Why R and GIS {.unnumbered}
+## Why R and GIS {.unnumbered}
 
 Most academic programs focus on teaching modelling and deep analysis of data.
 However, there is a need to learn how to explore and prepare a dataset for modelling.
