@@ -92,7 +92,7 @@ The Dependent Variable is be normally distributed.
 
 Check the histogram of `Car_perc`:
 
-```{r}
+```{r, fig.height=4, fig.align='center'}
 hist(data$Car_perc)
 ```
 
@@ -147,7 +147,7 @@ plot(x = data$Car_perc, y = data$Area_km2, xlab = "Car_perc", ylab = "Area_km2")
 
 Or you can make a pairwise scatterplot matrix, that compares every variable with each other:
 
-```{r}
+```{r, fig.align='center', fig.height=4}
 # pairs(data_continuous, pch = 19, lower.panel = NULL) # we have too many variables, let's split the plots
 pairs(data_continuous[,1:6], pch = 19, lower.panel = NULL)
 pairs(data_continuous[,7:12], pch = 19, lower.panel = NULL)
@@ -263,7 +263,7 @@ If the observations are not independent, you may consider to treat the observari
 
 The simplest way to determine if this assumption is met is to create a plot of standardized residuals versus predicted values.
 
-```{r}
+```{r, fig.height=4, fig.align='center'}
 plot(model)
 ```
 

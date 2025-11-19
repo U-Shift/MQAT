@@ -3,8 +3,6 @@ title: "Factor Analysis"
 code-fold: false
 number-depth: 3
 bibliography: references.bib
-fig-align: center # does not work
-fig-asp: 1 # 1:1
 ---
 
 ::: {.callout-tip appearance="simple"}
@@ -101,8 +99,6 @@ skimr::skim(data)
 ```
 \normalsize
 ::: {.callout-note appearance="simple"}
-## Note
-
 We used a different library for the summary statistics.\
 **R** allows you to do the same or similar tasks with different packages.
 :::
@@ -142,7 +138,7 @@ fitted = scale(fake$fitted.values)
 
 ### Normality
 
-```{r}
+```{r, fig.height=4, fig.align='center'}
 hist(standardized)
 ```
 
@@ -150,7 +146,7 @@ The histogram looks like a normal distribution.
 
 ### Linearity
 
-```{r}
+```{r, fig.height=4, fig.align='center'}
 qqnorm(standardized)
 abline(0, 1)
 ```
@@ -159,7 +155,7 @@ The QQ plot shows that the points are close to the diagonal line, indicating lin
 
 ### Homogeneity
 
-```{r}
+```{r, fig.height=4, fig.align='center'}
 plot(fitted, standardized)
 abline(h=0, v=0)
 ```
@@ -212,7 +208,7 @@ Here we will use three different methods:
 
 ### Parallel Analysis
 
-```{r}
+```{r, fig.height=4, fig.align='center'}
 num_factors = fa.parallel(
   x = data, 
   fm = "ml", # factor mathod = maximum likelihood
@@ -257,7 +253,7 @@ summary(data_pca)
 
 #### Scree Plot
 
-```{r}
+```{r, fig.height=4, fig.align='center'}
 plot(data_pca, type = "lines", npcs = 31)
 ```
 
@@ -416,7 +412,7 @@ plot_factor_loading <- function(data_factor,
 
 Plot factor 1 against factor 2, and compare the results
 
-```{r}
+```{r, fig.height=5, fig.align='center'}
 plot_factor_loading(
   data_factor = data_factor, # model no rotation
   f1 = 1, # Factor 1
@@ -428,7 +424,7 @@ plot_factor_loading(
 
 #### Varimax Rotation
 
-```{r}
+```{r, fig.height=5, fig.align='center'}
 plot_factor_loading(
   data_factor = data_factor_var, # model varimax
   f1 = 1, # Factor 1
@@ -440,7 +436,7 @@ plot_factor_loading(
 
 #### Oblimin Rotation
 
-```{r}
+```{r, fig.height=5, fig.align='center'}
 plot_factor_loading(
   data_factor = data_factor_var, # model oblimn
   f1 = 1, # Factor 1
@@ -463,18 +459,15 @@ Interpret the factors and try to give them a name.
 
 For instance, we can plot all the factors against each other as follows:
 
-```{r}
+```{r, fig.align='center', fig.height=8}
+#| eval: false
 # create all combinations
-p12 <- plot_factor_loading(data_factor, 1, 2, method = "No rotation", color = "blue")
-p13 <- plot_factor_loading(data_factor, 1, 3, method = "No rotation", color = "blue")
-p14 <- plot_factor_loading(data_factor, 1, 4, method = "No rotation", color = "blue")
-p23 <- plot_factor_loading(data_factor, 2, 3, method = "No rotation", color = "blue")
-p24 <- plot_factor_loading(data_factor, 2, 4, method = "No rotation", color = "blue")
-p34 <- plot_factor_loading(data_factor, 3, 4, method = "No rotation", color = "blue")
-
-library(patchwork)
-(p12 + p13 + p14) /
-(p23 + p24 + p34)
+plot_factor_loading(data_factor, 1, 2, method = "No rotation")
+plot_factor_loading(data_factor, 1, 3, method = "No rotation")
+plot_factor_loading(data_factor, 1, 4, method = "No rotation")
+plot_factor_loading(data_factor, 2, 3, method = "No rotation")
+plot_factor_loading(data_factor, 2, 4, method = "No rotation")
+plot_factor_loading(data_factor, 3, 4, method = "No rotation")
 ```
 
 ```{r}
