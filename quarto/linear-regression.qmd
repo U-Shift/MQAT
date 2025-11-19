@@ -66,12 +66,13 @@ data_continuous = data |> select(-Origin_dicofre16, -internal, -Lisboa) # Exclud
 
 Show summary statistics
 
+\tiny
 ```{r}
 #| message: false
 #| warning: false
 skim(data)
 ```
-
+\normalsize
 The dependent variable is continuous.
 
 ## Check the assumptions

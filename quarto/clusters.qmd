@@ -75,10 +75,12 @@ head(data, 5)
 
 Check summary statistics of variables
 
+\tiny
 ```{r}
 skim(data)
 ```
 
+\normalsize
 As exploring the data, we can plot the `Numberofairlines` against the `Destinations` and observe.
 
 ```{r}

@@ -94,12 +94,12 @@ str(data)
 ```
 
 Check summary statistics of variables
-
+\tiny
 ```{r}
 skimr::skim(data)
 # print(dfSummary(data), method = "render")
 ```
-
+\normalsize
 ::: {.callout-note appearance="simple"}
 ## Note
 
