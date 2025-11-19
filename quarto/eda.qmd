@@ -95,10 +95,12 @@ str(data) # Structure of the dataset
 
 Have an overview of the variables and their statistics' summary.
 
+\tiny
 ```{r}
 summary(data) # Check the summary statistics
 skim(data) # In a more organized way
 ```
+\normalsize
 
 ## Missing data
 
@@ -117,7 +119,7 @@ Inspect outliers and distributions
 boxplot(data) # This does now work if variables are not all continuous
 ```
 
-```{r}
+```{r, fig.align='center', fig.height=4}
 data_continuous = data |> select(-Origin_dicofre16, -internal, -Lisboa) # Exclude categorical variables
 boxplot(data_continuous) # Exclude categorical variables
 
@@ -152,7 +154,7 @@ data_outliers$Total = outlier(data_outliers$Total) # Use the function to the sam
 
 Take a look again at the boxplot
 
-```{r}
+```{r, fig.align='center', fig.height=4}
 boxplot(data_outliers$Total)
 ```
 
@@ -182,14 +184,14 @@ There are many methods to treat outliers. This is just one of them.
 
 Plot histograms of all the continuous variables
 
-```{r}      
+```{r, fig.align='center', fig.height=6}      
 plot_histogram(data, ncol = 3) # histograms with 3 columns
 plot_density(data, ncol = 3) # density plots
 ```
 
 Check how other variables are distributed regarding `Car_perc`
 
-```{r}
+```{r, fig.align='center', fig.height=6}
 plot_boxplot(data, by = "Car_perc", ncol = 3)
 ```
 ::: {.callout-note appearance="simple"}
@@ -211,7 +213,7 @@ Try plotting the boxplots of each independent variable with `Car_perc`.
 
 Plot correlation heatmaps, between continuous variables.
 
-```{r}
+```{r, fig.align='center', fig.width=5, fig.height=5}
 # estimate correlation matrix
 corrmat = cor(data_continuous, method = "pearson") |> round(2)
 corrmat
@@ -243,9 +245,15 @@ This means that the correlations are only significant when you reject the null h
 Other method, using the `DataExplorer` package
 
 ```{r}
+#| eval: false
 plot_correlation(data_continuous)
 ```
 
+```{r fig.align='center', fig.height=5}
+#| echo: false
+plot_correlation(data_continuous,
+                 geom_text_args = list(size = 2)) # font size
+```
 
 Check the _p-value_ of a crossed pair correlation: 
 
