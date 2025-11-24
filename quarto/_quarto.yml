@@ -113,7 +113,6 @@ format:
         \automark[chapter]{chapter}
 # raggedbottom prevents stretching vertical spaces to fill the page height
 # Use chapter titles only in the header with automark
-# # cover-image: images/cover.png # not working
 #    output-ext:  "pdf"
 prefer-html: true
     
