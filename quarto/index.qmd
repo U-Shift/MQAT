@@ -73,6 +73,8 @@ Additionally, the use of open source software and datasets allows researchers to
 -   @wickham2017r [R for Data Science](https://r4ds.hadley.nz/).
 -   @geocomputation [Geocomputation with R](https://geocompr.robinlovelace.net/).
 
+::: {.content-hidden unless-format="html"}
 ::: {.callout-note appearance="simple" icon="true"}
 This website was developed entirely in R with [Quarto](https://quarto.org/docs/books/).
+:::
 :::

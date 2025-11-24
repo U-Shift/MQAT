@@ -71,6 +71,9 @@ book:
     
     
 bibliography: references.bib
+link-citations: true
+citeproc: true 
+
 
 format:
   html:
