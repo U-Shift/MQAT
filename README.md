@@ -1,6 +1,15 @@
 # Quantitative Methods of Analysis in Transportation 
 Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT112/2025-2026/1-semestre)
 
+## Website and E-book
+
+This repository complements the materials available at:
+
+* [Website](https://u-shift.github.io/MQAT/)
+* [E-book](https://github.com/U-Shift/MQAT/releases/download/2025/QMAT_RGIS_Exercises_2025.pdf)
+
+These are not official materials of the course, but they can be used as complementary resources.
+
 ## Content
 
 * R scripts to prepare the databases
@@ -11,7 +20,7 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 
 ## Download R and RStudio
 
-[Instructions for installing R and RStudio](https://u-shift.github.io/MQAT/software.html). First install R and then RStudio. 
+[Instructions for installing R and RStudio](https://u-shift.github.io/MQAT/software.html). 
     
 ## For classes and home assignments
 
@@ -32,12 +41,12 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 
 ### Exploratory Factor Analysis
 
-* R script for [Exploratory Factor Analysis](code/classroom/FactorAnalysis.R)
+* R script for [Exploratory Factor Analysis](code/classroom/factor.R)
 * Database of Residential location satisfaction in the Lisbon metropolitan are: [example_fact.sav](data/example_fact.sav).
 
 ### Cluster Analysis
 
-* R script for [Cluster Analysis](code/classroom/ClusterAnalysis.R)
+* R script for [Cluster Analysis](code/classroom/clusters.R)
 * Database of international airports: [Data_Aeroports_Clustersv1](data/Data_Aeroports_Clustersv1.xlsx)
 
 ### GIS for Transportation
