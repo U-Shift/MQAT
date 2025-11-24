@@ -99,6 +99,10 @@ format:
    toc: true
    number-depth: 3
    toc-depth: 3
+   color-links: true
+   linkcolor: teal
+   citecolor: teal
+   urlcolor: teal
    code-overflow: wrap # does not work! use next lines instead
    include-in-header: 
       text: |
