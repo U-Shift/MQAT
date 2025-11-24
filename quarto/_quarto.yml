@@ -58,12 +58,12 @@ book:
   repo-url: https://github.com/U-Shift/MQAT
   site-url: https://U-Shift.github.io/MQAT
   # favicon: images/favicon.png
-  # sidebar:
-    # tools:
-    #   - icon: download
-    #     href: https://github.com/U-Shift/EITcourse/releases/download/2024.09/EITcourse_GetYourDatasetReady2024.pdf
-    #     text: "Download PDF"
-    #     target: _blank
+  sidebar:
+    tools:
+    - icon: download
+      href: https://github.com/U-Shift/MQAT/releases/download/2025/QMAT_RGIS_Exercises_2025.pdf
+      text: "Download PDF"
+      target: _blank
   page-footer:
     left: "R Félix, G Valença, F Moura"
     center: "MQAT - Instituto Superior Técnico"
@@ -100,9 +100,9 @@ format:
    number-depth: 3
    toc-depth: 3
    color-links: true
-   linkcolor: teal
-   citecolor: teal
-   urlcolor: teal
+   linkcolor: blue
+   citecolor: black
+   urlcolor: blue
    code-overflow: wrap # does not work! use next lines instead
    include-in-header: 
       text: |
