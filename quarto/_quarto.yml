@@ -99,6 +99,12 @@ format:
    toc: true
    number-depth: 3
    toc-depth: 3
+   code-overflow: wrap # does not work! use next lines instead
+   include-in-header: 
+      text: |
+        \usepackage{fvextra}
+        \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+
 # # cover-image: images/cover.png # not working
 #    output-ext:  "pdf"
 prefer-html: true
