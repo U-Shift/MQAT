@@ -104,7 +104,8 @@ format:
       text: |
         \usepackage{fvextra}
         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
-
+        \raggedbottom
+# raggedbottom prevents stretching vertical spaces to fill the page height
 # # cover-image: images/cover.png # not working
 #    output-ext:  "pdf"
 prefer-html: true
