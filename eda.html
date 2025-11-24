@@ -175,7 +175,8 @@ div.csl-indent {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">MQAT</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/U-Shift/MQAT/releases/download/2025/QMAT_RGIS_Exercises_2025.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF" target="_blank"><i class="bi bi-download"></i></a>
     <a href="https://github.com/U-Shift/MQAT" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -191,7 +192,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quantitative Methods of Analysis in Transportation course</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -924,29 +925,29 @@ FALSE
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data) <span class="co"># This does now work if variables are not all continuous</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_continuous <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>Origin_dicofre16, <span class="sc">-</span>internal, <span class="sc">-</span>Lisboa) <span class="co"># Exclude categorical variables</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_continuous) <span class="co"># Exclude categorical variables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data_continuous<span class="sc">$</span>Total) <span class="co"># histogram</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_continuous<span class="sc">$</span>Total) <span class="co"># outliers detected</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -973,12 +974,12 @@ FALSE
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>data_outliers<span class="sc">$</span>Total <span class="ot">=</span> <span class="fu">outlier</span>(data_outliers<span class="sc">$</span>Total) <span class="co"># Use the function to the same variable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Take a look again at the boxplot</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_outliers<span class="sc">$</span>Total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1031,52 +1032,52 @@ Note
 <section id="histograms" class="level2" data-number="5.7">
 <h2 data-number="5.7" class="anchored" data-anchor-id="histograms"><span class="header-section-number">5.7</span> Histograms</h2>
 <p>Plot histograms of all the continuous variables</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_histogram</span>(data, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="co"># histograms with 3 columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_density</span>(data, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="co"># density plots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-12-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-12-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-12-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-12-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Check how other variables are distributed regarding <code>Car_perc</code></p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_boxplot</span>(data, <span class="at">by =</span> <span class="st">"Car_perc"</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1111,7 +1112,7 @@ Exercise
 <section id="correlations" class="level2" data-number="5.8">
 <h2 data-number="5.8" class="anchored" data-anchor-id="correlations"><span class="header-section-number">5.8</span> Correlations</h2>
 <p>Plot correlation heatmaps, between continuous variables.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate correlation matrix</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>corrmat <span class="ot">=</span> <span class="fu">cor</span>(data_continuous, <span class="at">method =</span> <span class="st">"pearson"</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>corrmat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1184,9 +1185,9 @@ Area_km2                     0.32  -0.41     1.00</code></pre>
 <span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">tl.col =</span> <span class="st">"black"</span> <span class="co"># text label color</span></span>
 <span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
 </figure>
 </div>
 </div>
@@ -1208,10 +1209,12 @@ Note
 <p>Other method, using the <code>DataExplorer</code> package</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_correlation</span>(data_continuous)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="eda_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2010,34 +2013,36 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb44-101"><a href="#cb44-101" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-102"><a href="#cb44-102" aria-hidden="true" tabindex="-1"></a>Have an overview of the variables and their statistics' summary.</span>
 <span id="cb44-103"><a href="#cb44-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-106"><a href="#cb44-106" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-107"><a href="#cb44-107" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data) <span class="co"># Check the summary statistics</span></span>
-<span id="cb44-108"><a href="#cb44-108" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data) <span class="co"># In a more organized way</span></span>
-<span id="cb44-109"><a href="#cb44-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-110"><a href="#cb44-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-111"><a href="#cb44-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Missing data</span></span>
+<span id="cb44-104"><a href="#cb44-104" aria-hidden="true" tabindex="-1"></a>\tiny</span>
+<span id="cb44-107"><a href="#cb44-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-108"><a href="#cb44-108" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data) <span class="co"># Check the summary statistics</span></span>
+<span id="cb44-109"><a href="#cb44-109" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data) <span class="co"># In a more organized way</span></span>
+<span id="cb44-110"><a href="#cb44-110" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-111"><a href="#cb44-111" aria-hidden="true" tabindex="-1"></a>\normalsize</span>
 <span id="cb44-112"><a href="#cb44-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-113"><a href="#cb44-113" aria-hidden="true" tabindex="-1"></a>Is there missing data (<span class="in">`NA`</span>)? How many?</span>
+<span id="cb44-113"><a href="#cb44-113" aria-hidden="true" tabindex="-1"></a><span class="fu">## Missing data</span></span>
 <span id="cb44-114"><a href="#cb44-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-117"><a href="#cb44-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-118"><a href="#cb44-118" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">is.na</span>(data))</span>
-<span id="cb44-119"><a href="#cb44-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-120"><a href="#cb44-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-121"><a href="#cb44-121" aria-hidden="true" tabindex="-1"></a><span class="fu">## Outliers</span></span>
+<span id="cb44-115"><a href="#cb44-115" aria-hidden="true" tabindex="-1"></a>Is there missing data (<span class="in">`NA`</span>)? How many?</span>
+<span id="cb44-116"><a href="#cb44-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-119"><a href="#cb44-119" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-120"><a href="#cb44-120" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">is.na</span>(data))</span>
+<span id="cb44-121"><a href="#cb44-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb44-122"><a href="#cb44-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-123"><a href="#cb44-123" aria-hidden="true" tabindex="-1"></a>Inspect outliers and distributions</span>
+<span id="cb44-123"><a href="#cb44-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## Outliers</span></span>
 <span id="cb44-124"><a href="#cb44-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-127"><a href="#cb44-127" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-128"><a href="#cb44-128" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb44-129"><a href="#cb44-129" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data) <span class="co"># This does now work if variables are not all continuous</span></span>
-<span id="cb44-130"><a href="#cb44-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-131"><a href="#cb44-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-134"><a href="#cb44-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-135"><a href="#cb44-135" aria-hidden="true" tabindex="-1"></a>data_continuous <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>Origin_dicofre16, <span class="sc">-</span>internal, <span class="sc">-</span>Lisboa) <span class="co"># Exclude categorical variables</span></span>
-<span id="cb44-136"><a href="#cb44-136" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_continuous) <span class="co"># Exclude categorical variables</span></span>
+<span id="cb44-125"><a href="#cb44-125" aria-hidden="true" tabindex="-1"></a>Inspect outliers and distributions</span>
+<span id="cb44-126"><a href="#cb44-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-129"><a href="#cb44-129" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-130"><a href="#cb44-130" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb44-131"><a href="#cb44-131" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data) <span class="co"># This does now work if variables are not all continuous</span></span>
+<span id="cb44-132"><a href="#cb44-132" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-133"><a href="#cb44-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-134"><a href="#cb44-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=4}</span></span>
+<span id="cb44-135"><a href="#cb44-135" aria-hidden="true" tabindex="-1"></a><span class="in">data_continuous = data |&gt; select(-Origin_dicofre16, -internal, -Lisboa) # Exclude categorical variables</span></span>
+<span id="cb44-136"><a href="#cb44-136" aria-hidden="true" tabindex="-1"></a><span class="in">boxplot(data_continuous) # Exclude categorical variables</span></span>
 <span id="cb44-137"><a href="#cb44-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-138"><a href="#cb44-138" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data_continuous<span class="sc">$</span>Total) <span class="co"># histogram</span></span>
-<span id="cb44-139"><a href="#cb44-139" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_continuous<span class="sc">$</span>Total) <span class="co"># outliers detected</span></span>
+<span id="cb44-138"><a href="#cb44-138" aria-hidden="true" tabindex="-1"></a><span class="in">hist(data_continuous$Total) # histogram</span></span>
+<span id="cb44-139"><a href="#cb44-139" aria-hidden="true" tabindex="-1"></a><span class="in">boxplot(data_continuous$Total) # outliers detected</span></span>
 <span id="cb44-140"><a href="#cb44-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb44-141"><a href="#cb44-141" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-142"><a href="#cb44-142" aria-hidden="true" tabindex="-1"></a><span class="fu">### Treating outliers</span></span>
@@ -2067,121 +2072,127 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb44-170"><a href="#cb44-170" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-171"><a href="#cb44-171" aria-hidden="true" tabindex="-1"></a>Take a look again at the boxplot</span>
 <span id="cb44-172"><a href="#cb44-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-175"><a href="#cb44-175" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-176"><a href="#cb44-176" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(data_outliers<span class="sc">$</span>Total)</span>
-<span id="cb44-177"><a href="#cb44-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-173"><a href="#cb44-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=4}</span></span>
+<span id="cb44-174"><a href="#cb44-174" aria-hidden="true" tabindex="-1"></a><span class="in">boxplot(data_outliers$Total)</span></span>
+<span id="cb44-175"><a href="#cb44-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-176"><a href="#cb44-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-177"><a href="#cb44-177" aria-hidden="true" tabindex="-1"></a>Compare the variable with and without the outliers</span>
 <span id="cb44-178"><a href="#cb44-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-179"><a href="#cb44-179" aria-hidden="true" tabindex="-1"></a>Compare the variable with and without the outliers</span>
-<span id="cb44-180"><a href="#cb44-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-183"><a href="#cb44-183" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-184"><a href="#cb44-184" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean</span></span>
-<span id="cb44-185"><a href="#cb44-185" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data<span class="sc">$</span>Total)</span>
-<span id="cb44-186"><a href="#cb44-186" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data_outliers<span class="sc">$</span>Total)</span>
-<span id="cb44-187"><a href="#cb44-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-188"><a href="#cb44-188" aria-hidden="true" tabindex="-1"></a><span class="co"># Median</span></span>
-<span id="cb44-189"><a href="#cb44-189" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(data<span class="sc">$</span>Total)</span>
-<span id="cb44-190"><a href="#cb44-190" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(data_outliers<span class="sc">$</span>Total)</span>
-<span id="cb44-191"><a href="#cb44-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-192"><a href="#cb44-192" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard deviation</span></span>
-<span id="cb44-193"><a href="#cb44-193" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(data<span class="sc">$</span>Total)</span>
-<span id="cb44-194"><a href="#cb44-194" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(data_outliers<span class="sc">$</span>Total)</span>
-<span id="cb44-195"><a href="#cb44-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-196"><a href="#cb44-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-197"><a href="#cb44-197" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
-<span id="cb44-198"><a href="#cb44-198" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
-<span id="cb44-199"><a href="#cb44-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-200"><a href="#cb44-200" aria-hidden="true" tabindex="-1"></a>There are many methods to treat outliers. This is just one of them.</span>
-<span id="cb44-201"><a href="#cb44-201" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-181"><a href="#cb44-181" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-182"><a href="#cb44-182" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean</span></span>
+<span id="cb44-183"><a href="#cb44-183" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data<span class="sc">$</span>Total)</span>
+<span id="cb44-184"><a href="#cb44-184" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data_outliers<span class="sc">$</span>Total)</span>
+<span id="cb44-185"><a href="#cb44-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-186"><a href="#cb44-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Median</span></span>
+<span id="cb44-187"><a href="#cb44-187" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(data<span class="sc">$</span>Total)</span>
+<span id="cb44-188"><a href="#cb44-188" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(data_outliers<span class="sc">$</span>Total)</span>
+<span id="cb44-189"><a href="#cb44-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-190"><a href="#cb44-190" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard deviation</span></span>
+<span id="cb44-191"><a href="#cb44-191" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(data<span class="sc">$</span>Total)</span>
+<span id="cb44-192"><a href="#cb44-192" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(data_outliers<span class="sc">$</span>Total)</span>
+<span id="cb44-193"><a href="#cb44-193" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-194"><a href="#cb44-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-195"><a href="#cb44-195" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
+<span id="cb44-196"><a href="#cb44-196" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
+<span id="cb44-197"><a href="#cb44-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-198"><a href="#cb44-198" aria-hidden="true" tabindex="-1"></a>There are many methods to treat outliers. This is just one of them.</span>
+<span id="cb44-199"><a href="#cb44-199" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-200"><a href="#cb44-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-201"><a href="#cb44-201" aria-hidden="true" tabindex="-1"></a><span class="fu">## Histograms</span></span>
 <span id="cb44-202"><a href="#cb44-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-203"><a href="#cb44-203" aria-hidden="true" tabindex="-1"></a><span class="fu">## Histograms</span></span>
+<span id="cb44-203"><a href="#cb44-203" aria-hidden="true" tabindex="-1"></a>Plot histograms of all the continuous variables</span>
 <span id="cb44-204"><a href="#cb44-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-205"><a href="#cb44-205" aria-hidden="true" tabindex="-1"></a>Plot histograms of all the continuous variables</span>
-<span id="cb44-206"><a href="#cb44-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-209"><a href="#cb44-209" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-210"><a href="#cb44-210" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_histogram</span>(data, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="co"># histograms with 3 columns</span></span>
-<span id="cb44-211"><a href="#cb44-211" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_density</span>(data, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="co"># density plots</span></span>
-<span id="cb44-212"><a href="#cb44-212" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-213"><a href="#cb44-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-214"><a href="#cb44-214" aria-hidden="true" tabindex="-1"></a>Check how other variables are distributed regarding <span class="in">`Car_perc`</span></span>
-<span id="cb44-215"><a href="#cb44-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-218"><a href="#cb44-218" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-219"><a href="#cb44-219" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_boxplot</span>(data, <span class="at">by =</span> <span class="st">"Car_perc"</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb44-220"><a href="#cb44-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-221"><a href="#cb44-221" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
-<span id="cb44-222"><a href="#cb44-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-223"><a href="#cb44-223" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
-<span id="cb44-224"><a href="#cb44-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-225"><a href="#cb44-225" aria-hidden="true" tabindex="-1"></a>When <span class="in">`Car_perc`</span> increases, <span class="in">`PTpass`</span> decreases.</span>
-<span id="cb44-226"><a href="#cb44-226" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-227"><a href="#cb44-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-228"><a href="#cb44-228" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb44-205"><a href="#cb44-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=6}      </span></span>
+<span id="cb44-206"><a href="#cb44-206" aria-hidden="true" tabindex="-1"></a><span class="in">plot_histogram(data, ncol = 3) # histograms with 3 columns</span></span>
+<span id="cb44-207"><a href="#cb44-207" aria-hidden="true" tabindex="-1"></a><span class="in">plot_density(data, ncol = 3) # density plots</span></span>
+<span id="cb44-208"><a href="#cb44-208" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-209"><a href="#cb44-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-210"><a href="#cb44-210" aria-hidden="true" tabindex="-1"></a>Check how other variables are distributed regarding <span class="in">`Car_perc`</span></span>
+<span id="cb44-211"><a href="#cb44-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-212"><a href="#cb44-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=6}</span></span>
+<span id="cb44-213"><a href="#cb44-213" aria-hidden="true" tabindex="-1"></a><span class="in">plot_boxplot(data, by = "Car_perc", ncol = 3)</span></span>
+<span id="cb44-214"><a href="#cb44-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-215"><a href="#cb44-215" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
+<span id="cb44-216"><a href="#cb44-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-217"><a href="#cb44-217" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
+<span id="cb44-218"><a href="#cb44-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-219"><a href="#cb44-219" aria-hidden="true" tabindex="-1"></a>When <span class="in">`Car_perc`</span> increases, <span class="in">`PTpass`</span> decreases.</span>
+<span id="cb44-220"><a href="#cb44-220" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-221"><a href="#cb44-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-222"><a href="#cb44-222" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb44-223"><a href="#cb44-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-224"><a href="#cb44-224" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise</span></span>
+<span id="cb44-225"><a href="#cb44-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-226"><a href="#cb44-226" aria-hidden="true" tabindex="-1"></a>Try plotting the boxplots of each independent variable with <span class="in">`Car_perc`</span>.</span>
+<span id="cb44-227"><a href="#cb44-227" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-228"><a href="#cb44-228" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-229"><a href="#cb44-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-230"><a href="#cb44-230" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercise</span></span>
+<span id="cb44-230"><a href="#cb44-230" aria-hidden="true" tabindex="-1"></a><span class="fu">## Correlations</span></span>
 <span id="cb44-231"><a href="#cb44-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-232"><a href="#cb44-232" aria-hidden="true" tabindex="-1"></a>Try plotting the boxplots of each independent variable with <span class="in">`Car_perc`</span>.</span>
-<span id="cb44-233"><a href="#cb44-233" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-234"><a href="#cb44-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-235"><a href="#cb44-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-236"><a href="#cb44-236" aria-hidden="true" tabindex="-1"></a><span class="fu">## Correlations</span></span>
-<span id="cb44-237"><a href="#cb44-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-238"><a href="#cb44-238" aria-hidden="true" tabindex="-1"></a>Plot correlation heatmaps, between continuous variables.</span>
-<span id="cb44-239"><a href="#cb44-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-242"><a href="#cb44-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-243"><a href="#cb44-243" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate correlation matrix</span></span>
-<span id="cb44-244"><a href="#cb44-244" aria-hidden="true" tabindex="-1"></a>corrmat <span class="ot">=</span> <span class="fu">cor</span>(data_continuous, <span class="at">method =</span> <span class="st">"pearson"</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb44-245"><a href="#cb44-245" aria-hidden="true" tabindex="-1"></a>corrmat</span>
-<span id="cb44-246"><a href="#cb44-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-247"><a href="#cb44-247" aria-hidden="true" tabindex="-1"></a><span class="co"># store the results so you can call the p-value at the corrplot</span></span>
-<span id="cb44-248"><a href="#cb44-248" aria-hidden="true" tabindex="-1"></a>res <span class="ot">=</span> <span class="fu">cor.mtest</span>(data_continuous, <span class="at">conf.level =</span> .<span class="dv">95</span>) </span>
-<span id="cb44-249"><a href="#cb44-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-250"><a href="#cb44-250" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(</span>
-<span id="cb44-251"><a href="#cb44-251" aria-hidden="true" tabindex="-1"></a>  corrmat,</span>
-<span id="cb44-252"><a href="#cb44-252" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"color"</span>, <span class="co"># or "circle"</span></span>
-<span id="cb44-253"><a href="#cb44-253" aria-hidden="true" tabindex="-1"></a>  <span class="at">p.mat =</span> res<span class="sc">$</span>p,</span>
-<span id="cb44-254"><a href="#cb44-254" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
-<span id="cb44-255"><a href="#cb44-255" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"upper"</span>, <span class="co"># display only the upper triangular</span></span>
-<span id="cb44-256"><a href="#cb44-256" aria-hidden="true" tabindex="-1"></a>  <span class="co"># order = "hclust", # order by hierarchical clustering</span></span>
-<span id="cb44-257"><a href="#cb44-257" aria-hidden="true" tabindex="-1"></a>  <span class="at">tl.col =</span> <span class="st">"black"</span> <span class="co"># text label color</span></span>
-<span id="cb44-258"><a href="#cb44-258" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb44-259"><a href="#cb44-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-260"><a href="#cb44-260" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
-<span id="cb44-261"><a href="#cb44-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-262"><a href="#cb44-262" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
-<span id="cb44-263"><a href="#cb44-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-264"><a href="#cb44-264" aria-hidden="true" tabindex="-1"></a>The pairwise correlations that are crossed are statistically not significant.</span>
-<span id="cb44-265"><a href="#cb44-265" aria-hidden="true" tabindex="-1"></a>The null hypothesis (H~0~) is that correlation is zero.</span>
-<span id="cb44-266"><a href="#cb44-266" aria-hidden="true" tabindex="-1"></a>The alternative hypothesis (H~A~) is that correlation is not zero.</span>
-<span id="cb44-267"><a href="#cb44-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-268"><a href="#cb44-268" aria-hidden="true" tabindex="-1"></a>This means that the correlations are only significant when you reject the null hypothesis (p-value &lt; 0.05).</span>
-<span id="cb44-269"><a href="#cb44-269" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-270"><a href="#cb44-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-271"><a href="#cb44-271" aria-hidden="true" tabindex="-1"></a>Other method, using the <span class="in">`DataExplorer`</span> package</span>
-<span id="cb44-272"><a href="#cb44-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-275"><a href="#cb44-275" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-276"><a href="#cb44-276" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_correlation</span>(data_continuous)</span>
-<span id="cb44-277"><a href="#cb44-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-278"><a href="#cb44-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-232"><a href="#cb44-232" aria-hidden="true" tabindex="-1"></a>Plot correlation heatmaps, between continuous variables.</span>
+<span id="cb44-233"><a href="#cb44-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-234"><a href="#cb44-234" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.width=5, fig.height=5}</span></span>
+<span id="cb44-235"><a href="#cb44-235" aria-hidden="true" tabindex="-1"></a><span class="in"># estimate correlation matrix</span></span>
+<span id="cb44-236"><a href="#cb44-236" aria-hidden="true" tabindex="-1"></a><span class="in">corrmat = cor(data_continuous, method = "pearson") |&gt; round(2)</span></span>
+<span id="cb44-237"><a href="#cb44-237" aria-hidden="true" tabindex="-1"></a><span class="in">corrmat</span></span>
+<span id="cb44-238"><a href="#cb44-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-239"><a href="#cb44-239" aria-hidden="true" tabindex="-1"></a><span class="in"># store the results so you can call the p-value at the corrplot</span></span>
+<span id="cb44-240"><a href="#cb44-240" aria-hidden="true" tabindex="-1"></a><span class="in">res = cor.mtest(data_continuous, conf.level = .95) </span></span>
+<span id="cb44-241"><a href="#cb44-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-242"><a href="#cb44-242" aria-hidden="true" tabindex="-1"></a><span class="in">corrplot(</span></span>
+<span id="cb44-243"><a href="#cb44-243" aria-hidden="true" tabindex="-1"></a><span class="in">  corrmat,</span></span>
+<span id="cb44-244"><a href="#cb44-244" aria-hidden="true" tabindex="-1"></a><span class="in">  method = "color", # or "circle"</span></span>
+<span id="cb44-245"><a href="#cb44-245" aria-hidden="true" tabindex="-1"></a><span class="in">  p.mat = res$p,</span></span>
+<span id="cb44-246"><a href="#cb44-246" aria-hidden="true" tabindex="-1"></a><span class="in">  sig.level = 0.05,</span></span>
+<span id="cb44-247"><a href="#cb44-247" aria-hidden="true" tabindex="-1"></a><span class="in">  type = "upper", # display only the upper triangular</span></span>
+<span id="cb44-248"><a href="#cb44-248" aria-hidden="true" tabindex="-1"></a><span class="in">  # order = "hclust", # order by hierarchical clustering</span></span>
+<span id="cb44-249"><a href="#cb44-249" aria-hidden="true" tabindex="-1"></a><span class="in">  tl.col = "black" # text label color</span></span>
+<span id="cb44-250"><a href="#cb44-250" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb44-251"><a href="#cb44-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-252"><a href="#cb44-252" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="simple"}</span>
+<span id="cb44-253"><a href="#cb44-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-254"><a href="#cb44-254" aria-hidden="true" tabindex="-1"></a><span class="fu">### Note</span></span>
+<span id="cb44-255"><a href="#cb44-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-256"><a href="#cb44-256" aria-hidden="true" tabindex="-1"></a>The pairwise correlations that are crossed are statistically not significant.</span>
+<span id="cb44-257"><a href="#cb44-257" aria-hidden="true" tabindex="-1"></a>The null hypothesis (H~0~) is that correlation is zero.</span>
+<span id="cb44-258"><a href="#cb44-258" aria-hidden="true" tabindex="-1"></a>The alternative hypothesis (H~A~) is that correlation is not zero.</span>
+<span id="cb44-259"><a href="#cb44-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-260"><a href="#cb44-260" aria-hidden="true" tabindex="-1"></a>This means that the correlations are only significant when you reject the null hypothesis (p-value &lt; 0.05).</span>
+<span id="cb44-261"><a href="#cb44-261" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-262"><a href="#cb44-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-263"><a href="#cb44-263" aria-hidden="true" tabindex="-1"></a>Other method, using the <span class="in">`DataExplorer`</span> package</span>
+<span id="cb44-264"><a href="#cb44-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-267"><a href="#cb44-267" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-268"><a href="#cb44-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb44-269"><a href="#cb44-269" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_correlation</span>(data_continuous)</span>
+<span id="cb44-270"><a href="#cb44-270" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-271"><a href="#cb44-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-272"><a href="#cb44-272" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fig.align='center', fig.height=5}</span></span>
+<span id="cb44-273"><a href="#cb44-273" aria-hidden="true" tabindex="-1"></a><span class="in">#| echo: false</span></span>
+<span id="cb44-274"><a href="#cb44-274" aria-hidden="true" tabindex="-1"></a><span class="in">plot_correlation(data_continuous,</span></span>
+<span id="cb44-275"><a href="#cb44-275" aria-hidden="true" tabindex="-1"></a><span class="in">                 geom_text_args = list(size = 2)) # font size</span></span>
+<span id="cb44-276"><a href="#cb44-276" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-277"><a href="#cb44-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-278"><a href="#cb44-278" aria-hidden="true" tabindex="-1"></a>Check the _p-value_ of a crossed pair correlation: </span>
 <span id="cb44-279"><a href="#cb44-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-280"><a href="#cb44-280" aria-hidden="true" tabindex="-1"></a>Check the _p-value_ of a crossed pair correlation: </span>
-<span id="cb44-281"><a href="#cb44-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-284"><a href="#cb44-284" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-285"><a href="#cb44-285" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>IncomeHH, data<span class="sc">$</span>Bike)</span>
-<span id="cb44-286"><a href="#cb44-286" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>IncomeHH, data<span class="sc">$</span>Duration)</span>
-<span id="cb44-287"><a href="#cb44-287" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>Distance, data<span class="sc">$</span>Duration)</span>
-<span id="cb44-288"><a href="#cb44-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-289"><a href="#cb44-289" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
-<span id="cb44-290"><a href="#cb44-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-291"><a href="#cb44-291" aria-hidden="true" tabindex="-1"></a>The default for <span class="in">`cor.test`</span> is Pearson, two-sided, with a 95% confident level.</span>
-<span id="cb44-292"><a href="#cb44-292" aria-hidden="true" tabindex="-1"></a>Check <span class="in">`?cor.test`</span> for more options.</span>
-<span id="cb44-293"><a href="#cb44-293" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-294"><a href="#cb44-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-295"><a href="#cb44-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-298"><a href="#cb44-298" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-299"><a href="#cb44-299" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb44-300"><a href="#cb44-300" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb44-301"><a href="#cb44-301" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"quarto/eda.qmd"</span>, <span class="st">"code/eda.R"</span>, <span class="at">documentation =</span> <span class="dv">1</span>)</span>
-<span id="cb44-302"><a href="#cb44-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-303"><a href="#cb44-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-282"><a href="#cb44-282" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-283"><a href="#cb44-283" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>IncomeHH, data<span class="sc">$</span>Bike)</span>
+<span id="cb44-284"><a href="#cb44-284" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>IncomeHH, data<span class="sc">$</span>Duration)</span>
+<span id="cb44-285"><a href="#cb44-285" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(data<span class="sc">$</span>Distance, data<span class="sc">$</span>Duration)</span>
+<span id="cb44-286"><a href="#cb44-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-287"><a href="#cb44-287" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb44-288"><a href="#cb44-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-289"><a href="#cb44-289" aria-hidden="true" tabindex="-1"></a>The default for <span class="in">`cor.test`</span> is Pearson, two-sided, with a 95% confident level.</span>
+<span id="cb44-290"><a href="#cb44-290" aria-hidden="true" tabindex="-1"></a>Check <span class="in">`?cor.test`</span> for more options.</span>
+<span id="cb44-291"><a href="#cb44-291" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-292"><a href="#cb44-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-293"><a href="#cb44-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-296"><a href="#cb44-296" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-297"><a href="#cb44-297" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb44-298"><a href="#cb44-298" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb44-299"><a href="#cb44-299" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"quarto/eda.qmd"</span>, <span class="st">"code/eda.R"</span>, <span class="at">documentation =</span> <span class="dv">1</span>)</span>
+<span id="cb44-300"><a href="#cb44-300" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-301"><a href="#cb44-301" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

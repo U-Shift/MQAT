@@ -204,7 +204,8 @@ window.Quarto = {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">MQAT</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/U-Shift/MQAT/releases/download/2025/QMAT_RGIS_Exercises_2025.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF" target="_blank"><i class="bi bi-download"></i></a>
     <a href="https://github.com/U-Shift/MQAT" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -220,7 +221,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quantitative Methods of Analysis in Transportation course</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -887,7 +888,7 @@ Your task
 </div>
 </div>
 <p>As exploring the data, we can plot the <code>Numberofairlines</code> against the <code>Destinations</code> and observe.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Destinations, <span class="at">y =</span> Numberofairlines)) <span class="sc">+</span></span>
@@ -901,9 +902,9 @@ Your task
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1000,7 +1001,7 @@ Z = \frac{X - \mu} {\sigma}
 <li>Mahanalobis distance</li>
 </ul>
 <p>Let’s measure the <strong>euclidean distances</strong> of our standartize data and visualize them on a heatmap</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># measure</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">=</span> <span class="fu">dist</span>(data_scaled, <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1015,9 +1016,9 @@ Z = \frac{X - \mu} {\sigma}
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">order =</span> <span class="cn">FALSE</span></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1038,7 +1039,7 @@ Z = \frac{X - \mu} {\sigma}
 <h4 class="anchored" data-anchor-id="single-linkage">Single linkage</h4>
 <p>The <em>single linkage</em> method (which is closely related to the minimal spanning tree) adopts a ‘friends of friends’ clustering strategy.</p>
 <p>This clustering algorithm is based on a bottom-up approach, by linking two clusters that have the <strong>closest distance</strong> between each other.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cluster_single <span class="ot">=</span> <span class="fu">hclust</span>(distance, <span class="st">"single"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dendogram</span></span>
@@ -1050,9 +1051,9 @@ Z = \frac{X - \mu} {\sigma}
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(cluster_single, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="st">"purple"</span>) <span class="co"># cut on the dendogram at 4 clusters</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1063,7 +1064,7 @@ Z = \frac{X - \mu} {\sigma}
 <h4 class="anchored" data-anchor-id="complete-linkage">Complete linkage</h4>
 <p>The <em>complete linkage</em> method finds similar clusters.</p>
 <p>Complete linkage is based on the <strong>maximizing distance</strong> between observations in each cluster.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cluster_complete <span class="ot">=</span> <span class="fu">hclust</span>(distance, <span class="st">"complete"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dendogram</span></span>
@@ -1075,9 +1076,9 @@ Z = \frac{X - \mu} {\sigma}
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(cluster_complete, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="st">"blue"</span>) <span class="co"># cut on the dendogram at 4 clusters</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1086,7 +1087,7 @@ Z = \frac{X - \mu} {\sigma}
 <section id="average-linkage" class="level4">
 <h4 class="anchored" data-anchor-id="average-linkage">Average linkage</h4>
 <p>The average linkage considers the distance between clusters to be the average of the <strong>distances between observations in one cluster to all the members in the other cluster</strong>.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cluster_average <span class="ot">=</span> <span class="fu">hclust</span>(distance, <span class="st">"average"</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dendogram</span></span>
@@ -1098,9 +1099,9 @@ Z = \frac{X - \mu} {\sigma}
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(cluster_complete, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="st">"red"</span>) <span class="co"># cut on the dendogram at 4 clusters</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1110,7 +1111,7 @@ Z = \frac{X - \mu} {\sigma}
 <h4 class="anchored" data-anchor-id="wards-method">Ward`s method</h4>
 <p><em>Ward’s</em> minimum variance method aims at finding compact, spherical clusters.</p>
 <p>The Ward`s method considers the measures of similarity as the <strong>sum of squares within the cluster</strong> summed over all variables.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cluster_ward <span class="ot">=</span> <span class="fu">hclust</span>(distance, <span class="st">"ward.D2"</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dendogram</span></span>
@@ -1122,9 +1123,9 @@ Z = \frac{X - \mu} {\sigma}
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(cluster_complete, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="st">"orange"</span>) <span class="co"># cut on the dendogram at 4 clusters</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1133,7 +1134,7 @@ Z = \frac{X - \mu} {\sigma}
 <section id="centroid-method" class="level4">
 <h4 class="anchored" data-anchor-id="centroid-method">Centroid method</h4>
 <p>The centroid method considers the similarity between two clusters as the distance between its centroids.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cluster_centroid <span class="ot">=</span> <span class="fu">hclust</span>(distance, <span class="st">"centroid"</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dendogram</span></span>
@@ -1145,14 +1146,23 @@ Z = \frac{X - \mu} {\sigma}
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(cluster_complete, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="st">"darkgreen"</span>) <span class="co"># cut on the dendogram at 4 clusters</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<div class="callout callout-style-simple callout-caution">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
 <p>As mentioned in <span class="citation" data-cites="Rstats">R Core Team (<a href="references.html#ref-Rstats" role="doc-biblioref">2025</a>)</span>, note however, that methods <code>centroid</code> are <em>not</em> leading to a <em>monotone distance</em> measure, or equivalently the resulting dendrograms can have so called <em>inversions</em> or <em>reversals</em> which <strong>are hard to interpret</strong>, but note the trichotomies in <span class="citation" data-cites="cluster2012">Legendre and Legendre (<a href="references.html#ref-cluster2012" role="doc-biblioref">2012</a>)</span> .</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="comparing-results-from-different-hierarchical-methods" class="level3" data-number="8.3.3">
@@ -1167,7 +1177,7 @@ Z = \frac{X - \mu} {\sigma}
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>member_centroid <span class="ot">=</span> <span class="fu">cutree</span>(cluster_centroid, <span class="at">k =</span> number_clusters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can make a table of cluster <strong>memberships for each observation</strong> to each cluster method, and <strong>compare them</strong> with a color code.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a data frame</span></span>
@@ -1201,9 +1211,9 @@ Z = \frac{X - \mu} {\sigma}
 <span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1245,46 +1255,47 @@ Your turn
 </section>
 <section id="silhouette-plots" class="level3" data-number="8.3.4">
 <h3 data-number="8.3.4" class="anchored" data-anchor-id="silhouette-plots"><span class="header-section-number">8.3.4</span> Silhouette Plots</h3>
-<p>The silhouette plot evaluates how similar an observation is to its own cluster compared to other clusters. The clustering configuration is appropriate when <strong>most objects have high values</strong>.<br>
+<p>The silhouette plot evaluates how similar an observation is to its own cluster compared to other clusters.</p>
+<p>The clustering configuration is appropriate when <strong>most objects have high values</strong>.<br>
 <strong>Low or negative values</strong> indicate that the clustering method <strong>is not appropriate</strong> or the number of clusters <strong>is not ideal</strong>.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(member_single, distance))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(member_complete, distance))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(member_average, distance))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-19-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-19-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(member_ward, distance))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-19-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-19-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(member_centroid, distance))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-19-5.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-19-5.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1324,29 +1335,29 @@ Your turn
 <span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>kmeans_diagnostic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    k   between_ss tot_ss        ratio    marginal
-1   1 1.136868e-13    558 2.037399e-16          NA
-2   2 1.972975e+02    558 3.535798e-01 0.353579811
-3   3 2.696136e+02    558 4.831784e-01 0.129598611
-4   4 3.251070e+02    558 5.826290e-01 0.099450580
-5   5 3.530672e+02    558 6.327369e-01 0.050107861
-6   6 3.910220e+02    558 7.007563e-01 0.068019418
-7   7 4.152430e+02    558 7.441631e-01 0.043406837
-8   8 4.165355e+02    558 7.464794e-01 0.002316306
-9   9 4.400517e+02    558 7.886232e-01 0.042143776
-10 10 4.527418e+02    558 8.113652e-01 0.022742049</code></pre>
+<pre><code>    k   between_ss tot_ss        ratio     marginal
+1   1 1.136868e-13    558 2.037399e-16           NA
+2   2 1.972975e+02    558 3.535798e-01  0.353579811
+3   3 2.696136e+02    558 4.831784e-01  0.129598611
+4   4 3.270613e+02    558 5.861313e-01  0.102952872
+5   5 3.605862e+02    558 6.462118e-01  0.060080556
+6   6 3.756994e+02    558 6.732963e-01  0.027084481
+7   7 4.095853e+02    558 7.340238e-01  0.060727436
+8   8 4.211208e+02    558 7.546968e-01  0.020673028
+9   9 4.381510e+02    558 7.852168e-01  0.030519972
+10 10 4.326745e+02    558 7.754024e-01 -0.009814375</code></pre>
 </div>
 </div>
 <p>Plot the ratio into a <strong>scree plot</strong></p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kmeans_diagnostic<span class="sc">$</span>k, kmeans_diagnostic<span class="sc">$</span>ratio,</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"b"</span>,</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Between SS / Total SS"</span>,</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of clusters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1360,43 +1371,43 @@ Your turn
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>km_clust <span class="ot">=</span> <span class="fu">kmeans</span>(data_scaled, <span class="at">centers =</span> <span class="dv">3</span>) <span class="co"># k = 3</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>km_clust <span class="co"># print the results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 3 clusters of sizes 13, 3, 16
+<pre><code>K-means clustering with 3 clusters of sizes 18, 7, 7
 
 Cluster means:
   Passengers  Movements Numberofairlines Mainairlineflightspercentage
-1  0.3723812  0.5318260        0.6536081                   -0.5369457
-2  2.2082860  1.9174235        1.5633070                   -0.2919658
-3 -0.7166133 -0.7916255       -0.8241767                    0.4910120
+1 -0.2469314 -0.2011272     -0.004982515                   -0.3699491
+2  1.5805700  1.5672811      1.252280245                   -0.4493699
+3 -0.9456035 -1.0500969     -1.239468064                    1.4006677
   Maximumpercentageoftrafficpercountry NumberofLCCflightsweekly
-1                           -0.5482732                0.6017682
-2                           -0.7482433                1.5198394
-3                            0.5857676               -0.7739065
+1                           -0.1629508               0.04370786
+2                           -0.5723298               1.09794424
+3                            0.9913460              -1.21033588
   NumberofLowCostAirlines LowCostAirlinespercentage Destinations
-1               0.5259607                -0.6300025    0.6546048
-2              -0.2251255                -0.9329811    1.1819686
-3              -0.3851321                 0.6868110   -0.7534855
+1               0.3305562                -0.2689855   0.07609389
+2               0.3787531                -0.7808392   1.12432250
+3              -1.2287547                 1.4725164  -1.31999250
   Average_Route_Distance DistancetoclosestAirport
-1              0.2716778               -0.4720463
-2              2.1737031               -0.2311652
-3             -0.6283075                0.4268811
+1             -0.1062034               0.06631895
+2              1.1638144              -0.37683045
+3             -0.8907198               0.20629602
   DistancetoclosestSimilarAirport AirportRegionalrelevance Distancetocitykm
-1                       0.1986251                 0.236275       -0.2466218
-2                       0.1667423                 0.190403       -0.2415823
-3                      -0.1926471                -0.227674        0.2456769
+1                     -0.07737412                0.1407640       -0.3136475
+2                      0.87493166                0.5998030       -0.2060176
+3                     -0.67596963               -0.9617675        1.0125397
   Inhanbitantscorrected numberofvisitorscorrected GDPcorrected   Cargoton
-1             0.5661361                 0.3350867    0.3425757 -0.1502862
-2             0.9414886                 1.6718238    1.5164455  2.9391006
-3            -0.6365147                -0.5857249   -0.5626763 -0.4289738
+1           -0.06258292                -0.2290652   -0.1117858 -0.3186842
+2            1.09082987                 1.3272381    0.8042615  1.2446104
+3           -0.92990235                -0.7382133   -0.5168124 -0.4251367
 
 Clustering vector:
 NCE CGN LPA ALC LTN WAW FAO OPO STN CPH MAN VIE OSL DUS MXP BRU LIS LHR CDG FRA 
-  3   3   3   3   3   3   3   3   3   1   1   1   3   1   1   1   3   2   2   2 
+  1   1   1   1   3   1   1   3   1   1   1   1   1   1   1   1   1   2   2   2 
 MAD AMS FCO MUC LGW BCN NYO GRO ORY BSL KUN BVA 
-  1   1   1   1   1   1   3   3   1   3   3   3 
+  2   2   2   2   1   1   3   3   1   3   3   3 
 
 Within cluster sum of squares by cluster:
-[1]  86.77173  20.38512 193.76889
- (between_SS / total_SS =  46.1 %)
+[1] 150.32291  70.90186  67.16167
+ (between_SS / total_SS =  48.3 %)
 
 Available components:
 
@@ -1418,7 +1429,7 @@ Available components:
 <section id="plotting-the-clusters" class="level3" data-number="8.4.3">
 <h3 data-number="8.4.3" class="anchored" data-anchor-id="plotting-the-clusters"><span class="header-section-number">8.4.3</span> Plotting the clusters</h3>
 <p>Finally, plot again the <code>Numberofairlines</code> against the <code>Destinations</code> and observe the clusters results to check if they make sense.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add cluster membership to original data</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>data_clust <span class="ot">=</span> data <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(<span class="at">cluster =</span> <span class="fu">factor</span>(km_clust<span class="sc">$</span>cluster))</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1435,9 +1446,9 @@ Available components:
 <span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="clusters_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="clusters_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2174,23 +2185,25 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb36-81"><a href="#cb36-81" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-82"><a href="#cb36-82" aria-hidden="true" tabindex="-1"></a>Check summary statistics of variables</span>
 <span id="cb36-83"><a href="#cb36-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-86"><a href="#cb36-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-87"><a href="#cb36-87" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data)</span>
-<span id="cb36-88"><a href="#cb36-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-89"><a href="#cb36-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-90"><a href="#cb36-90" aria-hidden="true" tabindex="-1"></a>As exploring the data, we can plot the <span class="in">`Numberofairlines`</span> against the <span class="in">`Destinations`</span> and observe.</span>
-<span id="cb36-91"><a href="#cb36-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-94"><a href="#cb36-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-95"><a href="#cb36-95" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb36-96"><a href="#cb36-96" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Destinations, <span class="at">y =</span> Numberofairlines)) <span class="sc">+</span></span>
-<span id="cb36-97"><a href="#cb36-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb36-98"><a href="#cb36-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Airport), <span class="at">vjust =</span> <span class="fl">1.5</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb36-99"><a href="#cb36-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb36-100"><a href="#cb36-100" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Airports"</span>,</span>
-<span id="cb36-101"><a href="#cb36-101" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Number of destinations"</span>,</span>
-<span id="cb36-102"><a href="#cb36-102" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of airlines"</span></span>
-<span id="cb36-103"><a href="#cb36-103" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb36-104"><a href="#cb36-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb36-84"><a href="#cb36-84" aria-hidden="true" tabindex="-1"></a>\tiny</span>
+<span id="cb36-87"><a href="#cb36-87" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-88"><a href="#cb36-88" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data)</span>
+<span id="cb36-89"><a href="#cb36-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-90"><a href="#cb36-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-91"><a href="#cb36-91" aria-hidden="true" tabindex="-1"></a>\normalsize</span>
+<span id="cb36-92"><a href="#cb36-92" aria-hidden="true" tabindex="-1"></a>As exploring the data, we can plot the <span class="in">`Numberofairlines`</span> against the <span class="in">`Destinations`</span> and observe.</span>
+<span id="cb36-93"><a href="#cb36-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-94"><a href="#cb36-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=5}</span></span>
+<span id="cb36-95"><a href="#cb36-95" aria-hidden="true" tabindex="-1"></a><span class="in">#| code-fold: true</span></span>
+<span id="cb36-96"><a href="#cb36-96" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data, aes(x = Destinations, y = Numberofairlines)) +</span></span>
+<span id="cb36-97"><a href="#cb36-97" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_point(size = 3, alpha = 0.7) +</span></span>
+<span id="cb36-98"><a href="#cb36-98" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_text(aes(label = Airport), vjust = 1.5, size = 3, show.legend = FALSE) +</span></span>
+<span id="cb36-99"><a href="#cb36-99" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(</span></span>
+<span id="cb36-100"><a href="#cb36-100" aria-hidden="true" tabindex="-1"></a><span class="in">    title = "Airports",</span></span>
+<span id="cb36-101"><a href="#cb36-101" aria-hidden="true" tabindex="-1"></a><span class="in">    x = "Number of destinations",</span></span>
+<span id="cb36-102"><a href="#cb36-102" aria-hidden="true" tabindex="-1"></a><span class="in">    y = "Number of airlines"</span></span>
+<span id="cb36-103"><a href="#cb36-103" aria-hidden="true" tabindex="-1"></a><span class="in">  ) +</span></span>
+<span id="cb36-104"><a href="#cb36-104" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal()</span></span>
 <span id="cb36-105"><a href="#cb36-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb36-106"><a href="#cb36-106" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-107"><a href="#cb36-107" aria-hidden="true" tabindex="-1"></a>By looking at the plot, you may already have a clue on the number of clusters with this two variables.</span>
@@ -2248,323 +2261,324 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb36-167"><a href="#cb36-167" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-168"><a href="#cb36-168" aria-hidden="true" tabindex="-1"></a>Let's measure the **euclidean distances** of our standartize data and visualize them on a heatmap</span>
 <span id="cb36-169"><a href="#cb36-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-172"><a href="#cb36-172" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-173"><a href="#cb36-173" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb36-174"><a href="#cb36-174" aria-hidden="true" tabindex="-1"></a><span class="co"># measure</span></span>
-<span id="cb36-175"><a href="#cb36-175" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">=</span> <span class="fu">dist</span>(data_scaled, <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
-<span id="cb36-176"><a href="#cb36-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-177"><a href="#cb36-177" aria-hidden="true" tabindex="-1"></a><span class="co"># heatmap</span></span>
-<span id="cb36-178"><a href="#cb36-178" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_dist</span>(</span>
-<span id="cb36-179"><a href="#cb36-179" aria-hidden="true" tabindex="-1"></a>  distance, </span>
-<span id="cb36-180"><a href="#cb36-180" aria-hidden="true" tabindex="-1"></a>  <span class="at">gradient =</span> <span class="fu">list</span>(</span>
-<span id="cb36-181"><a href="#cb36-181" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">"#00AFBB"</span>,</span>
-<span id="cb36-182"><a href="#cb36-182" aria-hidden="true" tabindex="-1"></a>    <span class="at">mid =</span> <span class="st">"white"</span>,</span>
-<span id="cb36-183"><a href="#cb36-183" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">"#FC4E07"</span></span>
-<span id="cb36-184"><a href="#cb36-184" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb36-185"><a href="#cb36-185" aria-hidden="true" tabindex="-1"></a>  <span class="at">order =</span> <span class="cn">FALSE</span></span>
-<span id="cb36-186"><a href="#cb36-186" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb36-187"><a href="#cb36-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-170"><a href="#cb36-170" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=4.5}</span></span>
+<span id="cb36-171"><a href="#cb36-171" aria-hidden="true" tabindex="-1"></a><span class="in">#| warning: false</span></span>
+<span id="cb36-172"><a href="#cb36-172" aria-hidden="true" tabindex="-1"></a><span class="in"># measure</span></span>
+<span id="cb36-173"><a href="#cb36-173" aria-hidden="true" tabindex="-1"></a><span class="in">distance = dist(data_scaled, method = "euclidean")</span></span>
+<span id="cb36-174"><a href="#cb36-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-175"><a href="#cb36-175" aria-hidden="true" tabindex="-1"></a><span class="in"># heatmap</span></span>
+<span id="cb36-176"><a href="#cb36-176" aria-hidden="true" tabindex="-1"></a><span class="in">fviz_dist(</span></span>
+<span id="cb36-177"><a href="#cb36-177" aria-hidden="true" tabindex="-1"></a><span class="in">  distance, </span></span>
+<span id="cb36-178"><a href="#cb36-178" aria-hidden="true" tabindex="-1"></a><span class="in">  gradient = list(</span></span>
+<span id="cb36-179"><a href="#cb36-179" aria-hidden="true" tabindex="-1"></a><span class="in">    low = "#00AFBB",</span></span>
+<span id="cb36-180"><a href="#cb36-180" aria-hidden="true" tabindex="-1"></a><span class="in">    mid = "white",</span></span>
+<span id="cb36-181"><a href="#cb36-181" aria-hidden="true" tabindex="-1"></a><span class="in">    high = "#FC4E07"</span></span>
+<span id="cb36-182"><a href="#cb36-182" aria-hidden="true" tabindex="-1"></a><span class="in">  ),</span></span>
+<span id="cb36-183"><a href="#cb36-183" aria-hidden="true" tabindex="-1"></a><span class="in">  order = FALSE</span></span>
+<span id="cb36-184"><a href="#cb36-184" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb36-185"><a href="#cb36-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-186"><a href="#cb36-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-187"><a href="#cb36-187" aria-hidden="true" tabindex="-1"></a>By the color codes, you can have a clue of the airports that are more similar.</span>
 <span id="cb36-188"><a href="#cb36-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-189"><a href="#cb36-189" aria-hidden="true" tabindex="-1"></a>By the color codes, you can have a clue of the airports that are more similar.</span>
+<span id="cb36-189"><a href="#cb36-189" aria-hidden="true" tabindex="-1"></a><span class="fu">### Types of hierarchical clustering</span></span>
 <span id="cb36-190"><a href="#cb36-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-191"><a href="#cb36-191" aria-hidden="true" tabindex="-1"></a><span class="fu">### Types of hierarchical clustering</span></span>
-<span id="cb36-192"><a href="#cb36-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-193"><a href="#cb36-193" aria-hidden="true" tabindex="-1"></a>There are many types of hierarchical clustering.</span>
-<span id="cb36-194"><a href="#cb36-194" aria-hidden="true" tabindex="-1"></a>We will explore some of them:</span>
-<span id="cb36-195"><a href="#cb36-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-196"><a href="#cb36-196" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Single linkage (nearest neighbour) clustering algorithm</span>
-<span id="cb36-197"><a href="#cb36-197" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Complete linkage (Farthest neighbour) clustering algorithm</span>
-<span id="cb36-198"><a href="#cb36-198" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Average linkage between groups</span>
-<span id="cb36-199"><a href="#cb36-199" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ward<span class="sc">\`</span>s method</span>
-<span id="cb36-200"><a href="#cb36-200" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Centroid method</span>
+<span id="cb36-191"><a href="#cb36-191" aria-hidden="true" tabindex="-1"></a>There are many types of hierarchical clustering.</span>
+<span id="cb36-192"><a href="#cb36-192" aria-hidden="true" tabindex="-1"></a>We will explore some of them:</span>
+<span id="cb36-193"><a href="#cb36-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-194"><a href="#cb36-194" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Single linkage (nearest neighbour) clustering algorithm</span>
+<span id="cb36-195"><a href="#cb36-195" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Complete linkage (Farthest neighbour) clustering algorithm</span>
+<span id="cb36-196"><a href="#cb36-196" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Average linkage between groups</span>
+<span id="cb36-197"><a href="#cb36-197" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ward<span class="sc">\`</span>s method</span>
+<span id="cb36-198"><a href="#cb36-198" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Centroid method</span>
+<span id="cb36-199"><a href="#cb36-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-200"><a href="#cb36-200" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Single linkage</span></span>
 <span id="cb36-201"><a href="#cb36-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-202"><a href="#cb36-202" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Single linkage</span></span>
+<span id="cb36-202"><a href="#cb36-202" aria-hidden="true" tabindex="-1"></a>The *single linkage* method (which is closely related to the minimal spanning tree) adopts a ‘friends of friends’ clustering strategy.</span>
 <span id="cb36-203"><a href="#cb36-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-204"><a href="#cb36-204" aria-hidden="true" tabindex="-1"></a>The *single linkage* method (which is closely related to the minimal spanning tree) adopts a ‘friends of friends’ clustering strategy.</span>
+<span id="cb36-204"><a href="#cb36-204" aria-hidden="true" tabindex="-1"></a>This clustering algorithm is based on a bottom-up approach, by linking two clusters that have the **closest distance** between each other.</span>
 <span id="cb36-205"><a href="#cb36-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-206"><a href="#cb36-206" aria-hidden="true" tabindex="-1"></a>This clustering algorithm is based on a bottom-up approach, by linking two clusters that have the **closest distance** between each other.</span>
-<span id="cb36-207"><a href="#cb36-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-210"><a href="#cb36-210" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-211"><a href="#cb36-211" aria-hidden="true" tabindex="-1"></a>cluster_single <span class="ot">=</span> <span class="fu">hclust</span>(distance, <span class="st">"single"</span>)</span>
-<span id="cb36-212"><a href="#cb36-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-213"><a href="#cb36-213" aria-hidden="true" tabindex="-1"></a><span class="co"># dendogram</span></span>
-<span id="cb36-214"><a href="#cb36-214" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb36-215"><a href="#cb36-215" aria-hidden="true" tabindex="-1"></a>  cluster_single,</span>
-<span id="cb36-216"><a href="#cb36-216" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Distance - Single linkage"</span>,</span>
-<span id="cb36-217"><a href="#cb36-217" aria-hidden="true" tabindex="-1"></a>  <span class="at">hang =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="co"># all to the bottom</span></span>
-<span id="cb36-218"><a href="#cb36-218" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.6</span> <span class="co"># label text size</span></span>
-<span id="cb36-219"><a href="#cb36-219" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb36-220"><a href="#cb36-220" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(cluster_single, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="st">"purple"</span>) <span class="co"># cut on the dendogram at 4 clusters</span></span>
-<span id="cb36-221"><a href="#cb36-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-206"><a href="#cb36-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=4, fig.width=7}</span></span>
+<span id="cb36-207"><a href="#cb36-207" aria-hidden="true" tabindex="-1"></a><span class="in">cluster_single = hclust(distance, "single")</span></span>
+<span id="cb36-208"><a href="#cb36-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-209"><a href="#cb36-209" aria-hidden="true" tabindex="-1"></a><span class="in"># dendogram</span></span>
+<span id="cb36-210"><a href="#cb36-210" aria-hidden="true" tabindex="-1"></a><span class="in">plot(</span></span>
+<span id="cb36-211"><a href="#cb36-211" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_single,</span></span>
+<span id="cb36-212"><a href="#cb36-212" aria-hidden="true" tabindex="-1"></a><span class="in">    xlab = "Distance - Single linkage",</span></span>
+<span id="cb36-213"><a href="#cb36-213" aria-hidden="true" tabindex="-1"></a><span class="in">  hang = -1, # all to the bottom</span></span>
+<span id="cb36-214"><a href="#cb36-214" aria-hidden="true" tabindex="-1"></a><span class="in">  cex = 0.6 # label text size</span></span>
+<span id="cb36-215"><a href="#cb36-215" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb36-216"><a href="#cb36-216" aria-hidden="true" tabindex="-1"></a><span class="in">rect.hclust(cluster_single, k = 4, border = "purple") # cut on the dendogram at 4 clusters</span></span>
+<span id="cb36-217"><a href="#cb36-217" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-218"><a href="#cb36-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-219"><a href="#cb36-219" aria-hidden="true" tabindex="-1"></a>This results in 4 clusters, with *Heathrow Airport* and *Kaunas Airport* at their own cluster.</span>
+<span id="cb36-220"><a href="#cb36-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-221"><a href="#cb36-221" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Complete linkage</span></span>
 <span id="cb36-222"><a href="#cb36-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-223"><a href="#cb36-223" aria-hidden="true" tabindex="-1"></a>This results in 4 clusters, with *Heathrow Airport* and *Kaunas Airport* at their own cluster.</span>
+<span id="cb36-223"><a href="#cb36-223" aria-hidden="true" tabindex="-1"></a>The *complete linkage* method finds similar clusters.</span>
 <span id="cb36-224"><a href="#cb36-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-225"><a href="#cb36-225" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Complete linkage</span></span>
+<span id="cb36-225"><a href="#cb36-225" aria-hidden="true" tabindex="-1"></a>Complete linkage is based on the **maximizing distance** between observations in each cluster.</span>
 <span id="cb36-226"><a href="#cb36-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-227"><a href="#cb36-227" aria-hidden="true" tabindex="-1"></a>The *complete linkage* method finds similar clusters.</span>
-<span id="cb36-228"><a href="#cb36-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-229"><a href="#cb36-229" aria-hidden="true" tabindex="-1"></a>Complete linkage is based on the **maximizing distance** between observations in each cluster.</span>
-<span id="cb36-230"><a href="#cb36-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-233"><a href="#cb36-233" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-234"><a href="#cb36-234" aria-hidden="true" tabindex="-1"></a>cluster_complete <span class="ot">=</span> <span class="fu">hclust</span>(distance, <span class="st">"complete"</span>)</span>
-<span id="cb36-235"><a href="#cb36-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-236"><a href="#cb36-236" aria-hidden="true" tabindex="-1"></a><span class="co"># dendogram</span></span>
-<span id="cb36-237"><a href="#cb36-237" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb36-238"><a href="#cb36-238" aria-hidden="true" tabindex="-1"></a>  cluster_complete,</span>
-<span id="cb36-239"><a href="#cb36-239" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Distance - Complete linkage"</span>,</span>
-<span id="cb36-240"><a href="#cb36-240" aria-hidden="true" tabindex="-1"></a>  <span class="at">hang =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="co"># all to the bottom</span></span>
-<span id="cb36-241"><a href="#cb36-241" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.6</span> <span class="co"># label text size</span></span>
-<span id="cb36-242"><a href="#cb36-242" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb36-243"><a href="#cb36-243" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(cluster_complete, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="st">"blue"</span>) <span class="co"># cut on the dendogram at 4 clusters</span></span>
-<span id="cb36-244"><a href="#cb36-244" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-245"><a href="#cb36-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-246"><a href="#cb36-246" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Average linkage</span></span>
-<span id="cb36-247"><a href="#cb36-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-248"><a href="#cb36-248" aria-hidden="true" tabindex="-1"></a>The average linkage considers the distance between clusters to be the average of the **distances between observations in one cluster to all the members in the other cluster**.</span>
-<span id="cb36-249"><a href="#cb36-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-252"><a href="#cb36-252" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-253"><a href="#cb36-253" aria-hidden="true" tabindex="-1"></a>cluster_average <span class="ot">=</span> <span class="fu">hclust</span>(distance, <span class="st">"average"</span>)</span>
-<span id="cb36-254"><a href="#cb36-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-255"><a href="#cb36-255" aria-hidden="true" tabindex="-1"></a><span class="co"># dendogram</span></span>
-<span id="cb36-256"><a href="#cb36-256" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb36-257"><a href="#cb36-257" aria-hidden="true" tabindex="-1"></a>  cluster_average,</span>
-<span id="cb36-258"><a href="#cb36-258" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Distance - Average linkage"</span>,</span>
-<span id="cb36-259"><a href="#cb36-259" aria-hidden="true" tabindex="-1"></a>  <span class="at">hang =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="co"># all to the bottom</span></span>
-<span id="cb36-260"><a href="#cb36-260" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.6</span> <span class="co"># label text size</span></span>
-<span id="cb36-261"><a href="#cb36-261" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb36-262"><a href="#cb36-262" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(cluster_complete, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="st">"red"</span>) <span class="co"># cut on the dendogram at 4 clusters</span></span>
-<span id="cb36-263"><a href="#cb36-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-264"><a href="#cb36-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-265"><a href="#cb36-265" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Ward\`s method</span></span>
-<span id="cb36-266"><a href="#cb36-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-267"><a href="#cb36-267" aria-hidden="true" tabindex="-1"></a>*Ward's* minimum variance method aims at finding compact, spherical clusters.</span>
-<span id="cb36-268"><a href="#cb36-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-269"><a href="#cb36-269" aria-hidden="true" tabindex="-1"></a>The Ward<span class="sc">\`</span>s method considers the measures of similarity as the **sum of squares within the cluster** summed over all variables.</span>
-<span id="cb36-270"><a href="#cb36-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-273"><a href="#cb36-273" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-274"><a href="#cb36-274" aria-hidden="true" tabindex="-1"></a>cluster_ward <span class="ot">=</span> <span class="fu">hclust</span>(distance, <span class="st">"ward.D2"</span>)</span>
+<span id="cb36-227"><a href="#cb36-227" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=4, fig.width=7}</span></span>
+<span id="cb36-228"><a href="#cb36-228" aria-hidden="true" tabindex="-1"></a><span class="in">cluster_complete = hclust(distance, "complete")</span></span>
+<span id="cb36-229"><a href="#cb36-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-230"><a href="#cb36-230" aria-hidden="true" tabindex="-1"></a><span class="in"># dendogram</span></span>
+<span id="cb36-231"><a href="#cb36-231" aria-hidden="true" tabindex="-1"></a><span class="in">plot(</span></span>
+<span id="cb36-232"><a href="#cb36-232" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_complete,</span></span>
+<span id="cb36-233"><a href="#cb36-233" aria-hidden="true" tabindex="-1"></a><span class="in">    xlab = "Distance - Complete linkage",</span></span>
+<span id="cb36-234"><a href="#cb36-234" aria-hidden="true" tabindex="-1"></a><span class="in">  hang = -1, # all to the bottom</span></span>
+<span id="cb36-235"><a href="#cb36-235" aria-hidden="true" tabindex="-1"></a><span class="in">  cex = 0.6 # label text size</span></span>
+<span id="cb36-236"><a href="#cb36-236" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb36-237"><a href="#cb36-237" aria-hidden="true" tabindex="-1"></a><span class="in">rect.hclust(cluster_complete, k = 4, border = "blue") # cut on the dendogram at 4 clusters</span></span>
+<span id="cb36-238"><a href="#cb36-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-239"><a href="#cb36-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-240"><a href="#cb36-240" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Average linkage</span></span>
+<span id="cb36-241"><a href="#cb36-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-242"><a href="#cb36-242" aria-hidden="true" tabindex="-1"></a>The average linkage considers the distance between clusters to be the average of the **distances between observations in one cluster to all the members in the other cluster**.</span>
+<span id="cb36-243"><a href="#cb36-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-244"><a href="#cb36-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=4, fig.width=7}</span></span>
+<span id="cb36-245"><a href="#cb36-245" aria-hidden="true" tabindex="-1"></a><span class="in">cluster_average = hclust(distance, "average")</span></span>
+<span id="cb36-246"><a href="#cb36-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-247"><a href="#cb36-247" aria-hidden="true" tabindex="-1"></a><span class="in"># dendogram</span></span>
+<span id="cb36-248"><a href="#cb36-248" aria-hidden="true" tabindex="-1"></a><span class="in">plot(</span></span>
+<span id="cb36-249"><a href="#cb36-249" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_average,</span></span>
+<span id="cb36-250"><a href="#cb36-250" aria-hidden="true" tabindex="-1"></a><span class="in">  xlab = "Distance - Average linkage",</span></span>
+<span id="cb36-251"><a href="#cb36-251" aria-hidden="true" tabindex="-1"></a><span class="in">  hang = -1, # all to the bottom</span></span>
+<span id="cb36-252"><a href="#cb36-252" aria-hidden="true" tabindex="-1"></a><span class="in">  cex = 0.6 # label text size</span></span>
+<span id="cb36-253"><a href="#cb36-253" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb36-254"><a href="#cb36-254" aria-hidden="true" tabindex="-1"></a><span class="in">rect.hclust(cluster_complete, k = 4, border = "red") # cut on the dendogram at 4 clusters</span></span>
+<span id="cb36-255"><a href="#cb36-255" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-256"><a href="#cb36-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-257"><a href="#cb36-257" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Ward\`s method</span></span>
+<span id="cb36-258"><a href="#cb36-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-259"><a href="#cb36-259" aria-hidden="true" tabindex="-1"></a>*Ward's* minimum variance method aims at finding compact, spherical clusters.</span>
+<span id="cb36-260"><a href="#cb36-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-261"><a href="#cb36-261" aria-hidden="true" tabindex="-1"></a>The Ward<span class="sc">\`</span>s method considers the measures of similarity as the **sum of squares within the cluster** summed over all variables.</span>
+<span id="cb36-262"><a href="#cb36-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-263"><a href="#cb36-263" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=4, fig.width=7}</span></span>
+<span id="cb36-264"><a href="#cb36-264" aria-hidden="true" tabindex="-1"></a><span class="in">cluster_ward = hclust(distance, "ward.D2")</span></span>
+<span id="cb36-265"><a href="#cb36-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-266"><a href="#cb36-266" aria-hidden="true" tabindex="-1"></a><span class="in"># dendogram</span></span>
+<span id="cb36-267"><a href="#cb36-267" aria-hidden="true" tabindex="-1"></a><span class="in">plot(</span></span>
+<span id="cb36-268"><a href="#cb36-268" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_ward,</span></span>
+<span id="cb36-269"><a href="#cb36-269" aria-hidden="true" tabindex="-1"></a><span class="in">  xlab = "Distance - Ward's method",</span></span>
+<span id="cb36-270"><a href="#cb36-270" aria-hidden="true" tabindex="-1"></a><span class="in">  hang = -1, # all to the bottom</span></span>
+<span id="cb36-271"><a href="#cb36-271" aria-hidden="true" tabindex="-1"></a><span class="in">  cex = 0.6 # label text size</span></span>
+<span id="cb36-272"><a href="#cb36-272" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb36-273"><a href="#cb36-273" aria-hidden="true" tabindex="-1"></a><span class="in">rect.hclust(cluster_complete, k = 4, border = "orange") # cut on the dendogram at 4 clusters</span></span>
+<span id="cb36-274"><a href="#cb36-274" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb36-275"><a href="#cb36-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-276"><a href="#cb36-276" aria-hidden="true" tabindex="-1"></a><span class="co"># dendogram</span></span>
-<span id="cb36-277"><a href="#cb36-277" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb36-278"><a href="#cb36-278" aria-hidden="true" tabindex="-1"></a>  cluster_ward,</span>
-<span id="cb36-279"><a href="#cb36-279" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Distance - Ward's method"</span>,</span>
-<span id="cb36-280"><a href="#cb36-280" aria-hidden="true" tabindex="-1"></a>  <span class="at">hang =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="co"># all to the bottom</span></span>
-<span id="cb36-281"><a href="#cb36-281" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.6</span> <span class="co"># label text size</span></span>
-<span id="cb36-282"><a href="#cb36-282" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb36-283"><a href="#cb36-283" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(cluster_complete, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="st">"orange"</span>) <span class="co"># cut on the dendogram at 4 clusters</span></span>
-<span id="cb36-284"><a href="#cb36-284" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-285"><a href="#cb36-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-286"><a href="#cb36-286" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Centroid method</span></span>
-<span id="cb36-287"><a href="#cb36-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-288"><a href="#cb36-288" aria-hidden="true" tabindex="-1"></a>The centroid method considers the similarity between two clusters as the distance between its centroids.</span>
-<span id="cb36-289"><a href="#cb36-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-292"><a href="#cb36-292" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-293"><a href="#cb36-293" aria-hidden="true" tabindex="-1"></a>cluster_centroid <span class="ot">=</span> <span class="fu">hclust</span>(distance, <span class="st">"centroid"</span>)</span>
-<span id="cb36-294"><a href="#cb36-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-295"><a href="#cb36-295" aria-hidden="true" tabindex="-1"></a><span class="co"># dendogram</span></span>
-<span id="cb36-296"><a href="#cb36-296" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb36-297"><a href="#cb36-297" aria-hidden="true" tabindex="-1"></a>  cluster_centroid,</span>
-<span id="cb36-298"><a href="#cb36-298" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Distance - Centroid method"</span>,</span>
-<span id="cb36-299"><a href="#cb36-299" aria-hidden="true" tabindex="-1"></a>  <span class="at">hang =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="co"># all to the bottom</span></span>
-<span id="cb36-300"><a href="#cb36-300" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.6</span> <span class="co"># label text size</span></span>
-<span id="cb36-301"><a href="#cb36-301" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb36-302"><a href="#cb36-302" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(cluster_complete, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="st">"darkgreen"</span>) <span class="co"># cut on the dendogram at 4 clusters</span></span>
-<span id="cb36-303"><a href="#cb36-303" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-304"><a href="#cb36-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-305"><a href="#cb36-305" aria-hidden="true" tabindex="-1"></a>As mentioned in @Rstats, note however, that methods <span class="in">`centroid`</span> are *not* leading to a *monotone distance* measure, or equivalently the resulting dendrograms can have so called *inversions* or *reversals* which **are hard to interpret**, but note the trichotomies in @cluster2012 .</span>
-<span id="cb36-306"><a href="#cb36-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-307"><a href="#cb36-307" aria-hidden="true" tabindex="-1"></a><span class="fu">### Comparing results from different hierarchical methods</span></span>
-<span id="cb36-308"><a href="#cb36-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-309"><a href="#cb36-309" aria-hidden="true" tabindex="-1"></a>Now let's assess the **membership** of each observation with the <span class="in">`cutree`</span> function for each method.</span>
-<span id="cb36-310"><a href="#cb36-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-313"><a href="#cb36-313" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-314"><a href="#cb36-314" aria-hidden="true" tabindex="-1"></a>number_clusters <span class="ot">=</span> <span class="dv">4</span> <span class="co"># change here</span></span>
-<span id="cb36-315"><a href="#cb36-315" aria-hidden="true" tabindex="-1"></a>member_single <span class="ot">=</span> <span class="fu">cutree</span>(cluster_single, <span class="at">k =</span> number_clusters)</span>
-<span id="cb36-316"><a href="#cb36-316" aria-hidden="true" tabindex="-1"></a>member_complete <span class="ot">=</span> <span class="fu">cutree</span>(cluster_complete, <span class="at">k =</span> number_clusters)</span>
-<span id="cb36-317"><a href="#cb36-317" aria-hidden="true" tabindex="-1"></a>member_average <span class="ot">=</span> <span class="fu">cutree</span>(cluster_average, <span class="at">k =</span> number_clusters)</span>
-<span id="cb36-318"><a href="#cb36-318" aria-hidden="true" tabindex="-1"></a>member_ward <span class="ot">=</span> <span class="fu">cutree</span>(cluster_ward, <span class="at">k =</span> number_clusters)</span>
-<span id="cb36-319"><a href="#cb36-319" aria-hidden="true" tabindex="-1"></a>member_centroid <span class="ot">=</span> <span class="fu">cutree</span>(cluster_centroid, <span class="at">k =</span> number_clusters)</span>
-<span id="cb36-320"><a href="#cb36-320" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-321"><a href="#cb36-321" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-322"><a href="#cb36-322" aria-hidden="true" tabindex="-1"></a>We can make a table of cluster **memberships for each observation** to each cluster method, and **compare them** with a color code.</span>
-<span id="cb36-323"><a href="#cb36-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-326"><a href="#cb36-326" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-327"><a href="#cb36-327" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb36-328"><a href="#cb36-328" aria-hidden="true" tabindex="-1"></a><span class="co"># make a data frame</span></span>
-<span id="cb36-329"><a href="#cb36-329" aria-hidden="true" tabindex="-1"></a>cluster_membership <span class="ot">=</span> <span class="fu">data.frame</span>(member_single,</span>
-<span id="cb36-330"><a href="#cb36-330" aria-hidden="true" tabindex="-1"></a>                                member_complete,</span>
-<span id="cb36-331"><a href="#cb36-331" aria-hidden="true" tabindex="-1"></a>                                member_average,</span>
-<span id="cb36-332"><a href="#cb36-332" aria-hidden="true" tabindex="-1"></a>                                member_ward,</span>
-<span id="cb36-333"><a href="#cb36-333" aria-hidden="true" tabindex="-1"></a>                                member_centroid</span>
-<span id="cb36-334"><a href="#cb36-334" aria-hidden="true" tabindex="-1"></a>                                )</span>
-<span id="cb36-335"><a href="#cb36-335" aria-hidden="true" tabindex="-1"></a><span class="co"># manipulate data for plot</span></span>
-<span id="cb36-336"><a href="#cb36-336" aria-hidden="true" tabindex="-1"></a>cluster_long <span class="ot">=</span> cluster_membership <span class="sc">|&gt;</span></span>
-<span id="cb36-337"><a href="#cb36-337" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"airport"</span>) <span class="sc">|&gt;</span>  <span class="co"># keep airport names</span></span>
-<span id="cb36-338"><a href="#cb36-338" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb36-339"><a href="#cb36-339" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"member_"</span>),</span>
-<span id="cb36-340"><a href="#cb36-340" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"method"</span>,</span>
-<span id="cb36-341"><a href="#cb36-341" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"cluster"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb36-342"><a href="#cb36-342" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method =</span> <span class="fu">gsub</span>(<span class="st">"member_"</span>, <span class="st">""</span>, method), <span class="co"># clean names</span></span>
-<span id="cb36-343"><a href="#cb36-343" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="fu">factor</span>(method, <span class="co"># preserve the label order</span></span>
-<span id="cb36-344"><a href="#cb36-344" aria-hidden="true" tabindex="-1"></a>                         <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"complete"</span>, <span class="st">"average"</span>, <span class="st">"ward"</span>, <span class="st">"centroid"</span>)))  </span>
-<span id="cb36-345"><a href="#cb36-345" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
-<span id="cb36-346"><a href="#cb36-346" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cluster_long,</span>
-<span id="cb36-347"><a href="#cb36-347" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> method,</span>
-<span id="cb36-348"><a href="#cb36-348" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> airport,</span>
-<span id="cb36-349"><a href="#cb36-349" aria-hidden="true" tabindex="-1"></a>           <span class="at">fill =</span> <span class="fu">factor</span>(cluster))) <span class="sc">+</span></span>
-<span id="cb36-350"><a href="#cb36-350" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb36-351"><a href="#cb36-351" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set3"</span>, <span class="at">name =</span> <span class="st">"Cluster"</span>) <span class="sc">+</span></span>
-<span id="cb36-352"><a href="#cb36-352" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb36-353"><a href="#cb36-353" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cluster memberships by method"</span>,</span>
-<span id="cb36-354"><a href="#cb36-354" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Clustering method"</span>,</span>
-<span id="cb36-355"><a href="#cb36-355" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Airport"</span>) <span class="sc">+</span></span>
-<span id="cb36-356"><a href="#cb36-356" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>))</span>
-<span id="cb36-357"><a href="#cb36-357" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-276"><a href="#cb36-276" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Centroid method</span></span>
+<span id="cb36-277"><a href="#cb36-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-278"><a href="#cb36-278" aria-hidden="true" tabindex="-1"></a>The centroid method considers the similarity between two clusters as the distance between its centroids.</span>
+<span id="cb36-279"><a href="#cb36-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-280"><a href="#cb36-280" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=4, fig.width=7}</span></span>
+<span id="cb36-281"><a href="#cb36-281" aria-hidden="true" tabindex="-1"></a><span class="in">cluster_centroid = hclust(distance, "centroid")</span></span>
+<span id="cb36-282"><a href="#cb36-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-283"><a href="#cb36-283" aria-hidden="true" tabindex="-1"></a><span class="in"># dendogram</span></span>
+<span id="cb36-284"><a href="#cb36-284" aria-hidden="true" tabindex="-1"></a><span class="in">plot(</span></span>
+<span id="cb36-285"><a href="#cb36-285" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_centroid,</span></span>
+<span id="cb36-286"><a href="#cb36-286" aria-hidden="true" tabindex="-1"></a><span class="in">  xlab = "Distance - Centroid method",</span></span>
+<span id="cb36-287"><a href="#cb36-287" aria-hidden="true" tabindex="-1"></a><span class="in">  hang = -1, # all to the bottom</span></span>
+<span id="cb36-288"><a href="#cb36-288" aria-hidden="true" tabindex="-1"></a><span class="in">  cex = 0.6 # label text size</span></span>
+<span id="cb36-289"><a href="#cb36-289" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb36-290"><a href="#cb36-290" aria-hidden="true" tabindex="-1"></a><span class="in">rect.hclust(cluster_complete, k = 4, border = "darkgreen") # cut on the dendogram at 4 clusters</span></span>
+<span id="cb36-291"><a href="#cb36-291" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-292"><a href="#cb36-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-293"><a href="#cb36-293" aria-hidden="true" tabindex="-1"></a>::: {.callout-caution appearance="simple"}</span>
+<span id="cb36-294"><a href="#cb36-294" aria-hidden="true" tabindex="-1"></a>As mentioned in @Rstats, note however, that methods <span class="in">`centroid`</span> are *not* leading to a *monotone distance* measure, or equivalently the resulting dendrograms can have so called *inversions* or *reversals* which **are hard to interpret**, but note the trichotomies in @cluster2012 .</span>
+<span id="cb36-295"><a href="#cb36-295" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb36-296"><a href="#cb36-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-297"><a href="#cb36-297" aria-hidden="true" tabindex="-1"></a><span class="fu">### Comparing results from different hierarchical methods</span></span>
+<span id="cb36-298"><a href="#cb36-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-299"><a href="#cb36-299" aria-hidden="true" tabindex="-1"></a>Now let's assess the **membership** of each observation with the <span class="in">`cutree`</span> function for each method.</span>
+<span id="cb36-300"><a href="#cb36-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-303"><a href="#cb36-303" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-304"><a href="#cb36-304" aria-hidden="true" tabindex="-1"></a>number_clusters <span class="ot">=</span> <span class="dv">4</span> <span class="co"># change here</span></span>
+<span id="cb36-305"><a href="#cb36-305" aria-hidden="true" tabindex="-1"></a>member_single <span class="ot">=</span> <span class="fu">cutree</span>(cluster_single, <span class="at">k =</span> number_clusters)</span>
+<span id="cb36-306"><a href="#cb36-306" aria-hidden="true" tabindex="-1"></a>member_complete <span class="ot">=</span> <span class="fu">cutree</span>(cluster_complete, <span class="at">k =</span> number_clusters)</span>
+<span id="cb36-307"><a href="#cb36-307" aria-hidden="true" tabindex="-1"></a>member_average <span class="ot">=</span> <span class="fu">cutree</span>(cluster_average, <span class="at">k =</span> number_clusters)</span>
+<span id="cb36-308"><a href="#cb36-308" aria-hidden="true" tabindex="-1"></a>member_ward <span class="ot">=</span> <span class="fu">cutree</span>(cluster_ward, <span class="at">k =</span> number_clusters)</span>
+<span id="cb36-309"><a href="#cb36-309" aria-hidden="true" tabindex="-1"></a>member_centroid <span class="ot">=</span> <span class="fu">cutree</span>(cluster_centroid, <span class="at">k =</span> number_clusters)</span>
+<span id="cb36-310"><a href="#cb36-310" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-311"><a href="#cb36-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-312"><a href="#cb36-312" aria-hidden="true" tabindex="-1"></a>We can make a table of cluster **memberships for each observation** to each cluster method, and **compare them** with a color code.</span>
+<span id="cb36-313"><a href="#cb36-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-314"><a href="#cb36-314" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=5}</span></span>
+<span id="cb36-315"><a href="#cb36-315" aria-hidden="true" tabindex="-1"></a><span class="in">#| code-fold: true</span></span>
+<span id="cb36-316"><a href="#cb36-316" aria-hidden="true" tabindex="-1"></a><span class="in"># make a data frame</span></span>
+<span id="cb36-317"><a href="#cb36-317" aria-hidden="true" tabindex="-1"></a><span class="in">cluster_membership = data.frame(member_single,</span></span>
+<span id="cb36-318"><a href="#cb36-318" aria-hidden="true" tabindex="-1"></a><span class="in">                                member_complete,</span></span>
+<span id="cb36-319"><a href="#cb36-319" aria-hidden="true" tabindex="-1"></a><span class="in">                                member_average,</span></span>
+<span id="cb36-320"><a href="#cb36-320" aria-hidden="true" tabindex="-1"></a><span class="in">                                member_ward,</span></span>
+<span id="cb36-321"><a href="#cb36-321" aria-hidden="true" tabindex="-1"></a><span class="in">                                member_centroid</span></span>
+<span id="cb36-322"><a href="#cb36-322" aria-hidden="true" tabindex="-1"></a><span class="in">                                )</span></span>
+<span id="cb36-323"><a href="#cb36-323" aria-hidden="true" tabindex="-1"></a><span class="in"># manipulate data for plot</span></span>
+<span id="cb36-324"><a href="#cb36-324" aria-hidden="true" tabindex="-1"></a><span class="in">cluster_long = cluster_membership |&gt;</span></span>
+<span id="cb36-325"><a href="#cb36-325" aria-hidden="true" tabindex="-1"></a><span class="in">  rownames_to_column(var = "airport") |&gt;  # keep airport names</span></span>
+<span id="cb36-326"><a href="#cb36-326" aria-hidden="true" tabindex="-1"></a><span class="in">  pivot_longer(</span></span>
+<span id="cb36-327"><a href="#cb36-327" aria-hidden="true" tabindex="-1"></a><span class="in">    cols = starts_with("member_"),</span></span>
+<span id="cb36-328"><a href="#cb36-328" aria-hidden="true" tabindex="-1"></a><span class="in">    names_to = "method",</span></span>
+<span id="cb36-329"><a href="#cb36-329" aria-hidden="true" tabindex="-1"></a><span class="in">    values_to = "cluster") |&gt;</span></span>
+<span id="cb36-330"><a href="#cb36-330" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(method = gsub("member_", "", method), # clean names</span></span>
+<span id="cb36-331"><a href="#cb36-331" aria-hidden="true" tabindex="-1"></a><span class="in">         method = factor(method, # preserve the label order</span></span>
+<span id="cb36-332"><a href="#cb36-332" aria-hidden="true" tabindex="-1"></a><span class="in">                         levels = c("single", "complete", "average", "ward", "centroid")))  </span></span>
+<span id="cb36-333"><a href="#cb36-333" aria-hidden="true" tabindex="-1"></a><span class="in"># plot</span></span>
+<span id="cb36-334"><a href="#cb36-334" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(cluster_long,</span></span>
+<span id="cb36-335"><a href="#cb36-335" aria-hidden="true" tabindex="-1"></a><span class="in">       aes(x = method,</span></span>
+<span id="cb36-336"><a href="#cb36-336" aria-hidden="true" tabindex="-1"></a><span class="in">           y = airport,</span></span>
+<span id="cb36-337"><a href="#cb36-337" aria-hidden="true" tabindex="-1"></a><span class="in">           fill = factor(cluster))) +</span></span>
+<span id="cb36-338"><a href="#cb36-338" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_tile(color = "white") +</span></span>
+<span id="cb36-339"><a href="#cb36-339" aria-hidden="true" tabindex="-1"></a><span class="in">  scale_fill_brewer(palette = "Set3", name = "Cluster") +</span></span>
+<span id="cb36-340"><a href="#cb36-340" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal() +</span></span>
+<span id="cb36-341"><a href="#cb36-341" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(title = "Cluster memberships by method",</span></span>
+<span id="cb36-342"><a href="#cb36-342" aria-hidden="true" tabindex="-1"></a><span class="in">    x = "Clustering method",</span></span>
+<span id="cb36-343"><a href="#cb36-343" aria-hidden="true" tabindex="-1"></a><span class="in">    y = "Airport") +</span></span>
+<span id="cb36-344"><a href="#cb36-344" aria-hidden="true" tabindex="-1"></a><span class="in">  theme(axis.text.y = element_text(size = 6))</span></span>
+<span id="cb36-345"><a href="#cb36-345" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-346"><a href="#cb36-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-347"><a href="#cb36-347" aria-hidden="true" tabindex="-1"></a>Compare how common each method is to each other:</span>
+<span id="cb36-348"><a href="#cb36-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-351"><a href="#cb36-351" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-352"><a href="#cb36-352" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(member_complete, member_average) <span class="co"># complete linkage vs. average linkage</span></span>
+<span id="cb36-353"><a href="#cb36-353" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(member_complete, member_ward) <span class="co"># complete linkage vs. ward's method</span></span>
+<span id="cb36-354"><a href="#cb36-354" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-355"><a href="#cb36-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-356"><a href="#cb36-356" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning appearance="simple"}</span>
+<span id="cb36-357"><a href="#cb36-357" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your turn</span></span>
 <span id="cb36-358"><a href="#cb36-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-359"><a href="#cb36-359" aria-hidden="true" tabindex="-1"></a>Compare how common each method is to each other:</span>
-<span id="cb36-360"><a href="#cb36-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-363"><a href="#cb36-363" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-364"><a href="#cb36-364" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(member_complete, member_average) <span class="co"># complete linkage vs. average linkage</span></span>
-<span id="cb36-365"><a href="#cb36-365" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(member_complete, member_ward) <span class="co"># complete linkage vs. ward's method</span></span>
-<span id="cb36-366"><a href="#cb36-366" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-367"><a href="#cb36-367" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-368"><a href="#cb36-368" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning appearance="simple"}</span>
-<span id="cb36-369"><a href="#cb36-369" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your turn</span></span>
-<span id="cb36-370"><a href="#cb36-370" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-371"><a href="#cb36-371" aria-hidden="true" tabindex="-1"></a>Try comparing other methods, and evaluate how common they are.</span>
-<span id="cb36-372"><a href="#cb36-372" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb36-373"><a href="#cb36-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-374"><a href="#cb36-374" aria-hidden="true" tabindex="-1"></a><span class="fu">### Silhouette Plots</span></span>
-<span id="cb36-375"><a href="#cb36-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-376"><a href="#cb36-376" aria-hidden="true" tabindex="-1"></a>The silhouette plot evaluates how similar an observation is to its own cluster compared to other clusters.</span>
-<span id="cb36-377"><a href="#cb36-377" aria-hidden="true" tabindex="-1"></a>The clustering configuration is appropriate when **most objects have high values**.</span>
-<span id="cb36-378"><a href="#cb36-378" aria-hidden="true" tabindex="-1"></a>\</span>
-<span id="cb36-379"><a href="#cb36-379" aria-hidden="true" tabindex="-1"></a>**Low or negative values** indicate that the clustering method **is not appropriate** or the number of clusters **is not ideal**.</span>
+<span id="cb36-359"><a href="#cb36-359" aria-hidden="true" tabindex="-1"></a>Try comparing other methods, and evaluate how common they are.</span>
+<span id="cb36-360"><a href="#cb36-360" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb36-361"><a href="#cb36-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-362"><a href="#cb36-362" aria-hidden="true" tabindex="-1"></a><span class="fu">### Silhouette Plots</span></span>
+<span id="cb36-363"><a href="#cb36-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-364"><a href="#cb36-364" aria-hidden="true" tabindex="-1"></a>The silhouette plot evaluates how similar an observation is to its own cluster compared to other clusters.</span>
+<span id="cb36-365"><a href="#cb36-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-366"><a href="#cb36-366" aria-hidden="true" tabindex="-1"></a>The clustering configuration is appropriate when **most objects have high values**.\</span>
+<span id="cb36-367"><a href="#cb36-367" aria-hidden="true" tabindex="-1"></a>**Low or negative values** indicate that the clustering method **is not appropriate** or the number of clusters **is not ideal**.</span>
+<span id="cb36-368"><a href="#cb36-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-369"><a href="#cb36-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=4}</span></span>
+<span id="cb36-370"><a href="#cb36-370" aria-hidden="true" tabindex="-1"></a><span class="in">plot(silhouette(member_single, distance))</span></span>
+<span id="cb36-371"><a href="#cb36-371" aria-hidden="true" tabindex="-1"></a><span class="in">plot(silhouette(member_complete, distance))</span></span>
+<span id="cb36-372"><a href="#cb36-372" aria-hidden="true" tabindex="-1"></a><span class="in">plot(silhouette(member_average, distance))</span></span>
+<span id="cb36-373"><a href="#cb36-373" aria-hidden="true" tabindex="-1"></a><span class="in">plot(silhouette(member_ward, distance))</span></span>
+<span id="cb36-374"><a href="#cb36-374" aria-hidden="true" tabindex="-1"></a><span class="in">plot(silhouette(member_centroid, distance))</span></span>
+<span id="cb36-375"><a href="#cb36-375" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-376"><a href="#cb36-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-377"><a href="#cb36-377" aria-hidden="true" tabindex="-1"></a><span class="fu">## Non-Hirarchical Clustering</span></span>
+<span id="cb36-378"><a href="#cb36-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-379"><a href="#cb36-379" aria-hidden="true" tabindex="-1"></a>Non-hierarchical clustering is a method that partitions data points into a **predetermined number of clusters**, denoted by 𝑘, without creating a nested tree-like structure.</span>
 <span id="cb36-380"><a href="#cb36-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-383"><a href="#cb36-383" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-384"><a href="#cb36-384" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(member_single, distance))</span>
-<span id="cb36-385"><a href="#cb36-385" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(member_complete, distance))</span>
-<span id="cb36-386"><a href="#cb36-386" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(member_average, distance))</span>
-<span id="cb36-387"><a href="#cb36-387" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(member_ward, distance))</span>
-<span id="cb36-388"><a href="#cb36-388" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(member_centroid, distance))</span>
-<span id="cb36-389"><a href="#cb36-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-381"><a href="#cb36-381" aria-hidden="true" tabindex="-1"></a>Unlike hierarchical clustering, it requires the user to **specify 𝑘 in advance** and uses an iterative algorithm to optimize a criterion, such as **minimizing the variance within each cluster**.</span>
+<span id="cb36-382"><a href="#cb36-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-383"><a href="#cb36-383" aria-hidden="true" tabindex="-1"></a>Popular examples include *K-Means* and *K-Medoids*, which assign points to the nearest cluster center (centroid or medoid) and repeat the process until the cluster assignments no longer change significantly.</span>
+<span id="cb36-384"><a href="#cb36-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-385"><a href="#cb36-385" aria-hidden="true" tabindex="-1"></a>In this exercise, we will use the **K-means clustering**.</span>
+<span id="cb36-386"><a href="#cb36-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-387"><a href="#cb36-387" aria-hidden="true" tabindex="-1"></a><span class="fu">### Choose the number of clusters</span></span>
+<span id="cb36-388"><a href="#cb36-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-389"><a href="#cb36-389" aria-hidden="true" tabindex="-1"></a>We can observe a measure of the goodness of the classification for each k-means, using the following ratio:</span>
 <span id="cb36-390"><a href="#cb36-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-391"><a href="#cb36-391" aria-hidden="true" tabindex="-1"></a><span class="fu">## Non-Hirarchical Clustering</span></span>
+<span id="cb36-391"><a href="#cb36-391" aria-hidden="true" tabindex="-1"></a>$$\frac{Between_{SS}} {Total_{SS}}$$</span>
 <span id="cb36-392"><a href="#cb36-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-393"><a href="#cb36-393" aria-hidden="true" tabindex="-1"></a>Non-hierarchical clustering is a method that partitions data points into a **predetermined number of clusters**, denoted by 𝑘, without creating a nested tree-like structure.</span>
-<span id="cb36-394"><a href="#cb36-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-395"><a href="#cb36-395" aria-hidden="true" tabindex="-1"></a>Unlike hierarchical clustering, it requires the user to **specify 𝑘 in advance** and uses an iterative algorithm to optimize a criterion, such as **minimizing the variance within each cluster**.</span>
-<span id="cb36-396"><a href="#cb36-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-397"><a href="#cb36-397" aria-hidden="true" tabindex="-1"></a>Popular examples include *K-Means* and *K-Medoids*, which assign points to the nearest cluster center (centroid or medoid) and repeat the process until the cluster assignments no longer change significantly.</span>
-<span id="cb36-398"><a href="#cb36-398" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-399"><a href="#cb36-399" aria-hidden="true" tabindex="-1"></a>In this exercise, we will use the **K-means clustering**.</span>
-<span id="cb36-400"><a href="#cb36-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-401"><a href="#cb36-401" aria-hidden="true" tabindex="-1"></a><span class="fu">### Choose the number of clusters</span></span>
-<span id="cb36-402"><a href="#cb36-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-403"><a href="#cb36-403" aria-hidden="true" tabindex="-1"></a>We can observe a measure of the goodness of the classification for each k-means, using the following ratio:</span>
-<span id="cb36-404"><a href="#cb36-404" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-405"><a href="#cb36-405" aria-hidden="true" tabindex="-1"></a>$$\frac{Between_{SS}} {Total_{SS}}$$</span>
-<span id="cb36-406"><a href="#cb36-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-407"><a href="#cb36-407" aria-hidden="true" tabindex="-1"></a><span class="in">`SS`</span> stands for Sum of Squares, so it's the usual decomposition of deviance in deviance "Between" and deviance "Within".</span>
-<span id="cb36-408"><a href="#cb36-408" aria-hidden="true" tabindex="-1"></a>Ideally you want a clustering that has the properties of</span>
-<span id="cb36-409"><a href="#cb36-409" aria-hidden="true" tabindex="-1"></a>internal cohesion and external separation, i.e. the **BSS/TSS ratio** should approach **1**.</span>
-<span id="cb36-410"><a href="#cb36-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-411"><a href="#cb36-411" aria-hidden="true" tabindex="-1"></a>This algorithm will detect how many clusters, from 1 to 10, explains **more variance, with less clusters**:</span>
-<span id="cb36-412"><a href="#cb36-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-415"><a href="#cb36-415" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-416"><a href="#cb36-416" aria-hidden="true" tabindex="-1"></a><span class="co"># loop for the 10 cluster trials</span></span>
-<span id="cb36-417"><a href="#cb36-417" aria-hidden="true" tabindex="-1"></a>kmeans_diagnostic <span class="ot">=</span> <span class="fu">data.frame</span>()</span>
+<span id="cb36-393"><a href="#cb36-393" aria-hidden="true" tabindex="-1"></a><span class="in">`SS`</span> stands for Sum of Squares, so it's the usual decomposition of deviance in deviance "Between" and deviance "Within".</span>
+<span id="cb36-394"><a href="#cb36-394" aria-hidden="true" tabindex="-1"></a>Ideally you want a clustering that has the properties of internal cohesion and external separation, i.e. the **BSS/TSS ratio** should approach **1**.</span>
+<span id="cb36-395"><a href="#cb36-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-396"><a href="#cb36-396" aria-hidden="true" tabindex="-1"></a>This algorithm will detect how many clusters, from 1 to 10, explains **more variance, with less clusters**:</span>
+<span id="cb36-397"><a href="#cb36-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-400"><a href="#cb36-400" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-401"><a href="#cb36-401" aria-hidden="true" tabindex="-1"></a><span class="co"># loop for the 10 cluster trials</span></span>
+<span id="cb36-402"><a href="#cb36-402" aria-hidden="true" tabindex="-1"></a>kmeans_diagnostic <span class="ot">=</span> <span class="fu">data.frame</span>()</span>
+<span id="cb36-403"><a href="#cb36-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-404"><a href="#cb36-404" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb36-405"><a href="#cb36-405" aria-hidden="true" tabindex="-1"></a>  km <span class="ot">=</span> <span class="fu">kmeans</span>(data_scaled, <span class="at">centers =</span> i)</span>
+<span id="cb36-406"><a href="#cb36-406" aria-hidden="true" tabindex="-1"></a>  km_diagn <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb36-407"><a href="#cb36-407" aria-hidden="true" tabindex="-1"></a>    <span class="at">k =</span> i,</span>
+<span id="cb36-408"><a href="#cb36-408" aria-hidden="true" tabindex="-1"></a>    <span class="at">between_ss =</span> km<span class="sc">$</span>betweenss,</span>
+<span id="cb36-409"><a href="#cb36-409" aria-hidden="true" tabindex="-1"></a>    <span class="at">tot_ss =</span> km<span class="sc">$</span>totss,</span>
+<span id="cb36-410"><a href="#cb36-410" aria-hidden="true" tabindex="-1"></a>    <span class="at">ratio =</span> km<span class="sc">$</span>betweenss <span class="sc">/</span> km<span class="sc">$</span>totss</span>
+<span id="cb36-411"><a href="#cb36-411" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb36-412"><a href="#cb36-412" aria-hidden="true" tabindex="-1"></a>  kmeans_diagnostic <span class="ot">=</span> <span class="fu">rbind</span>(kmeans_diagnostic, km_diagn)</span>
+<span id="cb36-413"><a href="#cb36-413" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb36-414"><a href="#cb36-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-415"><a href="#cb36-415" aria-hidden="true" tabindex="-1"></a><span class="co"># marginal improvements for each new cluster</span></span>
+<span id="cb36-416"><a href="#cb36-416" aria-hidden="true" tabindex="-1"></a>kmeans_diagnostic <span class="ot">=</span> kmeans_diagnostic <span class="sc">|&gt;</span> </span>
+<span id="cb36-417"><a href="#cb36-417" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">marginal =</span> ratio <span class="sc">-</span> <span class="fu">lag</span>(ratio)) </span>
 <span id="cb36-418"><a href="#cb36-418" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-419"><a href="#cb36-419" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb36-420"><a href="#cb36-420" aria-hidden="true" tabindex="-1"></a>  km <span class="ot">=</span> <span class="fu">kmeans</span>(data_scaled, <span class="at">centers =</span> i)</span>
-<span id="cb36-421"><a href="#cb36-421" aria-hidden="true" tabindex="-1"></a>  km_diagn <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb36-422"><a href="#cb36-422" aria-hidden="true" tabindex="-1"></a>    <span class="at">k =</span> i,</span>
-<span id="cb36-423"><a href="#cb36-423" aria-hidden="true" tabindex="-1"></a>    <span class="at">between_ss =</span> km<span class="sc">$</span>betweenss,</span>
-<span id="cb36-424"><a href="#cb36-424" aria-hidden="true" tabindex="-1"></a>    <span class="at">tot_ss =</span> km<span class="sc">$</span>totss,</span>
-<span id="cb36-425"><a href="#cb36-425" aria-hidden="true" tabindex="-1"></a>    <span class="at">ratio =</span> km<span class="sc">$</span>betweenss <span class="sc">/</span> km<span class="sc">$</span>totss</span>
-<span id="cb36-426"><a href="#cb36-426" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb36-427"><a href="#cb36-427" aria-hidden="true" tabindex="-1"></a>  kmeans_diagnostic <span class="ot">=</span> <span class="fu">rbind</span>(kmeans_diagnostic, km_diagn)</span>
-<span id="cb36-428"><a href="#cb36-428" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb36-429"><a href="#cb36-429" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-430"><a href="#cb36-430" aria-hidden="true" tabindex="-1"></a><span class="co"># marginal improvements for each new cluster</span></span>
-<span id="cb36-431"><a href="#cb36-431" aria-hidden="true" tabindex="-1"></a>kmeans_diagnostic <span class="ot">=</span> kmeans_diagnostic <span class="sc">|&gt;</span> </span>
-<span id="cb36-432"><a href="#cb36-432" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">marginal =</span> ratio <span class="sc">-</span> <span class="fu">lag</span>(ratio)) </span>
-<span id="cb36-433"><a href="#cb36-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-434"><a href="#cb36-434" aria-hidden="true" tabindex="-1"></a>kmeans_diagnostic</span>
-<span id="cb36-435"><a href="#cb36-435" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-419"><a href="#cb36-419" aria-hidden="true" tabindex="-1"></a>kmeans_diagnostic</span>
+<span id="cb36-420"><a href="#cb36-420" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-421"><a href="#cb36-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-422"><a href="#cb36-422" aria-hidden="true" tabindex="-1"></a>Plot the ratio into a **scree plot**</span>
+<span id="cb36-423"><a href="#cb36-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-424"><a href="#cb36-424" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=4}</span></span>
+<span id="cb36-425"><a href="#cb36-425" aria-hidden="true" tabindex="-1"></a><span class="in">plot(kmeans_diagnostic$k, kmeans_diagnostic$ratio,</span></span>
+<span id="cb36-426"><a href="#cb36-426" aria-hidden="true" tabindex="-1"></a><span class="in">     type = "b",</span></span>
+<span id="cb36-427"><a href="#cb36-427" aria-hidden="true" tabindex="-1"></a><span class="in">     ylab = "Between SS / Total SS",</span></span>
+<span id="cb36-428"><a href="#cb36-428" aria-hidden="true" tabindex="-1"></a><span class="in">     xlab = "Number of clusters")</span></span>
+<span id="cb36-429"><a href="#cb36-429" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-430"><a href="#cb36-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-431"><a href="#cb36-431" aria-hidden="true" tabindex="-1"></a><span class="fu">### Predetermined number of clusters</span></span>
+<span id="cb36-432"><a href="#cb36-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-433"><a href="#cb36-433" aria-hidden="true" tabindex="-1"></a>In this case we will use the **K-means clustering**, and define <span class="in">`k = 3`</span> (3 clusters).</span>
+<span id="cb36-434"><a href="#cb36-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-435"><a href="#cb36-435" aria-hidden="true" tabindex="-1"></a>Here are the cluster results.</span>
 <span id="cb36-436"><a href="#cb36-436" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-437"><a href="#cb36-437" aria-hidden="true" tabindex="-1"></a>Plot the ratio into a **scree plot**</span>
-<span id="cb36-438"><a href="#cb36-438" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-441"><a href="#cb36-441" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-442"><a href="#cb36-442" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kmeans_diagnostic<span class="sc">$</span>k, kmeans_diagnostic<span class="sc">$</span>ratio,</span>
-<span id="cb36-443"><a href="#cb36-443" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"b"</span>,</span>
-<span id="cb36-444"><a href="#cb36-444" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Between SS / Total SS"</span>,</span>
-<span id="cb36-445"><a href="#cb36-445" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of clusters"</span>)</span>
-<span id="cb36-446"><a href="#cb36-446" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-447"><a href="#cb36-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-448"><a href="#cb36-448" aria-hidden="true" tabindex="-1"></a><span class="fu">### Predetermined number of clusters</span></span>
-<span id="cb36-449"><a href="#cb36-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-450"><a href="#cb36-450" aria-hidden="true" tabindex="-1"></a>In this case we will use the **K-means clustering**, and define <span class="in">`k = 3`</span> (3 clusters).</span>
-<span id="cb36-451"><a href="#cb36-451" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-452"><a href="#cb36-452" aria-hidden="true" tabindex="-1"></a>Here are the cluster results.</span>
+<span id="cb36-439"><a href="#cb36-439" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-440"><a href="#cb36-440" aria-hidden="true" tabindex="-1"></a>km_clust <span class="ot">=</span> <span class="fu">kmeans</span>(data_scaled, <span class="at">centers =</span> <span class="dv">3</span>) <span class="co"># k = 3</span></span>
+<span id="cb36-441"><a href="#cb36-441" aria-hidden="true" tabindex="-1"></a>km_clust <span class="co"># print the results</span></span>
+<span id="cb36-442"><a href="#cb36-442" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-443"><a href="#cb36-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-444"><a href="#cb36-444" aria-hidden="true" tabindex="-1"></a>If we want to export the **cluster means for each variable** and the **cluster membership for each observation**:</span>
+<span id="cb36-445"><a href="#cb36-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-448"><a href="#cb36-448" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-449"><a href="#cb36-449" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster means for each variable</span></span>
+<span id="cb36-450"><a href="#cb36-450" aria-hidden="true" tabindex="-1"></a>var_cluster_means <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">cluster =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(km_clust<span class="sc">$</span>centers),</span>
+<span id="cb36-451"><a href="#cb36-451" aria-hidden="true" tabindex="-1"></a>                               <span class="at">size =</span> km_clust<span class="sc">$</span>size,</span>
+<span id="cb36-452"><a href="#cb36-452" aria-hidden="true" tabindex="-1"></a>                               km_clust<span class="sc">$</span>centers)</span>
 <span id="cb36-453"><a href="#cb36-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-456"><a href="#cb36-456" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-457"><a href="#cb36-457" aria-hidden="true" tabindex="-1"></a>km_clust <span class="ot">=</span> <span class="fu">kmeans</span>(data_scaled, <span class="at">centers =</span> <span class="dv">3</span>) <span class="co"># k = 3</span></span>
-<span id="cb36-458"><a href="#cb36-458" aria-hidden="true" tabindex="-1"></a>km_clust <span class="co"># print the results</span></span>
-<span id="cb36-459"><a href="#cb36-459" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-460"><a href="#cb36-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-461"><a href="#cb36-461" aria-hidden="true" tabindex="-1"></a>If we want to export the **cluster means for each variable** and the **cluster membership for each observation**:</span>
-<span id="cb36-462"><a href="#cb36-462" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-465"><a href="#cb36-465" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-466"><a href="#cb36-466" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster means for each variable</span></span>
-<span id="cb36-467"><a href="#cb36-467" aria-hidden="true" tabindex="-1"></a>var_cluster_means <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">cluster =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(km_clust<span class="sc">$</span>centers),</span>
-<span id="cb36-468"><a href="#cb36-468" aria-hidden="true" tabindex="-1"></a>                               <span class="at">size =</span> km_clust<span class="sc">$</span>size,</span>
-<span id="cb36-469"><a href="#cb36-469" aria-hidden="true" tabindex="-1"></a>                               km_clust<span class="sc">$</span>centers)</span>
-<span id="cb36-470"><a href="#cb36-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-471"><a href="#cb36-471" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster membership for each observation</span></span>
-<span id="cb36-472"><a href="#cb36-472" aria-hidden="true" tabindex="-1"></a>obs_cluster_member <span class="ot">=</span> <span class="fu">data.frame</span>(km_clust<span class="sc">$</span>cluster)</span>
-<span id="cb36-473"><a href="#cb36-473" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-474"><a href="#cb36-474" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-475"><a href="#cb36-475" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plotting the clusters</span></span>
-<span id="cb36-476"><a href="#cb36-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-477"><a href="#cb36-477" aria-hidden="true" tabindex="-1"></a>Finally, plot again the <span class="in">`Numberofairlines`</span> against the <span class="in">`Destinations`</span> and observe the clusters results to check if they make sense.</span>
-<span id="cb36-478"><a href="#cb36-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-481"><a href="#cb36-481" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-482"><a href="#cb36-482" aria-hidden="true" tabindex="-1"></a><span class="co"># add cluster membership to original data</span></span>
-<span id="cb36-483"><a href="#cb36-483" aria-hidden="true" tabindex="-1"></a>data_clust <span class="ot">=</span> data <span class="sc">|&gt;</span>  <span class="fu">mutate</span>(<span class="at">cluster =</span> <span class="fu">factor</span>(km_clust<span class="sc">$</span>cluster))</span>
+<span id="cb36-454"><a href="#cb36-454" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster membership for each observation</span></span>
+<span id="cb36-455"><a href="#cb36-455" aria-hidden="true" tabindex="-1"></a>obs_cluster_member <span class="ot">=</span> <span class="fu">data.frame</span>(km_clust<span class="sc">$</span>cluster)</span>
+<span id="cb36-456"><a href="#cb36-456" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-457"><a href="#cb36-457" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-458"><a href="#cb36-458" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plotting the clusters</span></span>
+<span id="cb36-459"><a href="#cb36-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-460"><a href="#cb36-460" aria-hidden="true" tabindex="-1"></a>Finally, plot again the <span class="in">`Numberofairlines`</span> against the <span class="in">`Destinations`</span> and observe the clusters results to check if they make sense.</span>
+<span id="cb36-461"><a href="#cb36-461" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-462"><a href="#cb36-462" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=5}</span></span>
+<span id="cb36-463"><a href="#cb36-463" aria-hidden="true" tabindex="-1"></a><span class="in"># add cluster membership to original data</span></span>
+<span id="cb36-464"><a href="#cb36-464" aria-hidden="true" tabindex="-1"></a><span class="in">data_clust = data |&gt;  mutate(cluster = factor(km_clust$cluster))</span></span>
+<span id="cb36-465"><a href="#cb36-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-466"><a href="#cb36-466" aria-hidden="true" tabindex="-1"></a><span class="in"># plot</span></span>
+<span id="cb36-467"><a href="#cb36-467" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data_clust, aes(x = Destinations, y = Numberofairlines, color = cluster)) +</span></span>
+<span id="cb36-468"><a href="#cb36-468" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_point(size = 3, alpha = 0.7) +</span></span>
+<span id="cb36-469"><a href="#cb36-469" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_text(aes(label = Airport), vjust = 1.5, size = 3, show.legend = FALSE) +</span></span>
+<span id="cb36-470"><a href="#cb36-470" aria-hidden="true" tabindex="-1"></a><span class="in">  scale_color_brewer(palette = "Set1") +</span></span>
+<span id="cb36-471"><a href="#cb36-471" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(</span></span>
+<span id="cb36-472"><a href="#cb36-472" aria-hidden="true" tabindex="-1"></a><span class="in">    title = "Airports clustered by k-means",</span></span>
+<span id="cb36-473"><a href="#cb36-473" aria-hidden="true" tabindex="-1"></a><span class="in">    x = "Number of destinations",</span></span>
+<span id="cb36-474"><a href="#cb36-474" aria-hidden="true" tabindex="-1"></a><span class="in">    y = "Number of airlines",</span></span>
+<span id="cb36-475"><a href="#cb36-475" aria-hidden="true" tabindex="-1"></a><span class="in">    color = "Cluster"</span></span>
+<span id="cb36-476"><a href="#cb36-476" aria-hidden="true" tabindex="-1"></a><span class="in">  ) +</span></span>
+<span id="cb36-477"><a href="#cb36-477" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal()</span></span>
+<span id="cb36-478"><a href="#cb36-478" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-479"><a href="#cb36-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-480"><a href="#cb36-480" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb36-481"><a href="#cb36-481" aria-hidden="true" tabindex="-1"></a><span class="fu">## What if... ?</span></span>
+<span id="cb36-482"><a href="#cb36-482" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-483"><a href="#cb36-483" aria-hidden="true" tabindex="-1"></a>Imagine that one of the airports was not operating any more.</span>
 <span id="cb36-484"><a href="#cb36-484" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-485"><a href="#cb36-485" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
-<span id="cb36-486"><a href="#cb36-486" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clust, <span class="fu">aes</span>(<span class="at">x =</span> Destinations, <span class="at">y =</span> Numberofairlines, <span class="at">color =</span> cluster)) <span class="sc">+</span></span>
-<span id="cb36-487"><a href="#cb36-487" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb36-488"><a href="#cb36-488" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Airport), <span class="at">vjust =</span> <span class="fl">1.5</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb36-489"><a href="#cb36-489" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Set1"</span>) <span class="sc">+</span></span>
-<span id="cb36-490"><a href="#cb36-490" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb36-491"><a href="#cb36-491" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Airports clustered by k-means"</span>,</span>
-<span id="cb36-492"><a href="#cb36-492" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Number of destinations"</span>,</span>
-<span id="cb36-493"><a href="#cb36-493" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of airlines"</span>,</span>
-<span id="cb36-494"><a href="#cb36-494" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Cluster"</span></span>
-<span id="cb36-495"><a href="#cb36-495" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb36-496"><a href="#cb36-496" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb36-497"><a href="#cb36-497" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-498"><a href="#cb36-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-499"><a href="#cb36-499" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
-<span id="cb36-500"><a href="#cb36-500" aria-hidden="true" tabindex="-1"></a><span class="fu">## What if... ?</span></span>
-<span id="cb36-501"><a href="#cb36-501" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-502"><a href="#cb36-502" aria-hidden="true" tabindex="-1"></a>Imagine that one of the airports was not operating any more.</span>
-<span id="cb36-503"><a href="#cb36-503" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-504"><a href="#cb36-504" aria-hidden="true" tabindex="-1"></a>Remove one airport from the data, at your choice, and **re-run the cluster analysis**.</span>
-<span id="cb36-505"><a href="#cb36-505" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-506"><a href="#cb36-506" aria-hidden="true" tabindex="-1"></a>How different are the results?</span>
-<span id="cb36-507"><a href="#cb36-507" aria-hidden="true" tabindex="-1"></a>🤔</span>
-<span id="cb36-508"><a href="#cb36-508" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb36-509"><a href="#cb36-509" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-512"><a href="#cb36-512" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-513"><a href="#cb36-513" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb36-514"><a href="#cb36-514" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb36-515"><a href="#cb36-515" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb36-516"><a href="#cb36-516" aria-hidden="true" tabindex="-1"></a><span class="co"># this converts this quarto to a plain r script</span></span>
-<span id="cb36-517"><a href="#cb36-517" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"quarto/clusters.qmd"</span>, <span class="st">"code/classroom/clusters.R"</span>, <span class="at">documentation =</span> <span class="dv">0</span>)</span>
-<span id="cb36-518"><a href="#cb36-518" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-485"><a href="#cb36-485" aria-hidden="true" tabindex="-1"></a>Remove one airport from the data, at your choice, and **re-run the cluster analysis**.</span>
+<span id="cb36-486"><a href="#cb36-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-487"><a href="#cb36-487" aria-hidden="true" tabindex="-1"></a>How different are the results?</span>
+<span id="cb36-488"><a href="#cb36-488" aria-hidden="true" tabindex="-1"></a>🤔</span>
+<span id="cb36-489"><a href="#cb36-489" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb36-490"><a href="#cb36-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-493"><a href="#cb36-493" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-494"><a href="#cb36-494" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb36-495"><a href="#cb36-495" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb36-496"><a href="#cb36-496" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb36-497"><a href="#cb36-497" aria-hidden="true" tabindex="-1"></a><span class="co"># this converts this quarto to a plain r script</span></span>
+<span id="cb36-498"><a href="#cb36-498" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"quarto/clusters.qmd"</span>, <span class="st">"code/classroom/clusters.R"</span>, <span class="at">documentation =</span> <span class="dv">0</span>)</span>
+<span id="cb36-499"><a href="#cb36-499" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
