@@ -85,7 +85,13 @@ format:
     number-depth: 3
     toc-expand: 3
   pdf:
-   documentclass: scrreprt
+   # documentclass: scrreprt
+   documentclass: scrbook # para abrir páginas pares e impares, e heading no topo.
+   geometry:
+      - inner=3cm
+      - outer=3cm
+      - top=3cm
+      - bottom=4cm
    # engine: knitr
    papersize: A4
    fig-align: center # does not work!
