@@ -107,7 +107,11 @@ format:
    include-in-header: 
       text: |
         \usepackage{fvextra}
-        \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+        \DefineVerbatimEnvironment{Highlighting}{Verbatim}{
+                  breaklines,
+                  breaksymbol={},
+                  breakindent=20pt,
+                  commandchars=\\\{\}}
         \raggedbottom
         \usepackage[automark]{scrlayer-scrpage}
         \automark[chapter]{chapter}
