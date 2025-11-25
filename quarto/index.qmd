@@ -45,7 +45,7 @@ This website aims to provide tools to deal with transportation datasets using [R
 This book aims to provide tools to deal with transportation datasets using [R programming](software.qmd#software), an open-source and widely used tool for data analytics in urban mobility.
 :::
 
-It is based on exercises and examples to explore in **R**, with a focus on modelling and spatial data analysis using GIS techniques.
+It includes course sporting materials, exercises, and examples to explore with **R**, with a focus on modelling and spatial data analysis using GIS techniques.
 
 ## Why R and GIS {.unnumbered}
 
