@@ -84,6 +84,7 @@ format:
     code-tools: true
     number-depth: 3
     toc-expand: 3
+    lightbox: true # abrir imagens popup
   pdf:
    # documentclass: scrreprt
    documentclass: scrbook # para abrir páginas pares e impares, e heading no topo.
