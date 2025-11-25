@@ -77,6 +77,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-77cb982c3ae5178da5248b9c8921380f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark-0b1e80eae3a2d67fe1799060ddf1655e.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -386,7 +389,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="15.1.2" class="anchored" data-anchor-id="hot-export-tool"><span class="header-section-number">15.1.2</span> HOT Export Tool</h3>
 <p>This interactive tool helps you to select the <strong>region</strong> you want to extract, the type of <strong>information</strong> to include, and the output data <strong>format</strong>.</p>
 <p>Access via <a href="https://export.hotosm.org/">export.hotosm.org</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<p><img src="images/clipboard-1441436716.png" class="img-fluid"></p>
+<p><a href="images/clipboard-1441436716.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="images/clipboard-1441436716.png" class="img-fluid"></a></p>
 <p>After the export, you can read in R using the <code>sf</code> package:</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -423,7 +426,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/malta_roads.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+<p><a href="images/malta_roads.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="images/malta_roads.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
 </figure>
 </div>
 </section>
@@ -438,7 +441,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The data is usually in a <code>.zip</code> file that includes several <code>.txt</code> files (one for each type of information) with tabular relations.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/clipboard-2676687965.png" class="img-fluid figure-img" width="493"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/clipboard-2676687965.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Source: trilliumtransit.com"><img src="images/clipboard-2676687965.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="493" alt="Source: trilliumtransit.com"></a></p>
+</figure>
+</div>
 <figcaption>Source: <a href="https://trilliumtransit.com/2016/07/05/gtfs-examples/">trilliumtransit.com</a></figcaption>
 </figure>
 </div>
@@ -477,7 +484,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Example of Bus services data in Belgium:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://www.transportdata.be/en/dataset?tags=Bus"><img src="images/clipboard-3645209787.png" class="img-fluid figure-img" alt="Source: Transport Data Belgium"></a></p>
+<p><img src="images/clipboard-3645209787.png" class="img-fluid figure-img"></p>
 <figcaption>Source: Transport Data Belgium</figcaption>
 </figure>
 </div>
@@ -1255,6 +1262,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
