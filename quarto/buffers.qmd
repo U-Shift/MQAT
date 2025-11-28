@@ -22,7 +22,7 @@ library(mapview)
 ```{r}
 #| include: false
 # instructions to setup at the U-Shift server
-options(openrouteservice.url = "https://ushift.rosafelix.bike/ors/") 
+options(openrouteservice.url = "https://server.ushift.pt/ors/") 
 openrouteservice::ors_api_key("") # empty key
 ```
 
