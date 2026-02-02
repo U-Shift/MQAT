@@ -6,7 +6,7 @@ Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disci
 This repository complements the materials available at:
 
 * [Website](https://u-shift.github.io/MQAT/)
-* [E-book](https://github.com/U-Shift/MQAT/releases/download/2025/QMAT_RGIS_Exercises_2025.pdf)
+* [E-book](https://github.com/U-Shift/MQAT/releases/download/2025/QMAT_RGIS_Exercises_2025.pdf)      [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18453427.svg)](https://doi.org/10.5281/zenodo.18453427)
 
 These are not official materials of the course, but they can be used as complementary resources.
 
