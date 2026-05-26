@@ -67,7 +67,7 @@ book:
   page-footer:
     left: "R Félix, G Valença, F Moura"
     center: "MQAT - Instituto Superior Técnico"
-    right: "September 2025"
+    right: "September 2026"
     
     
 bibliography: references.bib
@@ -104,6 +104,7 @@ format:
    linkcolor: blue
    citecolor: black
    urlcolor: blue
+   toccolor: black
    code-overflow: wrap # does not work! use next lines instead
    include-in-header: 
       text: |
