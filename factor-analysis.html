@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>7&nbsp; Factor Analysis – MQAT</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -21,8 +24,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +37,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -58,7 +62,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -86,17 +89,20 @@ div.csl-indent {
 <meta name="quarto:offset" content="./">
 <link href="./clusters.html" rel="next">
 <link href="./linear-regression.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-77cb982c3ae5178da5248b9c8921380f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-0b1e80eae3a2d67fe1799060ddf1655e.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-37d11a445f1a4f387c765ace15bdb02a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-7da74b5098e21d2ae07eb6172a254816.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-37d11a445f1a4f387c765ace15bdb02a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -153,7 +159,169 @@ div.csl-indent {
 <meta name="citation_reference" content="citation_title=R: A language and environment for statistical computing;,citation_author=R Core Team;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://www.R-project.org/;">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -357,6 +525,7 @@ div.csl-indent {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./r-basics.html"><strong>Data and Models</strong></a></li><li class="breadcrumb-item"><a href="./factor-analysis.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factor Analysis</span></a></li></ol></nav>
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factor Analysis</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
@@ -382,7 +551,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Do it yourself with R
+<span class="screen-reader-only">Tip</span>Do it yourself with R
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -390,7 +559,7 @@ Do it yourself with R
 Run each line using <code>CTRL</code> + <code>ENTER</code></p>
 </div>
 </div>
-<p>This exercise is based on the paper “<strong>Residential location satisfaction in the Lisbon metropolitan area</strong>”, by <span class="citation" data-cites="martinez2010">Martinez, Abreu e Silva, and Viegas (<a href="references.html#ref-martinez2010" role="doc-biblioref">2010</a>)</span> .</p>
+<p>This exercise is based on the paper “<strong>Residential location satisfaction in the Lisbon metropolitan area</strong>”, by <span class="citation" data-cites="martinez2010">Martinez et al. (<a href="references.html#ref-martinez2010" role="doc-biblioref">2010</a>)</span> .</p>
 <p>The aim of this study was to examine the perception of households towards their residential location considering land use and accessibility factors, as well as household socio-economic and attitudinal characteristics.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -398,7 +567,7 @@ Run each line using <code>CTRL</code> + <code>ENTER</code></p>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Your task
+<span class="screen-reader-only">Important</span>Your task
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -408,12 +577,12 @@ Your task
 <section id="load-packages" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="load-packages"><span class="header-section-number">7.1</span> Load packages</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Pack of most used libraries for data science</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Pack of most used libraries for data science</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarytools) <span class="co"># Summary of the dataset</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreign) <span class="co"># Read SPSS files</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nFactors) <span class="co"># Factor analysis</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GPArotation) <span class="co"># GPA Rotation for Factor Analysis</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co"># Personality, psychometric, and psychological research</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co"># Personality, psychometric, and psychological research</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="dataset" class="level2" data-number="7.2">
@@ -447,14 +616,14 @@ Your task
 <section id="import-dataset" class="level3" data-number="7.2.1">
 <h3 data-number="7.2.1" class="anchored" data-anchor-id="import-dataset"><span class="header-section-number">7.2.1</span> Import dataset</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.spss</span>(<span class="st">"../data/example_fact.sav"</span>, <span class="at">to.data.frame =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.spss</span>(<span class="st">"../data/example_fact.sav"</span>, <span class="at">to.data.frame =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="get-to-know-your-dataset" class="level3" data-number="7.2.2">
 <h3 data-number="7.2.2" class="anchored" data-anchor-id="get-to-know-your-dataset"><span class="header-section-number">7.2.2</span> Get to know your dataset</h3>
 <p>Take a look at the first values of the dataset</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  RespondentID DWELCLAS INCOME CHILD13 H18 HEMPLOY HSIZE AVADUAGE IAGE ISEX
 1    799161661        5   7500       1   2       2     3 32.00000   32    1
@@ -481,15 +650,15 @@ Your task
 4      6 1196.4665 0.3272149  1.7664923  6257.262
 5     31 3507.2402 0.3545181 11.3249309  1265.239</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data) <span class="co"># open in table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data) <span class="co"># open in table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Make the <code>RespondentID</code> variable as <strong>row names</strong> or case number</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">column_to_rownames</span>(<span class="at">var =</span> <span class="st">"RespondentID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> data <span class="sc">|&gt;</span> <span class="fu">column_to_rownames</span>(<span class="at">var =</span> <span class="st">"RespondentID"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Take a look at the main characteristics of the dataset</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   470 obs. of  31 variables:
  $ DWELCLAS: num  5 6 6 5 6 6 4 2 6 5 ...
@@ -530,8 +699,8 @@ Your task
 </div>
 <p>Check summary statistics of variables</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># skimr::skim(data)</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">dfSummary</span>(data), <span class="at">method =</span> <span class="st">"render"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># skimr::skim(data)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">dfSummary</span>(data), <span class="at">method =</span> <span class="st">"render"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="container st-container">
 <h3 class="anchored">Data Frame Summary</h3>
@@ -540,7 +709,7 @@ Your task
   <br><strong>Duplicates</strong>: 0
 <br>
 
-<table class="table table-striped table-bordered st-table st-table-striped st-table-bordered st-multiline caption-top table-sm small" data-quarto-postprocess="true">
+<table class="table table-striped table-bordered st-table st-table-striped st-table-bordered st-multiline caption-top table-sm small">
 <colgroup>
 <col style="width: 14%">
 <col style="width: 14%">
@@ -565,7 +734,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;">DWELCLAS [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 5.1 (1.3)</td>
@@ -581,7 +750,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">1</td>
@@ -648,7 +817,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">2</td>
 <td style="text-align: left;">INCOME [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 4259.6 (3001.8)</td>
@@ -664,7 +833,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">700</td>
@@ -723,7 +892,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">3</td>
 <td style="text-align: left;">CHILD13 [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 0.4 (0.8)</td>
@@ -739,7 +908,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">0</td>
@@ -790,7 +959,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">4</td>
 <td style="text-align: left;">H18 [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 2.1 (0.9)</td>
@@ -806,7 +975,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">0</td>
@@ -873,7 +1042,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">5</td>
 <td style="text-align: left;">HEMPLOY [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 1.5 (0.7)</td>
@@ -889,7 +1058,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">0</td>
@@ -948,7 +1117,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">6</td>
 <td style="text-align: left;">HSIZE [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 2.6 (1.3)</td>
@@ -964,7 +1133,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">1</td>
@@ -1031,7 +1200,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">7</td>
 <td style="text-align: left;">AVADUAGE [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 37.8 (9.9)</td>
@@ -1055,7 +1224,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">8</td>
 <td style="text-align: left;">IAGE [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 36.9 (11.6)</td>
@@ -1079,7 +1248,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">9</td>
 <td style="text-align: left;">ISEX [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Min : 0</td>
@@ -1092,7 +1261,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">0</td>
@@ -1119,7 +1288,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">10</td>
 <td style="text-align: left;">NCARS [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 1.7 (0.9)</td>
@@ -1135,7 +1304,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">0</td>
@@ -1194,7 +1363,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">11</td>
 <td style="text-align: left;">AREA [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 133 (121.5)</td>
@@ -1218,7 +1387,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">12</td>
 <td style="text-align: left;">BEDROOM [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 2.9 (1.1)</td>
@@ -1234,7 +1403,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">0</td>
@@ -1309,7 +1478,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">13</td>
 <td style="text-align: left;">PARK [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 0.8 (1)</td>
@@ -1325,7 +1494,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">0</td>
@@ -1376,7 +1545,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">14</td>
 <td style="text-align: left;">BEDSIZE [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 1.4 (0.8)</td>
@@ -1400,7 +1569,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">15</td>
 <td style="text-align: left;">PARKSIZE [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 0.5 (0.6)</td>
@@ -1424,7 +1593,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">16</td>
 <td style="text-align: left;">RAGE10 [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Min : 0</td>
@@ -1437,7 +1606,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">0</td>
@@ -1464,7 +1633,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">17</td>
 <td style="text-align: left;">TCBD [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 24.7 (16.2)</td>
@@ -1488,7 +1657,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">18</td>
 <td style="text-align: left;">DISTHTC [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 1347 (1815.8)</td>
@@ -1512,7 +1681,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">19</td>
 <td style="text-align: left;">TWCBD [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 17 (16.2)</td>
@@ -1536,7 +1705,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">20</td>
 <td style="text-align: left;">TDWWK [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 23.5 (17.1)</td>
@@ -1560,7 +1729,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">21</td>
 <td style="text-align: left;">HEADH [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Min : 0</td>
@@ -1573,7 +1742,7 @@ Your task
 </tr>
 </tbody>
 </table></td>
-<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 0; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: right; padding: 0 2px 0 7px; margin: 0; border: 0;">0</td>
@@ -1600,7 +1769,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">22</td>
 <td style="text-align: left;">POPDENS [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 92 (58.2)</td>
@@ -1624,7 +1793,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">23</td>
 <td style="text-align: left;">EDUINDEX [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 0.2 (0.1)</td>
@@ -1648,7 +1817,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">24</td>
 <td style="text-align: left;">GRAVCPC [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 0.3 (0.1)</td>
@@ -1672,7 +1841,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">25</td>
 <td style="text-align: left;">GRAVCPT [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 0.3 (0.1)</td>
@@ -1696,7 +1865,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">26</td>
 <td style="text-align: left;">GRAVPCPT [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 1.2 (0.3)</td>
@@ -1720,7 +1889,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">27</td>
 <td style="text-align: left;">NSTRTC [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 22.2 (12.6)</td>
@@ -1744,7 +1913,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">28</td>
 <td style="text-align: left;">DISTHW [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 1883.4 (1748.3)</td>
@@ -1768,7 +1937,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">29</td>
 <td style="text-align: left;">DIVIDX [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 0.4 (0.1)</td>
@@ -1792,7 +1961,7 @@ Your task
 <tr class="even">
 <td style="text-align: center;">30</td>
 <td style="text-align: left;">ACTDENS [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 5.8 (8.5)</td>
@@ -1816,7 +1985,7 @@ Your task
 <tr class="odd">
 <td style="text-align: center;">31</td>
 <td style="text-align: left;">DISTCBD [numeric]</td>
-<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<td style="text-align: left; padding: 8; vertical-align: middle;"><table class="caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd" style="background-color:transparent">
 <td style="text-align: left; padding: 0; margin: 0; border: 0;">Mean (sd) : 7967.4 (7442.9)</td>
@@ -1877,16 +2046,16 @@ Your task
 </ul>
 <p>Let’s run a random regression model in order to evaluate some of the assumptions.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random regression model</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random regression model</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>random <span class="ot">=</span> <span class="fu">rchisq</span>(<span class="fu">nrow</span>(data), <span class="fu">ncol</span>(data))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>fake <span class="ot">=</span> <span class="fu">lm</span>(random <span class="sc">~</span> ., <span class="at">data =</span> data)</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>standardized <span class="ot">=</span> <span class="fu">rstudent</span>(fake)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>fitted <span class="ot">=</span> <span class="fu">scale</span>(fake<span class="sc">$</span>fitted.values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>fitted <span class="ot">=</span> <span class="fu">scale</span>(fake<span class="sc">$</span>fitted.values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="normality" class="level3" data-number="7.3.1">
 <h3 data-number="7.3.1" class="anchored" data-anchor-id="normality"><span class="header-section-number">7.3.1</span> Normality</h3>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(standardized)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(standardized)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1900,8 +2069,8 @@ Your task
 <section id="linearity" class="level3" data-number="7.3.2">
 <h3 data-number="7.3.2" class="anchored" data-anchor-id="linearity"><span class="header-section-number">7.3.2</span> Linearity</h3>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(standardized)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(standardized)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1915,8 +2084,8 @@ Your task
 <section id="homogeneity" class="level3" data-number="7.3.3">
 <h3 data-number="7.3.3" class="anchored" data-anchor-id="homogeneity"><span class="header-section-number">7.3.3</span> Homogeneity</h3>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fitted, standardized)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">v=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fitted, standardized)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">v=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1931,14 +2100,14 @@ Your task
 <h3 data-number="7.3.4" class="anchored" data-anchor-id="correlations-between-variables"><span class="header-section-number">7.3.4</span> Correlations between variables</h3>
 <p>Correlation matrix</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="ot">=</span> <span class="fu">cor</span>(data, <span class="at">method =</span> <span class="st">"pearson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="ot">=</span> <span class="fu">cor</span>(data, <span class="at">method =</span> <span class="st">"pearson"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <strong>Bartlett’s test</strong> examines if there is equal variance (homogeneity) between variables. Thus, it evaluates if there is any pattern between variables.</p>
 <section id="correlation-adequacy" class="level4">
 <h4 class="anchored" data-anchor-id="correlation-adequacy">Correlation adequacy</h4>
 <p>Check for correlation adequacy - Bartlett’s Test</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cortest.bartlett</span>(corr_matrix, <span class="at">n =</span> <span class="fu">nrow</span>(data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cortest.bartlett</span>(corr_matrix, <span class="at">n =</span> <span class="fu">nrow</span>(data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$chisq
 [1] 9880.074
@@ -1959,7 +2128,7 @@ $df
 <h4 class="anchored" data-anchor-id="sampling-adequacy">Sampling adequacy</h4>
 <p>Check for sampling adequacy - KMO test</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(corr_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(corr_matrix)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Kaiser-Meyer-Olkin factor adequacy
 Call: KMO(r = corr_matrix)
@@ -1990,10 +2159,10 @@ DWELCLAS   INCOME  CHILD13      H18  HEMPLOY    HSIZE AVADUAGE     IAGE
 <section id="parallel-analysis" class="level3" data-number="7.4.1">
 <h3 data-number="7.4.1" class="anchored" data-anchor-id="parallel-analysis"><span class="header-section-number">7.4.1</span> Parallel Analysis</h3>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>num_factors <span class="ot">=</span> <span class="fu">fa.parallel</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>num_factors <span class="ot">=</span> <span class="fu">fa.parallel</span>(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> data, </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm =</span> <span class="st">"ml"</span>, <span class="co"># factor mathod = maximum likelihood</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fa =</span> <span class="st">"fa"</span>) <span class="co"># factor analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fa =</span> <span class="st">"fa"</span>) <span class="co"># factor analysis</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2015,11 +2184,11 @@ DWELCLAS   INCOME  CHILD13      H18  HEMPLOY    HSIZE AVADUAGE     IAGE
 <section id="kaiser-criterion" class="level3" data-number="7.4.2">
 <h3 data-number="7.4.2" class="anchored" data-anchor-id="kaiser-criterion"><span class="header-section-number">7.4.2</span> Kaiser Criterion</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(num_factors<span class="sc">$</span>fa.values <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="co"># Number of factors with eigenvalue &gt; 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(num_factors<span class="sc">$</span>fa.values <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="co"># Number of factors with eigenvalue &gt; 1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(num_factors<span class="sc">$</span>fa.values <span class="sc">&gt;</span> <span class="fl">0.7</span>) <span class="co"># Number of factors with eigenvalue &gt; 0.7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(num_factors<span class="sc">$</span>fa.values <span class="sc">&gt;</span> <span class="fl">0.7</span>) <span class="co"># Number of factors with eigenvalue &gt; 0.7</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6</code></pre>
 </div>
@@ -2034,7 +2203,7 @@ DWELCLAS   INCOME  CHILD13      H18  HEMPLOY    HSIZE AVADUAGE     IAGE
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-PCA is not the same thing as Factor Analysis
+<span class="screen-reader-only">Caution</span>PCA is not the same thing as Factor Analysis
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -2045,9 +2214,9 @@ PCA is not the same thing as Factor Analysis
 <h4 class="anchored" data-anchor-id="variance-explained-by-components">Variance explained by components</h4>
 <p>Print variance that explains the components</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>data_pca <span class="ot">=</span> <span class="fu">princomp</span>(data,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>data_pca <span class="ot">=</span> <span class="fu">princomp</span>(data,</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">cor =</span> <span class="cn">TRUE</span>) <span class="co"># standardizes your dataset before running a PCA</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_pca)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_pca)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Importance of components:
                          Comp.1    Comp.2     Comp.3     Comp.4     Comp.5
@@ -2084,7 +2253,7 @@ Cumulative Proportion  0.9992475562 1.0000000000</code></pre>
 <section id="scree-plot" class="level4">
 <h4 class="anchored" data-anchor-id="scree-plot">Scree Plot</h4>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data_pca, <span class="at">type =</span> <span class="st">"lines"</span>, <span class="at">npcs =</span> <span class="dv">31</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data_pca, <span class="at">type =</span> <span class="st">"lines"</span>, <span class="at">npcs =</span> <span class="dv">31</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2154,7 +2323,7 @@ The underlying factors after rotation will be <strong>uncorrelated</strong>.</p>
 <li><strong>Model 3</strong>: Rotation Oblimin</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No rotation</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No rotation</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>data_factor <span class="ot">=</span> <span class="fu">factanal</span>(</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  data,</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">factors =</span> <span class="dv">4</span>, <span class="co"># change here the number of facotrs based on the EFA</span></span>
@@ -2179,14 +2348,14 @@ The underlying factors after rotation will be <strong>uncorrelated</strong>.</p>
 <span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotation =</span> <span class="st">"oblimin"</span>, <span class="co"># oblique rotation</span></span>
 <span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">scores =</span> <span class="st">"regression"</span>,</span>
 <span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm =</span> <span class="st">"ml"</span></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Print out the results of <code>data_factor_obl</code>, and have a look.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_factor_obl,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_factor_obl,</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">2</span>,</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">cutoff =</span> <span class="fl">0.3</span>, <span class="co"># &gt; 0.3 due to the sample size is higher than 350 observations.</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">sort =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">sort =</span> <span class="cn">TRUE</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -2261,9 +2430,9 @@ The p-value is 0 </code></pre>
 <p>In addition to the loading structure, you may also want to know the factor scores of each observation.</p>
 <p>We can extract the factor scores with</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data_factor_obl<span class="sc">$</span>scores)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data_factor_obl<span class="sc">$</span>scores)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(data_factor_obl$scores, "data/data_factor_obl_scores.csv", sep = "\t")</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_factor_obl<span class="sc">$</span>scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_factor_obl<span class="sc">$</span>scores)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Factor1     Factor2    Factor3    Factor4
 799161661  0.5269517 -0.01526867 -0.4212963  0.6723761
@@ -2276,9 +2445,9 @@ The p-value is 0 </code></pre>
 </div>
 <p>The individual indicator/subtest scores would be the <strong>weighted sum of the factor scores</strong>, where the weights are the determined by <strong>factor loadings</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data_factor_obl<span class="sc">$</span>loadings)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data_factor_obl<span class="sc">$</span>loadings)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(data_factor_obl$loadings, "data/data_factor_obl_loadings.csv", sep = "\t")</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_factor_obl<span class="sc">$</span>loadings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_factor_obl<span class="sc">$</span>loadings)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>               Factor1     Factor2     Factor3     Factor4
 DWELCLAS -0.0333847085 -0.04628588  0.13740126  0.03391240
@@ -2296,7 +2465,7 @@ HSIZE    -0.0081682615  0.73984312 -0.01057724  0.53609771</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Plot function</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define a plot function</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define a plot function</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>plot_factor_loading <span class="ot">&lt;-</span> <span class="cf">function</span>(data_factor,</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">f1 =</span> <span class="dv">1</span>,</span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">f2 =</span> <span class="dv">2</span>,</span>
@@ -2323,20 +2492,20 @@ HSIZE    -0.0081682615  0.73984312 -0.01057724  0.53609771</code></pre>
 <span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> method</span>
 <span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
-<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <section id="no-rotation" class="level4">
 <h4 class="anchored" data-anchor-id="no-rotation">No Rotation</h4>
 <p>Plot factor 1 against factor 2, and compare the results</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_factor =</span> data_factor, <span class="co"># model no rotation</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">f1 =</span> <span class="dv">1</span>, <span class="co"># Factor 1</span></span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">f2 =</span> <span class="dv">2</span>, <span class="co"># Factor 2</span></span>
 <span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"No rotation"</span>, <span class="co"># plot title</span></span>
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"blue"</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2349,13 +2518,13 @@ HSIZE    -0.0081682615  0.73984312 -0.01057724  0.53609771</code></pre>
 <section id="varimax-rotation" class="level4">
 <h4 class="anchored" data-anchor-id="varimax-rotation">Varimax Rotation</h4>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_factor =</span> data_factor_var, <span class="co"># model varimax</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">f1 =</span> <span class="dv">1</span>, <span class="co"># Factor 1</span></span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">f2 =</span> <span class="dv">2</span>, <span class="co"># Factor 2</span></span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"Varimax rotation"</span>,</span>
 <span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"red"</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2368,13 +2537,13 @@ HSIZE    -0.0081682615  0.73984312 -0.01057724  0.53609771</code></pre>
 <section id="oblimin-rotation" class="level4">
 <h4 class="anchored" data-anchor-id="oblimin-rotation">Oblimin Rotation</h4>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_factor =</span> data_factor_var, <span class="co"># model oblimn</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">f1 =</span> <span class="dv">1</span>, <span class="co"># Factor 1</span></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">f2 =</span> <span class="dv">2</span>, <span class="co"># Factor 2</span></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"Oblimin rotation"</span>,</span>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"darkgreen"</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -2391,7 +2560,7 @@ HSIZE    -0.0081682615  0.73984312 -0.01057724  0.53609771</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Your turn
+<span class="screen-reader-only">Tip</span>Your turn
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -2401,24 +2570,24 @@ Interpret the factors and try to give them a name.</p>
 </div>
 <p>For instance, we can plot all the factors against each other as follows:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create all combinations</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create all combinations</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">1</span>, <span class="dv">2</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">1</span>, <span class="dv">3</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">1</span>, <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">2</span>, <span class="dv">3</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">2</span>, <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">3</span>, <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">3</span>, <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-field2024spss" class="csl-entry" role="listitem">
 Field, A. 2024. <em>Discovering Statistics Using IBM SPSS Statistics</em>. 6th ed. SAGE Publications. <a href="https://books.google.pt/books?id=83L2EAAAQBAJ">https://books.google.pt/books?id=83L2EAAAQBAJ</a>.
 </div>
 <div id="ref-martinez2010" class="csl-entry" role="listitem">
-Martinez, Luís Garrido, João de Abreu e Silva, and José Manuel Viegas. 2010. <span>“<span class="nocase">Assessment of Residential Location Satisfaction in the Lisbon Metropolitan Area</span>.”</span> In. <a href="https://trid.trb.org/View/909819">https://trid.trb.org/View/909819</a>.
+Martinez, Luís Garrido, João de Abreu e Silva, and José Manuel Viegas. 2010. <span>“<span class="nocase">Assessment of Residential Location Satisfaction in the Lisbon Metropolitan Area</span>.”</span> January. <a href="https://trid.trb.org/View/909819">https://trid.trb.org/View/909819</a>.
 </div>
 </div>
 </section>
@@ -2427,431 +2596,307 @@ Martinez, Luís Garrido, João de Abreu e Silva, and José Manuel Viegas. 2010. 
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
     }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-      }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
-        }
-      });
-    }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
       return false;
     }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-  const viewSource = window.document.getElementById('quarto-view-source') ||
-                     window.document.getElementById('quarto-code-tools-source');
-  if (viewSource) {
-    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-    viewSource.addEventListener("click", function(e) {
-      if (sourceUrl) {
-        // rstudio viewer pane
-        if (/\bcapabilities=\b/.test(window.location)) {
-          window.open(sourceUrl);
-        } else {
-          window.location.href = sourceUrl;
-        }
-      } else {
-        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-        modal.show();
-      }
-      return false;
-    });
-  }
-  function toggleCodeHandler(show) {
-    return function(e) {
-      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-      for (let i=0; i<detailsSrc.length; i++) {
-        const details = detailsSrc[i].parentElement;
-        if (show) {
-          details.open = true;
-        } else {
-          details.removeAttribute("open");
-        }
-      }
-      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
-      const fromCls = show ? "hidden" : "unhidden";
-      const toCls = show ? "unhidden" : "hidden";
-      for (let i=0; i<cellCodeDivs.length; i++) {
-        const codeDiv = cellCodeDivs[i];
-        if (codeDiv.classList.contains(fromCls)) {
-          codeDiv.classList.remove(fromCls);
-          codeDiv.classList.add(toCls);
-        } 
-      }
-      return false;
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-  }
-  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-  if (hideAllCode) {
-    hideAllCode.addEventListener("click", toggleCodeHandler(false));
-  }
-  const showAllCode = window.document.getElementById("quarto-show-all-code");
-  if (showAllCode) {
-    showAllCode.addEventListener("click", toggleCodeHandler(true));
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/U-Shift\.github\.io\/MQAT");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
           } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
         }
-        return container.innerHTML
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/U-Shift\.github\.io\/MQAT");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -2859,185 +2904,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./linear-regression.html" class="pagination-link" aria-label="Multiple Linear Regression">
@@ -3050,7 +3071,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb40" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Factor Analysis"</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="an">code-fold:</span><span class="co"> false</span></span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="an">number-depth:</span><span class="co"> 3</span></span>
@@ -3202,7 +3223,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb40-166"><a href="#cb40-166" aria-hidden="true" tabindex="-1"></a><span class="fu">### Normality</span></span>
 <span id="cb40-167"><a href="#cb40-167" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-168"><a href="#cb40-168" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height=4, fig.align='center'}</span></span>
-<span id="cb40-169"><a href="#cb40-169" aria-hidden="true" tabindex="-1"></a><span class="in">hist(standardized)</span></span>
+<span id="cb40-169"><a href="#cb40-169" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(standardized)</span>
 <span id="cb40-170"><a href="#cb40-170" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb40-171"><a href="#cb40-171" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-172"><a href="#cb40-172" aria-hidden="true" tabindex="-1"></a>The histogram looks like a normal distribution.</span>
@@ -3210,8 +3231,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb40-174"><a href="#cb40-174" aria-hidden="true" tabindex="-1"></a><span class="fu">### Linearity</span></span>
 <span id="cb40-175"><a href="#cb40-175" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-176"><a href="#cb40-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height=4, fig.align='center'}</span></span>
-<span id="cb40-177"><a href="#cb40-177" aria-hidden="true" tabindex="-1"></a><span class="in">qqnorm(standardized)</span></span>
-<span id="cb40-178"><a href="#cb40-178" aria-hidden="true" tabindex="-1"></a><span class="in">abline(0, 1)</span></span>
+<span id="cb40-177"><a href="#cb40-177" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(standardized)</span>
+<span id="cb40-178"><a href="#cb40-178" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb40-179"><a href="#cb40-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb40-180"><a href="#cb40-180" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-181"><a href="#cb40-181" aria-hidden="true" tabindex="-1"></a>The QQ plot shows that the points are close to the diagonal line, indicating linearity.</span>
@@ -3219,8 +3240,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb40-183"><a href="#cb40-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Homogeneity</span></span>
 <span id="cb40-184"><a href="#cb40-184" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-185"><a href="#cb40-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height=4, fig.align='center'}</span></span>
-<span id="cb40-186"><a href="#cb40-186" aria-hidden="true" tabindex="-1"></a><span class="in">plot(fitted, standardized)</span></span>
-<span id="cb40-187"><a href="#cb40-187" aria-hidden="true" tabindex="-1"></a><span class="in">abline(h=0, v=0)</span></span>
+<span id="cb40-186"><a href="#cb40-186" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fitted, standardized)</span>
+<span id="cb40-187"><a href="#cb40-187" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">v=</span><span class="dv">0</span>)</span>
 <span id="cb40-188"><a href="#cb40-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb40-189"><a href="#cb40-189" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-190"><a href="#cb40-190" aria-hidden="true" tabindex="-1"></a>The residuals are randomly distributed around zero, indicating homogeneity.</span>
@@ -3272,10 +3293,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb40-242"><a href="#cb40-242" aria-hidden="true" tabindex="-1"></a><span class="fu">### Parallel Analysis</span></span>
 <span id="cb40-243"><a href="#cb40-243" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-244"><a href="#cb40-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height=4, fig.align='center'}</span></span>
-<span id="cb40-245"><a href="#cb40-245" aria-hidden="true" tabindex="-1"></a><span class="in">num_factors = fa.parallel(</span></span>
-<span id="cb40-246"><a href="#cb40-246" aria-hidden="true" tabindex="-1"></a><span class="in">  x = data, </span></span>
-<span id="cb40-247"><a href="#cb40-247" aria-hidden="true" tabindex="-1"></a><span class="in">  fm = "ml", # factor mathod = maximum likelihood</span></span>
-<span id="cb40-248"><a href="#cb40-248" aria-hidden="true" tabindex="-1"></a><span class="in">  fa = "fa") # factor analysis</span></span>
+<span id="cb40-245"><a href="#cb40-245" aria-hidden="true" tabindex="-1"></a>num_factors <span class="ot">=</span> <span class="fu">fa.parallel</span>(</span>
+<span id="cb40-246"><a href="#cb40-246" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> data, </span>
+<span id="cb40-247"><a href="#cb40-247" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm =</span> <span class="st">"ml"</span>, <span class="co"># factor mathod = maximum likelihood</span></span>
+<span id="cb40-248"><a href="#cb40-248" aria-hidden="true" tabindex="-1"></a>  <span class="at">fa =</span> <span class="st">"fa"</span>) <span class="co"># factor analysis</span></span>
 <span id="cb40-249"><a href="#cb40-249" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb40-250"><a href="#cb40-250" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-251"><a href="#cb40-251" aria-hidden="true" tabindex="-1"></a>The selection of the number of factors in the Parallel analysis can be threefold:</span>
@@ -3317,7 +3338,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb40-291"><a href="#cb40-291" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Scree Plot</span></span>
 <span id="cb40-292"><a href="#cb40-292" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-293"><a href="#cb40-293" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height=4, fig.align='center'}</span></span>
-<span id="cb40-294"><a href="#cb40-294" aria-hidden="true" tabindex="-1"></a><span class="in">plot(data_pca, type = "lines", npcs = 31)</span></span>
+<span id="cb40-294"><a href="#cb40-294" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data_pca, <span class="at">type =</span> <span class="st">"lines"</span>, <span class="at">npcs =</span> <span class="dv">31</span>)</span>
 <span id="cb40-295"><a href="#cb40-295" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb40-296"><a href="#cb40-296" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-297"><a href="#cb40-297" aria-hidden="true" tabindex="-1"></a>Check the cumulative variance of the first components and the scree plot, and see if the PCA is a good approach to detect the number of factors in this case.</span>
@@ -3476,37 +3497,37 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb40-460"><a href="#cb40-460" aria-hidden="true" tabindex="-1"></a>Plot factor 1 against factor 2, and compare the results</span>
 <span id="cb40-461"><a href="#cb40-461" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-462"><a href="#cb40-462" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height=5, fig.align='center'}</span></span>
-<span id="cb40-463"><a href="#cb40-463" aria-hidden="true" tabindex="-1"></a><span class="in">plot_factor_loading(</span></span>
-<span id="cb40-464"><a href="#cb40-464" aria-hidden="true" tabindex="-1"></a><span class="in">  data_factor = data_factor, # model no rotation</span></span>
-<span id="cb40-465"><a href="#cb40-465" aria-hidden="true" tabindex="-1"></a><span class="in">  f1 = 1, # Factor 1</span></span>
-<span id="cb40-466"><a href="#cb40-466" aria-hidden="true" tabindex="-1"></a><span class="in">  f2 = 2, # Factor 2</span></span>
-<span id="cb40-467"><a href="#cb40-467" aria-hidden="true" tabindex="-1"></a><span class="in">  method = "No rotation", # plot title</span></span>
-<span id="cb40-468"><a href="#cb40-468" aria-hidden="true" tabindex="-1"></a><span class="in">  color = "blue"</span></span>
-<span id="cb40-469"><a href="#cb40-469" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb40-463"><a href="#cb40-463" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
+<span id="cb40-464"><a href="#cb40-464" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_factor =</span> data_factor, <span class="co"># model no rotation</span></span>
+<span id="cb40-465"><a href="#cb40-465" aria-hidden="true" tabindex="-1"></a>  <span class="at">f1 =</span> <span class="dv">1</span>, <span class="co"># Factor 1</span></span>
+<span id="cb40-466"><a href="#cb40-466" aria-hidden="true" tabindex="-1"></a>  <span class="at">f2 =</span> <span class="dv">2</span>, <span class="co"># Factor 2</span></span>
+<span id="cb40-467"><a href="#cb40-467" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"No rotation"</span>, <span class="co"># plot title</span></span>
+<span id="cb40-468"><a href="#cb40-468" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"blue"</span></span>
+<span id="cb40-469"><a href="#cb40-469" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb40-470"><a href="#cb40-470" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb40-471"><a href="#cb40-471" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-472"><a href="#cb40-472" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Varimax Rotation</span></span>
 <span id="cb40-473"><a href="#cb40-473" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-474"><a href="#cb40-474" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height=5, fig.align='center'}</span></span>
-<span id="cb40-475"><a href="#cb40-475" aria-hidden="true" tabindex="-1"></a><span class="in">plot_factor_loading(</span></span>
-<span id="cb40-476"><a href="#cb40-476" aria-hidden="true" tabindex="-1"></a><span class="in">  data_factor = data_factor_var, # model varimax</span></span>
-<span id="cb40-477"><a href="#cb40-477" aria-hidden="true" tabindex="-1"></a><span class="in">  f1 = 1, # Factor 1</span></span>
-<span id="cb40-478"><a href="#cb40-478" aria-hidden="true" tabindex="-1"></a><span class="in">  f2 = 2, # Factor 2</span></span>
-<span id="cb40-479"><a href="#cb40-479" aria-hidden="true" tabindex="-1"></a><span class="in">  method = "Varimax rotation",</span></span>
-<span id="cb40-480"><a href="#cb40-480" aria-hidden="true" tabindex="-1"></a><span class="in">  color = "red"</span></span>
-<span id="cb40-481"><a href="#cb40-481" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb40-475"><a href="#cb40-475" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
+<span id="cb40-476"><a href="#cb40-476" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_factor =</span> data_factor_var, <span class="co"># model varimax</span></span>
+<span id="cb40-477"><a href="#cb40-477" aria-hidden="true" tabindex="-1"></a>  <span class="at">f1 =</span> <span class="dv">1</span>, <span class="co"># Factor 1</span></span>
+<span id="cb40-478"><a href="#cb40-478" aria-hidden="true" tabindex="-1"></a>  <span class="at">f2 =</span> <span class="dv">2</span>, <span class="co"># Factor 2</span></span>
+<span id="cb40-479"><a href="#cb40-479" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"Varimax rotation"</span>,</span>
+<span id="cb40-480"><a href="#cb40-480" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"red"</span></span>
+<span id="cb40-481"><a href="#cb40-481" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb40-482"><a href="#cb40-482" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb40-483"><a href="#cb40-483" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-484"><a href="#cb40-484" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Oblimin Rotation</span></span>
 <span id="cb40-485"><a href="#cb40-485" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-486"><a href="#cb40-486" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height=5, fig.align='center'}</span></span>
-<span id="cb40-487"><a href="#cb40-487" aria-hidden="true" tabindex="-1"></a><span class="in">plot_factor_loading(</span></span>
-<span id="cb40-488"><a href="#cb40-488" aria-hidden="true" tabindex="-1"></a><span class="in">  data_factor = data_factor_var, # model oblimn</span></span>
-<span id="cb40-489"><a href="#cb40-489" aria-hidden="true" tabindex="-1"></a><span class="in">  f1 = 1, # Factor 1</span></span>
-<span id="cb40-490"><a href="#cb40-490" aria-hidden="true" tabindex="-1"></a><span class="in">  f2 = 2, # Factor 2</span></span>
-<span id="cb40-491"><a href="#cb40-491" aria-hidden="true" tabindex="-1"></a><span class="in">  method = "Oblimin rotation",</span></span>
-<span id="cb40-492"><a href="#cb40-492" aria-hidden="true" tabindex="-1"></a><span class="in">  color = "darkgreen"</span></span>
-<span id="cb40-493"><a href="#cb40-493" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb40-487"><a href="#cb40-487" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(</span>
+<span id="cb40-488"><a href="#cb40-488" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_factor =</span> data_factor_var, <span class="co"># model oblimn</span></span>
+<span id="cb40-489"><a href="#cb40-489" aria-hidden="true" tabindex="-1"></a>  <span class="at">f1 =</span> <span class="dv">1</span>, <span class="co"># Factor 1</span></span>
+<span id="cb40-490"><a href="#cb40-490" aria-hidden="true" tabindex="-1"></a>  <span class="at">f2 =</span> <span class="dv">2</span>, <span class="co"># Factor 2</span></span>
+<span id="cb40-491"><a href="#cb40-491" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"Oblimin rotation"</span>,</span>
+<span id="cb40-492"><a href="#cb40-492" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="st">"darkgreen"</span></span>
+<span id="cb40-493"><a href="#cb40-493" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb40-494"><a href="#cb40-494" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb40-495"><a href="#cb40-495" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-496"><a href="#cb40-496" aria-hidden="true" tabindex="-1"></a>When we have more than two factors it is difficult to analyse the factors by the plots.</span>
@@ -3523,14 +3544,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb40-507"><a href="#cb40-507" aria-hidden="true" tabindex="-1"></a>For instance, we can plot all the factors against each other as follows:</span>
 <span id="cb40-508"><a href="#cb40-508" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-509"><a href="#cb40-509" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.align='center', fig.height=8}</span></span>
-<span id="cb40-510"><a href="#cb40-510" aria-hidden="true" tabindex="-1"></a><span class="in">#| eval: false</span></span>
-<span id="cb40-511"><a href="#cb40-511" aria-hidden="true" tabindex="-1"></a><span class="in"># create all combinations</span></span>
-<span id="cb40-512"><a href="#cb40-512" aria-hidden="true" tabindex="-1"></a><span class="in">plot_factor_loading(data_factor, 1, 2, method = "No rotation")</span></span>
-<span id="cb40-513"><a href="#cb40-513" aria-hidden="true" tabindex="-1"></a><span class="in">plot_factor_loading(data_factor, 1, 3, method = "No rotation")</span></span>
-<span id="cb40-514"><a href="#cb40-514" aria-hidden="true" tabindex="-1"></a><span class="in">plot_factor_loading(data_factor, 1, 4, method = "No rotation")</span></span>
-<span id="cb40-515"><a href="#cb40-515" aria-hidden="true" tabindex="-1"></a><span class="in">plot_factor_loading(data_factor, 2, 3, method = "No rotation")</span></span>
-<span id="cb40-516"><a href="#cb40-516" aria-hidden="true" tabindex="-1"></a><span class="in">plot_factor_loading(data_factor, 2, 4, method = "No rotation")</span></span>
-<span id="cb40-517"><a href="#cb40-517" aria-hidden="true" tabindex="-1"></a><span class="in">plot_factor_loading(data_factor, 3, 4, method = "No rotation")</span></span>
+<span id="cb40-510"><a href="#cb40-510" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb40-511"><a href="#cb40-511" aria-hidden="true" tabindex="-1"></a><span class="co"># create all combinations</span></span>
+<span id="cb40-512"><a href="#cb40-512" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">1</span>, <span class="dv">2</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
+<span id="cb40-513"><a href="#cb40-513" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">1</span>, <span class="dv">3</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
+<span id="cb40-514"><a href="#cb40-514" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">1</span>, <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
+<span id="cb40-515"><a href="#cb40-515" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">2</span>, <span class="dv">3</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
+<span id="cb40-516"><a href="#cb40-516" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">2</span>, <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
+<span id="cb40-517"><a href="#cb40-517" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_factor_loading</span>(data_factor, <span class="dv">3</span>, <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"No rotation"</span>)</span>
 <span id="cb40-518"><a href="#cb40-518" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb40-519"><a href="#cb40-519" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-522"><a href="#cb40-522" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
@@ -3540,7 +3561,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb40-526"><a href="#cb40-526" aria-hidden="true" tabindex="-1"></a><span class="co"># this converts this quarto to a plain r script</span></span>
 <span id="cb40-527"><a href="#cb40-527" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"quarto/factor-analysis.qmd"</span>, <span class="st">"code/classroom/factor.R"</span>, <span class="at">documentation =</span> <span class="dv">0</span>)</span>
 <span id="cb40-528"><a href="#cb40-528" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
@@ -3552,7 +3573,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <p>MQAT - Instituto Superior Técnico</p>
 </div>
     <div class="nav-footer-right">
-<p>September 2025</p>
+<p>September 2026</p>
 </div>
   </div>
 </footer>
