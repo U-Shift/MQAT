@@ -348,7 +348,8 @@ for (i in 1:nrow(SURVEYsample)) {
     ),
     profile = "driving-car", # or cycling-regular foot-walking
     preference = "fastest", # or shortest
-    output = "sf"
+    output = "sf",
+    api_key = Sys.getenv("ORS_USHIFT")
   )
   ROUTES1$distance = ROUTES1$summary[[1]]$distance # extract these values from summary
   ROUTES1$duration = ROUTES1$summary[[1]]$duration
@@ -380,7 +381,8 @@ for (i in 1:nrow(SURVEYsample)) {
     ),
     profile = "foot-walking", # or driving-car cycling-regular cycling-electric
     preference = "fastest", # or shortest
-    output = "sf"
+    output = "sf",
+    api_key = Sys.getenv("ORS_USHIFT")
   )
   ROUTES1$distance = ROUTES1$summary[[1]]$distance # extract these values from summary
   ROUTES1$duration = ROUTES1$summary[[1]]$duration
@@ -412,7 +414,8 @@ for (i in 1:nrow(SURVEYsample)) {
     ),
     profile = "cycling-regular", 
     preference = "fastest", # or shortest
-    output = "sf"
+    output = "sf",
+    api_key = Sys.getenv("ORS_USHIFT")
   )
   ROUTES1$distance = ROUTES1$summary[[1]]$distance # extract these values from summary
   ROUTES1$duration = ROUTES1$summary[[1]]$duration

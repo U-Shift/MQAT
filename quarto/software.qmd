@@ -171,6 +171,8 @@ In RStudio console, run:
 # install.packages("openrouteservice")
 
 # instructions to setup at the U-Shift server
-options(openrouteservice.url = "https://...") # the server address provided to you
-openrouteservice::ors_api_key("") # empty key
+options(openrouteservice.url = "https://server.ushift.pt/ors")
+write('ORS_USHIFT="ushift-ors"',
+      file = file.path(Sys.getenv("HOME"), ".Renviron"),
+      append = TRUE) # run this only!
 ```

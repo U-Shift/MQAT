@@ -11,6 +11,10 @@ format:
 
 We will use the `stplnar` package to create buffers in meters, and the `openrouteservice` package to create isochrones.
 
+::: {.callout-note appearance="simple"}
+See the [ors setup instructions](software.qmd#ors) for more details.
+:::
+
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(sf)
@@ -23,14 +27,15 @@ library(mapview)
 #| include: false
 # instructions to setup at the U-Shift server
 options(openrouteservice.url = "https://server.ushift.pt/ors/") 
-openrouteservice::ors_api_key("") # provided to you
+# openrouteservice::ors_api_key("") # provided to you
+# write('ORS_USHIFT="ushift-ors"', file = file.path(Sys.getenv("HOME"), ".Renviron"), append = TRUE) # run this only once!
 ```
 
 ## Buffer
 
-Represent a buffer of 500 m and 2000 m from IST[^3].
+Represent a buffer of 500 m and 2000 m from IST[^1].
 
-[^3]: Here I selected only the first variable because now we also have the coordinates information (unecessary for this procedure)
+[^1]: Here I selected only the first variable because now we also have the coordinates information (unnecessary for this procedure)
 
 ```{r bufferIST}
 #| fig-format: png
@@ -58,12 +63,14 @@ ISOCist = ors_isochrones(
   profile = "foot-walking",
   range_type = "distance", # or time
   range = c(500, 1000, 2000),
-  output = "sf"
+  output = "sf",
+  api_key = Sys.getenv("ORS_USHIFT")
 )
 
 ISOCist = arrange(ISOCist, -value) |>  # to make the larger polygons on top of the table so the are displayed behind.
           select(-center) # unnecessary variable
 ```
+
 ```{r importexportbuffer1}
 #| include: false
 #| message: false
@@ -123,7 +130,8 @@ ISOCschools = ors_isochrones(
   range = 20*60, # 20 minutes in seconds
   interval = 5*60, # to have intervals of 5 minutes
   attributes = "area", #you can directly get area, population, and so on.
-  output = "sf"
+  output = "sf",
+  api_key = Sys.getenv("ORS_USHIFT")
 )
 
 ISOCschools = arrange(ISOCschools, -value) |> # larger polygons on top of the table so the are displayed behind.
@@ -148,7 +156,8 @@ for (i in 1:nrow(coor)) {
       range = 20 * 60, # 20 minutes in seconds
       interval = 5 * 60, # to have intervals of 5 minutes
       attributes = "area", #you can directly get area, population, and so on. see documentation
-      output = "sf"
+      output = "sf",
+      api_key = Sys.getenv("ORS_USHIFT")
     )
   ISOCist = rbind(ISOCist, ISOCist_i) # bind the results into the skeleton, one by one
 }
@@ -165,6 +174,7 @@ ISOCschools = ISOCschools |>
                 st_drop_geometry() |>
                 select(id, INF_NOME, Alunos))
 ```
+
 ```{r importexportbuffer2}
 #| include: false
 #| message: false
