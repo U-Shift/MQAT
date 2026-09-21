@@ -14,6 +14,16 @@
 # Introduction
 :::
 
+::: {.content-hidden unless-format="html"}
+::: callout-note
+## 2026/27 classes
+
+This website will provide the materials for the R programming classes of the MQAT course. 
+Content will be made available gradually, as topics are addressed in class.
+
+Before the first class (01/10/2026), make sure to install and set up all the required software, following the instructions at [Software](software.qmd).
+:::
+:::
 
 Materials, exercises, data and tutorials for the [**Quantitative Methods of Analysis in Transportation**](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre){target="_blank"} course of the [MSc in Transportation Systems](https://tecnico.ulisboa.pt/en/education/courses/masters-programmes/transportation-systems/){target="_blank"} at Instituto Superior Técnico - University of Lisbon.
 
