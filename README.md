@@ -1,5 +1,5 @@
 # Quantitative Methods of Analysis in Transportation 
-Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT112/2025-2026/1-semestre)
+Materials to be used at the [MQAT course](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre)
 
 ## Website and E-book
 

@@ -14,17 +14,17 @@
 # Introduction
 :::
 
-Materials, exercises, data and tutorials for the [**Quantitative Methods of Analysis in Transportation**](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT112/2025-2026/1-semestre) course of the [MSc in Transportation Systems](https://tecnico.ulisboa.pt/en/education/courses/masters-programmes/transportation-systems/) at Instituto Superior Técnico - University of Lisbon.
+Materials, exercises, data and tutorials for the [**Quantitative Methods of Analysis in Transportation**](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre) course of the [MSc in Transportation Systems](https://tecnico.ulisboa.pt/en/education/courses/masters-programmes/transportation-systems/) at Instituto Superior Técnico - University of Lisbon.
 
 |  |  |
 |:----------------------------------:|:----------------------------------:|
-| ![](images/Ist-logo-01.jpg){width="200"} | [![](images/clipboard-3174620795.png){width="205"}](https://tecnico.ulisboa.pt/en/education/courses/masters-programmes/transportation-systems/) |
+| ![](images/Ist-logo.png){width="200"} | [![](images/clipboard-3174620795.png){width="205"}](https://tecnico.ulisboa.pt/en/education/courses/masters-programmes/transportation-systems/){target="_blank"} |
 
 ::: {.content-hidden unless-format="html"}
 ::: callout-caution
 ## This is not the official website for the course.
 
-Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT112/2025-2026/1-semestre)
+Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre)
 :::
 :::
 
@@ -32,7 +32,7 @@ Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](htt
 ::: callout-caution
 ## This is not the official book for the course.
 
-Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT112/2025-2026/1-semestre)
+Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre)
 :::
 :::
 
