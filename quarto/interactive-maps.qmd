@@ -46,6 +46,31 @@ For instance, the `tmap` package, the `leaflet` package, and the `mapview` packa
 
 ## Mapview
 
+::: {.callout-warning collapse="true"}
+# We recommend you to change mapview default basemap provider
+
+Due to a recent change on Carto basemap provider usage policy (the default basemap for mapview), it now requires an API key and without it maps present a watermark that hampers visualisation. 
+
+While this issue is being addressed by [mapview team](https://github.com/r-spatial/mapview/issues/521){target="_blank"}, we recommend you to change the default basemap by setting the `mapviewBasemaps` option. For this, you should edit your R profile file, by running one of the commands below.
+
+```r
+# To change at the user level (applies to all code you run on your computer)
+usethis::edit_r_profile(scope = "user")
+# To change at project level (applies to all code inside the project folder)
+usethis::edit_r_profile(scope = "project")
+```
+
+Then, paste the following code inside this file. Save it and restart R for changes to apply.
+
+```r
+options("mapviewBasemaps" = c("Esri.WorldGrayCanvas","Stadia.AlidadeSmoothDark","OpenStreetMap", "Esri.WorldImagery", "OpenTopoMap"))
+```
+
+It sets the default basemaps to 5 options that are open and do not require any API key or registration to run locally. You can use any others of your choice. See [leaflet-extras.github.io/leaflet-providers/preview](https://leaflet-extras.github.io/leaflet-providers/preview/){target="_blank"} for possible values.
+
+:::
+
+
 Mapview allows to create quick interactive maps, only by declaring the function `mapview()`.
 
 ```{r}
