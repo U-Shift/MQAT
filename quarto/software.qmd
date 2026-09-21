@@ -9,11 +9,11 @@ editor:
 
 # Software
 
-In this chapter we will guide you through the installation of R, RStudio and the packages you will need for this course.
+In this chapter we will guide you through the installation of R, Positron/RStudio IDE and the packages you will need for this course.
 
-**R** and **RStudio**[^1] are separate downloads.
+**R** and **Positron**/**RStudio**[^1] are separate downloads.
 
-[^1]: We will use RStudio, although if you already use other studio such as VScode, that's also fine.
+[^1]: We will use Positron. Although if you already use other studio such as VScode, that's also fine.
 
 ## R
 
@@ -21,7 +21,7 @@ You will need **R** installed on your computer.
 **R stats** (how it is also known) is a programming language and free software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing.
 
 The download links live at [The Comprehensive R Archive Network](https://cran.r-project.org/) (aka CRAN).
-he most recent version is `4.6.0`, but you can use `>= 4.1.x` if you already have it installed.
+he most recent version is `4.6.1`, but you can use any `>= 4.1.x` if you already have it installed.
 
 :::::: {.panel-tabset .nav-pills}
 ### Windows
@@ -62,9 +62,25 @@ sudo apt update -qq
 sudo apt install --no-install-recommends software-properties-common dirmngr
 # add the signing key (by Michael Rutter) for these repos
 wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
-# add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
+# add the R 4.0 repo from CRAN 
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 ```
+
+:::{.callout-warning appearance="simple"collapse="true"}
+
+# Using an Ubuntu based distribution, but not pure Ubuntu?
+
+If you are using an Ubuntu based Linux distribution, such as Linux Mint, the last command from the previous script will set the CRAN repository to an invalid address, causing the next step to throw an error when trying to fetch and install R.
+
+To fix it, run the commands below.
+
+```bash
+# Remove invalid repository defined before
+sudo add-apt-repository --remove "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+# Set repository to fixed address, considering Ubuntu version (upstream) instead of your Ubuntu flavour one (which is invalid for CRAN)
+sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(source /etc/upstream-release/lsb-release && echo $DISTRIB_CODENAME)-cran40/"
+```
+:::
 
 Then run:
 
@@ -82,37 +98,63 @@ To keep up-to-date R version and packages, you can follow the instructions at [r
 After this installation, you don't need to open R base.
 Please proceed to install RStudio.
 
-## RStudio
+## IDE
 
-RStudio Desktop is an integrated development environment (IDE) for R.
-It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management.
+An IDE (Integrated Development Environment) is a software that provides tools to write, test and execute code in a single graphical interface. It makes the process of programming easier and more accessible to users less proeficient in coding.
 
-RStudio is available for free download from [Posit RStudio](https://posit.co/download/rstudio-desktop/).
+Below are tutorials to install two alternatives that support R. Both include a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management. Positron has a more modern UI, but RStudio is more established due to . You can choose either. 
+
+
+### Positron
+
+Positron is available for free download from [Posit Positron](https://positron.posit.co/download){target="_blank"}.
 
 :::: {.panel-tabset .nav-pills}
-### Windows 10/11
+### Windows
 
-[Download RStudio 2026.04](https://download1.rstudio.org/electron/windows/RStudio-2026.04.0-526.exe) and run the executable file.
+[Download Positron](https://positron.posit.co/download){target="_blank"} for Windows and run the executable file.
+
+::: {.callout-note appearance="simple"}
+## User or system install?
+
+You can choose either. User install will keep Positron available only for your user, while System install will make it available to any user on your computer.
+:::
+
+::: {.callout-warning appearance="simple" collapse="true"}
+## Is Positron failing to start R session?
+
+If after successfully installing Positron you open it and face an error on the R console, installing Microsoft Visual C++ Redistributable can resolve missing dependencies that might be causing the problem.
+
+To install it, open [this link](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version){target="_blank"} and download the `.exe` file in the **Link** column that suits your system architecture. Click on the file and run the instalation procedure. 
+
+Restart Positron. The issue should be gone. 
+:::
 
 ### MacOS
 
-[Download RStudio 2026.04](https://download1.rstudio.org/electron/macos/RStudio-2026.04.0-526.dmg) and install it as usual.
+[Download Positron](https://positron.posit.co/download){target="_blank"} for macOS file and install it as usual.
 
 ### Ubuntu
 
-::: {.callout-important appearance="simple"}
-These are instructions for Ubuntu **24**.
-If you use other linux distribution, please follow the instructions on [Posit RStudio](https://posit.co/download/rstudio-desktop/).
-:::
+[Download Positron](https://positron.posit.co/download){target="_blank"} `.deb` file and install it as usual.
+::::
 
-Install it via the terminal:
+### RStudio
 
-```{bash}
-sudo apt install libssl-dev libclang-dev
-wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2026.04.0-526-amd64.deb
-sudo dpkg -i rstudio*
-rm -v rstudio*
-```
+RStudio is available for free download from [Posit RStudio](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads){target="_blank"}.
+
+:::: {.panel-tabset .nav-pills}
+### Windows
+
+[Download RStudio IDE](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads){target="_blank"} `.exe` file and run the executable file.
+
+### MacOS
+
+[Download RStudio IDE](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads){target="_blank"} `.dmg` file and install it as usual.
+
+### Ubuntu
+
+[Download RStudio IDE](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads){target="_blank"} `.deb` file and install it as usual.
 ::::
 
 ## R packages
@@ -141,7 +183,39 @@ install.packages("osmextract") # optional
 install.packages("stplanr") # optional
 ```
 
-## TinyTex
+::: {.callout-warning appearance="simple" collapse="true"}
+## Facing problems installing packages on Linux?
+
+It is possible that the instalation of the packages above fails due to missing dependencies. Unlike Windows or Mac, Linux sometimes tries to "build" packages from scratch, which causes errors if certain system tools are missing. To avoid this, follow the steps below to tell R to download ready-to-use packages instead of trying to build them.
+
+1.  On the **Terminal** (next to the console, at the bottom of your screen, there is a tab called **Terminal**), run the command below to get your OS `codename`:
+
+```bash
+# If you are using an Ubuntu original distro, get the value at 'codename'
+lsb_release -a
+# If you use other Ubuntu based distro (such as Linux Mint), get the value returned by the command below
+source /etc/upstream-release/lsb-release && echo $DISTRIB_CODENAME 
+```
+
+2. Back on the **Console**, run the following R code, making sure to replace 'resolute' with the codename retrieved in the previous step.
+
+```r
+# Use pre-compiled binary packages to avoid errors due to missing dependencies
+options(
+  repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/resolute/latest"),
+  HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"]))
+)
+
+# Disable bspm interception (use pre-compiled Linux binaries directly from Posit without needing apt or system privileges)
+# install.packages(c("bspm"))
+bspm::disable()
+```
+
+3. All set! Try to install the packages again. It should run smoothly now. :)
+
+:::
+
+### TinyTex
 
 To be able to export your Rmakdown document to a **pdf** file, you will need a LaTeX processor.
 `tinytex` is a lightweight R package with the most used features of **LaTeX** that you can use with R.
@@ -161,7 +235,7 @@ tinytex::tlmgr_install()
 tinytex::tlmgr_update() # updates all latex pkgs
 ```
 
-## Open Route Service {#ors}
+### Open Route Service {#ors}
 
 For some GIS exercises, we will use the [Open Route Service](https://openrouteservice.org/) to calculate routes and travel times.
 
@@ -176,3 +250,17 @@ write('ORS_USHIFT="ushift-ors"',
       file = file.path(Sys.getenv("HOME"), ".Renviron"),
       append = TRUE) # run this only!
 ```
+
+
+## Cheat sheets
+
+::: {.callout-note appearance="simple"}
+This is the only cheating allowed at this course. 😜
+:::
+
+
+Cheath seets are a concise set of notes used for quick reference. Posit, the open-source data science software corporation responsible for RStudio/Positron IDEs, also makes available several cheat sheets that provide a comprehensive introduction to many of R softwares and packages. 
+
+You can start by taking a look at the ones for [Positron](https://rstudio.github.io/cheatsheets/positron.pdf){target="_blank"} or [RStudio](https://rstudio.github.io/cheatsheets/html/rstudio-ide.html){target="_blank"}.
+
+Refer to [rstudio.github.io/cheatsheets](https://rstudio.github.io/cheatsheets/){target="_blank"} for the full cheat sheet repository.
