@@ -2,74 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://U-Shift.github.io/MQAT/index.html</loc>
-    <lastmod>2025-11-25T13:44:54.236Z</lastmod>
+    <lastmod>2026-09-21T14:55:27.553Z</lastmod>
   </url>
   <url>
     <loc>https://U-Shift.github.io/MQAT/software.html</loc>
-    <lastmod>2026-05-26T13:51:54.237Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/r-basics.html</loc>
-    <lastmod>2025-09-08T14:18:09.229Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/data-manipulation.html</loc>
-    <lastmod>2025-09-08T14:18:09.228Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/eda.html</loc>
-    <lastmod>2025-11-19T16:51:05.442Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/linear-regression.html</loc>
-    <lastmod>2025-11-19T17:00:21.664Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/factor-analysis.html</loc>
-    <lastmod>2025-11-19T17:31:30.008Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/clusters.html</loc>
-    <lastmod>2025-11-25T14:06:56.123Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/spatial-data.html</loc>
-    <lastmod>2025-09-15T17:19:53.791Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/interactive-maps.html</loc>
-    <lastmod>2025-11-17T16:25:28.567Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/centroids.html</loc>
-    <lastmod>2025-11-17T16:23:23.708Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/desire-lines.html</loc>
-    <lastmod>2025-11-17T16:38:37.855Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/distances.html</loc>
-    <lastmod>2026-05-26T13:05:47.052Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/buffers.html</loc>
-    <lastmod>2026-05-26T13:04:36.341Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/open-data.html</loc>
-    <lastmod>2025-11-17T16:24:20.796Z</lastmod>
-  </url>
-  <url>
-    <loc>https://U-Shift.github.io/MQAT/grid.html</loc>
-    <lastmod>2025-11-17T16:21:36.750Z</lastmod>
+    <lastmod>2026-09-21T14:55:27.553Z</lastmod>
   </url>
   <url>
     <loc>https://U-Shift.github.io/MQAT/references.html</loc>
-    <lastmod>2024-08-28T17:23:28.199Z</lastmod>
+    <lastmod>2026-09-17T11:03:33.492Z</lastmod>
   </url>
   <url>
     <loc>https://U-Shift.github.io/MQAT/QMAT_Rexercises.pdf</loc>
-    <lastmod>2026-05-26T14:20:10.020Z</lastmod>
+    <lastmod>2026-09-21T14:57:23.614Z</lastmod>
   </url>
 </urlset>
