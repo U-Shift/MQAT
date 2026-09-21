@@ -1,0 +1,7 @@
+install.packages(c(
+  "tidyverse", "readxl", "skimr", "DataExplorer", "corrplot",
+  "car", "olsrr", "cluster", "mclust", "factoextra",
+  "foreign", "nFactors", "psych", "GPArotation", "summarytools",
+  "sf", "mapview", "centr", "od", "osmextract", "stplanr",
+  "openrouteservice", "r5r", "rmarkdown", "tinytex", "summarytools"
+))
