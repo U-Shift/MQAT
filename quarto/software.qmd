@@ -9,6 +9,20 @@ editor:
 
 # Software
 
+::: {.content-hidden unless-format="html"}
+:::{.callout-warning collapse="true"}
+## Having trouble setting up the software on your computer?
+
+Book a slot for setup assistance using the calendar below. 
+
+<iframe 
+  src="https://calendar.app.google/yvStsqy8z4DBo1DG8" 
+  style="border: 0" width="100%" height="600" 
+  frameborder="0"
+></iframe>
+:::
+:::
+
 In this chapter we will guide you through the installation of R, Positron/RStudio IDE and the packages you will need for this course.
 
 **R** and **Positron**/**RStudio**[^1] are separate downloads.
