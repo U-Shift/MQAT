@@ -14,7 +14,8 @@
 # Introduction
 :::
 
-Materials, exercises, data and tutorials for the [**Quantitative Methods of Analysis in Transportation**](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre) course of the [MSc in Transportation Systems](https://tecnico.ulisboa.pt/en/education/courses/masters-programmes/transportation-systems/) at Instituto Superior Técnico - University of Lisbon.
+
+Materials, exercises, data and tutorials for the [**Quantitative Methods of Analysis in Transportation**](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre){target="_blank"} course of the [MSc in Transportation Systems](https://tecnico.ulisboa.pt/en/education/courses/masters-programmes/transportation-systems/){target="_blank"} at Instituto Superior Técnico - University of Lisbon.
 
 |  |  |
 |:----------------------------------:|:----------------------------------:|
@@ -24,7 +25,7 @@ Materials, exercises, data and tutorials for the [**Quantitative Methods of Anal
 ::: callout-caution
 ## This is not the official website for the course.
 
-Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre)
+Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre){target="_blank"}
 :::
 :::
 
@@ -32,7 +33,7 @@ Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](htt
 ::: callout-caution
 ## This is not the official book for the course.
 
-Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre)
+Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](https://fenix.tecnico.ulisboa.pt/disciplinas/MQAT/2026-2027/1-semestre){target="_blank"}
 :::
 :::
 
@@ -69,9 +70,9 @@ Additionally, the use of open source software and datasets allows researchers to
 
 ## Recommended readings {.unnumbered}
 
--   @intror [Introduction to R](https://cengel.github.io/R-intro/).
--   @wickham2017r [R for Data Science](https://r4ds.hadley.nz/).
--   @geocomputation [Geocomputation with R](https://geocompr.robinlovelace.net/).
+-   @intror [Introduction to R](https://cengel.github.io/R-intro/){target="_blank"}.
+-   @wickham2017r [R for Data Science](https://r4ds.hadley.nz/){target="_blank"}.
+-   @geocomputation [Geocomputation with R](https://geocompr.robinlovelace.net/){target="_blank"}.
 
 ::: {.content-hidden unless-format="html"}
 ::: {.callout-note appearance="simple" icon="true"}
