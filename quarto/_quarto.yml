@@ -17,6 +17,10 @@ book:
       url: https://www.rosafelix.bike
       orcid: 0000-0002-5642-6006
       # affiliation: "Instituto Superior Técnico - University of Lisbon"
+    - name: "Gonçalo F. Matos"
+      email: goncaloafmatos@tecnico.pt
+      url: https://ushift.tecnico.ulisboa.pt/team-goncalo-matos/
+      orcid: 0009-0001-3489-1732
     - name: "Gabriel Valença"
       email: gabrielvalenca@tecnico.pt
       url: https://ushift.tecnico.ulisboa.pt/team-gabriel-valenca/
@@ -26,10 +30,6 @@ book:
       email: fmoura@tecnico.pt
       url: https://ushift.tecnico.ulisboa.pt/team-filipe-moura/
       orcid: 0000-0001-7749-8490
-    - name: "Gonçalo F. Matos"
-      email: goncaloafmatos@tecnico.pt
-      url: https://ushift.tecnico.ulisboa.pt/team-goncalo-matos/
-      orcid: 0009-0001-3489-1732
   date: today
   # date-modified: today
   chapters:
