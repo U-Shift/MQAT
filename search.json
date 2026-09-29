@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "MQAT",
+    "title": "MQAT: Module 2 - Database, Exploratory Data Analysis (EDA)",
     "section": "",
-    "text": "1 Introduction\nMaterials, exercises, data and tutorials for the Quantitative Methods of Analysis in Transportation course of the MSc in Transportation Systems at Instituto Superior Técnico - University of Lisbon.",
+    "text": "Module 2 - Database, Exploratory Data Analysis (EDA)\nMaterials, exercises, data and tutorials for the Quantitative Methods of Analysis in Transportation course of the MSc in Transportation Systems at Instituto Superior Técnico - University of Lisbon.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Quantitative Methods of Analysis in Transportation course</span>"
     ]
@@ -12,7 +12,7 @@
   {
     "objectID": "index.html#why-r-and-gis",
     "href": "index.html#why-r-and-gis",
-    "title": "MQAT",
+    "title": "MQAT: Module 2 - Database, Exploratory Data Analysis (EDA)",
     "section": "Why R and GIS",
     "text": "Why R and GIS\nMost academic programs focus on teaching modelling and deep analysis of data. However, there is a need to learn how to explore and prepare a dataset for modelling. The use of programming and GIS techniques have enormous advantages, including their flexibility; reproducibility; and transparency and understanding the step-by-step process.\nThe use of GIS techniques in transportation is of enormous relevance when doing accessibility analysis or reeling with georreferenced transportation data, such as bike sharing route trips’ datasets, origin-destination flows datasets, home/work locations, GTFS public transit data, and so on. There is a need to learn how to locate these open datasets, how to explore them and how to integrate them into transportation and urban analysis. Additionally, the use of open source software and datasets allows researchers to perform methods that are reproducible and transparent.\n\nTLDR\n\nOpen-source tools widely used in data analytics and spatial analysis\nFlexibility and reproducibility in data manipulation and visualization\nCritical for urban mobility and transportation research, with spatial relevance\nLarge transportation datasets are becoming increasingly common",
     "crumbs": [
@@ -22,7 +22,7 @@
   {
     "objectID": "index.html#recommended-readings",
     "href": "index.html#recommended-readings",
-    "title": "MQAT",
+    "title": "MQAT: Module 2 - Database, Exploratory Data Analysis (EDA)",
     "section": "Recommended readings",
     "text": "Recommended readings\n\nEngel (2023) Introduction to R.\nWickham et al. (2017) R for Data Science.\nLovelace et al. (2024) Geocomputation with R.\n\n\n\n\n\n\n\nThis website was developed entirely in R with Quarto.\n\n\n\n\n\n\n\n\n\nEngel, Claudia A. 2023. Introduction to r. cengel.github.io/R-intro/.\n\n\nLovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2024. Geocomputation with r. 2nd ed. Chapman; Hall/CRC. https://r.geocompx.org/.\n\n\nWickham, Hadley, Mine Çetinaka-Rundel, and Garrett Grolemund. 2017. R for Data Science. 2nd ed. O’Reilly Sebastopol. https://r4ds.hadley.nz/.",
     "crumbs": [
@@ -34,7 +34,7 @@
     "href": "software.html",
     "title": "2  Software",
     "section": "",
-    "text": "2.1 R\nIn this chapter we will guide you through the installation of R, Positron/RStudio IDE and the packages you will need for this course.\nR and Positron/RStudio1 are separate downloads.\nYou will need R installed on your computer. R stats (how it is also known) is a programming language and free software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing.\nThe download links live at The Comprehensive R Archive Network (aka CRAN). he most recent version is 4.6.1, but you can use any &gt;= 4.1.x if you already have it installed.\nAfter this installation, you don’t need to open R base. Please proceed to install RStudio.",
+    "text": "2.1 R\nIn this chapter we will guide you through the installation of R, Positron/RStudio IDE and the packages you will need for this course.\nR and Positron/RStudio1 are separate downloads.\nYou will need R installed on your computer. R stats (how it is also known) is a programming language and free software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing.\nThe download links live at The Comprehensive R Archive Network (aka CRAN). he most recent version is 4.6.1, but you can use any &gt;= 4.1.x if you already have it installed.\nAfter this installation, you don’t need to open R base. Please proceed to install the IDE.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
     ]
@@ -54,7 +54,7 @@
     "href": "software.html#ide",
     "title": "2  Software",
     "section": "2.2 IDE",
-    "text": "2.2 IDE\nAn IDE (Integrated Development Environment) is a software that provides tools to write, test and execute code in a single graphical interface. It makes the process of programming easier and more accessible to users less proeficient in coding.\nBelow are tutorials to install two alternatives that support R. Both include a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management. Positron has a more modern UI, but RStudio is more established due to . You can choose either.\n\n2.2.1 Positron\nPositron is available for free download from Posit Positron.\n\nWindowsMacOSUbuntu\n\n\nDownload Positron for Windows and run the executable file.\n\n\n\n\n\n\nNoteUser or system install?\n\n\n\nYou can choose either. User install will keep Positron available only for your user, while System install will make it available to any user on your computer.\n\n\n\n\n\n\n\n\nWarningIs Positron failing to start R session?\n\n\n\n\n\nIf after successfully installing Positron you open it and face an error on the R console, installing Microsoft Visual C++ Redistributable can resolve missing dependencies that might be causing the problem.\nTo install it, open this link and download the .exe file in the Link column that suits your system architecture. Click on the file and run the instalation procedure.\nRestart Positron. The issue should be gone.\n\n\n\n\n\nDownload Positron for macOS file and install it as usual.\n\n\nDownload Positron .deb file and install it as usual.\n\n\n\n\n\n2.2.2 RStudio\nRStudio is available for free download from Posit RStudio.\n\nWindowsMacOSUbuntu\n\n\nDownload RStudio IDE .exe file and run the executable file.\n\n\nDownload RStudio IDE .dmg file and install it as usual.\n\n\nDownload RStudio IDE .deb file and install it as usual.",
+    "text": "2.2 IDE\nAn IDE (Integrated Development Environment) is a software that provides tools to write, test and execute code in a single graphical interface. It makes the process of programming easier and more accessible to users less proeficient in coding.\nBelow are tutorials to install two alternatives that support R. Both include a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management. Positron has a more modern UI, but RStudio is more established due to its longevity. You can choose either.\n\n2.2.1 Positron\nPositron is available for free download from Posit Positron.\n\nWindowsMacOSUbuntu\n\n\nDownload Positron for Windows and run the executable file.\n\n\n\n\n\n\nNoteUser or system install?\n\n\n\nYou can choose either. User install will keep Positron available only for your user, while System install will make it available to any user on your computer.\n\n\n\n\n\n\n\n\nWarningIs Positron failing to start R session?\n\n\n\n\n\nIf after successfully installing Positron you open it and face an error on the R console, installing Microsoft Visual C++ Redistributable can resolve missing dependencies that might be causing the problem.\nTo install it, open this link and download the .exe file in the Link column that suits your system architecture. Click on the file and run the instalation procedure.\nRestart Positron. The issue should be gone.\n\n\n\n\n\nDownload Positron for macOS file and install it as usual.\n\n\nDownload Positron .deb file and install it as usual.\n\n\n\n\n\n2.2.2 RStudio\nRStudio is available for free download from Posit RStudio.\n\nWindowsMacOSUbuntu\n\n\nDownload RStudio IDE .exe file and run the executable file.\n\n\nDownload RStudio IDE .dmg file and install it as usual.\n\n\nDownload RStudio IDE .deb file and install it as usual.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
     ]
@@ -84,7 +84,7 @@
     "href": "software.html#footnotes",
     "title": "2  Software",
     "section": "",
-    "text": "We will use Positron. Although if you already use other studio such as VScode, that’s also fine.↩︎",
+    "text": "We will use Positron. Although if you prefer RStudio or already use other IDE such as VScode, that’s also fine.↩︎",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
     ]
