@@ -1,24 +1,24 @@
 ---
-# title: "Quantitative Methods of Analysis in Transportation course"
+# title: "Introduction to R programming"
 # format:
 #   html:
-#     title: "Introduction"
+#     title: "Introduction to R programming"
 #   pdf: 
-#     title: "Quantitative Methods of Analysis in Transportation course"
+#     title: "Introduction to R programming"
 ---
 
 ::: {.content-hidden unless-format="pdf"}
 # Quantitative Methods of Analysis in Transportation course
 ::: 
 ::: {.content-hidden unless-format="html"}
-# Introduction
+# Module 2 - Database, Exploratory Data Analysis (EDA) {.unnumbered}
 :::
 
 ::: {.content-hidden unless-format="html"}
 ::: callout-note
 ## 2026/27 classes
 
-This website will provide the materials for the R programming classes of the MQAT course. 
+This website will provide the materials for the Introduction to R component of the Module 2 - Database, Exploratory Data Analysis (EDA) Module of the MQAT course. 
 Content will be made available gradually, as topics are addressed in class.
 
 Before the first class (01/10/2026), make sure to install and set up all the required software, following the instructions at [Software](software.qmd).
@@ -47,7 +47,7 @@ Please refer to Fénix: [Quantitative Methods of Analysis in Transportation](htt
 :::
 :::
 
-# Introduction
+# Introduction to R programming {.unnumbered}
 
 ::: {.content-hidden unless-format="html"}
 This website aims to provide tools to deal with transportation datasets using [R programming](software.qmd), an open-source and widely used tool for data analytics in urban mobility.

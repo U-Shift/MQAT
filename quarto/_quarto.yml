@@ -8,7 +8,7 @@ execute:
   
   
 book:
-  title: "MQAT"
+  title: "MQAT: Module 2 - Database, Exploratory Data Analysis (EDA) "
   output-file: "QMAT_Rexercises"
   subtitle: "Exercises in R"
   author: 
