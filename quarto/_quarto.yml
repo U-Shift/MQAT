@@ -64,6 +64,10 @@ book:
       href: https://github.com/U-Shift/MQAT/releases/download/2026/QMAT_RGIS_Exercises_2026.pdf
       text: "Download PDF"
       target: _blank
+    - icon: database
+      href: https://github.com/U-Shift/MQAT/tree/main/data
+      text: "Data folder"
+      target: _blank
   page-footer:
     left: "R Félix, G Valença, F Moura"
     center: "MQAT - Instituto Superior Técnico"
