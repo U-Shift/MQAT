@@ -2,61 +2,365 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Install R and IDE",
+    "title": "MQAT: Module 2 - Database, Exploratory Data Analysis (EDA)",
     "section": "",
-    "text": "1 Install R and IDE (instructions for all operating systems)\nIn this chapter we will guide you through the installation of R, Positron/RStudio IDE and the packages you will need for this course.\nR and Positron/RStudio1 are separate downloads.",
+    "text": "Module 2 - Database, Exploratory Data Analysis (EDA)\nMaterials, exercises, data and tutorials for the Quantitative Methods of Analysis in Transportation course of the MSc in Transportation Systems at Instituto Superior Técnico - University of Lisbon.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Install R and IDE (instructions for all operating systems)</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Quantitative Methods of Analysis in Transportation course</span>"
     ]
   },
   {
-    "objectID": "index.html#r",
-    "href": "index.html#r",
-    "title": "Install R and IDE",
-    "section": "1.1 R",
-    "text": "1.1 R\nYou will need R installed on your computer. R stats (how it is also known) is a programming language and free software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing.\nThe download links live at The Comprehensive R Archive Network (aka CRAN). he most recent version is 4.6.1, but you can use any &gt;= 4.1.x if you already have it installed.\n\nWindowsMacUbuntu\n\n\nDownload R for Windows and run the executable file.\n\n\n\n\n\n\nImportant\n\n\n\nYou may also need to install Rtools, which is a collection of tools necessary to build R packages in Windows.\n\n\n\n\nDownload R for MacOX. You will have to choose between the arm64 or the x86-64 version.\nDownload the .pkg file and install it as usual.\n\n\n\n\n\n\n\n\nThese are instructions for Ubuntu. If you use other linux distribution, please follow the instructions on The Comprehensive R Archive Network - CRAN.\n\n\n\nYou can look for R in the Ubuntu Software Center or install it via the terminal:\n\n# sudo apt update && sudo apt upgrade -y\nsudo apt install r-base\n\nOr, if you prefer, you can install the latest version of R from CRAN:\n\n# update indices\nsudo apt update -qq\n# install two helper packages we need\nsudo apt install --no-install-recommends software-properties-common dirmngr\n# add the signing key (by Michael Rutter) for these repos\nwget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc\n# add the R 4.0 repo from CRAN \nsudo add-apt-repository \"deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/\"\n\n\n\n\n\n\n\nWarningUsing an Ubuntu based distribution, but not pure Ubuntu?\n\n\n\n\n\nIf you are using an Ubuntu based Linux distribution, such as Linux Mint, the last command from the previous script will set the CRAN repository to an invalid address, causing the next step to throw an error when trying to fetch and install R.\nTo fix it, run the commands below.\n# Remove invalid repository defined before\nsudo add-apt-repository --remove \"deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/\"\n# Set repository to fixed address, considering Ubuntu version (upstream) instead of your Ubuntu flavour one (which is invalid for CRAN)\nsudo add-apt-repository \"deb https://cloud.r-project.org/bin/linux/ubuntu $(source /etc/upstream-release/lsb-release && echo $DISTRIB_CODENAME)-cran40/\"\n\n\n\nThen run:\n\nsudo apt install r-base r-base-core r-recommended r-base-dev\n\n\n\n\n\n\n\nTipOptional\n\n\n\nTo keep up-to-date R version and packages, you can follow the instructions at r2u.\n\n\n\n\n\nAfter this installation, you don’t need to open R base. Please proceed to install the IDE.",
+    "objectID": "index.html#why-r-and-gis",
+    "href": "index.html#why-r-and-gis",
+    "title": "MQAT: Module 2 - Database, Exploratory Data Analysis (EDA)",
+    "section": "Why R and GIS",
+    "text": "Why R and GIS\nMost academic programs focus on teaching modelling and deep analysis of data. However, there is a need to learn how to explore and prepare a dataset for modelling. The use of programming and GIS techniques have enormous advantages, including their flexibility; reproducibility; and transparency and understanding the step-by-step process.\nThe use of GIS techniques in transportation is of enormous relevance when doing accessibility analysis or reeling with georreferenced transportation data, such as bike sharing route trips’ datasets, origin-destination flows datasets, home/work locations, GTFS public transit data, and so on. There is a need to learn how to locate these open datasets, how to explore them and how to integrate them into transportation and urban analysis. Additionally, the use of open source software and datasets allows researchers to perform methods that are reproducible and transparent.\n\nTLDR\n\nOpen-source tools widely used in data analytics and spatial analysis\nFlexibility and reproducibility in data manipulation and visualization\nCritical for urban mobility and transportation research, with spatial relevance\nLarge transportation datasets are becoming increasingly common",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Install R and IDE (instructions for all operating systems)</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Quantitative Methods of Analysis in Transportation course</span>"
     ]
   },
   {
-    "objectID": "index.html#ide",
-    "href": "index.html#ide",
-    "title": "Install R and IDE",
-    "section": "1.2 IDE",
-    "text": "1.2 IDE\nAn IDE (Integrated Development Environment) is a software that provides tools to write, test and execute code in a single graphical interface. It makes the process of programming easier and more accessible to users less proeficient in coding.\nBelow are tutorials to install two alternatives that support R. Both include a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management. Positron has a more modern UI, but RStudio is more established due to its longevity. You can choose either.\n\n1.2.1 Positron\nPositron is available for free download from Posit Positron.\n\nWindowsMacOSUbuntu\n\n\nDownload Positron for Windows and run the executable file.\n\n\n\n\n\n\nNoteUser or system install?\n\n\n\nYou can choose either. User install will keep Positron available only for your user, while System install will make it available to any user on your computer.\n\n\n\n\n\n\n\n\nWarningIs Positron failing to start R session?\n\n\n\n\n\nIf after successfully installing Positron you open it and face an error on the R console, installing Microsoft Visual C++ Redistributable can resolve missing dependencies that might be causing the problem.\nTo install it, open this link and download the .exe file in the Link column that suits your system architecture. Click on the file and run the instalation procedure.\nRestart Positron. The issue should be gone.\n\n\n\n\n\nDownload Positron for macOS file and install it as usual.\n\n\nDownload Positron .deb file and install it as usual.\n\n\n\n\n\n1.2.2 RStudio\nRStudio is available for free download from Posit RStudio.\n\nWindowsMacOSUbuntu\n\n\nDownload RStudio IDE .exe file and run the executable file.\n\n\nDownload RStudio IDE .dmg file and install it as usual.\n\n\nDownload RStudio IDE .deb file and install it as usual.",
+    "objectID": "index.html#recommended-readings",
+    "href": "index.html#recommended-readings",
+    "title": "MQAT: Module 2 - Database, Exploratory Data Analysis (EDA)",
+    "section": "Recommended readings",
+    "text": "Recommended readings\n\nEngel (2023) Introduction to R.\nWickham et al. (2017) R for Data Science.\nLovelace et al. (2024) Geocomputation with R.\n\n\n\n\n\n\n\nThis website was developed entirely in R with Quarto.\n\n\n\n\n\n\n\n\n\nEngel, Claudia A. 2023. Introduction to r. cengel.github.io/R-intro/.\n\n\nLovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2024. Geocomputation with r. 2nd ed. Chapman; Hall/CRC. https://r.geocompx.org/.\n\n\nWickham, Hadley, Mine Çetinaka-Rundel, and Garrett Grolemund. 2017. R for Data Science. 2nd ed. O’Reilly Sebastopol. https://r4ds.hadley.nz/.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Install R and IDE (instructions for all operating systems)</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Quantitative Methods of Analysis in Transportation course</span>"
     ]
   },
   {
-    "objectID": "index.html#r-packages",
-    "href": "index.html#r-packages",
-    "title": "Install R and IDE",
-    "section": "1.3 R packages",
-    "text": "1.3 R packages\nYou will need to install some packages to work with the data and scripts in this course.\nYou can install them in RStudio by searching for them in the Packages tab:\n\nor by running the following code in the console:\n\ninstall.packages(\"tidyverse\")\ninstall.packages(\"readxl\")\n\ninstall.packages(\"sf\")\ninstall.packages(\"mapview\")\ninstall.packages(\"rmarkdown\")\ninstall.packages(\"centr\")\ninstall.packages(\"od\")\ninstall.packages(\"openrouteservice\")\n\ninstall.packages(c(\"remotes\", \"devtools\", \"usethis\")) # optional\ninstall.packages(\"osmextract\") # optional\ninstall.packages(\"stplanr\") # optional\n\n\n\n\n\n\n\nWarningFacing problems installing packages on Linux?\n\n\n\n\n\nIt is possible that the instalation of the packages above fails due to missing dependencies. Unlike Windows or Mac, Linux sometimes tries to “build” packages from scratch, which causes errors if certain system tools are missing. To avoid this, follow the steps below to tell R to download ready-to-use packages instead of trying to build them.\n\nOn the Terminal (next to the console, at the bottom of your screen, there is a tab called Terminal), run the command below to get your OS codename:\n\n# If you are using an Ubuntu original distro, get the value at 'codename'\nlsb_release -a\n# If you use other Ubuntu based distro (such as Linux Mint), get the value returned by the command below\nsource /etc/upstream-release/lsb-release && echo $DISTRIB_CODENAME \n\nBack on the Console, run the following R code, making sure to replace ‘resolute’ with the codename retrieved in the previous step.\n\n# Use pre-compiled binary packages to avoid errors due to missing dependencies\noptions(\n  repos = c(CRAN = \"https://packagemanager.posit.co/cran/__linux__/resolute/latest\"),\n  HTTPUserAgent = sprintf(\"R/%s R (%s)\", getRversion(), paste(getRversion(), R.version[\"platform\"], R.version[\"arch\"], R.version[\"os\"]))\n)\n\n# Disable bspm interception (use pre-compiled Linux binaries directly from Posit without needing apt or system privileges)\n# install.packages(c(\"bspm\"))\nbspm::disable()\n\nAll set! Try to install the packages again. It should run smoothly now. :)",
+    "objectID": "software.html",
+    "href": "software.html",
+    "title": "2  Software",
+    "section": "",
+    "text": "2.1 R\nIn this chapter we will guide you through the installation of R, Positron/RStudio IDE and the packages you will need for this course.\nR and Positron/RStudio1 are separate downloads.\nYou will need R installed on your computer. R stats (how it is also known) is a programming language and free software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing.\nThe download links live at The Comprehensive R Archive Network (aka CRAN). he most recent version is 4.6.1, but you can use any &gt;= 4.1.x if you already have it installed.\nAfter this installation, you don’t need to open R base. Please proceed to install the IDE.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Install R and IDE (instructions for all operating systems)</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
     ]
   },
   {
-    "objectID": "index.html#cheat-sheets",
-    "href": "index.html#cheat-sheets",
-    "title": "Install R and IDE",
-    "section": "1.4 Cheat sheets",
-    "text": "1.4 Cheat sheets\n\n\n\n\n\n\nThis is the only cheating allowed at this course. 😜\n\n\n\nCheath seets are a concise set of notes used for quick reference. Posit, the open-source data science software corporation responsible for RStudio/Positron IDEs, also makes available several cheat sheets that provide a comprehensive introduction to many of R softwares and packages.\nYou can start by taking a look at the ones for Positron or RStudio.\nRefer to rstudio.github.io/cheatsheets for the full cheat sheet repository.",
+    "objectID": "software.html#r",
+    "href": "software.html#r",
+    "title": "2  Software",
+    "section": "",
+    "text": "WindowsMacUbuntu\n\n\nDownload R for Windows and run the executable file.\n\n\n\n\n\n\nImportant\n\n\n\nYou may also need to install Rtools, which is a collection of tools necessary to build R packages in Windows.\n\n\n\n\nDownload R for MacOX. You will have to choose between the arm64 or the x86-64 version.\nDownload the .pkg file and install it as usual.\n\n\n\n\n\n\n\n\nThese are instructions for Ubuntu. If you use other linux distribution, please follow the instructions on The Comprehensive R Archive Network - CRAN.\n\n\n\nYou can look for R in the Ubuntu Software Center or install it via the terminal:\n\n# sudo apt update && sudo apt upgrade -y\nsudo apt install r-base\n\nOr, if you prefer, you can install the latest version of R from CRAN:\n\n# update indices\nsudo apt update -qq\n# install two helper packages we need\nsudo apt install --no-install-recommends software-properties-common dirmngr\n# add the signing key (by Michael Rutter) for these repos\nwget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc\n# add the R 4.0 repo from CRAN \nsudo add-apt-repository \"deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/\"\n\n\n\n\n\n\n\nWarningUsing an Ubuntu based distribution, but not pure Ubuntu?\n\n\n\n\n\nIf you are using an Ubuntu based Linux distribution, such as Linux Mint, the last command from the previous script will set the CRAN repository to an invalid address, causing the next step to throw an error when trying to fetch and install R.\nTo fix it, run the commands below.\n# Remove invalid repository defined before\nsudo add-apt-repository --remove \"deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/\"\n# Set repository to fixed address, considering Ubuntu version (upstream) instead of your Ubuntu flavour one (which is invalid for CRAN)\nsudo add-apt-repository \"deb https://cloud.r-project.org/bin/linux/ubuntu $(source /etc/upstream-release/lsb-release && echo $DISTRIB_CODENAME)-cran40/\"\n\n\n\nThen run:\n\nsudo apt install r-base r-base-core r-recommended r-base-dev\n\n\n\n\n\n\n\nTipOptional\n\n\n\nTo keep up-to-date R version and packages, you can follow the instructions at r2u.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Install R and IDE (instructions for all operating systems)</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
     ]
   },
   {
-    "objectID": "index.html#footnotes",
-    "href": "index.html#footnotes",
-    "title": "Install R and IDE",
+    "objectID": "software.html#ide",
+    "href": "software.html#ide",
+    "title": "2  Software",
+    "section": "2.2 IDE",
+    "text": "2.2 IDE\nAn IDE (Integrated Development Environment) is a software that provides tools to write, test and execute code in a single graphical interface. It makes the process of programming easier and more accessible to users less proeficient in coding.\nBelow are tutorials to install two alternatives that support R. Both include a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management. Positron has a more modern UI, but RStudio is more established due to its longevity. You can choose either.\n\n2.2.1 Positron\nPositron is available for free download from Posit Positron.\n\nWindowsMacOSUbuntu\n\n\nDownload Positron for Windows and run the executable file.\n\n\n\n\n\n\nNoteUser or system install?\n\n\n\nYou can choose either. User install will keep Positron available only for your user, while System install will make it available to any user on your computer.\n\n\n\n\n\n\n\n\nWarningIs Positron failing to start R session?\n\n\n\n\n\nIf after successfully installing Positron you open it and face an error on the R console, installing Microsoft Visual C++ Redistributable can resolve missing dependencies that might be causing the problem.\nTo install it, open this link and download the .exe file in the Link column that suits your system architecture. Click on the file and run the instalation procedure.\nRestart Positron. The issue should be gone.\n\n\n\n\n\nDownload Positron for macOS file and install it as usual.\n\n\nDownload Positron .deb file and install it as usual.\n\n\n\n\n\n2.2.2 RStudio\nRStudio is available for free download from Posit RStudio.\n\nWindowsMacOSUbuntu\n\n\nDownload RStudio IDE .exe file and run the executable file.\n\n\nDownload RStudio IDE .dmg file and install it as usual.\n\n\nDownload RStudio IDE .deb file and install it as usual.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
+    ]
+  },
+  {
+    "objectID": "software.html#r-packages",
+    "href": "software.html#r-packages",
+    "title": "2  Software",
+    "section": "2.3 R packages",
+    "text": "2.3 R packages\nYou will need to install some packages to work with the data and scripts in this course.\nYou can install them in RStudio by searching for them in the Packages tab:\n\nor by running the following code in the console:\n\ninstall.packages(\"tidyverse\")\ninstall.packages(\"readxl\")\n\ninstall.packages(\"sf\")\ninstall.packages(\"mapview\")\ninstall.packages(\"rmarkdown\")\ninstall.packages(\"centr\")\ninstall.packages(\"od\")\ninstall.packages(\"openrouteservice\")\n\ninstall.packages(c(\"remotes\", \"devtools\", \"usethis\")) # optional\ninstall.packages(\"osmextract\") # optional\ninstall.packages(\"stplanr\") # optional\n\n\n\n\n\n\n\nWarningFacing problems installing packages on Linux?\n\n\n\n\n\nIt is possible that the instalation of the packages above fails due to missing dependencies. Unlike Windows or Mac, Linux sometimes tries to “build” packages from scratch, which causes errors if certain system tools are missing. To avoid this, follow the steps below to tell R to download ready-to-use packages instead of trying to build them.\n\nOn the Terminal (next to the console, at the bottom of your screen, there is a tab called Terminal), run the command below to get your OS codename:\n\n# If you are using an Ubuntu original distro, get the value at 'codename'\nlsb_release -a\n# If you use other Ubuntu based distro (such as Linux Mint), get the value returned by the command below\nsource /etc/upstream-release/lsb-release && echo $DISTRIB_CODENAME \n\nBack on the Console, run the following R code, making sure to replace ‘resolute’ with the codename retrieved in the previous step.\n\n# Use pre-compiled binary packages to avoid errors due to missing dependencies\noptions(\n  repos = c(CRAN = \"https://packagemanager.posit.co/cran/__linux__/resolute/latest\"),\n  HTTPUserAgent = sprintf(\"R/%s R (%s)\", getRversion(), paste(getRversion(), R.version[\"platform\"], R.version[\"arch\"], R.version[\"os\"]))\n)\n\n# Disable bspm interception (use pre-compiled Linux binaries directly from Posit without needing apt or system privileges)\n# install.packages(c(\"bspm\"))\nbspm::disable()\n\nAll set! Try to install the packages again. It should run smoothly now. :)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
+    ]
+  },
+  {
+    "objectID": "software.html#cheat-sheets",
+    "href": "software.html#cheat-sheets",
+    "title": "2  Software",
+    "section": "2.4 Cheat sheets",
+    "text": "2.4 Cheat sheets\n\n\n\n\n\n\nThis is the only cheating allowed at this course. 😜\n\n\n\nCheath seets are a concise set of notes used for quick reference. Posit, the open-source data science software corporation responsible for RStudio/Positron IDEs, also makes available several cheat sheets that provide a comprehensive introduction to many of R softwares and packages.\nYou can start by taking a look at the ones for Positron or RStudio.\nRefer to rstudio.github.io/cheatsheets for the full cheat sheet repository.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
+    ]
+  },
+  {
+    "objectID": "software.html#footnotes",
+    "href": "software.html#footnotes",
+    "title": "2  Software",
     "section": "",
     "text": "We will use Positron. Although if you prefer RStudio or already use other IDE such as VScode, that’s also fine.↩︎",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Install R and IDE (instructions for all operating systems)</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Software</span>"
+    ]
+  },
+  {
+    "objectID": "r-basics.html",
+    "href": "r-basics.html",
+    "title": "3  R basics",
+    "section": "",
+    "text": "3.1 Math operations\nIn this chapter we will introduce to the R basics and some exercises to get familiar to how R works.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>R basics</span>"
+    ]
+  },
+  {
+    "objectID": "r-basics.html#math-operations",
+    "href": "r-basics.html#math-operations",
+    "title": "3  R basics",
+    "section": "",
+    "text": "Sum\n\n1+1\n\n[1] 2\n\n\n\n\nSubtraction\n\n5-2\n\n[1] 3\n\n\n\n\nMultiplication\n\n2*2\n\n[1] 4\n\n\n\n\nDivision\n\n8/2\n\n[1] 4\n\n\n\n\nRound the number\n\nround(3.14)\n\n[1] 3\n\nround(3.14, 1) # The \"1\" indicates to round it up to 1 decimal digit.\n\n[1] 3.1\n\n\nYou can use help ?round in the console to see the description of the function, and the default arguments.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>R basics</span>"
+    ]
+  },
+  {
+    "objectID": "r-basics.html#basics",
+    "href": "r-basics.html#basics",
+    "title": "3  R basics",
+    "section": "3.2 Basics",
+    "text": "3.2 Basics\n\nCombinations\n\nc(1, 2, 3)\n\n[1] 1 2 3\n\nc(1:3) # The \":\" indicates a range between the first and second numbers. \n\n[1] 1 2 3\n\n\n\n\n\n\n\n\nTipTry it yourself\n\n\n\nTry to write a combination with the numbers 10, 11, 56, 57, 58.\n\n\n\n\nCreate a comment with ctrl + shift + c\n\n# Comments help you organize your code. \n# A line with a comment will not be executed. \n\n\n\nCreate a table\nA simple table with the number of trips by car, PT, walking, and cycling in a hypothetical street segment at a certain period.\nDefine variables\n\nmodes &lt;- c(\"car\", \"PT\", \"walking\", \"cycling\") # you can use \"=\" or \"&lt;-\"\ntrips = c(200, 50, 300, 150) # key sensitive (uppercase and lowercase letters are different)\n\nJoin the variables to create a table\n\ntable_example = data.frame(modes, trips)\n\nTake a look at the table\nVisualize the table by clicking on the “Data” in the “Environment” page or use :\n\nView(table_example)\n\nLook at the first row\n\ntable_example[1,] #rows and columns start from 1 in R, differently from Python which starts from 0.\n\n  modes trips\n1   car   200\n\n\nLook at first row and column\n\ntable_example[1,1]\n\n[1] \"car\"\n\ntable_example[1,4]\n\nNULL",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>R basics</span>"
+    ]
+  },
+  {
+    "objectID": "r-basics.html#practical-exercise",
+    "href": "r-basics.html#practical-exercise",
+    "title": "3  R basics",
+    "section": "3.3 Practical exercise",
+    "text": "3.3 Practical exercise\nDataset: the number of trips between all municipalities in the Lisbon Metropolitan Area, Portugal (INE 2018).\n\nImport dataset\nDownload the dataset TRIPSmode_mun.Rds and save it in the folder data, under your project’s root folder.\nTo import it, you can click directly in the file under the “Files” pan, or:\n\ndata = readRDS(\"data/TRIPSmode_mun.Rds\")\n\n\n\n\n\n\n\nAfter you type \" you can use tab to navigate between folders and files and enter to autocomplete.\n\n\n\n\n\nTake a first look at the data\nSummary statistics\n\nsummary(data)\n\n     Origin_mun   Destination_mun     Total             Walk       \n Length   :315   Length   :315    Min.   :     7   Min.   :     0  \n N.unique : 18   N.unique : 18    1st Qu.:   330   1st Qu.:     0  \n N.blank  :  0   N.blank  :  0    Median :  1090   Median :     0  \n Min.nchar:  5   Min.nchar:  5    Mean   : 16825   Mean   :  4033  \n Max.nchar: 19   Max.nchar: 19    3rd Qu.:  5374   3rd Qu.:     0  \n                                  Max.   :875144   Max.   :306289  \n      Bike              Car            PTransit            Other        \n Min.   :   0.00   Min.   :     0   Min.   :     0.0   Min.   :    0.0  \n 1st Qu.:   0.00   1st Qu.:   263   1st Qu.:     5.0   1st Qu.:    0.0  \n Median :   0.00   Median :   913   Median :   134.0   Median :    0.0  \n Mean   :  80.19   Mean   :  9956   Mean   :  2602.6   Mean   :  152.4  \n 3rd Qu.:   0.00   3rd Qu.:  4408   3rd Qu.:   975.5   3rd Qu.:   62.5  \n Max.   :5362.00   Max.   :349815   Max.   :202428.0   Max.   :11647.0  \n\n\nCheck the structure of the data\n\nstr(data)\n\nClasses 'tbl_df', 'tbl' and 'data.frame':   315 obs. of  8 variables:\n $ Origin_mun     : chr  \"Alcochete\" \"Alcochete\" \"Alcochete\" \"Alcochete\" ...\n $ Destination_mun: chr  \"Alcochete\" \"Almada\" \"Amadora\" \"Barreiro\" ...\n $ Total          : num  20478 567 188 867 114 ...\n $ Walk           : num  6833 0 0 0 0 ...\n $ Bike           : num  320 0 0 0 0 0 0 0 91 0 ...\n $ Car            : num  12484 353 107 861 114 ...\n $ PTransit       : num  833 0 81 5 0 ...\n $ Other          : num  7 214 0 0 0 0 0 0 0 0 ...\n\n\nCheck the number of rows (observations) and columns (variables)\n\nnrow(data)\n\n[1] 315\n\nncol(data)\n\n[1] 8\n\n\nOpen the dataset\n\nView(data)\n\n\n\n\n\n\n\n\nThe following three rules make a dataset tidy: variables are columns, observations are rows, and values are cells. [@wickham17r]\n\n\n\n\nExplore the data\nCheck the total number of trips\nUse $ to select a variable of the data\n\nsum(data$Total)\n\n[1] 5299853\n\n\nPercentage of car trips related to the total\n\nsum(data$Car)/sum(data$Total) * 100\n\n[1] 59.17638\n\n\nPercentage of active trips related to the total\n\n(sum(data$Walk) + sum(data$Bike)) / sum(data$Total) * 100\n\n[1] 24.44883\n\n\n\n\nModify original data\nCreate a column with the sum of the number of trips for active modes\n\ndata$Active = data$Walk + data$Bike\n\nFilter by condition (create new tables)\nFilter trips only with origin from Lisbon\n\ndata_Lisbon = data[data$Origin == \"Lisboa\",]\n\nFilter trips with origin different from Lisbon\n\ndata_out_Lisbon = data[data$Origin != \"Lisboa\",]\n\nFilter trips with origin and destination in Lisbon\n\ndata_in_Out_Lisbon = data[data$Origin == \"Lisboa\" & data$Destination == \"Lisboa\",]\n\nRemove the first column\n\ndata = data[ ,-1] #first column\n\nCreate a table only with origin, destination and walking trips\nThere are many ways to do the same operation.\n\nnames(data)\n\n[1] \"Destination_mun\" \"Total\"           \"Walk\"            \"Bike\"           \n[5] \"Car\"             \"PTransit\"        \"Other\"           \"Active\"         \n\n\n\ndata_walk2 = data[ ,c(1,2,4)]\n\n\ndata_walk3 = data[ ,-c(3,5:9)]\n\n\n\nExport data\nSave data in .csv and .Rds\n\nwrite.csv(data, 'data/dataset.csv', row.names = FALSE)\nsaveRDS(data, 'data/dataset.Rds') #Choose a different file. \n\n\n\nImport data\n\ncsv_file = read.csv(\"data/dataset.csv\")\nrds_file = readRDS(\"data/dataset.Rds\")\n\n\n\n\n\n\n\nINE. 2018. Mobilidade e Funcionalidade Do Território Nas Áreas Metropolitanas do Porto e de Lisboa: 2017. Instituto National de Estatística. https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&xlang=pt.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>R basics</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html",
+    "href": "data-manipulation.html",
+    "title": "4  Data manipulation",
+    "section": "",
+    "text": "4.1 Select variables\nIn this chapter we will use some very useful dplyr functions to handle and manipulate data.\nYou can load the dplyr package directly, or load the entire tidy universe (tidyverse).\nUsing the same dataset as in R basics but with slightly differences1.\nWe will do the same operations but in a simplified way.\nDownload the dataset TRIPSorigin.Rds and save it in the folder data, under your project’s root folder.\nYou don’t need to know everything! And you don’t need to know by heart. The following functions are the ones you will probably use most of the time to handle data.\nHave a look at your dataset. You can open using View(), look at the information at the “Environment” panel, or even print the same information using glimpse()\nglimpse(TRIPS)\nWe will create a new dataset with Origin, Walk, Bike and Total. This time we will use the select() function.\nTRIPS_new = select(TRIPS, Origin, Walk, Bike, Total) # the first argument is the dataset\nThe first argument, as usually in R, is the dataset, and the remaining ones are the columns to select.\nWith most of the dplyr functions you don’t need to refer to data$... you can simply type the variable names (and even without the \"...\"!). This makes coding in R simpler :)\nYou can also remove columns that you don’t need.\nTRIPS_new = select(TRIPS_new, -Total) # dropping the Total column",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html#select-variables",
+    "href": "data-manipulation.html#select-variables",
+    "title": "4  Data manipulation",
+    "section": "",
+    "text": "Using pipes!\nNow, let’s introduce pipes. Pipes are a rule as: “With this, do this.”\nThis is useful to skip the first argument of the functions (usually the dataset to apply the function).\nApplying a pipe to the select() function, we can write as:\n\nTRIPS_new = TRIPS |&gt; select(Origin, Walk, Bike, Total)\n\nTwo things to note:\n\nThe pipe symbol can be written as |&gt; or %&gt;%. 2 To write it you may also use the ctrl+shift+m shortcut.\nAfter typing select( you can press tab and the list of available variables of that dataset will show up! Enter to select. With this you prevent typo errors.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html#filter-observations",
+    "href": "data-manipulation.html#filter-observations",
+    "title": "4  Data manipulation",
+    "section": "4.2 Filter observations",
+    "text": "4.2 Filter observations\nYou can filter observations based on a condition using the filter() function.\n\nTRIPS2 = TRIPS[TRIPS$Total &gt; 25000,] # using r-base, you cant forget the comma\nTRIPS2 = TRIPS2 |&gt; filter(Total &gt; 25000) # using dplyr, it's easier\n\nYou can have other conditions inside the condition.\n\nsummary(TRIPS$Total)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n    361    5918   17474   22457   33378  112186 \n\nTRIPS3 = TRIPS |&gt; filter(Total &gt; median(Total)) \n\nOther filter conditions:\n\n== equal, != different\n&lt; smaller, &gt; greater, &lt;= smaller or equal, &gt;= greater or equal\n& and, | or\nis.na, !is.na is not NA\n%in%, !%in% not in",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html#create-new-variables",
+    "href": "data-manipulation.html#create-new-variables",
+    "title": "4  Data manipulation",
+    "section": "4.3 Create new variables",
+    "text": "4.3 Create new variables\nYou can also try again to create a variable of Car percentage using pipes! To create a new variable or change an existing one (overwriting), you can use the mutate() function.\n\nTRIPS$Car_perc = TRIPS$Car/TRIPS$Total * 100 # using r-base\n\nTRIPS = TRIPS |&gt; mutate(Car_perc = Car/Total * 100) # using dplyr",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html#change-data-type",
+    "href": "data-manipulation.html#change-data-type",
+    "title": "4  Data manipulation",
+    "section": "4.4 Change data type",
+    "text": "4.4 Change data type\nData can be in different formats. For example, the variable Origin is a character, but we can convert it to a numeric variable.\n\nclass(TRIPS$Origin)\n\n[1] \"character\"\n\nTRIPS = TRIPS |&gt; \n  mutate(Origin_num = as.integer(Origin)) # you can use as.numeric() as well\nclass(TRIPS$Origin_num)\n\n[1] \"integer\"\n\n\nMost used data types are:\n\ninteger (int)\nnumeric (num)\ncharacter (chr)\nlogical (logical)\ndate (Date)\nfactor (factor)\n\n\nFactors\nFactors are useful to deal with categorical data. You can convert a character to a factor using as.factor(), and also use labels and levels for categorical ordinal data.\nWe can change the Lisbon variable to a factor, and Internal too.\n\nTRIPS = TRIPS |&gt; \n  mutate(Lisbon_factor = factor(Lisbon, labels = c(\"No\", \"Yes\")),\n         Internal_factor = factor(Internal, labels = c(\"Inter\", \"Intra\")))\n\nBut how do we know which levels come first? A simple way is to use table() or unique() functions.\n\nunique(TRIPS$Lisbon) # this will show all the different values\n\n[1] 0 1\n\ntable(TRIPS$Lisbon) # this will show the frequency of each value\n\n\n  0   1 \n188  48 \n\ntable(TRIPS$Lisbon_factor)\n\n\n No Yes \n188  48 \n\n\nThe first number to appear is the first level, and so on.\nYou can see the difference between using a continuous variable (in this case Lisbon` has 0 and 1) and a categorical variable (Lisbon_factor).\n\nplot(TRIPS$Lisbon) # the values range between 0 and 1\n\n\n\n\n\n\n\nplot(TRIPS$Lisbon_factor) # the values are categorical and labeled with Yes/No",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html#join-data-tables",
+    "href": "data-manipulation.html#join-data-tables",
+    "title": "4  Data manipulation",
+    "section": "4.5 Join data tables",
+    "text": "4.5 Join data tables\nWhen having relational tables - i.e. with a common identifier - it is useful to be able to join them in a very efficient way.\nleft_join is a function that joins two tables by a common column. The first table is the one that will be kept, and the second one will be joined to it. How left_join works:\n\n\n\nA visual representation of the left join where every row in x appears in the output.Source: R for Data Science.\n\n\nLet’s join the municipalities to this table with a supporting table that includes all the relation between neighbourhoods and municipalities, and the respective names and codes.\nDownload the dataset Municipalities_names.Rds and save it in the folder data, under your project’s root folder.\n\nMunicipalities = readRDS(\"data/Municipalities_names.Rds\")\n\n\nhead(TRIPS)\n\n# A tibble: 6 × 13\n  Origin Total  Walk  Bike   Car PTransit Other Internal Lisbon Car_perc\n  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;\n1 110501 35539 11325  1309 21446     1460     0        0      0     60.3\n2 110501 47602  3502   416 37727     5519   437        1      0     79.3\n3 110506 37183 12645    40 22379     2057    63        0      0     60.2\n4 110506 42313  1418   163 37337     3285   106        1      0     88.2\n5 110507 30725  9389  1481 19654      201     0        0      0     64.0\n6 110507 54586  2630   168 44611     6963   215        1      0     81.7\n# ℹ 3 more variables: Origin_num &lt;int&gt;, Lisbon_factor &lt;fct&gt;,\n#   Internal_factor &lt;fct&gt;\n\ntail(Municipalities)\n\n    Mun_code Neighborhood_code        Municipality\n113     1109            110913               Mafra\n114     1114            111409 Vila Franca de Xira\n115     1109            110918               Mafra\n116     1109            110904               Mafra\n117     1502            150202           Alcochete\n118     1109            110911               Mafra\n                                             Neighborhood\n113                                         Santo Isidoro\n114                                   Vila Franca de Xira\n115 União das freguesias de Azueira e Sobral da Abelheira\n116                                            Encarnação\n117                                               Samouco\n118                                             Milharado\n\n\nWe can see that we have a common variable: Origin in TRIPS and Neighborhood_code in Municipalities.\nTo join these two tables we need to specify the common variable in each table, using the by argument.\n\nTRIPSjoin = TRIPS |&gt; left_join(Municipalities, by = c(\"Origin\" = \"Neighborhood_code\"))\n\nIf you prefer, you can mutate or rename a variable so both tables have the same name. When both tables have the same name, you don’t need to specify the by argument.\n\nMunicipalities = Municipalities |&gt; rename(Origin = \"Neighborhood_code\") # change name\nTRIPSjoin = TRIPS |&gt; left_join(Municipalities) # automatic detects common variable\n\nAs you can see, both tables don’t need to be the same length. The left_join function will keep all the observations from the first table, and join the second table to it. If there is no match, the variables from the second table will be filled with NA.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html#group_by-and-summarize",
+    "href": "data-manipulation.html#group_by-and-summarize",
+    "title": "4  Data manipulation",
+    "section": "4.6 group_by and summarize",
+    "text": "4.6 group_by and summarize\nWe have a very large table with all the neighbourhoods and their respective municipalities. We want to know the total number of trips with origin in each municipality.\nTo make it easier to understand, let’s keep only the variables we need.\n\nTRIPSredux = TRIPSjoin |&gt; select(Origin, Municipality, Internal, Car, Total)\nhead(TRIPSredux)\n\n# A tibble: 6 × 5\n  Origin Municipality Internal   Car Total\n  &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 110501 Cascais             0 21446 35539\n2 110501 Cascais             1 37727 47602\n3 110506 Cascais             0 22379 37183\n4 110506 Cascais             1 37337 42313\n5 110507 Cascais             0 19654 30725\n6 110507 Cascais             1 44611 54586\n\n\nWe can group this table by the Municipality variable and summarize the number of trips with origin in each municipality.\n\nTRIPSsum = TRIPSredux |&gt; \n  group_by(Municipality) |&gt; # you won't notice any chagne with only this\n  summarize(Total = sum(Total))\nhead(TRIPSsum)\n\n# A tibble: 6 × 2\n  Municipality   Total\n  &lt;chr&gt;          &lt;dbl&gt;\n1 Alcochete      36789\n2 Almada        289834\n3 Amadora       344552\n4 Barreiro      133658\n5 Cascais       373579\n6 Lisboa       1365111\n\n\nWe summed the total number of trips in each municipality.\nIf we want to group by more than one variable, we can add more group_by() functions.\n\nTRIPSsum2 = TRIPSredux |&gt; \n  group_by(Municipality, Internal) |&gt; \n  summarize(Total = sum(Total),\n            Car = sum(Car))\nhead(TRIPSsum2)\n\n# A tibble: 6 × 4\n# Groups:   Municipality [3]\n  Municipality Internal  Total    Car\n  &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1 Alcochete           0  16954   9839\n2 Alcochete           1  19835  15632\n3 Almada              0 105841  49012\n4 Almada              1 183993 125091\n5 Amadora             0 117727  33818\n6 Amadora             1 226825 142386\n\n\nWe summed the total number of trips and car trips in each municipality, separated by inter and intra municipal trips.\n\n\n\n\n\n\nIt is a good practice to use the ungroup() function after the group_by() function. This will remove the grouping. If you don’t do this, the grouping will be kept and you may have unexpected results in the next time you use that dataset.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html#arrange-data",
+    "href": "data-manipulation.html#arrange-data",
+    "title": "4  Data manipulation",
+    "section": "4.7 Arrange data",
+    "text": "4.7 Arrange data\nYou can sort a dataset by one or more variables.\nFor instance, arrange() by Total trips, ascending or descending order.\n\nTRIPS2 = TRIPSsum2 |&gt; arrange(Total)\nTRIPS2 = TRIPSsum2 |&gt; arrange(-Total) # descending\n\nTRIPS2 = TRIPSsum2 |&gt; arrange(Municipality) # alphabetic\n\nTRIPS4 = TRIPS |&gt; arrange(Lisbon_factor, Total) # more than one variable\n\nThis is not the same as opening the view table and click on the arrows. When you do that, the order is not saved in the dataset. If you want to save the order, you need to use the arrange() function.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html#all-together-now",
+    "href": "data-manipulation.html#all-together-now",
+    "title": "4  Data manipulation",
+    "section": "4.8 All together now!",
+    "text": "4.8 All together now!\nThis is the pipes magic. It takes the last result and applies the next function to it. “With this, do this.”. You can chain as many functions as you want.\n\nTRIPS_pipes = TRIPS |&gt; \n  select(Origin, Internal, Car, Total) |&gt; \n  \n  mutate(Origin_num = as.integer(Origin)) |&gt; \n  mutate(Internal_factor = factor(Internal, labels = c(\"Inter\", \"Intra\"))) |&gt; \n  \n  filter(Internal_factor == \"Inter\")|&gt;\n  \n  left_join(Municipalities) |&gt;\n  \n  group_by(Municipality) |&gt;\n  summarize(Total = sum(Total),\n            Car = sum(Car),\n            Car_perc = Car/Total * 100) |&gt; \n  ungroup() |&gt; \n  \n  arrange(desc(Car_perc))\n\nWith this code we will have a table with the total number of intercity trips, by municipality, with their names instead of codes, arranged by the percentage of car trips.\n\nTRIPS_pipes\n\n# A tibble: 18 × 4\n   Municipality         Total    Car Car_perc\n   &lt;chr&gt;                &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;\n 1 Mafra                65811  46329     70.4\n 2 Sesimbra             49370  31975     64.8\n 3 Cascais             161194  96523     59.9\n 4 Palmela              66428  39688     59.7\n 5 Alcochete            16954   9839     58.0\n 6 Setúbal             129059  70318     54.5\n 7 Montijo              57164  30900     54.1\n 8 Seixal              120747  63070     52.2\n 9 Sintra              237445 123408     52.0\n10 Oeiras              134862  66972     49.7\n11 Almada              105841  49012     46.3\n12 Loures              132310  60478     45.7\n13 Barreiro             52962  24160     45.6\n14 Odivelas             93709  39151     41.8\n15 Vila Franca de Xira 115152  47201     41.0\n16 Moita                51040  17394     34.1\n17 Amadora             117727  33818     28.7\n18 Lisboa              280079  69038     24.6",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html#other-dplyr-functions",
+    "href": "data-manipulation.html#other-dplyr-functions",
+    "title": "4  Data manipulation",
+    "section": "4.9 Other dplyr functions",
+    "text": "4.9 Other dplyr functions\nYou can explore other dplyr functions and variations to manipulate data in the dplyr cheat sheet:\n\nTake a particular attention to pivot_wider and pivot_longer (tidyr package) to transform OD matrices in wide and long formats.\n\n\n\nOD matrix in long format\n\n\nOrigins\nDestinations\nTrips\n\n\n\n\nA\nB\n20\n\n\nA\nC\n45\n\n\nB\nA\n10\n\n\nC\nC\n5\n\n\nC\nA\n30\n\n\n\n\n\n\n\n\nOD matrix in wide format\n\n\nTrips\nA\nB\nC\n\n\n\n\nA\nNA\n20\n45\n\n\nB\n10\nNA\nNA\n\n\nC\n30\nNA\n5",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "data-manipulation.html#footnotes",
+    "href": "data-manipulation.html#footnotes",
+    "title": "4  Data manipulation",
+    "section": "",
+    "text": "This dataset includes the number of trips with origin in each neighborhood, divided by mode of transport, and inter or intra municipal trips.↩︎\nYou can change this in RStudio &gt; Tools &gt; Global Options &gt; Code.↩︎",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Data manipulation</span>"
+    ]
+  },
+  {
+    "objectID": "eda.html",
+    "href": "eda.html",
+    "title": "5  Exploratory Data Analysis",
+    "section": "",
+    "text": "5.1 Intro\nThis chapter will show you how to use visualization and transformation to explore your data in a systematic way, a task that statisticians call exploratory data analysis, or EDA for short. EDA is an iterative cycle, where you should feel free to “fall in love” with your data.\nYou:\nSee Wickham et al. (2017) for more, in particular the EDA chapter.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploratory Data Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "eda.html#intro",
+    "href": "eda.html#intro",
+    "title": "5  Exploratory Data Analysis",
+    "section": "",
+    "text": "Generate questions about your data.\nSearch for answers by visualizing, transforming, and modelling your data.\nUse what you learn to refine your questions and/or generate new questions.\n\n\nNote: EDA is not a formal process with a strict set of rules!\n\n\n\n\n\n\n\n\nTipDo it yourself with R\n\n\n\nCopy the script ExploratoryDataAnalysis.R and paste it in your session.\nRun each line using CTRL + ENTER",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploratory Data Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "eda.html#load-packages",
+    "href": "eda.html#load-packages",
+    "title": "5  Exploratory Data Analysis",
+    "section": "5.2 Load packages",
+    "text": "5.2 Load packages\n\nlibrary(tidyverse) # Pack of most used libraries for data science\nlibrary(skimr) # summary of the data\nlibrary(DataExplorer) # exploratory data analysis\nlibrary(corrplot) # correlation plots",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploratory Data Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "eda.html#dataset",
+    "href": "eda.html#dataset",
+    "title": "5  Exploratory Data Analysis",
+    "section": "5.3 Dataset",
+    "text": "5.3 Dataset\nThe database used in this example is a treated database from the Mobility Survey for the metropolitan areas of Lisbon and Porto in 2018 (INE 2018). We will only focus on trips within the metropolitan area of Lisbon.\nIncluded variables:\n\nOrigin_dicofre16 - Code of Freguesia (district) as set by INE after 2016 (Distrito + Concelho + Freguesia), for trip origin\nTotal - number of trips with origin at each district\nWalk - number of walking trips\nBike - number of bike trips\nCar - number of car trips. Includes taxi and motorcycle.\nPTransit - number of Public Transit trips\nOther - number of other trips (truck, van, tractor, aviation)\nDistance - average trip distance (km)\nDuration - average trip duration (minutes)\nCar_perc - percentage of car trips\nN_INDIVIDUOS - number of residents (INE 2022)\nMale_perc - percentage of male residents (INE 2022)\nIncomeHH - average household income\nNvehicles - average number of car/motorcycle vehicles in the household\nDrivingLic - percentage of car driving licence holders\nCarParkFree_Work - percentage of respondents with free car parking at the work location\nPTpass - percentage of public transit monthly pass holders\ninternal - binary variable (factor). Yes: trip with same TAZ origin and destination, No: trips with different destination\nLisboa - binary variable (factor). Yes: the district is part of Lisbon municipality, No: otherwise\nArea_km2 - area of in Origin_dicofre16, in km2\n\n\nImport dataset\nDownload the dataset IMOBmodel.Rds and save it in the folder data, under your project’s root folder.\n\ndata = readRDS(\"data/IMOBmodel.Rds\")\n\nTake a look at the dataset\n\nView(data) # open in table\nglimpse(data) # glimpse of the dataset\n\nRows: 236\nColumns: 20\n$ Origin_dicofre16 &lt;chr&gt; \"110501\", \"110501\", \"110506\", \"110506\", \"110507\", \"11…\n$ Total            &lt;dbl&gt; 35539, 47602, 37183, 42313, 30725, 54586, 57747, 6788…\n$ Walk             &lt;dbl&gt; 11325, 3502, 12645, 1418, 9389, 2630, 20423, 3573, 62…\n$ Bike             &lt;dbl&gt; 1309, 416, 40, 163, 1481, 168, 1406, 809, 13, 37, 3, …\n$ Car              &lt;dbl&gt; 21446, 37727, 22379, 37337, 19654, 44611, 33044, 5225…\n$ PTransit         &lt;dbl&gt; 1460, 5519, 2057, 3285, 201, 6963, 2477, 10534, 110, …\n$ Other            &lt;dbl&gt; 0, 437, 63, 106, 0, 215, 396, 717, 2, 169, 3, 824, 0,…\n$ Distance         &lt;dbl&gt; 11.779, 11.779, 9.868, 9.868, 9.600, 9.600, 12.875, 1…\n$ Duration         &lt;dbl&gt; 23.96, 23.96, 22.78, 22.78, 23.39, 23.39, 26.89, 26.8…\n$ Car_perc         &lt;dbl&gt; 60.34497, 79.25507, 60.18611, 88.24002, 63.96745, 81.…\n$ N_INDIVIDUOS     &lt;dbl&gt; 44165, 44165, 59238, 59238, 46529, 46529, 64192, 6419…\n$ Male_perc        &lt;dbl&gt; 47.66, 47.66, 47.12, 47.12, 45.54, 45.54, 46.14, 46.1…\n$ IncomeHH         &lt;dbl&gt; 2204.32, 2204.32, 1896.05, 1896.05, 2430.43, 2430.43,…\n$ Nvehicles        &lt;dbl&gt; 1.86, 1.86, 1.73, 1.73, 1.60, 1.60, 1.64, 1.64, 1.20,…\n$ DrivingLic       &lt;dbl&gt; 63.03, 63.03, 65.42, 65.42, 67.05, 67.05, 72.75, 72.7…\n$ CarParkFree_Work &lt;dbl&gt; 49.97, 49.97, 57.09, 57.09, 47.43, 47.43, 56.47, 56.4…\n$ PTpass           &lt;dbl&gt; 11.14, 11.14, 17.12, 17.12, 18.25, 18.25, 19.73, 19.7…\n$ internal         &lt;fct&gt; Yes, No, Yes, No, Yes, No, Yes, No, Yes, No, Yes, No,…\n$ Lisboa           &lt;fct&gt; No, No, No, No, No, No, No, No, Yes, Yes, Yes, Yes, Y…\n$ Area_km2         &lt;dbl&gt; 39.767414, 39.767414, 20.364310, 20.364310, 8.109861,…\n\nstr(data) # Structure of the dataset \n\n'data.frame':   236 obs. of  20 variables:\n $ Origin_dicofre16: chr  \"110501\" \"110501\" \"110506\" \"110506\" ...\n $ Total           : num  35539 47602 37183 42313 30725 ...\n $ Walk            : num  11325 3502 12645 1418 9389 ...\n $ Bike            : num  1309 416 40 163 1481 ...\n $ Car             : num  21446 37727 22379 37337 19654 ...\n $ PTransit        : num  1460 5519 2057 3285 201 ...\n $ Other           : num  0 437 63 106 0 215 396 717 2 169 ...\n $ Distance        : num  11.78 11.78 9.87 9.87 9.6 ...\n $ Duration        : num  24 24 22.8 22.8 23.4 ...\n $ Car_perc        : num  60.3 79.3 60.2 88.2 64 ...\n $ N_INDIVIDUOS    : num  44165 44165 59238 59238 46529 ...\n $ Male_perc       : num  47.7 47.7 47.1 47.1 45.5 ...\n $ IncomeHH        : num  2204 2204 1896 1896 2430 ...\n $ Nvehicles       : num  1.86 1.86 1.73 1.73 1.6 1.6 1.64 1.64 1.2 1.2 ...\n $ DrivingLic      : num  63 63 65.4 65.4 67 ...\n $ CarParkFree_Work: num  50 50 57.1 57.1 47.4 ...\n $ PTpass          : num  11.1 11.1 17.1 17.1 18.2 ...\n $ internal        : Factor w/ 2 levels \"Yes\",\"No\": 1 2 1 2 1 2 1 2 1 2 ...\n $ Lisboa          : Factor w/ 2 levels \"No\",\"Yes\": 1 1 1 1 1 1 1 1 2 2 ...\n $ Area_km2        : num  39.77 39.77 20.36 20.36 8.11 ...",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploratory Data Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "eda.html#summary-statistics",
+    "href": "eda.html#summary-statistics",
+    "title": "5  Exploratory Data Analysis",
+    "section": "5.4 Summary statistics",
+    "text": "5.4 Summary statistics\nHave an overview of the variables and their statistics’ summary.\n\nsummary(data) # Check the summary statistics\n\n  Origin_dicofre16     Total             Walk              Bike        \n Length   :236     Min.   :   361   Min.   :    0.0   Min.   :   0.00  \n N.unique :118     1st Qu.:  5918   1st Qu.:  763.2   1st Qu.:   0.00  \n N.blank  :  0     Median : 17474   Median : 3125.0   Median :  13.50  \n Min.nchar:  6     Mean   : 22457   Mean   : 5383.4   Mean   : 107.03  \n Max.nchar:  6     3rd Qu.: 33378   3rd Qu.: 8298.5   3rd Qu.:  98.75  \n                   Max.   :112186   Max.   :32646.0   Max.   :2040.00  \n      Car           PTransit         Other           Distance     \n Min.   :    0   Min.   :    0   Min.   :   0.0   Min.   : 6.835  \n 1st Qu.: 3243   1st Qu.:  249   1st Qu.:   2.0   1st Qu.: 9.539  \n Median : 9008   Median : 1057   Median :  44.0   Median :10.323  \n Mean   :13289   Mean   : 3474   Mean   : 203.4   Mean   :11.139  \n 3rd Qu.:21249   3rd Qu.: 4853   3rd Qu.: 281.5   3rd Qu.:12.097  \n Max.   :52631   Max.   :41672   Max.   :2391.0   Max.   :22.660  \n    Duration        Car_perc      N_INDIVIDUOS     Male_perc    \n Min.   :16.30   Min.   : 0.00   Min.   : 1566   Min.   :44.61  \n 1st Qu.:23.00   1st Qu.:45.40   1st Qu.:11060   1st Qu.:46.58  \n Median :24.70   Median :62.62   Median :20855   Median :47.51  \n Mean   :25.42   Mean   :59.00   Mean   :24324   Mean   :47.54  \n 3rd Qu.:27.73   3rd Qu.:75.72   3rd Qu.:36079   3rd Qu.:48.29  \n Max.   :37.42   Max.   :99.27   Max.   :68649   Max.   :55.94  \n    IncomeHH        Nvehicles       DrivingLic    CarParkFree_Work\n Min.   : 884.5   Min.   :1.020   Min.   :37.04   Min.   : 5.47   \n 1st Qu.:1417.8   1st Qu.:1.350   1st Qu.:57.67   1st Qu.:40.39   \n Median :1594.7   Median :1.545   Median :63.00   Median :50.51   \n Mean   :1732.6   Mean   :1.530   Mean   :62.50   Mean   :49.30   \n 3rd Qu.:1953.5   3rd Qu.:1.670   3rd Qu.:68.84   3rd Qu.:57.92   \n Max.   :3462.3   Max.   :2.420   Max.   :80.79   Max.   :87.60   \n     PTpass      internal  Lisboa       Area_km2      \n Min.   : 0.00   Yes:118   No :188   Min.   :  1.494  \n 1st Qu.:13.41   No :118   Yes: 48   1st Qu.:  5.044  \n Median :22.71                       Median : 11.598  \n Mean   :23.82                       Mean   : 25.553  \n 3rd Qu.:32.94                       3rd Qu.: 28.511  \n Max.   :60.45                       Max.   :282.125  \n\nskim(data) # In a more organized way\n\n\nData summary\n\n\nName\ndata\n\n\nNumber of rows\n236\n\n\nNumber of columns\n20\n\n\n_______________________\n\n\n\nColumn type frequency:\n\n\n\ncharacter\n1\n\n\nfactor\n2\n\n\nnumeric\n17\n\n\n________________________\n\n\n\nGroup variables\nNone\n\n\n\nVariable type: character\n\n\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nmin\nmax\nempty\nn_unique\nwhitespace\n\n\n\n\nOrigin_dicofre16\n0\n1\n6\n6\n0\n118\n0\n\n\n\nVariable type: factor\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nordered\nn_unique\ntop_counts\n\n\n\n\ninternal\n0\n1\nFALSE\n2\nYes: 118, No: 118\n\n\nLisboa\n0\n1\nFALSE\n2\nNo: 188, Yes: 48\n\n\n\nVariable type: numeric\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nmean\nsd\np0\np25\np50\np75\np100\nhist\n\n\n\n\nTotal\n0\n1\n22457.00\n19084.45\n361.00\n5917.75\n17474.00\n33377.50\n112186.00\n▇▃▂▁▁\n\n\nWalk\n0\n1\n5383.44\n6224.84\n0.00\n763.25\n3125.00\n8298.50\n32646.00\n▇▂▁▁▁\n\n\nBike\n0\n1\n107.03\n248.65\n0.00\n0.00\n13.50\n98.75\n2040.00\n▇▁▁▁▁\n\n\nCar\n0\n1\n13289.24\n12351.61\n0.00\n3243.00\n9008.00\n21248.75\n52631.00\n▇▃▂▁▁\n\n\nPTransit\n0\n1\n3473.79\n5467.82\n0.00\n249.00\n1057.00\n4853.00\n41672.00\n▇▁▁▁▁\n\n\nOther\n0\n1\n203.45\n336.04\n0.00\n2.00\n44.00\n281.50\n2391.00\n▇▁▁▁▁\n\n\nDistance\n0\n1\n11.14\n2.66\n6.84\n9.54\n10.32\n12.10\n22.66\n▇▇▂▁▁\n\n\nDuration\n0\n1\n25.42\n3.91\n16.30\n23.00\n24.70\n27.73\n37.42\n▁▇▆▂▁\n\n\nCar_perc\n0\n1\n59.00\n21.56\n0.00\n45.40\n62.62\n75.72\n99.27\n▁▃▆▇▅\n\n\nN_INDIVIDUOS\n0\n1\n24323.80\n16438.04\n1566.00\n11060.00\n20855.00\n36079.00\n68649.00\n▇▆▅▃▁\n\n\nMale_perc\n0\n1\n47.54\n1.57\n44.61\n46.58\n47.50\n48.29\n55.94\n▅▇▂▁▁\n\n\nIncomeHH\n0\n1\n1732.55\n453.11\n884.46\n1417.76\n1594.73\n1953.50\n3462.32\n▃▇▃▁▁\n\n\nNvehicles\n0\n1\n1.53\n0.24\n1.02\n1.35\n1.54\n1.67\n2.42\n▃▇▆▂▁\n\n\nDrivingLic\n0\n1\n62.50\n8.12\n37.04\n57.67\n63.00\n68.84\n80.79\n▁▂▇▇▂\n\n\nCarParkFree_Work\n0\n1\n49.30\n14.30\n5.47\n40.39\n50.51\n57.92\n87.60\n▁▃▇▇▁\n\n\nPTpass\n0\n1\n23.82\n12.87\n0.00\n13.41\n22.72\n32.94\n60.45\n▅▇▇▂▁\n\n\nArea_km2\n0\n1\n25.55\n42.58\n1.49\n5.04\n11.60\n28.51\n282.13\n▇▁▁▁▁",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploratory Data Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "eda.html#missing-data",
+    "href": "eda.html#missing-data",
+    "title": "5  Exploratory Data Analysis",
+    "section": "5.5 Missing data",
+    "text": "5.5 Missing data\nIs there missing data (NA)? How many?\n\ntable(is.na(data))\n\n\nFALSE \n 4720",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploratory Data Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "eda.html#outliers",
+    "href": "eda.html#outliers",
+    "title": "5  Exploratory Data Analysis",
+    "section": "5.6 Outliers",
+    "text": "5.6 Outliers\nInspect outliers and distributions\n\nboxplot(data) # This does now work if variables are not all continuous\n\n\ndata_continuous = data |&gt; select(-Origin_dicofre16, -internal, -Lisboa) # Exclude categorical variables\nboxplot(data_continuous) # Exclude categorical variables\n\n\n\n\n\n\n\nhist(data_continuous$Total) # histogram\n\n\n\n\n\n\n\nboxplot(data_continuous$Total) # outliers detected\n\n\n\n\n\n\n\n\n\nTreating outliers\nBased on the theory, we can create a function to detect the outliers.\n\noutlier = function(x) {\n  q = quantile(x, probs = c(0.25, 0.75), na.rm = TRUE)  # Q1 and Q3\n  caps = quantile(x, probs = c(0.05, 0.95), na.rm = TRUE) # 5th and 95th percentile\n  H = 1.5 * IQR(x, na.rm = TRUE) # interquartile range\n  \n  case_when(\n    x &lt; (q[1] - H) ~ caps[1], # replace values that are LESS than Q1-1.5*IQR with the P5 value\n    x &gt; (q[2] + H) ~ caps[2], # replace values that are MORE than Q3+1.5*IQR with the P95 value\n    TRUE ~ x # otherwise, return the original value\n  )\n}\n\nNow, use it in a copy of the table\n\ndata_outliers = data_continuous # duplicate the table\ndata_outliers$Total = outlier(data_outliers$Total) # Use the function to the same variable\n\nTake a look again at the boxplot\n\nboxplot(data_outliers$Total)\n\n\n\n\n\n\n\n\nCompare the variable with and without the outliers\n\n# Mean\nmean(data$Total)\n\n[1] 22457\n\nmean(data_outliers$Total)\n\n[1] 22013.51\n\n# Median\nmedian(data$Total)\n\n[1] 17474\n\nmedian(data_outliers$Total)\n\n[1] 17474\n\n# Standard deviation\nsd(data$Total)\n\n[1] 19084.45\n\nsd(data_outliers$Total)\n\n[1] 17739.39\n\n\n\n\n\n\n\n\nNoteNote\n\n\n\nThere are many methods to treat outliers. This is just one of them.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploratory Data Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "eda.html#histograms",
+    "href": "eda.html#histograms",
+    "title": "5  Exploratory Data Analysis",
+    "section": "5.7 Histograms",
+    "text": "5.7 Histograms\nPlot histograms of all the continuous variables\n\nplot_histogram(data, ncol = 3) # histograms with 3 columns\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nplot_density(data, ncol = 3) # density plots\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCheck how other variables are distributed regarding Car_perc\n\nplot_boxplot(data, by = \"Car_perc\", ncol = 3)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoteNote\n\n\n\nWhen Car_perc increases, PTpass decreases.\n\n\n\n\n\n\n\n\nTipExercise\n\n\n\nTry plotting the boxplots of each independent variable with Car_perc.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploratory Data Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "eda.html#correlations",
+    "href": "eda.html#correlations",
+    "title": "5  Exploratory Data Analysis",
+    "section": "5.8 Correlations",
+    "text": "5.8 Correlations\nPlot correlation heatmaps, between continuous variables.\n\n# estimate correlation matrix\ncorrmat = cor(data_continuous, method = \"pearson\") |&gt; round(2)\ncorrmat\n\n                 Total  Walk  Bike   Car PTransit Other Distance Duration\nTotal             1.00  0.49  0.44  0.93     0.78  0.48    -0.36     0.10\nWalk              0.49  1.00  0.27  0.21     0.09 -0.01    -0.34     0.03\nBike              0.44  0.27  1.00  0.41     0.26  0.11     0.00     0.08\nCar               0.93  0.21  0.41  1.00     0.70  0.47    -0.29    -0.03\nPTransit          0.78  0.09  0.26  0.70     1.00  0.58    -0.20     0.36\nOther             0.48 -0.01  0.11  0.47     0.58  1.00    -0.09     0.22\nDistance         -0.36 -0.34  0.00 -0.29    -0.20 -0.09     1.00     0.16\nDuration          0.10  0.03  0.08 -0.03     0.36  0.22     0.16     1.00\nCar_perc          0.01 -0.53  0.00  0.27     0.01  0.09     0.26    -0.40\nN_INDIVIDUOS      0.72  0.56  0.29  0.68     0.28  0.20    -0.46    -0.11\nMale_perc        -0.38 -0.32 -0.14 -0.33    -0.20 -0.08     0.39    -0.01\nIncomeHH          0.25  0.04  0.22  0.26     0.23  0.10    -0.09     0.30\nNvehicles        -0.16 -0.25  0.00 -0.02    -0.21 -0.14     0.27    -0.26\nDrivingLic       -0.01 -0.12  0.08  0.08    -0.10 -0.09     0.23    -0.12\nCarParkFree_Work -0.26 -0.29 -0.03 -0.08    -0.38 -0.25     0.30    -0.53\nPTpass            0.25  0.23  0.01  0.09     0.39  0.21    -0.36     0.55\nArea_km2         -0.15 -0.15  0.03 -0.08    -0.19 -0.09     0.23    -0.25\n                 Car_perc N_INDIVIDUOS Male_perc IncomeHH Nvehicles DrivingLic\nTotal                0.01         0.72     -0.38     0.25     -0.16      -0.01\nWalk                -0.53         0.56     -0.32     0.04     -0.25      -0.12\nBike                 0.00         0.29     -0.14     0.22      0.00       0.08\nCar                  0.27         0.68     -0.33     0.26     -0.02       0.08\nPTransit             0.01         0.28     -0.20     0.23     -0.21      -0.10\nOther                0.09         0.20     -0.08     0.10     -0.14      -0.09\nDistance             0.26        -0.46      0.39    -0.09      0.27       0.23\nDuration            -0.40        -0.11     -0.01     0.30     -0.26      -0.12\nCar_perc             1.00        -0.09      0.18    -0.07      0.40       0.33\nN_INDIVIDUOS        -0.09         1.00     -0.46     0.14     -0.14       0.00\nMale_perc            0.18        -0.46      1.00    -0.34      0.19      -0.11\nIncomeHH            -0.07         0.14     -0.34     1.00      0.23       0.22\nNvehicles            0.40        -0.14      0.19     0.23      1.00       0.44\nDrivingLic           0.33         0.00     -0.11     0.22      0.44       1.00\nCarParkFree_Work     0.53        -0.19      0.26    -0.01      0.54       0.39\nPTpass              -0.52         0.20     -0.34     0.16     -0.44      -0.45\nArea_km2             0.25        -0.19      0.30    -0.18      0.12       0.10\n                 CarParkFree_Work PTpass Area_km2\nTotal                       -0.26   0.25    -0.15\nWalk                        -0.29   0.23    -0.15\nBike                        -0.03   0.01     0.03\nCar                         -0.08   0.09    -0.08\nPTransit                    -0.38   0.39    -0.19\nOther                       -0.25   0.21    -0.09\nDistance                     0.30  -0.36     0.23\nDuration                    -0.53   0.55    -0.25\nCar_perc                     0.53  -0.52     0.25\nN_INDIVIDUOS                -0.19   0.20    -0.19\nMale_perc                    0.26  -0.34     0.30\nIncomeHH                    -0.01   0.16    -0.18\nNvehicles                    0.54  -0.44     0.12\nDrivingLic                   0.39  -0.45     0.10\nCarParkFree_Work             1.00  -0.66     0.32\nPTpass                      -0.66   1.00    -0.41\nArea_km2                     0.32  -0.41     1.00\n\n# store the results so you can call the p-value at the corrplot\nres = cor.mtest(data_continuous, conf.level = .95) \n\ncorrplot(\n  corrmat,\n  method = \"color\", # or \"circle\"\n  p.mat = res$p,\n  sig.level = 0.05,\n  type = \"upper\", # display only the upper triangular\n  # order = \"hclust\", # order by hierarchical clustering\n  tl.col = \"black\" # text label color\n)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoteNote\n\n\n\nThe pairwise correlations that are crossed are statistically not significant. The null hypothesis (H0) is that correlation is zero. The alternative hypothesis (HA) is that correlation is not zero.\nThis means that the correlations are only significant when you reject the null hypothesis (p-value &lt; 0.05).\n\n\nOther method, using the DataExplorer package\n\nplot_correlation(data_continuous)\n\n\n\n\n\n\n\n\n\n\nCheck the p-value of a crossed pair correlation:\n\ncor.test(data$IncomeHH, data$Bike)\n\n\n    Pearson's product-moment correlation\n\ndata:  data$IncomeHH and data$Bike\nt = 3.5261, df = 234, p-value = 0.0005074\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.09977779 0.34249284\nsample estimates:\n      cor \n0.2246163 \n\ncor.test(data$IncomeHH, data$Duration)\n\n\n    Pearson's product-moment correlation\n\ndata:  data$IncomeHH and data$Duration\nt = 4.817, df = 234, p-value = 2.62e-06\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.1795420 0.4122446\nsample estimates:\n     cor \n0.300356 \n\ncor.test(data$Distance, data$Duration)\n\n\n    Pearson's product-moment correlation\n\ndata:  data$Distance and data$Duration\nt = 2.4605, df = 234, p-value = 0.0146\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.0317533 0.2808153\nsample estimates:\n      cor \n0.1588098 \n\n\n\n\n\n\n\n\nThe default for cor.test is Pearson, two-sided, with a 95% confident level. Check ?cor.test for more options.\n\n\n\n\n\n\n\n\n\nINE. 2018. Mobilidade e Funcionalidade Do Território Nas Áreas Metropolitanas do Porto e de Lisboa: 2017. Instituto National de Estatística. https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&xlang=pt.\n\n\nINE. 2022. Censos 2021- XVI Recenseamento Geral da População. VI Recenseamento Geral da Habitação. Instituto National de Estatística. https://censos.ine.pt/xurl/pub/65586079.\n\n\nWickham, Hadley, Mine Çetinaka-Rundel, and Garrett Grolemund. 2017. R for Data Science. 2nd ed. O’Reilly Sebastopol. https://r4ds.hadley.nz/.",
+    "crumbs": [
+      "**Data and Models**",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Exploratory Data Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Engel, Claudia A. 2023. Introduction to r. cengel.github.io/R-intro/.\n\n\nINE. 2018. Mobilidade e Funcionalidade Do Território Nas Áreas Metropolitanas do Porto e de Lisboa:\n2017. Instituto National de Estatística. https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_publicacoes&PUBLICACOESpub_boui=349495406&PUBLICACOESmodo=2&xlang=pt.\n\n\nINE. 2022. Censos 2021- XVI Recenseamento Geral\nda População. VI Recenseamento Geral da Habitação.\nInstituto National de Estatística. https://censos.ine.pt/xurl/pub/65586079.\n\n\nLovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2024.\nGeocomputation with r. 2nd ed. Chapman; Hall/CRC. https://r.geocompx.org/.\n\n\nWickham, Hadley, Mine Çetinaka-Rundel, and Garrett Grolemund. 2017.\nR for Data Science. 2nd ed. O’Reilly Sebastopol. https://r4ds.hadley.nz/.",
+    "crumbs": [
+      "References"
     ]
   }
 ]

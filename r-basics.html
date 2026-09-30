@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; R basics – MQAT</title>
+<title>3&nbsp; R basics – MQAT: Module 2 - Database, Exploratory Data Analysis (EDA) </title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -95,14 +95,14 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-8ab289ace2306a5122bd960e1f76d011.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-804d1e1f93fb37f161424342551ac533.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-8ab289ace2306a5122bd960e1f76d011.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-1639bb64a19928aae5da347f8145b16e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-fb756cd849a2431fe15fcc9ff42bf5e9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-1639bb64a19928aae5da347f8145b16e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -133,30 +133,31 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<script data-goatcounter="https://mqat.goatcounter.com/count" async="" src="//gc.zgo.at/count.js"></script>
 
 
 <meta name="citation_title" content="[3]{.chapter-number}&nbsp; [R basics]{.chapter-title}">
 <meta name="citation_fulltext_html_url" content="https://U-Shift.github.io/MQAT/r-basics.html">
 <meta name="citation_language" content="en">
-<meta name="citation_reference" content="citation_title=Literate Programming;,citation_author=Donald E. Knuth;,citation_publication_date=1984;,citation_cover_date=1984;,citation_year=1984;,citation_fulltext_html_url=https://doi.org/10.1093/comjnl/27.2.97;,citation_issue=2;,citation_doi=10.1093/comjnl/27.2.97;,citation_issn=0010-4620;,citation_volume=27;,citation_journal_title=Comput. J.;,citation_publisher=Oxford University Press, Inc.;">
+<meta name="citation_reference" content="citation_title=Literate programming;,citation_author=Donald E. Knuth;,citation_publication_date=1984-05;,citation_cover_date=1984-05;,citation_year=1984;,citation_fulltext_html_url=https://doi.org/10.1093/comjnl/27.2.97;,citation_issue=2;,citation_doi=10.1093/comjnl/27.2.97;,citation_issn=0010-4620;,citation_volume=27;,citation_journal_title=Comput. J.;,citation_publisher=Oxford University Press, Inc.;">
 <meta name="citation_reference" content="citation_title=Mobilidade e funcionalidade do território nas Áreas Metropolitanas do Porto e de Lisboa: 2017;,citation_author=undefined INE;,citation_publication_date=2018;,citation_cover_date=2018;,citation_year=2018;,citation_fulltext_html_url=https://www.ine.pt/xportal/xmain?xpid=INE&amp;amp;amp;xpgid=ine_publicacoes&amp;PUBLICACOESpub_boui=349495406&amp;PUBLICACOESmodo=2&amp;xlang=pt;,citation_isbn=978-989-25-0478-0;,citation_technical_report_institution=Instituto National de Estatística;">
 <meta name="citation_reference" content="citation_title=Censos 2021- XVI Recenseamento Geral da População. VI Recenseamento Geral da Habitação;,citation_author=undefined INE;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://censos.ine.pt/xurl/pub/65586079;,citation_isbn=978-989-25-0619-7;,citation_technical_report_institution=Instituto National de Estatística;">
-<meta name="citation_reference" content="citation_title=Spatial Data Science: With Applications in R;,citation_author=Edzer Pebesma;,citation_author=Roger Bivand;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=https://doi.org/10.1201/9780429459016;,citation_doi=10.1201/9780429459016;">
-<meta name="citation_reference" content="citation_title=Jittering: A Computationally Efficient Method for Generating Realistic Route Networks from Origin-Destination Data;,citation_author=Robin Lovelace;,citation_author=Rosa Félix;,citation_author=Dustin Carlino;,citation_publication_date=2022-04-08;,citation_cover_date=2022-04-08;,citation_year=2022;,citation_doi=10.32866/001c.33873;,citation_journal_title=Findings;,citation_publisher=Findings Press;">
-<meta name="citation_reference" content="citation_title=r5r: Rapid Realistic Routing on Multimodal Transport Networks with R&amp;amp;amp;lt;sup&amp;gt;5&amp;lt;/sup&amp;gt; in R;,citation_author=Rafael H. M. Pereira;,citation_author=Marcus Saraiva;,citation_author=Daniel Herszenhut;,citation_author=Carlos Kaue Vieira Braga;,citation_author=Matthew Wigginton Conway;,citation_publication_date=2021-03-04;,citation_cover_date=2021-03-04;,citation_year=2021;,citation_doi=10.32866/001c.21262;,citation_journal_title=Findings;,citation_publisher=Findings Press;">
-<meta name="citation_reference" content="citation_title=centr: Weighted and Unweighted Spatial Centers;,citation_author=Ryan Zomorrodi;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://ryanzomorrodi.github.io/centr/;">
-<meta name="citation_reference" content="citation_title=stplanr: A Package for Transport Planning;,citation_author=Robin Lovelace;,citation_author=Richard Ellison;,citation_publication_date=2018;,citation_cover_date=2018;,citation_year=2018;,citation_issue=2;,citation_doi=10.32614/RJ-2018-053;,citation_volume=10;,citation_journal_title=The R Journal;">
-<meta name="citation_reference" content="citation_title=od: Manipulate and Map Origin-Destination Data;,citation_author=Robin Lovelace;,citation_author=Malcolm Morgan;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://github.com/itsleeds/od;">
-<meta name="citation_reference" content="citation_title=Introduction to R;,citation_author=Claudia A Engel;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=cengel.github.io/R-intro/;">
-<meta name="citation_reference" content="citation_title=Geocomputation with R;,citation_author=Robin Lovelace;,citation_author=Jakub Nowosad;,citation_author=Jannes Muenchow;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://r.geocompx.org/;">
-<meta name="citation_reference" content="citation_title=Introduction to urban accessibility: a practical guide with R;,citation_author=Rafael HM Pereira;,citation_author=Daniel Herszenhut;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=https://ipeagit.github.io/intro_access_book/;">
+<meta name="citation_reference" content="citation_title=Spatial data science: With applications in R;,citation_author=Edzer Pebesma;,citation_author=Roger Bivand;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=https://doi.org/10.1201/9780429459016;,citation_doi=10.1201/9780429459016;">
+<meta name="citation_reference" content="citation_title=Jittering: A computationally efficient method for generating realistic route networks from origin-destination data;,citation_author=Robin Lovelace;,citation_author=Rosa Félix;,citation_author=Dustin Carlino;,citation_publication_date=2022-04-08;,citation_cover_date=2022-04-08;,citation_year=2022;,citation_doi=10.32866/001c.33873;,citation_journal_title=Findings;,citation_publisher=Findings Press;">
+<meta name="citation_reference" content="citation_title=r5r: Rapid realistic routing on multimodal transport networks with r&amp;amp;amp;lt;sup&amp;gt;5&amp;lt;/sup&amp;gt; in r;,citation_author=Rafael H. M. Pereira;,citation_author=Marcus Saraiva;,citation_author=Daniel Herszenhut;,citation_author=Carlos Kaue Vieira Braga;,citation_author=Matthew Wigginton Conway;,citation_publication_date=2021-03-04;,citation_cover_date=2021-03-04;,citation_year=2021;,citation_doi=10.32866/001c.21262;,citation_journal_title=Findings;,citation_publisher=Findings Press;">
+<meta name="citation_reference" content="citation_title=Centr: Weighted and unweighted spatial centers;,citation_author=Ryan Zomorrodi;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://ryanzomorrodi.github.io/centr/;">
+<meta name="citation_reference" content="citation_title=Stplanr: A package for transport planning;,citation_author=Robin Lovelace;,citation_author=Richard Ellison;,citation_publication_date=2018;,citation_cover_date=2018;,citation_year=2018;,citation_issue=2;,citation_doi=10.32614/RJ-2018-053;,citation_volume=10;,citation_journal_title=The R Journal;">
+<meta name="citation_reference" content="citation_title=Od: Manipulate and map origin-destination data;,citation_author=Robin Lovelace;,citation_author=Malcolm Morgan;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://github.com/itsleeds/od;">
+<meta name="citation_reference" content="citation_title=Introduction to r;,citation_author=Claudia A Engel;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=cengel.github.io/R-intro/;">
+<meta name="citation_reference" content="citation_title=Geocomputation with r;,citation_author=Robin Lovelace;,citation_author=Jakub Nowosad;,citation_author=Jannes Muenchow;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://r.geocompx.org/;">
+<meta name="citation_reference" content="citation_title=Introduction to urban accessibility: A practical guide with r;,citation_author=Rafael HM Pereira;,citation_author=Daniel Herszenhut;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=https://ipeagit.github.io/intro_access_book/;">
 <meta name="citation_reference" content="citation_title=R for data science;,citation_author=Hadley Wickham;,citation_author=Mine Çetinaka-Rundel;,citation_author=Garrett Grolemund;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_fulltext_html_url=https://r4ds.hadley.nz/;">
-<meta name="citation_reference" content="citation_title=openrouteservice: An ’openrouteservice’ API Client;,citation_author=Andrzej K. Oleś;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://github.com/GIScience/openrouteservice-r;">
+<meta name="citation_reference" content="citation_title=Openrouteservice: An ’openrouteservice’ API client;,citation_author=Andrzej K. Oleś;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://github.com/GIScience/openrouteservice-r;">
 <meta name="citation_reference" content="citation_title=Assessment of Residential Location Satisfaction in the Lisbon Metropolitan Area;,citation_abstract=This paper addresses the relationship between travel behavior and land use patterns using a Structural Equations Modeling framework and a more comprehensive modeling than in the past. The proposed model structure in this paper is by design heavily influenced by a model developed for Lisbon (1) to allow comparisons. In that paper the existence of significant effects of land use patterns in travel behavior was found. The travel behavior variables included in the model are multidimensional and comprehend both short term, number of trips by mode and trip scheduling, and long term, home location, car and pass ownership, mobility decisions. The modeled land use variables measure the levels of urban intensity and density, diversity, both in terms of types of uses and the mix between jobs and inhabitants and the public transport supply levels. The land use patterns are described both at the residence and employment zones. In order to explicitly account for self selection bias the land use variables are explicitly modeled as functions of socioeconomic attributes of individuals and their households. The Seattle findings are presented and then compared to the Lisbon findings. Many commonalities between the two environments were found but also many important differences. ;,citation_author=Luís Garrido Martinez;,citation_author=João Abreu e Silva;,citation_author=José Manuel Viegas;,citation_publication_date=2010-01;,citation_cover_date=2010-01;,citation_year=2010;,citation_fulltext_html_url=https://trid.trb.org/View/909819;">
-<meta name="citation_reference" content="citation_title=Discovering Statistics Using IBM SPSS Statistics;,citation_author=A. Field;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://books.google.pt/books?id=83L2EAAAQBAJ;,citation_isbn=9781529668704;">
+<meta name="citation_reference" content="citation_title=Discovering statistics using IBM SPSS statistics;,citation_author=A. Field;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://books.google.pt/books?id=83L2EAAAQBAJ;,citation_isbn=9781529668704;">
 <meta name="citation_reference" content="citation_title=Discovering statistics using SPSS;,citation_author=Andy Field;,citation_publication_date=2009;,citation_cover_date=2009;,citation_year=2009;,citation_isbn=1-84787-906-3;">
-<meta name="citation_reference" content="citation_title=Chapter 8 - Cluster analysis;,citation_author=Pierre Legendre;,citation_author=Louis Legendre;,citation_editor=Pierre Legendre;,citation_editor=Louis Legendre;,citation_publication_date=2012;,citation_cover_date=2012;,citation_year=2012;,citation_fulltext_html_url=https://files.cercomp.ufg.br/weby/up/417/o/Numerical_Ecology.pdf?1458165083;,citation_doi=10.1016/B978-0-444-53868-0.50008-3;,citation_issn=0167-8892;,citation_volume=24;,citation_inbook_title=Numerical Ecology;,citation_series_title=Developments em Environmental Modelling;">
-<meta name="citation_reference" content="citation_title=R: A Language and Environment for Statistical Computing;,citation_author=R Core Team;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://www.R-project.org/;">
+<meta name="citation_reference" content="citation_title=Chapter 8 - cluster analysis;,citation_author=Pierre Legendre;,citation_author=Louis Legendre;,citation_editor=Pierre Legendre;,citation_editor=Louis Legendre;,citation_publication_date=2012;,citation_cover_date=2012;,citation_year=2012;,citation_fulltext_html_url=https://files.cercomp.ufg.br/weby/up/417/o/Numerical_Ecology.pdf?1458165083;,citation_doi=10.1016/B978-0-444-53868-0.50008-3;,citation_issn=0167-8892;,citation_volume=24;,citation_inbook_title=Numerical ecology;,citation_series_title=Developments in environmental modelling;">
+<meta name="citation_reference" content="citation_title=R: A language and environment for statistical computing;,citation_author=R Core Team;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://www.R-project.org/;">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -345,9 +346,10 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">MQAT</a> 
+      <a href="./">MQAT: Module 2 - Database, Exploratory Data Analysis (EDA)</a> 
         <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/U-Shift/MQAT/releases/download/2026/QMAT_RGIS_Exercises_2026.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF" target="_blank"><i class="bi bi-download"></i></a>
+    <a href="https://github.com/U-Shift/MQAT/tree/main/data" title="Data folder" class="quarto-navigation-tool px-1" aria-label="Data folder" target="_blank"><i class="bi bi-database"></i></a>
     <a href="https://github.com/U-Shift/MQAT" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -397,83 +399,6 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="./eda.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./linear-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Linear Regression</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./factor-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factor Analysis</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./clusters.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cluster Analysis</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text"><strong>GIS in R</strong></span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./spatial-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to spatial data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./interactive-maps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Interactive maps</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./centroids.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Centroids of transport zones</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./desire-lines.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">OD pairs and desire lines</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./distances.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Euclidean and routing distances</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./buffers.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Buffers vs.&nbsp;Isochones</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./open-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Open transportation data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./grid.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Grids</span></span></a>
   </div>
 </li>
       </ul>
@@ -672,10 +597,11 @@ div.csl-indent {
 </section>
 <section id="practical-exercise" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="practical-exercise"><span class="header-section-number">3.3</span> Practical exercise</h2>
-<p><strong>Dataset:</strong> the number of trips between all municipalities in the Lisbon Metropolitan Area, Portugal <span class="citation" data-cites="IMOB">(<a href="#ref-IMOB" role="doc-biblioref">INE 2018</a>)</span>.</p>
+<p><strong>Dataset:</strong> the number of trips between all municipalities in the Lisbon Metropolitan Area, Portugal <span class="citation" data-cites="IMOB">(<a href="references.html#ref-IMOB" role="doc-biblioref">INE 2018</a>)</span>.</p>
 <section id="import-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="import-dataset">Import dataset</h3>
-<p>You can click directly in the file under the “Files” pan, or:</p>
+<p>Download the dataset <a href="https://github.com/U-Shift/MQAT/raw/refs/heads/main/data/TRIPSmode_mun.Rds">TRIPSmode_mun.Rds</a> and save it in the folder <code>data</code>, under your project’s root folder.</p>
+<p>To import it, you can click directly in the file under the “Files” pan, or:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"data/TRIPSmode_mun.Rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -835,7 +761,7 @@ div.csl-indent {
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-IMOB" class="csl-entry" role="listitem">
 INE. 2018. <em>Mobilidade e Funcionalidade Do Território Nas <span class="nocase">Áreas Metropolitanas do Porto e de Lisboa</span>: 2017</em>. <span>Instituto National de Estatística</span>. <a href="https://www.ine.pt/xportal/xmain?xpid=INE&amp;xpgid=ine_publicacoes&amp;PUBLICACOESpub_boui=349495406&amp;PUBLICACOESmodo=2&amp;xlang=pt">https://www.ine.pt/xportal/xmain?xpid=INE&amp;xpgid=ine_publicacoes&amp;PUBLICACOESpub_boui=349495406&amp;PUBLICACOESmodo=2&amp;xlang=pt</a>.
 </div>
@@ -1433,155 +1359,157 @@ INE. 2018. <em>Mobilidade e Funcionalidade Do Território Nas <span class="nocas
 <span id="cb54-135"><a href="#cb54-135" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-136"><a href="#cb54-136" aria-hidden="true" tabindex="-1"></a><span class="fu">### Import dataset</span></span>
 <span id="cb54-137"><a href="#cb54-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-138"><a href="#cb54-138" aria-hidden="true" tabindex="-1"></a>You can click directly in the file under the "Files" pan, or:</span>
+<span id="cb54-138"><a href="#cb54-138" aria-hidden="true" tabindex="-1"></a>Download the dataset <span class="co">[</span><span class="ot">TRIPSmode_mun.Rds</span><span class="co">](https://github.com/U-Shift/MQAT/raw/refs/heads/main/data/TRIPSmode_mun.Rds)</span> and save it in the folder <span class="in">`data`</span>, under your project's root folder.</span>
 <span id="cb54-139"><a href="#cb54-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-142"><a href="#cb54-142" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-143"><a href="#cb54-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb54-144"><a href="#cb54-144" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"data/TRIPSmode_mun.Rds"</span>)</span>
-<span id="cb54-145"><a href="#cb54-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-146"><a href="#cb54-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-149"><a href="#cb54-149" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-150"><a href="#cb54-150" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb54-151"><a href="#cb54-151" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"../data/TRIPSmode_mun.Rds"</span>)</span>
-<span id="cb54-152"><a href="#cb54-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-153"><a href="#cb54-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-154"><a href="#cb54-154" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
-<span id="cb54-155"><a href="#cb54-155" aria-hidden="true" tabindex="-1"></a>After you type <span class="in">`"`</span> you can use <span class="in">`tab`</span> to navigate between folders and files and <span class="in">`enter`</span> to autocomplete.</span>
-<span id="cb54-156"><a href="#cb54-156" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb54-157"><a href="#cb54-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-158"><a href="#cb54-158" aria-hidden="true" tabindex="-1"></a><span class="fu">### Take a first look at the data</span></span>
+<span id="cb54-140"><a href="#cb54-140" aria-hidden="true" tabindex="-1"></a>To import it, you can click directly in the file under the "Files" pan, or:</span>
+<span id="cb54-141"><a href="#cb54-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-144"><a href="#cb54-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-145"><a href="#cb54-145" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb54-146"><a href="#cb54-146" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"data/TRIPSmode_mun.Rds"</span>)</span>
+<span id="cb54-147"><a href="#cb54-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-148"><a href="#cb54-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-151"><a href="#cb54-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-152"><a href="#cb54-152" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb54-153"><a href="#cb54-153" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"../data/TRIPSmode_mun.Rds"</span>)</span>
+<span id="cb54-154"><a href="#cb54-154" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-155"><a href="#cb54-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-156"><a href="#cb54-156" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip appearance="simple"}</span>
+<span id="cb54-157"><a href="#cb54-157" aria-hidden="true" tabindex="-1"></a>After you type <span class="in">`"`</span> you can use <span class="in">`tab`</span> to navigate between folders and files and <span class="in">`enter`</span> to autocomplete.</span>
+<span id="cb54-158"><a href="#cb54-158" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb54-159"><a href="#cb54-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-160"><a href="#cb54-160" aria-hidden="true" tabindex="-1"></a>**Summary statistics**</span>
+<span id="cb54-160"><a href="#cb54-160" aria-hidden="true" tabindex="-1"></a><span class="fu">### Take a first look at the data</span></span>
 <span id="cb54-161"><a href="#cb54-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-164"><a href="#cb54-164" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-165"><a href="#cb54-165" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span>
-<span id="cb54-166"><a href="#cb54-166" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-167"><a href="#cb54-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-168"><a href="#cb54-168" aria-hidden="true" tabindex="-1"></a>**Check the structure of the data**</span>
+<span id="cb54-162"><a href="#cb54-162" aria-hidden="true" tabindex="-1"></a>**Summary statistics**</span>
+<span id="cb54-163"><a href="#cb54-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-166"><a href="#cb54-166" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-167"><a href="#cb54-167" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span>
+<span id="cb54-168"><a href="#cb54-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-169"><a href="#cb54-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-172"><a href="#cb54-172" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-173"><a href="#cb54-173" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span>
-<span id="cb54-174"><a href="#cb54-174" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-175"><a href="#cb54-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-176"><a href="#cb54-176" aria-hidden="true" tabindex="-1"></a>**Check the number of rows (observations) and columns (variables)**</span>
+<span id="cb54-170"><a href="#cb54-170" aria-hidden="true" tabindex="-1"></a>**Check the structure of the data**</span>
+<span id="cb54-171"><a href="#cb54-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-174"><a href="#cb54-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-175"><a href="#cb54-175" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span>
+<span id="cb54-176"><a href="#cb54-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-177"><a href="#cb54-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-180"><a href="#cb54-180" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-181"><a href="#cb54-181" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(data)</span>
-<span id="cb54-182"><a href="#cb54-182" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(data)</span>
-<span id="cb54-183"><a href="#cb54-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-184"><a href="#cb54-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-185"><a href="#cb54-185" aria-hidden="true" tabindex="-1"></a>**Open the dataset**</span>
+<span id="cb54-178"><a href="#cb54-178" aria-hidden="true" tabindex="-1"></a>**Check the number of rows (observations) and columns (variables)**</span>
+<span id="cb54-179"><a href="#cb54-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-182"><a href="#cb54-182" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-183"><a href="#cb54-183" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(data)</span>
+<span id="cb54-184"><a href="#cb54-184" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(data)</span>
+<span id="cb54-185"><a href="#cb54-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-186"><a href="#cb54-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-189"><a href="#cb54-189" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-190"><a href="#cb54-190" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data)</span>
-<span id="cb54-191"><a href="#cb54-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-192"><a href="#cb54-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-193"><a href="#cb54-193" aria-hidden="true" tabindex="-1"></a><span class="al">![The following three rules make a dataset tidy: variables are columns, observations are rows, and values are cells. \[\@wickham17r\]](https://r4ds.hadley.nz/images/tidy-1.png)</span>{fig-align="center"}</span>
+<span id="cb54-187"><a href="#cb54-187" aria-hidden="true" tabindex="-1"></a>**Open the dataset**</span>
+<span id="cb54-188"><a href="#cb54-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-191"><a href="#cb54-191" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-192"><a href="#cb54-192" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(data)</span>
+<span id="cb54-193"><a href="#cb54-193" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-194"><a href="#cb54-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-195"><a href="#cb54-195" aria-hidden="true" tabindex="-1"></a><span class="fu">### Explore the data</span></span>
+<span id="cb54-195"><a href="#cb54-195" aria-hidden="true" tabindex="-1"></a><span class="al">![The following three rules make a dataset tidy: variables are columns, observations are rows, and values are cells. \[\@wickham17r\]](https://r4ds.hadley.nz/images/tidy-1.png)</span>{fig-align="center"}</span>
 <span id="cb54-196"><a href="#cb54-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-197"><a href="#cb54-197" aria-hidden="true" tabindex="-1"></a>**Check the total number of trips**</span>
+<span id="cb54-197"><a href="#cb54-197" aria-hidden="true" tabindex="-1"></a><span class="fu">### Explore the data</span></span>
 <span id="cb54-198"><a href="#cb54-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-199"><a href="#cb54-199" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`$`</span> to select a variable of the data</span>
+<span id="cb54-199"><a href="#cb54-199" aria-hidden="true" tabindex="-1"></a>**Check the total number of trips**</span>
 <span id="cb54-200"><a href="#cb54-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-203"><a href="#cb54-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-204"><a href="#cb54-204" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(data<span class="sc">$</span>Total)</span>
-<span id="cb54-205"><a href="#cb54-205" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-206"><a href="#cb54-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-207"><a href="#cb54-207" aria-hidden="true" tabindex="-1"></a>**Percentage of car trips related to the total**</span>
+<span id="cb54-201"><a href="#cb54-201" aria-hidden="true" tabindex="-1"></a>Use <span class="in">`$`</span> to select a variable of the data</span>
+<span id="cb54-202"><a href="#cb54-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-205"><a href="#cb54-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-206"><a href="#cb54-206" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(data<span class="sc">$</span>Total)</span>
+<span id="cb54-207"><a href="#cb54-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-208"><a href="#cb54-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-211"><a href="#cb54-211" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-212"><a href="#cb54-212" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(data<span class="sc">$</span>Car)<span class="sc">/</span><span class="fu">sum</span>(data<span class="sc">$</span>Total) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb54-213"><a href="#cb54-213" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-214"><a href="#cb54-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-215"><a href="#cb54-215" aria-hidden="true" tabindex="-1"></a>**Percentage of active trips related to the total**</span>
+<span id="cb54-209"><a href="#cb54-209" aria-hidden="true" tabindex="-1"></a>**Percentage of car trips related to the total**</span>
+<span id="cb54-210"><a href="#cb54-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-213"><a href="#cb54-213" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-214"><a href="#cb54-214" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(data<span class="sc">$</span>Car)<span class="sc">/</span><span class="fu">sum</span>(data<span class="sc">$</span>Total) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb54-215"><a href="#cb54-215" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-216"><a href="#cb54-216" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-219"><a href="#cb54-219" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-220"><a href="#cb54-220" aria-hidden="true" tabindex="-1"></a>(<span class="fu">sum</span>(data<span class="sc">$</span>Walk) <span class="sc">+</span> <span class="fu">sum</span>(data<span class="sc">$</span>Bike)) <span class="sc">/</span> <span class="fu">sum</span>(data<span class="sc">$</span>Total) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb54-221"><a href="#cb54-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-222"><a href="#cb54-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-223"><a href="#cb54-223" aria-hidden="true" tabindex="-1"></a><span class="fu">### Modify original data {#manipulation}</span></span>
+<span id="cb54-217"><a href="#cb54-217" aria-hidden="true" tabindex="-1"></a>**Percentage of active trips related to the total**</span>
+<span id="cb54-218"><a href="#cb54-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-221"><a href="#cb54-221" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-222"><a href="#cb54-222" aria-hidden="true" tabindex="-1"></a>(<span class="fu">sum</span>(data<span class="sc">$</span>Walk) <span class="sc">+</span> <span class="fu">sum</span>(data<span class="sc">$</span>Bike)) <span class="sc">/</span> <span class="fu">sum</span>(data<span class="sc">$</span>Total) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb54-223"><a href="#cb54-223" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-224"><a href="#cb54-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-225"><a href="#cb54-225" aria-hidden="true" tabindex="-1"></a>**Create a column with the sum of the number of trips for active modes**</span>
+<span id="cb54-225"><a href="#cb54-225" aria-hidden="true" tabindex="-1"></a><span class="fu">### Modify original data {#manipulation}</span></span>
 <span id="cb54-226"><a href="#cb54-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-229"><a href="#cb54-229" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-230"><a href="#cb54-230" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Active <span class="ot">=</span> data<span class="sc">$</span>Walk <span class="sc">+</span> data<span class="sc">$</span>Bike</span>
-<span id="cb54-231"><a href="#cb54-231" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-232"><a href="#cb54-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-233"><a href="#cb54-233" aria-hidden="true" tabindex="-1"></a>**Filter by condition (create new tables)**</span>
+<span id="cb54-227"><a href="#cb54-227" aria-hidden="true" tabindex="-1"></a>**Create a column with the sum of the number of trips for active modes**</span>
+<span id="cb54-228"><a href="#cb54-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-231"><a href="#cb54-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-232"><a href="#cb54-232" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Active <span class="ot">=</span> data<span class="sc">$</span>Walk <span class="sc">+</span> data<span class="sc">$</span>Bike</span>
+<span id="cb54-233"><a href="#cb54-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-234"><a href="#cb54-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-235"><a href="#cb54-235" aria-hidden="true" tabindex="-1"></a>Filter trips only with origin from Lisbon</span>
+<span id="cb54-235"><a href="#cb54-235" aria-hidden="true" tabindex="-1"></a>**Filter by condition (create new tables)**</span>
 <span id="cb54-236"><a href="#cb54-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-239"><a href="#cb54-239" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-240"><a href="#cb54-240" aria-hidden="true" tabindex="-1"></a>data_Lisbon <span class="ot">=</span> data[data<span class="sc">$</span>Origin <span class="sc">==</span> <span class="st">"Lisboa"</span>,]</span>
-<span id="cb54-241"><a href="#cb54-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-242"><a href="#cb54-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-243"><a href="#cb54-243" aria-hidden="true" tabindex="-1"></a>Filter trips with origin **different** from Lisbon</span>
+<span id="cb54-237"><a href="#cb54-237" aria-hidden="true" tabindex="-1"></a>Filter trips only with origin from Lisbon</span>
+<span id="cb54-238"><a href="#cb54-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-241"><a href="#cb54-241" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-242"><a href="#cb54-242" aria-hidden="true" tabindex="-1"></a>data_Lisbon <span class="ot">=</span> data[data<span class="sc">$</span>Origin <span class="sc">==</span> <span class="st">"Lisboa"</span>,]</span>
+<span id="cb54-243"><a href="#cb54-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-244"><a href="#cb54-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-247"><a href="#cb54-247" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-248"><a href="#cb54-248" aria-hidden="true" tabindex="-1"></a>data_out_Lisbon <span class="ot">=</span> data[data<span class="sc">$</span>Origin <span class="sc">!=</span> <span class="st">"Lisboa"</span>,]</span>
-<span id="cb54-249"><a href="#cb54-249" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-250"><a href="#cb54-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-251"><a href="#cb54-251" aria-hidden="true" tabindex="-1"></a>Filter trips with origin **and** destination in Lisbon</span>
+<span id="cb54-245"><a href="#cb54-245" aria-hidden="true" tabindex="-1"></a>Filter trips with origin **different** from Lisbon</span>
+<span id="cb54-246"><a href="#cb54-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-249"><a href="#cb54-249" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-250"><a href="#cb54-250" aria-hidden="true" tabindex="-1"></a>data_out_Lisbon <span class="ot">=</span> data[data<span class="sc">$</span>Origin <span class="sc">!=</span> <span class="st">"Lisboa"</span>,]</span>
+<span id="cb54-251"><a href="#cb54-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-252"><a href="#cb54-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-255"><a href="#cb54-255" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-256"><a href="#cb54-256" aria-hidden="true" tabindex="-1"></a>data_in_Out_Lisbon <span class="ot">=</span> data[data<span class="sc">$</span>Origin <span class="sc">==</span> <span class="st">"Lisboa"</span> <span class="sc">&amp;</span> data<span class="sc">$</span>Destination <span class="sc">==</span> <span class="st">"Lisboa"</span>,]</span>
-<span id="cb54-257"><a href="#cb54-257" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-258"><a href="#cb54-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-259"><a href="#cb54-259" aria-hidden="true" tabindex="-1"></a>**Remove the first column**</span>
+<span id="cb54-253"><a href="#cb54-253" aria-hidden="true" tabindex="-1"></a>Filter trips with origin **and** destination in Lisbon</span>
+<span id="cb54-254"><a href="#cb54-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-257"><a href="#cb54-257" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-258"><a href="#cb54-258" aria-hidden="true" tabindex="-1"></a>data_in_Out_Lisbon <span class="ot">=</span> data[data<span class="sc">$</span>Origin <span class="sc">==</span> <span class="st">"Lisboa"</span> <span class="sc">&amp;</span> data<span class="sc">$</span>Destination <span class="sc">==</span> <span class="st">"Lisboa"</span>,]</span>
+<span id="cb54-259"><a href="#cb54-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-260"><a href="#cb54-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-263"><a href="#cb54-263" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-264"><a href="#cb54-264" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> data[ ,<span class="sc">-</span><span class="dv">1</span>] <span class="co">#first column</span></span>
-<span id="cb54-265"><a href="#cb54-265" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-266"><a href="#cb54-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-267"><a href="#cb54-267" aria-hidden="true" tabindex="-1"></a>**Create a table only with origin, destination and walking trips**</span>
+<span id="cb54-261"><a href="#cb54-261" aria-hidden="true" tabindex="-1"></a>**Remove the first column**</span>
+<span id="cb54-262"><a href="#cb54-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-265"><a href="#cb54-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-266"><a href="#cb54-266" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> data[ ,<span class="sc">-</span><span class="dv">1</span>] <span class="co">#first column</span></span>
+<span id="cb54-267"><a href="#cb54-267" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-268"><a href="#cb54-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-269"><a href="#cb54-269" aria-hidden="true" tabindex="-1"></a>There are many ways to do the same operation.</span>
+<span id="cb54-269"><a href="#cb54-269" aria-hidden="true" tabindex="-1"></a>**Create a table only with origin, destination and walking trips**</span>
 <span id="cb54-270"><a href="#cb54-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-273"><a href="#cb54-273" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-274"><a href="#cb54-274" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data)</span>
-<span id="cb54-275"><a href="#cb54-275" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-276"><a href="#cb54-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-279"><a href="#cb54-279" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-280"><a href="#cb54-280" aria-hidden="true" tabindex="-1"></a>data_walk2 <span class="ot">=</span> data[ ,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>)]</span>
-<span id="cb54-281"><a href="#cb54-281" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-282"><a href="#cb54-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-285"><a href="#cb54-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-286"><a href="#cb54-286" aria-hidden="true" tabindex="-1"></a>data_walk3 <span class="ot">=</span> data[ ,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">9</span>)]</span>
-<span id="cb54-287"><a href="#cb54-287" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-288"><a href="#cb54-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-289"><a href="#cb54-289" aria-hidden="true" tabindex="-1"></a><span class="fu">### Export data</span></span>
+<span id="cb54-271"><a href="#cb54-271" aria-hidden="true" tabindex="-1"></a>There are many ways to do the same operation.</span>
+<span id="cb54-272"><a href="#cb54-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-275"><a href="#cb54-275" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-276"><a href="#cb54-276" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data)</span>
+<span id="cb54-277"><a href="#cb54-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-278"><a href="#cb54-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-281"><a href="#cb54-281" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-282"><a href="#cb54-282" aria-hidden="true" tabindex="-1"></a>data_walk2 <span class="ot">=</span> data[ ,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>)]</span>
+<span id="cb54-283"><a href="#cb54-283" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-284"><a href="#cb54-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-287"><a href="#cb54-287" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-288"><a href="#cb54-288" aria-hidden="true" tabindex="-1"></a>data_walk3 <span class="ot">=</span> data[ ,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">9</span>)]</span>
+<span id="cb54-289"><a href="#cb54-289" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-290"><a href="#cb54-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-291"><a href="#cb54-291" aria-hidden="true" tabindex="-1"></a>Save data in **.csv** and **.Rds**</span>
+<span id="cb54-291"><a href="#cb54-291" aria-hidden="true" tabindex="-1"></a><span class="fu">### Export data</span></span>
 <span id="cb54-292"><a href="#cb54-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-295"><a href="#cb54-295" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-296"><a href="#cb54-296" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb54-297"><a href="#cb54-297" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(data, <span class="st">'data/dataset.csv'</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb54-298"><a href="#cb54-298" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(data, <span class="st">'data/dataset.Rds'</span>) <span class="co">#Choose a different file. </span></span>
-<span id="cb54-299"><a href="#cb54-299" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-300"><a href="#cb54-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-301"><a href="#cb54-301" aria-hidden="true" tabindex="-1"></a><span class="fu">### Import data</span></span>
+<span id="cb54-293"><a href="#cb54-293" aria-hidden="true" tabindex="-1"></a>Save data in **.csv** and **.Rds**</span>
+<span id="cb54-294"><a href="#cb54-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-297"><a href="#cb54-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-298"><a href="#cb54-298" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb54-299"><a href="#cb54-299" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(data, <span class="st">'data/dataset.csv'</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb54-300"><a href="#cb54-300" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(data, <span class="st">'data/dataset.Rds'</span>) <span class="co">#Choose a different file. </span></span>
+<span id="cb54-301"><a href="#cb54-301" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb54-302"><a href="#cb54-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-305"><a href="#cb54-305" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-306"><a href="#cb54-306" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb54-307"><a href="#cb54-307" aria-hidden="true" tabindex="-1"></a>csv_file <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"data/dataset.csv"</span>)</span>
-<span id="cb54-308"><a href="#cb54-308" aria-hidden="true" tabindex="-1"></a>rds_file <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"data/dataset.Rds"</span>)</span>
-<span id="cb54-309"><a href="#cb54-309" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb54-310"><a href="#cb54-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-313"><a href="#cb54-313" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb54-314"><a href="#cb54-314" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb54-315"><a href="#cb54-315" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb54-316"><a href="#cb54-316" aria-hidden="true" tabindex="-1"></a><span class="co"># this coverts this quarto to a plain r script</span></span>
-<span id="cb54-317"><a href="#cb54-317" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"r-basics.qmd"</span>, <span class="st">"code/r-basics.R"</span>, <span class="at">documentation =</span> <span class="dv">2</span>)</span>
-<span id="cb54-318"><a href="#cb54-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-319"><a href="#cb54-319" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-303"><a href="#cb54-303" aria-hidden="true" tabindex="-1"></a><span class="fu">### Import data</span></span>
+<span id="cb54-304"><a href="#cb54-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-307"><a href="#cb54-307" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-308"><a href="#cb54-308" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb54-309"><a href="#cb54-309" aria-hidden="true" tabindex="-1"></a>csv_file <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"data/dataset.csv"</span>)</span>
+<span id="cb54-310"><a href="#cb54-310" aria-hidden="true" tabindex="-1"></a>rds_file <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">"data/dataset.Rds"</span>)</span>
+<span id="cb54-311"><a href="#cb54-311" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb54-312"><a href="#cb54-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-315"><a href="#cb54-315" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb54-316"><a href="#cb54-316" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb54-317"><a href="#cb54-317" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb54-318"><a href="#cb54-318" aria-hidden="true" tabindex="-1"></a><span class="co"># this coverts this quarto to a plain r script</span></span>
+<span id="cb54-319"><a href="#cb54-319" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"r-basics.qmd"</span>, <span class="st">"code/r-basics.R"</span>, <span class="at">documentation =</span> <span class="dv">2</span>)</span>
+<span id="cb54-320"><a href="#cb54-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-321"><a href="#cb54-321" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>R Félix, G Valença, F Moura</p>
+<p>R Félix, G F Matos, G Valença, F Moura</p>
 </div>   
     <div class="nav-footer-center">
 <p>MQAT - Instituto Superior Técnico</p>
