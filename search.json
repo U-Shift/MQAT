@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "MQAT: Module 2 - Database, Exploratory Data Analysis (EDA)",
+    "title": "MQAT",
     "section": "",
-    "text": "Module 2 - Database, Exploratory Data Analysis (EDA)\nMaterials, exercises, data and tutorials for the Quantitative Methods of Analysis in Transportation course of the MSc in Transportation Systems at Instituto Superior Técnico - University of Lisbon.",
+    "text": "1 Introduction\nMaterials, exercises, data and tutorials for the Quantitative Methods of Analysis in Transportation course of the MSc in Transportation Systems at Instituto Superior Técnico - University of Lisbon.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Quantitative Methods of Analysis in Transportation course</span>"
     ]
@@ -12,7 +12,7 @@
   {
     "objectID": "index.html#why-r-and-gis",
     "href": "index.html#why-r-and-gis",
-    "title": "MQAT: Module 2 - Database, Exploratory Data Analysis (EDA)",
+    "title": "MQAT",
     "section": "Why R and GIS",
     "text": "Why R and GIS\nMost academic programs focus on teaching modelling and deep analysis of data. However, there is a need to learn how to explore and prepare a dataset for modelling. The use of programming and GIS techniques have enormous advantages, including their flexibility; reproducibility; and transparency and understanding the step-by-step process.\nThe use of GIS techniques in transportation is of enormous relevance when doing accessibility analysis or reeling with georreferenced transportation data, such as bike sharing route trips’ datasets, origin-destination flows datasets, home/work locations, GTFS public transit data, and so on. There is a need to learn how to locate these open datasets, how to explore them and how to integrate them into transportation and urban analysis. Additionally, the use of open source software and datasets allows researchers to perform methods that are reproducible and transparent.\n\nTLDR\n\nOpen-source tools widely used in data analytics and spatial analysis\nFlexibility and reproducibility in data manipulation and visualization\nCritical for urban mobility and transportation research, with spatial relevance\nLarge transportation datasets are becoming increasingly common",
     "crumbs": [
@@ -22,7 +22,7 @@
   {
     "objectID": "index.html#recommended-readings",
     "href": "index.html#recommended-readings",
-    "title": "MQAT: Module 2 - Database, Exploratory Data Analysis (EDA)",
+    "title": "MQAT",
     "section": "Recommended readings",
     "text": "Recommended readings\n\nEngel (2023) Introduction to R.\nWickham et al. (2017) R for Data Science.\nLovelace et al. (2024) Geocomputation with R.\n\n\n\n\n\n\n\nThis website was developed entirely in R with Quarto.\n\n\n\n\n\n\n\n\n\nEngel, Claudia A. 2023. Introduction to r. cengel.github.io/R-intro/.\n\n\nLovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2024. Geocomputation with r. 2nd ed. Chapman; Hall/CRC. https://r.geocompx.org/.\n\n\nWickham, Hadley, Mine Çetinaka-Rundel, and Garrett Grolemund. 2017. R for Data Science. 2nd ed. O’Reilly Sebastopol. https://r4ds.hadley.nz/.",
     "crumbs": [
