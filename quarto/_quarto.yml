@@ -73,7 +73,7 @@ book:
       text: "Data folder"
       target: _blank
   page-footer:
-    left: "R Félix, G Valença, F Moura"
+    left: "R Félix, G F Matos, G Valença, F Moura"
     center: "MQAT - Instituto Superior Técnico"
     right: "September 2026"
     
