@@ -79,7 +79,15 @@ Included **variables**:
 
 ### Import dataset
 
+Download the dataset [IMOBmodel.Rds](https://github.com/U-Shift/MQAT/raw/refs/heads/main/data/IMOBmodel.Rds) and save it in the folder `data`, under your project's root folder.
+
+
 ```{r}
+#| eval: false
+data = readRDS("data/IMOBmodel.Rds")
+```
+```{r}
+#| include: false
 data = readRDS("../data/IMOBmodel.Rds")
 ```
 

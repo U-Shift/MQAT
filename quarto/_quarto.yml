@@ -35,11 +35,11 @@ book:
   chapters:
     - index.qmd
     - software.qmd
-    # - part: "**Data and Models**"
-      # chapters:
-        # - r-basics.qmd
-        # - data-manipulation.qmd
-        # - eda.qmd
+    - part: "**Data and Models**"
+      chapters:
+        - r-basics.qmd
+        - data-manipulation.qmd
+        - eda.qmd
         # - linear-regression.qmd
         # - factor-analysis.qmd
         # - clusters.qmd
@@ -67,6 +67,10 @@ book:
     - icon: download
       href: https://github.com/U-Shift/MQAT/releases/download/2026/QMAT_RGIS_Exercises_2026.pdf
       text: "Download PDF"
+      target: _blank
+    - icon: database
+      href: https://github.com/U-Shift/MQAT/tree/main/data
+      text: "Data folder"
       target: _blank
   page-footer:
     left: "R Félix, G Valença, F Moura"

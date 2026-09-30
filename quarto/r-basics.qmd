@@ -111,7 +111,9 @@ table_example[1,4]
 
 ### Import dataset
 
-You can click directly in the file under the "Files" pan, or:
+Download the dataset [TRIPSmode_mun.Rds](https://github.com/U-Shift/MQAT/raw/refs/heads/main/data/TRIPSmode_mun.Rds) and save it in the folder `data`, under your project's root folder.
+
+To import it, you can click directly in the file under the "Files" pan, or:
 
 ```{r}
 #| eval: false

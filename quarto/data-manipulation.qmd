@@ -23,6 +23,8 @@ Using the same dataset as in [R basics](r-basics.html#manipulation) but with sli
 
 We will do the same operations but in a simplified way.
 
+Download the dataset [TRIPSorigin.Rds](https://github.com/U-Shift/MQAT/raw/refs/heads/main/data/TRIPSorigin.Rds) and save it in the folder `data`, under your project's root folder.
+
 ```{r}
 #| include: false
 #| eval: false
@@ -214,6 +216,8 @@ How `left_join` works:
 [![A visual representation of the left join where every row in x appears in the output.Source: R for Data Science.](images/clipboard-1594422253.png){fig-align="center" width="424"}](https://r4ds.hadley.nz/joins#fig-join-left)
 
 Let's **join the municipalities** to this table with a supporting table that includes all the **relation** between neighbourhoods and municipalities, and the respective names and codes.
+
+Download the dataset [Municipalities_names.Rds](https://github.com/U-Shift/MQAT/raw/refs/heads/main/data/Municipalities_names.Rds) and save it in the folder `data`, under your project's root folder.
 
 ```{r}
 #| eval: false
