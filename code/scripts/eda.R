@@ -1,0 +1,197 @@
+# Exploratory Data Analysis -----------------------------------------------
+# Code adapted from tutorial at https://u-shift.github.io/MQAT/eda.html
+
+## Intro ------------------------------------------------------------------
+
+# This chapter will show you how to use visualization and transformation
+# to explore your data in a systematic way, a task that statisticians call
+# exploratory data analysis, or EDA for short. EDA is an iterative
+# cycle, where you should feel free to "fall in love" with your data.
+
+# You:
+# 1. Generate questions about your data.
+# 2. Search for answers by visualizing, transforming, and modelling your data.
+# 3. Use what you learn to refine your questions and/or generate new questions.
+
+# Note: EDA is not a formal process with a strict set of rules!
+
+
+## Load packages ----------------------------------------------------------
+
+library(tidyverse) # Pack of most used libraries for data science
+library(skimr) # summary of the data
+library(DataExplorer) # exploratory data analysis
+library(corrplot) # correlation plots
+
+
+## Dataset ----------------------------------------------------------------
+
+# The database used in this example is a treated database from the Mobility Survey
+# for the metropolitan areas of Lisbon and Porto in 2018.
+# We will only focus on trips within the metropolitan area of Lisbon.
+
+# Included variables:
+# - `Origin_dicofre16` - Code of Freguesia (district) as set by INE after 2016 (Distrito + Concelho + Freguesia), for trip origin
+# - `Total` - number of trips with origin at each district
+# - `Walk` - number of walking trips
+# - `Bike` - number of bike trips
+# - `Car` - number of car trips. Includes taxi and motorcycle.
+# - `PTransit` - number of Public Transit trips
+# - `Other` - number of other trips (truck, van, tractor, aviation)
+# - `Distance` - average trip distance (km)
+# - `Duration` - average trip duration (minutes)
+# - `Car_perc` - percentage of car trips
+# - `N_INDIVIDUOS` - number of residents
+# - `Male_perc` - percentage of male residents
+# - `IncomeHH` - average household income
+# - `Nvehicles` - average number of car/motorcycle vehicles in the household
+# - `DrivingLic` - percentage of car driving licence holders
+# - `CarParkFree_Work` - percentage of respondents with free car parking at the work location
+# - `PTpass` - percentage of public transit monthly pass holders
+# - `internal` - binary variable (factor). `Yes`: trip with same TAZ origin and destination, `No`: trips with different destination
+# - `Lisboa` - binary variable (factor). `Yes`: the district is part of Lisbon municipality, `No`: otherwise
+# - `Area_km2` - area of in `Origin_dicofre16`, in km^2
+
+
+### Import dataset --------------------------------------------------------
+
+# Download the dataset IMOBmodel.Rds and save it in the folder `data`, under your project's root folder.
+# https://github.com/U-Shift/MQAT/raw/refs/heads/main/data/IMOBmodel.Rds
+
+data = readRDS("data/IMOBmodel.Rds")
+
+# Take a look at the dataset
+
+View(data) # open in table
+glimpse(data) # glimpse of the dataset
+str(data) # Structure of the dataset 
+
+
+## Summary statistics -----------------------------------------------------
+
+# Have an overview of the variables and their statistics' summary.
+
+summary(data) # Check the summary statistics
+skim(data) # In a more organized way
+
+
+## Missing data -----------------------------------------------------------
+
+# Is there missing data (`NA`)? How many?
+
+table(is.na(data))
+
+
+## Outliers ---------------------------------------------------------------
+
+# Inspect outliers and distributions
+
+boxplot(data) # This does now work if variables are not all continuous
+
+data_continuous = data |> select(-Origin_dicofre16, -internal, -Lisboa) # Exclude categorical variables
+boxplot(data_continuous) # Exclude categorical variables
+
+hist(data_continuous$Total) # histogram
+boxplot(data_continuous$Total) # outliers detected
+
+
+### Treating outliers -----------------------------------------------------
+
+# Based on the theory, we can create a function to detect the outliers.
+
+outlier = function(x) {
+  q = quantile(x, probs = c(0.25, 0.75), na.rm = TRUE)  # Q1 and Q3
+  caps = quantile(x, probs = c(0.05, 0.95), na.rm = TRUE) # 5th and 95th percentile
+  H = 1.5 * IQR(x, na.rm = TRUE) # interquartile range
+  
+  case_when(
+    x < (q[1] - H) ~ caps[1], # replace values that are LESS than Q1-1.5*IQR with the P5 value
+    x > (q[2] + H) ~ caps[2], # replace values that are MORE than Q3+1.5*IQR with the P95 value
+    TRUE ~ x # otherwise, return the original value
+  )
+}
+
+# Now, use it in a copy of the table
+
+data_outliers = data_continuous # duplicate the table
+data_outliers$Total = outlier(data_outliers$Total) # Use the function to the same variable
+
+# Take a look again at the boxplot
+
+boxplot(data_outliers$Total)
+
+# Compare the variable with and without the outliers
+
+# Mean
+mean(data$Total)
+mean(data_outliers$Total)
+
+# Median
+median(data$Total)
+median(data_outliers$Total)
+
+# Standard deviation
+sd(data$Total)
+sd(data_outliers$Total)
+
+# Note: There are many methods to treat outliers. This is just one of them.
+
+
+## Histograms -------------------------------------------------------------
+
+# Plot histograms of all the continuous variables
+
+plot_histogram(data, ncol = 3) # histograms with 3 columns
+plot_density(data, ncol = 3) # density plots
+
+# Check how other variables are distributed regarding `Car_perc`
+
+plot_boxplot(data, by = "Car_perc", ncol = 3)
+
+# Note: When `Car_perc` increases, `PTpass` decreases.
+
+# Exercise: Try plotting the boxplots of each independent variable with `Car_perc`.
+
+
+## Correlations -----------------------------------------------------------
+
+# Plot correlation heatmaps, between continuous variables.
+
+# estimate correlation matrix
+corrmat = cor(data_continuous, method = "pearson") |> round(2)
+corrmat
+
+# store the results so you can call the p-value at the corrplot
+res = cor.mtest(data_continuous, conf.level = .95) 
+
+corrplot(
+  corrmat,
+  method = "color", # or "circle"
+  p.mat = res$p,
+  sig.level = 0.05,
+  type = "upper", # display only the upper triangular
+  # order = "hclust", # order by hierarchical clustering
+  tl.col = "black" # text label color
+)
+
+# Note:
+# The pairwise correlations that are crossed are statistically not significant.
+# The null hypothesis (H0) is that correlation is zero.
+# The alternative hypothesis (HA) is that correlation is not zero.
+# This means that the correlations are only significant when you reject the null hypothesis (p-value < 0.05).
+
+# Other method, using the `DataExplorer` package
+
+plot_correlation(data_continuous)
+
+plot_correlation(data_continuous,
+                 geom_text_args = list(size = 2)) # font size
+
+# Check the p-value of a crossed pair correlation: 
+
+cor.test(data$IncomeHH, data$Bike)
+cor.test(data$IncomeHH, data$Duration)
+cor.test(data$Distance, data$Duration)
+
+# The default for `cor.test` is Pearson, two-sided, with a 95% confident level.
+# Check `?cor.test` for more options.
