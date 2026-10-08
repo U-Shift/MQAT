@@ -40,9 +40,9 @@ book:
         - r-basics.qmd
         - data-manipulation.qmd
         - eda.qmd
-        # - linear-regression.qmd
-        # - factor-analysis.qmd
-        # - clusters.qmd
+        - linear-regression.qmd
+        - factor-analysis.qmd
+        - clusters.qmd
     # - part: "**GIS in R**"
       # chapters:
         # - spatial-data.qmd
