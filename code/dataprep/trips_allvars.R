@@ -125,8 +125,11 @@ piggyback::pb_upload("/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.xlsx"
 
 saveRDS(TRIPSmun_allvars, "/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.Rds")
 
-
-
+TRIPSmun_allvars = readRDS("/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_allvars.Rds")
+ALOJAMENTO <- read_delim("/media/rosa/Dados/GIS/IMOB/15.1_IMOB/BASE DADOS/AML/CSV/TBL_AML/TBL_alojamento_AML.csv", 
+                        ";", escape_double = FALSE, trim_ws = TRUE)
+ALOJAMENTOopinioes<- read_delim("/media/rosa/Dados/GIS/IMOB/15.1_IMOB/BASE DADOS/AML/CSV/TBL_AML/TBL_alojamento_opinioes_AML.csv", 
+                                ";", escape_double = FALSE, trim_ws = TRUE)
 
 # separate in municipalities of residence ---------------------------------
 
@@ -210,3 +213,26 @@ for (k in Lisbon_zones) {
   
   print(length(unique(TRIPSmun_allvars_aloj_k$Id_aloj_1)))
 }
+
+
+# separate Sintra in zones ------------------------------------------------
+
+## Zonas
+Sintra_zones = c(1:5) 
+
+for (k in Sintra_zones) {
+  TRIPSmun_allvars_aloj_k = TRIPSmun_allvars_aloj|> filter(DTCC_aloj == 1111, Zona_aloj == k)
+  familias_k = TRIPSmun_allvars_aloj_k$Id_aloj_1 |> unique()
+  ALOJAMENTOopinioes_k = ALOJAMENTOopinioes |> filter(Id_aloj_1 %in% familias_k)
+  nome = paste0("Sintra_zona", k)
+  
+  IMOB_classes_k = createWorkbook()
+  addWorksheet(IMOB_classes_k, "Data", tabColour = "orange")
+  addWorksheet(IMOB_classes_k, "Opinions", tabColour = "purple")
+  writeDataTable(IMOB_classes_k, sheet = "Data", x = TRIPSmun_allvars_aloj_k)
+  writeDataTable(IMOB_classes_k, sheet = "Opinions", x = ALOJAMENTOopinioes_k)
+  saveWorkbook(IMOB_classes_k, paste0("/media/rosa/Dados/GIS/MQAT/original/TRIPSmun_", nome,".xlsx"), overwrite = TRUE)
+  
+  print(length(unique(TRIPSmun_allvars_aloj_k$Id_aloj_1)))
+}
+
