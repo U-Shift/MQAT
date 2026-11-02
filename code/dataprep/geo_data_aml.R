@@ -65,7 +65,7 @@ nrow(COS_GLPS) # 31104
 # mapview(COS_GLPS)
 table(COS_GLPS$COS23_n4_L)
 
-# > Remove water from COS
+# > Remove water from COS (only when not surrounded by other polygons)
 WATER_LABELS <- c("Desembocaduras fluviais", "Zonas entremarés", "Sapais", "Pauis e turfeiras")
 # FARMING_LABELS <- c("Arrozais", "Culturas temporárias de sequeiro e regadio", "Pastagens melhoradas")
 
@@ -74,6 +74,7 @@ cos_land <- COS_GLPS |> filter(!COS23_n4_L %in% WATER_LABELS) |> st_make_valid()
 
 # Identify enclosed holes in land
 land_union <- st_union(cos_land |> st_transform(3763))
+
 requireNamespace("nngeo", quietly = FALSE)
 land_filled <- nngeo::st_remove_holes(land_union) |> st_transform(st_crs(cos_water))
 
@@ -83,12 +84,12 @@ water_surrounded <- cos_water |>
 water_removed <- cos_water |>
   filter(!n_row %in% water_surrounded$n_row)
 
-mapview(cos_land, layer.name = "Land", col.regions = "#996633", alpha.regions = 0.1, alpha = 0) +
-  mapview(water_removed, layer.name = "Water removed", col.regions = "#00ccff") +
-  mapview(water_surrounded, layer.name = "Water kept (surrounded)", col.regions = "#001c13")
-  # mapview(COS_GLPS |> filter(COS23_n4_L %in% FARMING_LABELS), layer.name="Farming", col.regions="#00ff00") +
-  # mapview(COS_GLPS |> filter(COS23_n4_L == "Rede rodoviária"), layer.name="Roads", col.regions="#808080") +
-  
+# mapview(cos_land, layer.name = "Land", col.regions = "#996633", alpha.regions = 0.1, alpha = 0) +
+#   mapview(water_removed, layer.name = "Water removed", col.regions = "#00ccff") +
+#   mapview(water_surrounded, layer.name = "Water kept (surrounded)", col.regions = "#001c13")
+#   # mapview(COS_GLPS |> filter(COS23_n4_L %in% FARMING_LABELS), layer.name="Farming", col.regions="#00ff00") +
+#   # mapview(COS_GLPS |> filter(COS23_n4_L == "Rede rodoviária"), layer.name="Roads", col.regions="#808080")
+
 COS_GLPS_LAND <- bind_rows(cos_land, water_surrounded)
 nrow(COS_GLPS_LAND)
 # mapview(COS_GLPS_LAND)
@@ -123,12 +124,35 @@ COS_GLPS_LAND_UNION <- COS_GLPS_LAND |>
 
 
 # > Cut CAOP_GLPS with COS_GLPS_LAND
-CAOP_GLPS_LAND <- CAOP_GLPS |>
+min_poly_area_m2 <- 10000 # Minimum polygon area in m² (e.g., 10000 m² = 1 ha)
+
+CAOP_GLPS_LAND_POLYS <- CAOP_GLPS |>
   st_intersection(COS_GLPS_LAND_UNION |> st_transform(st_crs(CAOP_GLPS))) |>
-  st_make_valid()
-nrow(CAOP_GLPS_LAND) # 188
-# Make sure land has no holes either
-CAOP_GLPS_LAND <- nngeo::st_remove_holes(CAOP_GLPS_LAND)
+  st_make_valid() |>
+  st_collection_extract("POLYGON") |>
+  mutate(.row_id = row_number()) |>
+  st_cast("POLYGON") |>
+  mutate(.poly_area_m2 = as.numeric(st_area(st_transform(geom, 3763))))
+
+# Split into kept and removed polygons for validation
+CAOP_GLPS_LAND_REMOVED <- CAOP_GLPS_LAND_POLYS |>
+  filter(.poly_area_m2 < min_poly_area_m2)
+
+CAOP_GLPS_LAND_KEPT <- CAOP_GLPS_LAND_POLYS |>
+  filter(.poly_area_m2 >= min_poly_area_m2)
+
+nrow(CAOP_GLPS_LAND_REMOVED)
+# mapview(CAOP_GLPS_LAND_KEPT, layer.name = "Land kept", col.regions = "#996633", alpha.regions = 0.3) +
+#   mapview(CAOP_GLPS_LAND_REMOVED, layer.name = "Small polygons removed", col.regions = "#ff0000", color = "#ff0000", lwd = 2)
+
+# Recombine kept polygons and remove holes
+CAOP_GLPS_LAND <- CAOP_GLPS_LAND_KEPT |>
+  select(-.poly_area_m2) |>
+  group_by(.row_id) |>
+  summarise(across(-geom, first), geom = st_union(geom), .groups = "drop") |>
+  select(-.row_id) |>
+  nngeo::st_remove_holes()
+nrow(CAOP_GLPS_LAND)
 # mapview(CAOP_GLPS_LAND)
 
 ## 6. Geometry for municipalities ----------------------------------------------------
@@ -160,9 +184,30 @@ st_write(MUNICIPIOScentroid, "geo/MUNICIPIOScentroid.gpkg", delete_dsn = TRUE)
 FREGUESIASgeo = readRDS(url("https://github.com/U-Shift/biclar/releases/download/0.0.1/FREGUESIASgeo.Rds"))
 
 ## 2. Adjust geometries to remove water areas ----------------------------------------------------
-FREGUESIASgeo = FREGUESIASgeo |>
-  st_intersection(COS_GLPS_LAND_UNION |> st_transform(st_crs(CAOP_GLPS))) |>
-  st_make_valid()
+FREGUESIASgeo_POLYS <- FREGUESIASgeo |>
+  st_intersection(COS_GLPS_LAND_UNION |> st_transform(st_crs(FREGUESIASgeo))) |>
+  st_make_valid() |>
+  st_collection_extract("POLYGON") |>
+  mutate(.row_id = row_number()) |>
+  st_cast("POLYGON") |>
+  mutate(.poly_area_m2 = as.numeric(st_area(st_transform(geom, 3763))))
+
+FREGUESIASgeo_REMOVED <- FREGUESIASgeo_POLYS |>
+  filter(.poly_area_m2 < min_poly_area_m2)
+
+FREGUESIASgeo_KEPT <- FREGUESIASgeo_POLYS |>
+  filter(.poly_area_m2 >= min_poly_area_m2)
+
+nrow(FREGUESIASgeo_REMOVED)
+# mapview(FREGUESIASgeo_KEPT, layer.name = "Freguesias kept", col.regions = "#996633", alpha.regions = 0.3) +
+#   mapview(FREGUESIASgeo_REMOVED, layer.name = "Small polygons removed", col.regions = "#ff0000", color = "#ff0000", lwd = 2)
+
+FREGUESIASgeo <- FREGUESIASgeo_KEPT |>
+  select(-.poly_area_m2) |>
+  group_by(.row_id) |>
+  summarise(across(-geom, first), geometry = st_union(geom), .groups = "drop") |>
+  select(-.row_id) |>
+  nngeo::st_remove_holes()
 
 st_write(FREGUESIASgeo, "geo/FREGUESIASgeo.gpkg", delete_dsn = TRUE)
 # FREGUESIASgeo = sf::st_read("geo/FREGUESIASgeo.gpkg")
